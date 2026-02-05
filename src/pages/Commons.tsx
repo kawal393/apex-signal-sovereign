@@ -91,22 +91,22 @@ const Commons = () => {
       <main className="relative z-10">
         {/* Hero Header with MASSIVE LOGO - BIGGER FONTS */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden border-b border-border/5">
-          {/* Mystical Portal Rings - Silver/Grey dominant */}
+          {/* Mystical Portal Rings - ULTRA SMOOTH */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <motion.div 
               className="absolute w-[450px] h-[450px] rounded-full border border-silver-light/15"
-              animate={{ scale: [1, 1.05, 1], opacity: [0.15, 0.35, 0.15], rotateZ: [0, 180, 360] }}
-              transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+              animate={{ scale: [1, 1.04, 1], opacity: [0.15, 0.32, 0.15], rotateZ: [0, 180, 360] }}
+              transition={{ duration: 40, repeat: Infinity, ease: [0.45, 0, 0.55, 1] }}
             />
             <motion.div 
               className="absolute w-[600px] h-[600px] rounded-full border border-silver-mid/10"
-              animate={{ scale: [1, 1.03, 1], opacity: [0.1, 0.25, 0.1], rotateZ: [360, 180, 0] }}
-              transition={{ duration: 30, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              animate={{ scale: [1, 1.03, 1], opacity: [0.1, 0.22, 0.1], rotateZ: [360, 180, 0] }}
+              transition={{ duration: 50, repeat: Infinity, ease: [0.45, 0, 0.55, 1], delay: 0.5 }}
             />
             <motion.div 
               className="absolute w-[800px] h-[800px] rounded-full border border-grey-600/8"
-              animate={{ scale: [1, 1.02, 1], opacity: [0.08, 0.2, 0.08], rotateZ: [0, -90, 0] }}
-              transition={{ duration: 35, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              animate={{ scale: [1, 1.02, 1], opacity: [0.08, 0.18, 0.08], rotateZ: [0, -90, 0] }}
+              transition={{ duration: 60, repeat: Infinity, ease: [0.45, 0, 0.55, 1], delay: 1 }}
             />
           </div>
           
@@ -144,15 +144,15 @@ const Commons = () => {
           {/* Content overlay - MASSIVE FONTS with READABLE COLORS */}
           <div className="relative z-20 text-center px-6 py-24 mt-24">
             <motion.div
-              initial={{ opacity: 0, y: 80 }}
+              initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 3.5, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 4.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
               <motion.span 
                 className="text-[11px] md:text-[13px] uppercase tracking-[1em] text-grey-300 block mb-12"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.8, duration: 2.5 }}
+                transition={{ delay: 1.5, duration: 3.5, ease: [0.16, 1, 0.3, 1] }}
               >
                 The Inevitable Infrastructure
               </motion.span>
@@ -172,9 +172,9 @@ const Commons = () => {
             
             {/* Category sigils - LARGER with READABLE COLORS */}
             <motion.div
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 2.5, delay: 2.8, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 3.5, delay: 2.2, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-wrap items-center justify-center gap-8 md:gap-12 mt-24"
             >
               {[
@@ -184,22 +184,22 @@ const Commons = () => {
               ].map((item, i) => (
                 <motion.div
                   key={item.label}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 3.2 + i * 0.3, duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-                  whileHover={{ y: -10, scale: 1.08 }}
+                  transition={{ delay: 2.8 + i * 0.4, duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
+                  whileHover={{ y: -8, scale: 1.05, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }}
                   className={`group px-10 py-6 text-[11px] md:text-[13px] uppercase tracking-[0.6em] font-normal flex items-center gap-6 
                     ${item.color === 'silver' ? 'text-silver-light border-silver-mid/30' : 
                       item.color === 'grey' ? 'text-grey-200 border-grey-500/30' : 
                       'text-purple-light border-purple-mid/30'} 
-                    border rounded-lg bg-black/90 backdrop-blur-2xl cursor-default transition-all duration-1000`}
+                    border rounded-lg bg-black/90 backdrop-blur-2xl cursor-default transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)]`}
                 >
                   <motion.span 
                     className={`${item.color === 'silver' ? 'text-silver-mid group-hover:text-silver-light' : 
                       item.color === 'grey' ? 'text-grey-400 group-hover:text-grey-200' : 
-                      'text-purple-mid group-hover:text-purple-light'} transition-colors duration-1000 text-xl`}
+                      'text-purple-mid group-hover:text-purple-light'} transition-colors duration-[1500ms] text-xl`}
                     animate={{ rotateY: [0, 360] }}
-                    transition={{ duration: 35 + i * 8, repeat: Infinity, ease: "linear" }}
+                    transition={{ duration: 50 + i * 10, repeat: Infinity, ease: "linear" }}
                   >
                     {item.sigil}
                   </motion.span>

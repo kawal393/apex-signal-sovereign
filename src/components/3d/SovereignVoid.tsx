@@ -1,9 +1,9 @@
-// ULTIMATE WEBGL 3D VOID - Next Level
-// Nebula clouds, star field, energy tendrils, particle trails
+// TRANSCENDENT WEBGL 3D VOID - Maximum Smoothness
+// Particle trails, enhanced glow, silky 120fps motion
 
 import { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Points, PointMaterial, useTexture } from '@react-three/drei';
+import { Points, PointMaterial, useTexture, Trail } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import apexLogo from '@/assets/apex-logo.png';
 import { BlendFunction } from 'postprocessing';
@@ -16,9 +16,10 @@ interface CursorState {
   active: boolean;
 }
 
-// Deep space star field with parallax layers
-function StarField({ count = 800 }: { count?: number }) {
+// Deep space star field with parallax layers - ULTRA SMOOTH
+function StarField({ count = 1200 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null);
+  const timeRef = useRef(0);
   
   const [positions, sizes, colors] = useMemo(() => {
     const positions = new Float32Array(count * 3);
@@ -26,46 +27,40 @@ function StarField({ count = 800 }: { count?: number }) {
     const colors = new Float32Array(count * 3);
     
     for (let i = 0; i < count; i++) {
-      // Distribute in a large sphere
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
-      const r = 30 + Math.random() * 50;
+      const r = 25 + Math.random() * 60;
       
       positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       positions[i * 3 + 2] = r * Math.cos(phi);
       
-      // Varying sizes for depth
-      sizes[i] = 0.5 + Math.random() * 2;
+      sizes[i] = 0.3 + Math.random() * 2.5;
       
-      // Mostly white/silver with occasional gold or purple
       const t = Math.random();
-      if (t > 0.95) {
-        // Gold stars
+      if (t > 0.92) {
         colors[i * 3] = 1;
-        colors[i * 3 + 1] = 0.85;
-        colors[i * 3 + 2] = 0.5;
-      } else if (t > 0.9) {
-        // Purple stars
-        colors[i * 3] = 0.7;
-        colors[i * 3 + 1] = 0.5;
+        colors[i * 3 + 1] = 0.88;
+        colors[i * 3 + 2] = 0.6;
+      } else if (t > 0.85) {
+        colors[i * 3] = 0.75;
+        colors[i * 3 + 1] = 0.55;
         colors[i * 3 + 2] = 1;
       } else {
-        // Silver/white
-        const brightness = 0.7 + Math.random() * 0.3;
+        const brightness = 0.75 + Math.random() * 0.25;
         colors[i * 3] = brightness;
         colors[i * 3 + 1] = brightness;
-        colors[i * 3 + 2] = brightness + 0.05;
+        colors[i * 3 + 2] = brightness + 0.08;
       }
     }
     return [positions, sizes, colors];
   }, [count]);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (!ref.current) return;
-    // Ultra slow rotation
-    ref.current.rotation.y = state.clock.elapsedTime * 0.002;
-    ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.001) * 0.1;
+    timeRef.current += delta * 0.15;
+    ref.current.rotation.y = timeRef.current * 0.012;
+    ref.current.rotation.x = Math.sin(timeRef.current * 0.008) * 0.08;
   });
 
   return (
@@ -73,99 +68,83 @@ function StarField({ count = 800 }: { count?: number }) {
       <PointMaterial
         transparent
         vertexColors
-        size={0.08}
+        size={0.1}
         sizeAttenuation
         depthWrite={false}
         blending={THREE.AdditiveBlending}
-        opacity={0.9}
+        opacity={0.95}
       />
     </Points>
   );
 }
 
-// Nebula clouds - volumetric fog effect
+// Volumetric nebula clouds
 function NebulaClouds() {
   const cloud1 = useRef<THREE.Mesh>(null);
   const cloud2 = useRef<THREE.Mesh>(null);
   const cloud3 = useRef<THREE.Mesh>(null);
+  const timeRef = useRef(0);
 
-  useFrame((state) => {
-    const t = state.clock.elapsedTime;
+  useFrame((state, delta) => {
+    timeRef.current += delta * 0.3;
+    const t = timeRef.current;
     if (cloud1.current) {
-      cloud1.current.rotation.z = t * 0.008;
-      cloud1.current.scale.setScalar(1 + Math.sin(t * 0.1) * 0.05);
+      cloud1.current.rotation.z = t * 0.015;
+      cloud1.current.scale.setScalar(1 + Math.sin(t * 0.08) * 0.04);
     }
     if (cloud2.current) {
-      cloud2.current.rotation.z = -t * 0.005;
-      cloud2.current.scale.setScalar(1 + Math.sin(t * 0.08 + 1) * 0.05);
+      cloud2.current.rotation.z = -t * 0.01;
+      cloud2.current.scale.setScalar(1 + Math.sin(t * 0.06 + 1) * 0.04);
     }
     if (cloud3.current) {
-      cloud3.current.rotation.z = t * 0.003;
-      cloud3.current.scale.setScalar(1 + Math.sin(t * 0.12 + 2) * 0.05);
+      cloud3.current.rotation.z = t * 0.005;
+      cloud3.current.scale.setScalar(1 + Math.sin(t * 0.1 + 2) * 0.04);
     }
   });
 
   return (
     <group>
-      {/* Deep purple nebula */}
-      <mesh ref={cloud1} position={[-8, 5, -20]}>
-        <sphereGeometry args={[15, 16, 16]} />
-        <meshBasicMaterial
-          color="#2a1040"
-          transparent
-          opacity={0.15}
-          side={THREE.BackSide}
-        />
+      <mesh ref={cloud1} position={[-10, 6, -25]}>
+        <sphereGeometry args={[18, 20, 20]} />
+        <meshBasicMaterial color="#3a1860" transparent opacity={0.18} side={THREE.BackSide} />
       </mesh>
-      
-      {/* Gold dust nebula */}
-      <mesh ref={cloud2} position={[10, -3, -25]}>
-        <sphereGeometry args={[12, 16, 16]} />
-        <meshBasicMaterial
-          color="#3d2800"
-          transparent
-          opacity={0.1}
-          side={THREE.BackSide}
-        />
+      <mesh ref={cloud2} position={[12, -4, -30]}>
+        <sphereGeometry args={[15, 20, 20]} />
+        <meshBasicMaterial color="#4a2800" transparent opacity={0.12} side={THREE.BackSide} />
       </mesh>
-      
-      {/* Silver mist */}
-      <mesh ref={cloud3} position={[0, 0, -15]}>
-        <sphereGeometry args={[20, 16, 16]} />
-        <meshBasicMaterial
-          color="#1a1a20"
-          transparent
-          opacity={0.2}
-          side={THREE.BackSide}
-        />
+      <mesh ref={cloud3} position={[0, 0, -18]}>
+        <sphereGeometry args={[25, 20, 20]} />
+        <meshBasicMaterial color="#1a1a28" transparent opacity={0.25} side={THREE.BackSide} />
       </mesh>
     </group>
   );
 }
 
-// Energy tendrils - flowing light streams
-function EnergyTendrils({ count = 6 }: { count?: number }) {
+// Energy tendrils with trails
+function EnergyTendrils({ count = 8 }: { count?: number }) {
   const refs = useRef<THREE.Mesh[]>([]);
+  const timeRef = useRef(0);
   
   const tendrils = useMemo(() => {
     return Array.from({ length: count }, (_, i) => ({
       angle: (i / count) * Math.PI * 2,
-      speed: 0.1 + Math.random() * 0.1,
-      radius: 4 + Math.random() * 2,
-      length: 8 + Math.random() * 4,
+      speed: 0.06 + Math.random() * 0.06,
+      radius: 5 + Math.random() * 3,
+      length: 10 + Math.random() * 5,
       phase: Math.random() * Math.PI * 2,
     }));
   }, [count]);
 
-  useFrame((state) => {
-    const t = state.clock.elapsedTime;
+  useFrame((state, delta) => {
+    timeRef.current += delta * 0.4;
+    const t = timeRef.current;
     refs.current.forEach((mesh, i) => {
       if (!mesh) return;
       const tendril = tendrils[i];
       mesh.rotation.z = tendril.angle + t * tendril.speed;
-      mesh.scale.x = 1 + Math.sin(t * 0.5 + tendril.phase) * 0.2;
+      mesh.scale.x = 1 + Math.sin(t * 0.3 + tendril.phase) * 0.15;
       const material = mesh.material as THREE.MeshBasicMaterial;
-      material.opacity = 0.1 + Math.sin(t * 0.3 + tendril.phase) * 0.05;
+      material.opacity = 0.12 + Math.sin(t * 0.2 + tendril.phase) * 0.06;
     });
   });
 
@@ -178,11 +157,11 @@ function EnergyTendrils({ count = 6 }: { count?: number }) {
           position={[0, 0, 0]}
           rotation={[0, 0, tendril.angle]}
         >
-          <planeGeometry args={[tendril.length, 0.3]} />
+          <planeGeometry args={[tendril.length, 0.4]} />
           <meshBasicMaterial
-            color="#d4a54a"
+            color="#e8b84a"
             transparent
-            opacity={0.12}
+            opacity={0.14}
             blending={THREE.AdditiveBlending}
             side={THREE.DoubleSide}
           />
@@ -192,19 +171,69 @@ function EnergyTendrils({ count = 6 }: { count?: number }) {
   );
 }
 
-// Cursor-reactive particles with trails
-function CursorReactiveParticles({ 
-  count = 500, 
-  cursorState 
-}: { 
-  count?: number;
-  cursorState: CursorState;
-}) {
+// PARTICLE TRAILS - orbiting particles with persistent trails
+function ParticleTrails({ count = 12 }: { count?: number }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const particlesRef = useRef<THREE.Mesh[]>([]);
+  const timeRef = useRef(0);
+  
+  const orbits = useMemo(() => {
+    return Array.from({ length: count }, (_, i) => ({
+      radius: 3 + Math.random() * 8,
+      speed: 0.15 + Math.random() * 0.2,
+      phase: (i / count) * Math.PI * 2,
+      tilt: Math.random() * 0.4 - 0.2,
+      yOffset: (Math.random() - 0.5) * 4,
+    }));
+  }, [count]);
+
+  useFrame((state, delta) => {
+    timeRef.current += delta * 0.5;
+    const t = timeRef.current;
+    
+    particlesRef.current.forEach((particle, i) => {
+      if (!particle) return;
+      const orbit = orbits[i];
+      const angle = t * orbit.speed + orbit.phase;
+      
+      particle.position.x = Math.cos(angle) * orbit.radius;
+      particle.position.y = Math.sin(angle) * orbit.radius * 0.4 + orbit.yOffset;
+      particle.position.z = Math.sin(angle) * orbit.radius * orbit.tilt;
+      
+      const scale = 0.08 + Math.sin(t * 2 + orbit.phase) * 0.03;
+      particle.scale.setScalar(scale);
+    });
+  });
+
+  return (
+    <group ref={groupRef}>
+      {orbits.map((orbit, i) => (
+        <Trail
+          key={i}
+          width={0.8}
+          length={20}
+          color={i % 3 === 0 ? '#e8b84a' : i % 3 === 1 ? '#9070c0' : '#c0c0d0'}
+          attenuation={(t) => t * t}
+        >
+          <mesh ref={(el) => { if (el) particlesRef.current[i] = el; }}>
+            <sphereGeometry args={[0.08, 8, 8]} />
+            <meshBasicMaterial 
+              color={i % 3 === 0 ? '#ffcc55' : i % 3 === 1 ? '#a080d0' : '#d0d0e0'} 
+              transparent 
+              opacity={0.95}
+            />
+          </mesh>
+        </Trail>
+      ))}
+    </group>
+  );
+}
+
+// Cursor-reactive particles - ULTRA SMOOTH
+function CursorReactiveParticles({ count = 600, cursorState }: { count?: number; cursorState: CursorState }) {
   const ref = useRef<THREE.Points>(null);
   const velocitiesRef = useRef<Float32Array | null>(null);
   const originalPositionsRef = useRef<Float32Array | null>(null);
-  const trailsRef = useRef<Float32Array | null>(null);
-  const frameSkip = useRef(0);
   
   const [positions, colors] = useMemo(() => {
     const positions = new Float32Array(count * 3);
@@ -213,30 +242,26 @@ function CursorReactiveParticles({
     for (let i = 0; i < count; i++) {
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
-      const r = 4 + Math.random() * 18;
+      const r = 3 + Math.random() * 20;
       
       positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       positions[i * 3 + 2] = r * Math.cos(phi);
       
-      // Color distribution
       const t = Math.random();
-      if (t > 0.85) {
-        // Gold
-        colors[i * 3] = 0.9;
-        colors[i * 3 + 1] = 0.7;
-        colors[i * 3 + 2] = 0.3;
-      } else if (t > 0.7) {
-        // Purple
-        colors[i * 3] = 0.6;
-        colors[i * 3 + 1] = 0.4;
-        colors[i * 3 + 2] = 0.8;
+      if (t > 0.82) {
+        colors[i * 3] = 0.95;
+        colors[i * 3 + 1] = 0.75;
+        colors[i * 3 + 2] = 0.35;
+      } else if (t > 0.65) {
+        colors[i * 3] = 0.65;
+        colors[i * 3 + 1] = 0.45;
+        colors[i * 3 + 2] = 0.85;
       } else {
-        // Silver
-        const grey = 0.6 + Math.random() * 0.3;
+        const grey = 0.55 + Math.random() * 0.35;
         colors[i * 3] = grey;
         colors[i * 3 + 1] = grey;
-        colors[i * 3 + 2] = grey + 0.1;
+        colors[i * 3 + 2] = grey + 0.12;
       }
     }
     return [positions, colors];
@@ -245,14 +270,10 @@ function CursorReactiveParticles({
   useEffect(() => {
     velocitiesRef.current = new Float32Array(count * 3).fill(0);
     originalPositionsRef.current = new Float32Array(positions);
-    trailsRef.current = new Float32Array(count).fill(0);
   }, [count, positions]);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (!ref.current || !velocitiesRef.current || !originalPositionsRef.current) return;
-    
-    frameSkip.current++;
-    if (frameSkip.current % 2 !== 0) return;
     
     const geometry = ref.current.geometry;
     const positionAttr = geometry.getAttribute('position') as THREE.BufferAttribute;
@@ -265,7 +286,10 @@ function CursorReactiveParticles({
     const cursorPos = cursorState.position;
     const cursorVel = cursorState.velocity;
     const cursorActive = cursorState.active;
-    const time = state.clock.elapsedTime;
+    
+    // Smooth delta clamping for consistent physics
+    const smoothDelta = Math.min(delta, 0.033);
+    const timeScale = smoothDelta * 60;
     
     for (let i = 0; i < count; i++) {
       const ix = i * 3;
@@ -276,50 +300,46 @@ function CursorReactiveParticles({
       const py = posArray[iy];
       const pz = posArray[iz];
       
-      // Cursor attraction with velocity influence
       if (cursorActive) {
         const dx = cursorPos.x - px;
         const dy = cursorPos.y - py;
         const dz = cursorPos.z - pz;
         const distSq = dx * dx + dy * dy + dz * dz;
         
-        if (distSq < 400 && distSq > 0.01) { // 20^2 = 400
+        if (distSq < 625 && distSq > 0.01) {
           const dist = Math.sqrt(distSq);
-          const force = (1 - dist / 20) * 0.02;
+          const force = (1 - dist / 25) * 0.018 * timeScale;
           
-          // Add some swirl based on cursor velocity
-          const swirlX = -cursorVel.y * 0.5;
-          const swirlY = cursorVel.x * 0.5;
+          const swirlX = -cursorVel.y * 0.4;
+          const swirlY = cursorVel.x * 0.4;
           
-          velocities[ix] += (dx / dist * force) + swirlX * 0.01;
-          velocities[iy] += (dy / dist * force) + swirlY * 0.01;
+          velocities[ix] += (dx / dist * force) + swirlX * 0.008 * timeScale;
+          velocities[iy] += (dy / dist * force) + swirlY * 0.008 * timeScale;
           velocities[iz] += dz / dist * force;
           
-          // Brighten particles near cursor
-          const brightness = 1 + (1 - dist / 20) * 0.5;
+          const brightness = 1 + (1 - dist / 25) * 0.6;
           colorArray[ix] = Math.min(1, colorArray[ix] * brightness);
           colorArray[iy] = Math.min(1, colorArray[iy] * brightness);
           colorArray[iz] = Math.min(1, colorArray[iz] * brightness);
         }
       }
       
-      // Orbital motion around center
       const distFromCenter = Math.sqrt(px * px + py * py);
       if (distFromCenter > 0.1) {
-        const orbitalForce = 0.0003;
+        const orbitalForce = 0.00025 * timeScale;
         velocities[ix] += (-py / distFromCenter) * orbitalForce;
         velocities[iy] += (px / distFromCenter) * orbitalForce;
       }
       
-      // Return to origin
-      velocities[ix] += (origPositions[ix] - px) * 0.001;
-      velocities[iy] += (origPositions[iy] - py) * 0.001;
-      velocities[iz] += (origPositions[iz] - pz) * 0.001;
+      velocities[ix] += (origPositions[ix] - px) * 0.0008 * timeScale;
+      velocities[iy] += (origPositions[iy] - py) * 0.0008 * timeScale;
+      velocities[iz] += (origPositions[iz] - pz) * 0.0008 * timeScale;
       
-      // Heavy damping for ultra smooth
-      velocities[ix] *= 0.97;
-      velocities[iy] *= 0.97;
-      velocities[iz] *= 0.97;
+      // Ultra heavy damping for silky motion
+      const damping = Math.pow(0.965, timeScale);
+      velocities[ix] *= damping;
+      velocities[iy] *= damping;
+      velocities[iz] *= damping;
       
       posArray[ix] += velocities[ix];
       posArray[iy] += velocities[iy];
@@ -328,7 +348,7 @@ function CursorReactiveParticles({
     
     positionAttr.needsUpdate = true;
     colorAttr.needsUpdate = true;
-    ref.current.rotation.y = time * 0.003;
+    ref.current.rotation.y += 0.0008 * timeScale;
   });
 
   return (
@@ -336,180 +356,158 @@ function CursorReactiveParticles({
       <PointMaterial
         transparent
         vertexColors
-        size={0.12}
+        size={0.14}
         sizeAttenuation
         depthWrite={false}
         blending={THREE.AdditiveBlending}
-        opacity={0.9}
+        opacity={0.92}
       />
     </Points>
   );
 }
 
-// Pulsing energy rings
+// Pulsing energy rings - SMOOTHER
 function EnergyRings() {
   const rings = useRef<THREE.Mesh[]>([]);
+  const timeRef = useRef(0);
   
   const ringConfigs = useMemo(() => [
-    { radius: 2.5, color: '#d4a54a', speed: 0.15, phase: 0 },
-    { radius: 4, color: '#8060a0', speed: 0.12, phase: Math.PI / 3 },
-    { radius: 6, color: '#a0a0b0', speed: 0.1, phase: Math.PI * 2 / 3 },
-    { radius: 8, color: '#d4a54a', speed: 0.08, phase: Math.PI },
+    { radius: 2.8, color: '#e8b84a', speed: 0.08, phase: 0 },
+    { radius: 4.5, color: '#9070b0', speed: 0.06, phase: Math.PI / 3 },
+    { radius: 6.5, color: '#b0b0c0', speed: 0.05, phase: Math.PI * 2 / 3 },
+    { radius: 9, color: '#d4a54a', speed: 0.04, phase: Math.PI },
+    { radius: 12, color: '#7060a0', speed: 0.03, phase: Math.PI * 1.3 },
   ], []);
 
-  useFrame((state) => {
-    const t = state.clock.elapsedTime;
+  useFrame((state, delta) => {
+    timeRef.current += delta * 0.4;
+    const t = timeRef.current;
     rings.current.forEach((ring, i) => {
       if (!ring) return;
       const config = ringConfigs[i];
-      ring.rotation.x = Math.sin(t * config.speed + config.phase) * 0.3;
-      ring.rotation.y = t * config.speed;
-      ring.rotation.z = Math.cos(t * config.speed * 0.7 + config.phase) * 0.2;
+      ring.rotation.x = Math.sin(t * config.speed + config.phase) * 0.25;
+      ring.rotation.y = t * config.speed * 0.8;
+      ring.rotation.z = Math.cos(t * config.speed * 0.5 + config.phase) * 0.15;
       
-      // Pulse opacity
       const material = ring.material as THREE.MeshBasicMaterial;
-      material.opacity = 0.15 + Math.sin(t * 0.5 + config.phase) * 0.1;
+      material.opacity = 0.18 + Math.sin(t * 0.35 + config.phase) * 0.1;
     });
   });
 
   return (
     <group>
       {ringConfigs.map((config, i) => (
-        <mesh
-          key={i}
-          ref={(el) => { if (el) rings.current[i] = el; }}
-        >
-          <torusGeometry args={[config.radius, 0.015, 8, 64]} />
-          <meshBasicMaterial
-            color={config.color}
-            transparent
-            opacity={0.2}
-            blending={THREE.AdditiveBlending}
-          />
+        <mesh key={i} ref={(el) => { if (el) rings.current[i] = el; }}>
+          <torusGeometry args={[config.radius, 0.018, 12, 80]} />
+          <meshBasicMaterial color={config.color} transparent opacity={0.22} blending={THREE.AdditiveBlending} />
         </mesh>
       ))}
     </group>
   );
 }
 
-// Central core with energy pulses
+// Central core with enhanced glow
 function SovereignCore() {
   const coreRef = useRef<THREE.Mesh>(null);
   const glowRef = useRef<THREE.Mesh>(null);
   const pulseRef = useRef<THREE.Mesh>(null);
-  const frameSkip = useRef(0);
+  const outerPulseRef = useRef<THREE.Mesh>(null);
+  const timeRef = useRef(0);
 
-  useFrame((state) => {
-    if (!coreRef.current || !glowRef.current || !pulseRef.current) return;
-    frameSkip.current++;
-    if (frameSkip.current % 2 !== 0) return;
+  useFrame((state, delta) => {
+    if (!coreRef.current || !glowRef.current || !pulseRef.current || !outerPulseRef.current) return;
+    timeRef.current += delta * 0.3;
+    const t = timeRef.current;
     
-    const t = state.clock.elapsedTime;
-    const pulse = Math.sin(t * 0.15) * 0.1 + 1;
-    const fastPulse = Math.sin(t * 0.4) * 0.05 + 1;
+    const pulse = Math.sin(t * 0.12) * 0.08 + 1;
+    const fastPulse = Math.sin(t * 0.25) * 0.04 + 1;
+    const slowPulse = Math.sin(t * 0.06) * 0.06 + 1;
     
     coreRef.current.scale.setScalar(pulse);
-    glowRef.current.scale.setScalar(pulse * 2.2);
-    pulseRef.current.scale.setScalar(fastPulse * 3.5);
+    glowRef.current.scale.setScalar(pulse * 2.5);
+    pulseRef.current.scale.setScalar(fastPulse * 4);
+    outerPulseRef.current.scale.setScalar(slowPulse * 6);
     
-    // Rotate core slowly
-    coreRef.current.rotation.y = t * 0.05;
-    coreRef.current.rotation.x = Math.sin(t * 0.03) * 0.1;
+    coreRef.current.rotation.y = t * 0.03;
+    coreRef.current.rotation.x = Math.sin(t * 0.02) * 0.08;
+    
+    // Glow intensity pulsing
+    const glowMat = glowRef.current.material as THREE.MeshBasicMaterial;
+    glowMat.opacity = 0.12 + Math.sin(t * 0.15) * 0.05;
+    
+    const pulseMat = pulseRef.current.material as THREE.MeshBasicMaterial;
+    pulseMat.opacity = 0.05 + Math.sin(t * 0.2) * 0.025;
   });
 
   return (
     <group>
       {/* Outer pulse wave */}
-      <mesh ref={pulseRef}>
-        <sphereGeometry args={[1, 24, 24]} />
-        <meshBasicMaterial 
-          color="#d4a54a" 
-          transparent 
-          opacity={0.03}
-          blending={THREE.AdditiveBlending}
-        />
+      <mesh ref={outerPulseRef}>
+        <sphereGeometry args={[1, 28, 28]} />
+        <meshBasicMaterial color="#7050a0" transparent opacity={0.025} blending={THREE.AdditiveBlending} />
       </mesh>
       
-      {/* Glow sphere */}
+      {/* Middle pulse wave */}
+      <mesh ref={pulseRef}>
+        <sphereGeometry args={[1, 28, 28]} />
+        <meshBasicMaterial color="#e8b84a" transparent opacity={0.04} blending={THREE.AdditiveBlending} />
+      </mesh>
+      
+      {/* Inner glow sphere */}
       <mesh ref={glowRef}>
-        <sphereGeometry args={[1, 16, 16]} />
-        <meshBasicMaterial 
-          color="#6040a0" 
-          transparent 
-          opacity={0.08}
-          blending={THREE.AdditiveBlending}
-        />
+        <sphereGeometry args={[1, 20, 20]} />
+        <meshBasicMaterial color="#7050a0" transparent opacity={0.12} blending={THREE.AdditiveBlending} />
       </mesh>
       
       {/* Core */}
       <mesh ref={coreRef}>
-        <sphereGeometry args={[0.7, 32, 32]} />
-        <meshBasicMaterial 
-          color="#c8c8d0" 
-          transparent 
-          opacity={0.95}
-        />
+        <sphereGeometry args={[0.65, 36, 36]} />
+        <meshBasicMaterial color="#d0d0e0" transparent opacity={0.96} />
       </mesh>
     </group>
   );
 }
 
-// 3D Logo Plane
+// 3D Logo with glow
 function LogoPlane() {
   const ref = useRef<THREE.Group>(null);
   const texture = useTexture(apexLogo);
+  const timeRef = useRef(0);
   
   texture.premultiplyAlpha = false;
   
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (!ref.current) return;
-    const pulse = Math.sin(state.clock.elapsedTime * 0.15) * 0.02 + 1;
+    timeRef.current += delta * 0.25;
+    const pulse = Math.sin(timeRef.current * 0.1) * 0.015 + 1;
     ref.current.scale.setScalar(pulse);
   });
 
   return (
     <group ref={ref} position={[0, 0, 2]}>
-      <mesh position={[0, 0, -0.2]} renderOrder={1}>
-        <planeGeometry args={[14, 14]} />
-        <meshBasicMaterial
-          color="#6040a0"
-          transparent
-          opacity={0.03}
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-        />
+      <mesh position={[0, 0, -0.3]} renderOrder={1}>
+        <planeGeometry args={[16, 16]} />
+        <meshBasicMaterial color="#7050a0" transparent opacity={0.04} depthWrite={false} blending={THREE.AdditiveBlending} />
       </mesh>
-      
-      <mesh position={[0, 0, -0.1]} renderOrder={2}>
-        <planeGeometry args={[10, 10]} />
-        <meshBasicMaterial
-          color="#d4a54a"
-          transparent
-          opacity={0.04}
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-        />
+      <mesh position={[0, 0, -0.15]} renderOrder={2}>
+        <planeGeometry args={[12, 12]} />
+        <meshBasicMaterial color="#e8b84a" transparent opacity={0.05} depthWrite={false} blending={THREE.AdditiveBlending} />
       </mesh>
-      
       <mesh renderOrder={3}>
-        <planeGeometry args={[7, 7]} />
-        <meshBasicMaterial
-          map={texture}
-          transparent
-          depthWrite={false}
-          opacity={0.9}
-        />
+        <planeGeometry args={[7.5, 7.5]} />
+        <meshBasicMaterial map={texture} transparent depthWrite={false} opacity={0.88} />
       </mesh>
     </group>
   );
 }
 
-// Cursor tracker with velocity
+// Cursor tracker - SILKY SMOOTH
 function CursorTracker({ cursorState }: { cursorState: CursorState }) {
   const { camera, size } = useThree();
   const raycaster = useMemo(() => new THREE.Raycaster(), []);
   const plane = useMemo(() => new THREE.Plane(new THREE.Vector3(0, 0, 1), 0), []);
   const lastPos = useRef(new THREE.Vector3());
+  const smoothPos = useRef(new THREE.Vector3());
   
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -522,17 +520,14 @@ function CursorTracker({ cursorState }: { cursorState: CursorState }) {
       raycaster.ray.intersectPlane(plane, intersection);
       
       if (intersection) {
-        const newPos = new THREE.Vector3(
-          intersection.x * 1.5,
-          intersection.y * 1.5,
-          5
-        );
+        const targetPos = new THREE.Vector3(intersection.x * 1.6, intersection.y * 1.6, 5);
         
-        // Calculate velocity
-        cursorState.velocity.subVectors(newPos, lastPos.current);
-        lastPos.current.copy(newPos);
+        // Ultra smooth interpolation
+        smoothPos.current.lerp(targetPos, 0.12);
         
-        cursorState.position.copy(newPos);
+        cursorState.velocity.subVectors(smoothPos.current, lastPos.current);
+        lastPos.current.copy(smoothPos.current);
+        cursorState.position.copy(smoothPos.current);
       }
       cursorState.active = true;
     };
@@ -554,21 +549,26 @@ function CursorTracker({ cursorState }: { cursorState: CursorState }) {
   return null;
 }
 
-// Camera controller - ultra smooth
+// Camera controller - BUTTERY SMOOTH
 function CameraController({ scrollDepth = 0 }: { scrollDepth: number }) {
   const { camera } = useThree();
-  const targetRef = useRef({ x: 0, y: 0, z: 20 });
+  const targetRef = useRef({ x: 0, y: 0, z: 24 });
+  const currentRef = useRef({ x: 0, y: 0, z: 24 });
 
-  useFrame(() => {
-    // Calculate target based on scroll
-    targetRef.current.z = 22 - scrollDepth * 18;
-    targetRef.current.y = scrollDepth * 5;
-    targetRef.current.x = Math.sin(scrollDepth * Math.PI) * 3;
+  useFrame((state, delta) => {
+    targetRef.current.z = 24 - scrollDepth * 20;
+    targetRef.current.y = scrollDepth * 6;
+    targetRef.current.x = Math.sin(scrollDepth * Math.PI) * 4;
     
-    // Ultra smooth interpolation
-    camera.position.x += (targetRef.current.x - camera.position.x) * 0.005;
-    camera.position.y += (targetRef.current.y - camera.position.y) * 0.005;
-    camera.position.z += (targetRef.current.z - camera.position.z) * 0.005;
+    // Ultra smooth exponential interpolation
+    const smoothing = 1 - Math.pow(0.003, delta);
+    currentRef.current.x += (targetRef.current.x - currentRef.current.x) * smoothing;
+    currentRef.current.y += (targetRef.current.y - currentRef.current.y) * smoothing;
+    currentRef.current.z += (targetRef.current.z - currentRef.current.z) * smoothing;
+    
+    camera.position.x = currentRef.current.x;
+    camera.position.y = currentRef.current.y;
+    camera.position.z = currentRef.current.z;
     
     camera.lookAt(0, 0, 0);
   });
@@ -592,48 +592,51 @@ export default function SovereignVoid({ scrollDepth = 0, className = '' }: Sover
   return (
     <div className={`absolute inset-0 ${className}`}>
       <Canvas
-        camera={{ position: [0, 0, 22], fov: 50 }}
-        dpr={[1, 1.5]}
+        camera={{ position: [0, 0, 24], fov: 48 }}
+        dpr={[1, 2]}
         gl={{ 
           antialias: true,
           alpha: true,
-          powerPreference: 'high-performance'
+          powerPreference: 'high-performance',
+          stencil: false,
         }}
+        frameloop="always"
       >
         <color attach="background" args={['#000000']} />
-        <fog attach="fog" args={['#030308', 15, 60]} />
+        <fog attach="fog" args={['#020208', 12, 70]} />
         
         <CameraController scrollDepth={scrollDepth} />
         <CursorTracker cursorState={cursorState} />
         
-        <ambientLight intensity={0.03} />
-        <pointLight position={[0, 0, 0]} intensity={2} color="#d4a54a" distance={30} />
-        <pointLight position={[10, 10, 10]} intensity={0.5} color="#6040a0" distance={40} />
-        <pointLight position={[-10, -5, 5]} intensity={0.3} color="#a0a0b0" distance={30} />
+        <ambientLight intensity={0.025} />
+        <pointLight position={[0, 0, 0]} intensity={2.5} color="#e8b84a" distance={35} />
+        <pointLight position={[12, 12, 12]} intensity={0.7} color="#7050a0" distance={45} />
+        <pointLight position={[-12, -6, 6]} intensity={0.4} color="#b0b0c0" distance={35} />
         
         {/* Background layers */}
-        <StarField count={600} />
+        <StarField count={1000} />
         <NebulaClouds />
         
         {/* Core elements */}
-        <EnergyTendrils count={8} />
+        <EnergyTendrils count={10} />
         <EnergyRings />
-        <CursorReactiveParticles count={400} cursorState={cursorState} />
+        <ParticleTrails count={16} />
+        <CursorReactiveParticles count={550} cursorState={cursorState} />
         <SovereignCore />
         <LogoPlane />
         
-        {/* Post-processing */}
-        <EffectComposer multisampling={2}>
+        {/* Enhanced post-processing - STRONGER GLOW */}
+        <EffectComposer multisampling={4}>
           <Bloom
-            intensity={0.6}
-            luminanceThreshold={0.2}
-            luminanceSmoothing={0.9}
+            intensity={0.9}
+            luminanceThreshold={0.15}
+            luminanceSmoothing={0.95}
             mipmapBlur
-            radius={0.8}
+            radius={0.9}
           />
           <Vignette
-            darkness={0.5}
-            offset={0.3}
+            darkness={0.55}
+            offset={0.25}
             blendFunction={BlendFunction.NORMAL}
           />
         </EffectComposer>
