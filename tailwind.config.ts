@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from 'tailwindcss-animate';
 
 export default {
   darkMode: ["class"],
@@ -177,17 +178,20 @@ export default {
   			float: 'float 6s ease-in-out infinite',
   			'float-slow': 'float-slow 10s ease-in-out infinite',
   			'pulse-glow': 'pulse-glow 4s ease-in-out infinite'
-  		},
-  		boxShadow: {
-  			'2xs': 'var(--shadow-2xs)',
-  			xs: 'var(--shadow-xs)',
-  			sm: 'var(--shadow-sm)',
-  			md: 'var(--shadow-md)',
-  			lg: 'var(--shadow-lg)',
-  			xl: 'var(--shadow-xl)',
-  			'2xl': 'var(--shadow-2xl)'
-  		}
-  	}
+		},
+		boxShadow: {
+			'2xs': 'var(--shadow-2xs)',
+			xs: 'var(--shadow-xs)',
+			sm: 'var(--shadow-sm)',
+			md: 'var(--shadow-md)',
+			lg: 'var(--shadow-lg)',
+			xl: 'var(--shadow-xl)',
+			'2xl': 'var(--shadow-2xl)'
+		},
+		backgroundImage: {
+			'gradient-radial': 'radial-gradient(circle, var(--tw-gradient-stops))',
+		}
+	}
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
