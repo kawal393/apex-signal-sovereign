@@ -17,6 +17,7 @@ const Commons = () => {
   const presence = usePresence();
   const { isAudioEnabled, status, playThresholdTone } = useApexSystem();
   const [scrollDepth, setScrollDepth] = useState(0);
+  const heroActive = scrollDepth < 0.18;
 
   // Track scroll depth for 3D camera and audio
   useEffect(() => {
@@ -46,7 +47,7 @@ const Commons = () => {
   return (
     <div className="relative min-h-screen bg-black">
       {/* TRUE WEBGL 3D VOID */}
-      <SovereignVoid scrollDepth={scrollDepth} className="fixed inset-0 z-0" />
+      <SovereignVoid active={heroActive} scrollDepth={scrollDepth} className="fixed inset-0 z-0" />
       
       {/* Atmospheric overlays - DARKER */}
       <div className="fixed inset-0 pointer-events-none z-[1]">

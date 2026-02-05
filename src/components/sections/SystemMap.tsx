@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { Suspense, lazy } from "react";
+import { motion, useInView } from "framer-motion";
+import { Suspense, lazy, useRef } from "react";
 import LivingNode from "@/components/nodes/LivingNode";
 
 const UltimateMapBackground = lazy(() => import("@/components/3d/UltimateMapBackground"));
@@ -46,6 +46,10 @@ export default function SystemMap() {
   const activeNodes = nodes.filter(n => n.status === "Active");
   const frozenNodes = nodes.filter(n => n.status === "Frozen");
 
+  // Permanent performance fix: only mount the heavy WebGL scene when near viewport
+  const mapRef = useRef<HTMLDivElement | null>(null);
+  const mapInView = useInView(mapRef, { margin: '400px 0px', amount: 0.1 });
+
   return (
     <section id="system-map" className="relative py-24 md:py-32 border-b border-border/5">
       <div className="container mx-auto px-6 relative z-10">
@@ -70,23 +74,26 @@ export default function SystemMap() {
         
         {/* 3D Network Visualization */}
         <motion.div
+          ref={mapRef}
           initial={{ opacity: 0, scale: 0.97 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1.5, delay: 0.3 }}
           className="mb-20"
         >
-          <Suspense fallback={
-            <div className="w-full h-[550px] md:h-[650px] flex items-center justify-center">
-              <motion.div 
-                className="w-10 h-10 border border-primary/20 border-t-primary/60 rounded-full"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              />
-            </div>
-          }>
-            <UltimateMapBackground />
-          </Suspense>
+          <div className="w-full h-[550px] md:h-[650px] relative">
+            <Suspense fallback={
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-10 h-10 border border-primary/20 border-t-primary/60 rounded-full animate-spin" />
+              </div>
+            }>
+              {mapInView ? (
+                <UltimateMapBackground />
+              ) : (
+                <div className="absolute inset-0 rounded-md bg-muted/10 border border-border/10" />
+              )}
+            </Suspense>
+          </div>
         </motion.div>
 
         {/* Living Stats */}
@@ -114,14 +121,6 @@ export default function SystemMap() {
                 className={`text-2xl md:text-4xl font-extralight mb-3 ${
                   i === 0 ? "text-primary" : "text-muted-foreground/40"
                 }`}
-                animate={i === 0 ? { 
-                  textShadow: [
-                    '0 0 20px hsl(42 90% 55% / 0.3)',
-                    '0 0 40px hsl(42 90% 55% / 0.5)',
-                    '0 0 20px hsl(42 90% 55% / 0.3)',
-                  ],
-                } : {}}
-                transition={{ duration: 4, repeat: Infinity }}
               >
                 {stat.value}
               </motion.div>

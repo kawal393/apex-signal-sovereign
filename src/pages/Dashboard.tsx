@@ -26,6 +26,7 @@ const generateMockActivity = (): ActivityEvent[] => {
 
 const Dashboard = () => {
   const [scrollDepth, setScrollDepth] = useState(0);
+  const voidActive = scrollDepth < 0.2;
   const [activity] = useState<ActivityEvent[]>(generateMockActivity());
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -78,7 +79,7 @@ const Dashboard = () => {
   return (
     <div className="relative min-h-screen bg-black">
       {/* 3D Void Background */}
-      <SovereignVoid scrollDepth={scrollDepth} className="fixed inset-0 z-0" />
+      <SovereignVoid active={voidActive} scrollDepth={scrollDepth} className="fixed inset-0 z-0" />
       
       {/* Atmospheric overlays */}
       <div className="fixed inset-0 pointer-events-none z-[1]">

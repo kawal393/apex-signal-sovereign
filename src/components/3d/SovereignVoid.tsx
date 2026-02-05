@@ -580,27 +580,37 @@ function CameraController({ scrollDepth = 0 }: { scrollDepth: number }) {
 interface SovereignVoidProps {
   scrollDepth?: number;
   className?: string;
+  /** When false, pauses heavy rendering to keep the rest of the site smooth */
+  active?: boolean;
 }
 
-export default function SovereignVoid({ scrollDepth = 0, className = '' }: SovereignVoidProps) {
+export default function SovereignVoid({
+  scrollDepth = 0,
+  className = '',
+  active = true,
+}: SovereignVoidProps) {
   const [cursorState] = useState<CursorState>(() => ({
     position: new THREE.Vector3(0, 0, 5),
     velocity: new THREE.Vector3(0, 0, 0),
     active: false
   }));
 
+  if (!active) {
+    return <div className={`absolute inset-0 ${className}`} aria-hidden="true" />;
+  }
+
   return (
     <div className={`absolute inset-0 ${className}`}>
       <Canvas
         camera={{ position: [0, 0, 24], fov: 48 }}
-        dpr={[1, 2]}
-        gl={{ 
-          antialias: true,
+        dpr={active ? [1, 1.5] : [1, 1]}
+        gl={{
+          antialias: false,
           alpha: true,
           powerPreference: 'high-performance',
           stencil: false,
         }}
-        frameloop="always"
+        frameloop={active ? 'always' : 'demand'}
       >
         <color attach="background" args={['#000000']} />
         <fog attach="fog" args={['#020208', 12, 70]} />
@@ -614,14 +624,14 @@ export default function SovereignVoid({ scrollDepth = 0, className = '' }: Sover
         <pointLight position={[-12, -6, 6]} intensity={0.4} color="#b0b0c0" distance={35} />
         
         {/* Background layers */}
-        <StarField count={1000} />
+        <StarField count={active ? 800 : 260} />
         <NebulaClouds />
-        
+
         {/* Core elements */}
-        <EnergyTendrils count={10} />
+        <EnergyTendrils count={active ? 8 : 5} />
         <EnergyRings />
-        <ParticleTrails count={16} />
-        <CursorReactiveParticles count={550} cursorState={cursorState} />
+        {active && <ParticleTrails count={10} />}
+        <CursorReactiveParticles count={active ? 420 : 200} cursorState={cursorState} />
         <SovereignCore />
         <LogoPlane />
         

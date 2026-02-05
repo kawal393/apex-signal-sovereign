@@ -157,11 +157,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
-  /* ULTRA SMOOTH transitions globally */
-  *, *::before, *::after {
-    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  }
 }
 
 @layer components {
