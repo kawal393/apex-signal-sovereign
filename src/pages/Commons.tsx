@@ -94,46 +94,43 @@ const Commons = () => {
             />
           </div>
           
-          {/* MASSIVE SOVEREIGN LOGO - SILVER/GREY MYSTICAL */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            {/* Deep void glow - grey/silver */}
+          {/* LOGO INTEGRATED INTO THE VOID - no harsh glows, blends with 3D */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            {/* Subtle ambient presence - very soft, part of the fog */}
             <motion.div
-              className="absolute blur-[100px]"
-              animate={{ opacity: [0.15, 0.35, 0.15], scale: [1, 1.1, 1] }}
-              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute blur-[150px] mix-blend-screen"
+              animate={{ opacity: [0.08, 0.15, 0.08], scale: [0.95, 1.05, 0.95] }}
+              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
             >
               <img 
                 src={apexLogo} 
                 alt="" 
-                className="w-[500px] md:w-[650px] lg:w-[800px] h-auto"
-                style={{ filter: 'grayscale(100%) brightness(2)' }}
+                className="w-[600px] md:w-[750px] lg:w-[900px] h-auto"
+                style={{ filter: 'grayscale(100%) brightness(0.8)' }}
               />
             </motion.div>
             
-            {/* Purple dimensional rift */}
-            <motion.div
-              className="absolute blur-[120px]"
-              animate={{ opacity: [0.05, 0.15, 0.05], rotateZ: [0, 10, 0] }}
-              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            >
-              <img 
-                src={apexLogo} 
-                alt="" 
-                className="w-[500px] md:w-[650px] lg:w-[800px] h-auto"
-                style={{ filter: 'hue-rotate(270deg) brightness(0.5) saturate(2)' }}
-              />
-            </motion.div>
-            
-            {/* Main logo - silver/grey treatment */}
+            {/* Main logo - reduced opacity, no harsh shadows, blends into void */}
             <motion.img
               src={apexLogo}
               alt=""
-              initial={{ opacity: 0, scale: 1.3, filter: 'blur(40px)' }}
-              animate={{ opacity: 0.85, scale: 1, filter: 'blur(0px)' }}
-              transition={{ duration: 4, ease: [0.16, 1, 0.3, 1] }}
-              className="w-[500px] md:w-[650px] lg:w-[800px] h-auto object-contain relative z-10"
+              initial={{ opacity: 0, scale: 1.1, filter: 'blur(20px) brightness(0.5)' }}
+              animate={{ opacity: 0.45, scale: 1, filter: 'blur(0px) brightness(0.9)' }}
+              transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] }}
+              className="w-[450px] md:w-[550px] lg:w-[650px] h-auto object-contain relative mix-blend-screen"
               style={{
-                filter: 'grayscale(30%) drop-shadow(0 0 60px hsl(0 0% 70% / 0.4)) drop-shadow(0 0 120px hsl(270 40% 40% / 0.2)) drop-shadow(0 0 200px hsl(0 0% 50% / 0.15))',
+                filter: 'grayscale(50%) contrast(0.9)',
+                opacity: 0.5,
+              }}
+            />
+            
+            {/* Subtle inner glow that matches the 3D orb */}
+            <motion.div
+              className="absolute w-32 h-32 rounded-full mix-blend-screen"
+              animate={{ opacity: [0.1, 0.25, 0.1], scale: [1, 1.2, 1] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              style={{
+                background: 'radial-gradient(circle, hsl(0 0% 60% / 0.3) 0%, transparent 70%)',
               }}
             />
           </div>
