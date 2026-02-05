@@ -69,9 +69,9 @@ const Commons = () => {
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
-            <img src={apexLogo} alt="APEX" className="w-10 h-10 opacity-60 group-hover:opacity-100 transition-opacity" />
-            <span className="text-sm font-medium text-grey-400 group-hover:text-grey-200 transition-colors tracking-widest">
-              APEX SYSTEM
+            <img src={apexLogo} alt="APEX" className="w-10 h-10 opacity-60 group-hover:opacity-100 transition-opacity duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)]" />
+            <span className="text-sm font-medium text-grey-400 group-hover:text-grey-200 transition-colors duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] tracking-widest">
+              APEX INFRASTRUCTURE
             </span>
           </Link>
           
@@ -229,11 +229,11 @@ const Commons = () => {
               >
                 The Inevitable Infrastructure
               </motion.span>
-              <h1 className="text-6xl md:text-8xl lg:text-[12rem] font-extralight text-grey-100 tracking-[0.04em] mb-12 leading-[0.85]">
+              <h1 className="text-7xl md:text-9xl lg:text-[14rem] font-extralight text-grey-100 tracking-[0.04em] mb-12 leading-[0.85]">
                 <span className="text-grey-100 font-normal">APEX</span>
               </h1>
-              <h2 className="text-3xl md:text-5xl lg:text-6xl font-extralight text-grey-300 tracking-[0.2em] mb-12">
-                SYSTEM
+              <h2 className="text-4xl md:text-6xl lg:text-7xl font-extralight text-grey-300 tracking-[0.25em] mb-12">
+                INFRASTRUCTURE
               </h2>
               <p className="text-xl md:text-2xl lg:text-3xl text-grey-200 font-extralight max-w-3xl mx-auto tracking-wider leading-relaxed">
                 What must happen, will happen.

@@ -7,7 +7,7 @@ import apexLogo from "@/assets/apex-logo.png";
 const manifestoSections = [
   {
     title: "The Premise",
-    content: `Truth does not need to be sold. It just sells. The APEX System exists not because we built it, but because it was inevitable. Every complex system eventually develops an immune response—a mechanism to distinguish signal from noise, truth from performance, substance from theater.
+    content: `Truth does not need to be sold. It just sells. The APEX Infrastructure exists not because we built it, but because it was inevitable. Every complex system eventually develops an immune response—a mechanism to distinguish signal from noise, truth from performance, substance from theater.
 
 We are that mechanism.`,
   },
@@ -39,7 +39,7 @@ Movement between these states is not purchased. It cannot be gamed. It is recogn
     title: "The Inevitability",
     content: `What must happen, will happen. You are already inside. The only question is: how deep will you go?
 
-The APEX System is patient. It has been waiting for you longer than you have been looking for it.
+The APEX Infrastructure is patient. It has been waiting for you longer than you have been looking for it.
 
 Welcome home.`,
   },

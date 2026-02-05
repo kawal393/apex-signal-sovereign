@@ -23,10 +23,10 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
     return () => clearInterval(interval);
   }, []);
 
-  // Phase progression
+  // Phase progression - ULTRA SLOW
   useEffect(() => {
     if (phase === 'void') {
-      const timer = setTimeout(() => setPhase('stillness'), 2000);
+      const timer = setTimeout(() => setPhase('stillness'), 2500);
       return () => clearTimeout(timer);
     }
   }, [phase]);
@@ -39,14 +39,14 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
 
   useEffect(() => {
     if (phase === 'presence') {
-      const timer = setTimeout(() => setPhase('audio_offer'), 6500);
+      const timer = setTimeout(() => setPhase('audio_offer'), 7500);
       return () => clearTimeout(timer);
     }
   }, [phase]);
 
   useEffect(() => {
     if (phase === 'reveal') {
-      const timer = setTimeout(onComplete, 4500);
+      const timer = setTimeout(onComplete, 5000);
       return () => clearTimeout(timer);
     }
   }, [phase, onComplete]);
@@ -71,7 +71,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
       className="fixed inset-0 z-50 bg-black flex items-center justify-center"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 4.5, ease: [0.16, 1, 0.3, 1] }}
     >
       <AnimatePresence mode="wait">
         {/* Stillness Phase */}
@@ -81,81 +81,81 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] }}
             className="text-center"
           >
             {/* Stillness progress indicator */}
             <motion.div
-              className="relative w-20 h-20 mx-auto mb-10"
+              className="relative w-32 h-32 mx-auto mb-16"
             >
               {/* Outer ring - progress */}
               <svg className="w-full h-full -rotate-90">
                 <circle
-                  cx="40"
-                  cy="40"
-                  r="36"
+                  cx="64"
+                  cy="64"
+                  r="58"
                   fill="none"
-                  stroke="hsl(42 90% 55% / 0.1)"
+                  stroke="hsl(42 90% 55% / 0.06)"
                   strokeWidth="1"
                 />
                 <motion.circle
-                  cx="40"
-                  cy="40"
-                  r="36"
+                  cx="64"
+                  cy="64"
+                  r="58"
                   fill="none"
-                  stroke="hsl(42 90% 55% / 0.6)"
+                  stroke="hsl(42 90% 55% / 0.45)"
                   strokeWidth="1"
-                  strokeDasharray={`${stillnessProgress * 226} 226`}
+                  strokeDasharray={`${stillnessProgress * 364} 364`}
                   strokeLinecap="round"
                 />
               </svg>
               
               {/* Inner glow point */}
               <motion.div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-primary"
                 style={{
-                  boxShadow: `0 0 ${10 + stillnessProgress * 30}px hsl(42 90% 55% / ${0.3 + stillnessProgress * 0.4})`,
+                  boxShadow: `0 0 ${20 + stillnessProgress * 60}px hsl(42 90% 55% / ${0.15 + stillnessProgress * 0.5})`,
                 }}
                 animate={{
-                  scale: [1, 1.2, 1],
+                  scale: [1, 1.4, 1],
                 }}
-                transition={{ duration: 2, repeat: Infinity }}
+                transition={{ duration: 5, repeat: Infinity, ease: [0.16, 1, 0.3, 1] }}
               />
             </motion.div>
             
             <motion.p
-              className="text-[11px] tracking-[0.5em] uppercase text-muted-foreground/40"
-              animate={{ opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 3, repeat: Infinity }}
+              className="text-sm tracking-[0.7em] uppercase text-muted-foreground/25"
+              animate={{ opacity: [0.15, 0.4, 0.15] }}
+              transition={{ duration: 6, repeat: Infinity, ease: [0.16, 1, 0.3, 1] }}
             >
               {stillnessProgress < 0.5 ? "Be still" : "Almost there"}
             </motion.p>
           </motion.div>
         )}
           
-        {/* Presence Phase */}
+        {/* Presence Phase - MASSIVE TYPOGRAPHY */}
         {phase === 'presence' && (
           <motion.div
             key="presence"
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -24 }}
-            transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center px-6"
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ duration: 5, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center px-6 max-w-7xl"
           >
-            {/* Location + precise datetime */}
+            {/* Location + precise datetime - BIGGER */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 2.4, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-10"
+              initial={{ opacity: 0, y: -40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1, duration: 5, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-20"
             >
-              <div className="flex flex-wrap items-center justify-center gap-4 text-muted-foreground/45">
-                <span className="text-[10px] md:text-[11px] uppercase tracking-[0.6em]">
+              <div className="flex flex-wrap items-center justify-center gap-8 text-muted-foreground/35">
+                <span className="text-base md:text-lg uppercase tracking-[0.7em] font-light">
                   {presence.city}
                 </span>
-                <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
-                <span className="text-[10px] md:text-[11px] uppercase tracking-[0.6em] tabular-nums">
+                <span className="w-2 h-2 rounded-full bg-muted-foreground/20" />
+                <span className="text-base md:text-lg uppercase tracking-[0.5em] tabular-nums font-light">
                   {now.toLocaleDateString(undefined, {
                     weekday: 'long',
                     year: 'numeric',
@@ -163,8 +163,8 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
                     day: 'numeric',
                   })}
                 </span>
-                <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
-                <span className="text-[10px] md:text-[11px] uppercase tracking-[0.6em] tabular-nums">
+                <span className="w-2 h-2 rounded-full bg-muted-foreground/20" />
+                <span className="text-base md:text-lg uppercase tracking-[0.5em] tabular-nums font-light">
                   {now.toLocaleTimeString(undefined, {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -178,29 +178,29 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
             {isReturningVisitor ? (
               <>
                 <motion.p
-                  className="text-4xl md:text-6xl lg:text-7xl font-extralight tracking-[0.08em] text-primary/80 mb-6"
-                  initial={{ opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7, duration: 2.8, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-6xl md:text-8xl lg:text-9xl xl:text-[10rem] font-extralight tracking-[0.04em] text-primary/80 mb-14 leading-[1.05]"
+                  initial={{ opacity: 0, y: 40, filter: 'blur(25px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  transition={{ delay: 1.5, duration: 5.5, ease: [0.16, 1, 0.3, 1] }}
                 >
                   You have returned
                 </motion.p>
 
                 <motion.p
-                  className="text-sm md:text-base uppercase tracking-[0.8em] text-muted-foreground/55"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.4, duration: 2.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-xl md:text-2xl lg:text-3xl uppercase tracking-[1.2em] text-muted-foreground/45"
+                  initial={{ opacity: 0, y: 25 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 2.8, duration: 4.5, ease: [0.16, 1, 0.3, 1] }}
                 >
                   Visit № {returnCount}
                 </motion.p>
 
                 {status === 'considered' && (
                   <motion.p
-                    className="text-[10px] uppercase tracking-[0.6em] text-primary/50 mt-8"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 2.1, duration: 2, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-sm uppercase tracking-[0.8em] text-primary/40 mt-16"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 4, duration: 4, ease: [0.16, 1, 0.3, 1] }}
                   >
                     Status: Under consideration
                   </motion.p>
@@ -209,60 +209,66 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
             ) : (
               <>
                 <motion.p
-                  className="text-3xl md:text-5xl lg:text-6xl font-extralight tracking-[0.08em] text-muted-foreground/70 mb-6"
-                  initial={{ opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7, duration: 2.8, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-extralight tracking-[0.04em] text-muted-foreground/60 mb-14 leading-[1.05]"
+                  initial={{ opacity: 0, y: 40, filter: 'blur(25px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  transition={{ delay: 1.5, duration: 5.5, ease: [0.16, 1, 0.3, 1] }}
                 >
                   Arriving
                 </motion.p>
 
                 <motion.p
-                  className="text-sm md:text-base uppercase tracking-[0.8em] text-muted-foreground/55"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.4, duration: 2.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-xl md:text-2xl lg:text-3xl uppercase tracking-[1.2em] text-muted-foreground/40"
+                  initial={{ opacity: 0, y: 25 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 2.8, duration: 4.5, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  The system observes
+                  The infrastructure observes
                 </motion.p>
               </>
             )}
           </motion.div>
         )}
 
-        {/* Audio Offer Phase */}
+        {/* Audio Offer Phase - ULTRA SMOOTH */}
         {phase === 'audio_offer' && (
           <motion.div
             key="audio"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
+            exit={{ opacity: 0, y: -30 }}
+            transition={{ duration: 4, ease: [0.16, 1, 0.3, 1] }}
             className="text-center"
           >
             <motion.p
-              className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground/50 mb-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
+              className="text-lg md:text-xl tracking-[0.6em] uppercase text-muted-foreground/40 mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 4, ease: [0.16, 1, 0.3, 1] }}
             >
               Enable presence audio?
             </motion.p>
             
-            <div className="flex items-center justify-center gap-6">
+            <div className="flex items-center justify-center gap-12">
               <motion.button
                 onClick={() => handleAudioChoice(true)}
-                className="text-[10px] tracking-[0.3em] uppercase text-primary/70 hover:text-primary px-4 py-2 border border-primary/20 hover:border-primary/40 transition-all duration-500"
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
+                className="text-base tracking-[0.5em] uppercase text-primary/70 hover:text-primary px-10 py-5 border border-primary/20 hover:border-primary/45 transition-all duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)] rounded-sm"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.4, duration: 3.5, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ scale: 1.04, y: -6 }}
+                whileTap={{ scale: 0.96 }}
               >
                 Yes
               </motion.button>
               
               <motion.button
                 onClick={() => handleAudioChoice(false)}
-                className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground/40 hover:text-muted-foreground/60 px-4 py-2 transition-all duration-500"
-                whileHover={{ y: -1 }}
+                className="text-base tracking-[0.5em] uppercase text-muted-foreground/30 hover:text-muted-foreground/50 px-10 py-5 transition-all duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.6, duration: 3.5, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -3 }}
               >
                 No
               </motion.button>
@@ -270,28 +276,44 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
           </motion.div>
         )}
 
-        {/* Reveal Phase */}
+        {/* Reveal Phase - ULTRA SMOOTH */}
         {phase === 'reveal' && (
           <motion.div
             key="reveal"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.1 }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, scale: 0.8, filter: 'blur(20px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 1.2, filter: 'blur(15px)' }}
+            transition={{ duration: 4.5, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-center gap-10"
           >
             <motion.div
-              className="w-20 h-20 flex items-center justify-center"
+              className="w-36 h-36 flex items-center justify-center"
               animate={{
                 boxShadow: [
-                  '0 0 40px hsl(42 90% 55% / 0.2)',
-                  '0 0 80px hsl(42 90% 55% / 0.4)',
-                  '0 0 40px hsl(42 90% 55% / 0.2)',
+                  '0 0 80px hsl(42 90% 55% / 0.1)',
+                  '0 0 150px hsl(42 90% 55% / 0.3)',
+                  '0 0 80px hsl(42 90% 55% / 0.1)',
                 ],
               }}
-              transition={{ duration: 2, repeat: Infinity }}
+              transition={{ duration: 5, repeat: Infinity, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="text-4xl text-primary">◆</span>
+              <motion.span 
+                className="text-7xl text-primary"
+                animate={{ rotateY: [0, 360] }}
+                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+              >
+                ◆
+              </motion.span>
             </motion.div>
+            
+            <motion.p
+              className="text-sm uppercase tracking-[1em] text-muted-foreground/25"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.5, duration: 3.5, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Entering
+            </motion.p>
           </motion.div>
         )}
       </AnimatePresence>
