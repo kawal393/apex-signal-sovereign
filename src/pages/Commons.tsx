@@ -141,35 +141,41 @@ const Commons = () => {
             />
           </div>
           
-          {/* Content overlay - BIGGER FONTS */}
-          <div className="relative z-20 text-center px-6 py-20 mt-20">
+          {/* Content overlay - MASSIVE FONTS */}
+          <div className="relative z-20 text-center px-6 py-24 mt-24">
             <motion.div
-              initial={{ opacity: 0, y: 70 }}
+              initial={{ opacity: 0, y: 80 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 2.5, delay: 1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 3.5, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
               <motion.span 
-                className="text-[10px] md:text-[11px] uppercase tracking-[0.8em] text-grey-500 block mb-10"
+                className="text-[11px] md:text-[13px] uppercase tracking-[1em] text-grey-500 block mb-12"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.5, duration: 1.5 }}
+                transition={{ delay: 1.8, duration: 2.5 }}
               >
                 The Inevitable Infrastructure
               </motion.span>
-              <h1 className="text-5xl md:text-7xl lg:text-9xl font-extralight text-grey-400 tracking-[0.02em] mb-10">
-                <span className="text-grey-300 font-medium">APEX</span> <span className="text-grey-500">SYSTEM</span>
+              <h1 className="text-6xl md:text-8xl lg:text-[12rem] font-extralight text-grey-500 tracking-[0.04em] mb-12 leading-[0.85]">
+                <span className="text-grey-400 font-normal">APEX</span>
               </h1>
-              <p className="text-xl md:text-2xl text-grey-500 font-light max-w-2xl mx-auto tracking-wide leading-relaxed">
-                What must happen, will happen. You are already inside.
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-extralight text-grey-600 tracking-[0.2em] mb-12">
+                SYSTEM
+              </h2>
+              <p className="text-xl md:text-2xl lg:text-3xl text-grey-500 font-extralight max-w-3xl mx-auto tracking-wider leading-relaxed">
+                What must happen, will happen.
+              </p>
+              <p className="text-lg md:text-xl text-grey-600 font-extralight mt-4 tracking-widest">
+                You are already inside.
               </p>
             </motion.div>
             
-            {/* Category sigils - BIGGER */}
+            {/* Category sigils - LARGER */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.5, delay: 2.2 }}
-              className="flex flex-wrap items-center justify-center gap-6 md:gap-10 mt-20"
+              transition={{ duration: 2.5, delay: 2.8, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-wrap items-center justify-center gap-8 md:gap-12 mt-24"
             >
               {[
                 { label: "INTELLIGENCE", sigil: "◆", color: "silver" },
@@ -178,22 +184,22 @@ const Commons = () => {
               ].map((item, i) => (
                 <motion.div
                   key={item.label}
-                  initial={{ opacity: 0, y: 25, rotateX: 45 }}
-                  animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                  transition={{ delay: 2.4 + i * 0.2, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                  whileHover={{ y: -8, scale: 1.05 }}
-                  className={`group px-8 py-5 text-[10px] md:text-[11px] uppercase tracking-[0.5em] font-medium flex items-center gap-5 
-                    ${item.color === 'silver' ? 'text-silver-light/70 border-silver-dark/20' : 
-                      item.color === 'grey' ? 'text-grey-400/60 border-grey-600/20' : 
-                      'text-purple-light/50 border-purple-mid/15'} 
-                    border rounded-md bg-black/80 backdrop-blur-xl cursor-default transition-all duration-700`}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 3.2 + i * 0.3, duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
+                  whileHover={{ y: -10, scale: 1.08 }}
+                  className={`group px-10 py-6 text-[11px] md:text-[13px] uppercase tracking-[0.6em] font-normal flex items-center gap-6 
+                    ${item.color === 'silver' ? 'text-silver-light/60 border-silver-dark/15' : 
+                      item.color === 'grey' ? 'text-grey-400/50 border-grey-700/15' : 
+                      'text-purple-light/40 border-purple-deep/12'} 
+                    border rounded-lg bg-black/90 backdrop-blur-2xl cursor-default transition-all duration-1000`}
                 >
                   <motion.span 
-                    className={`${item.color === 'silver' ? 'text-silver-mid/50 group-hover:text-silver-light' : 
-                      item.color === 'grey' ? 'text-grey-500/40 group-hover:text-grey-300' : 
-                      'text-purple-mid/40 group-hover:text-purple-light'} transition-colors duration-500 text-lg`}
+                    className={`${item.color === 'silver' ? 'text-silver-mid/40 group-hover:text-silver-light' : 
+                      item.color === 'grey' ? 'text-grey-600/30 group-hover:text-grey-400' : 
+                      'text-purple-deep/30 group-hover:text-purple-light'} transition-colors duration-1000 text-xl`}
                     animate={{ rotateY: [0, 360] }}
-                    transition={{ duration: 25 + i * 5, repeat: Infinity, ease: "linear" }}
+                    transition={{ duration: 35 + i * 8, repeat: Infinity, ease: "linear" }}
                   >
                     {item.sigil}
                   </motion.span>

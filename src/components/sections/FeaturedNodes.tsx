@@ -91,21 +91,21 @@ export default function FeaturedNodes() {
       </div>
       
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Section Header - BIGGER FONTS */}
+        {/* Section Header - MASSIVE FONTS */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
           viewport={{ once: true }}
-          className="mb-20 text-center"
+          className="mb-24 text-center"
         >
-          <span className="text-[11px] uppercase tracking-[0.6em] text-grey-500 mb-6 block font-medium">
+          <span className="text-[12px] uppercase tracking-[0.8em] text-grey-600 mb-8 block font-normal">
             Active Nodes
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extralight text-grey-300 tracking-wide">
-            Featured <span className="text-gradient-gold font-medium">APEX Nodes</span>
+          <h2 className="text-5xl md:text-6xl lg:text-8xl font-extralight text-grey-400 tracking-wide">
+            Featured <span className="text-gradient-gold font-normal">Nodes</span>
           </h2>
-          <p className="text-lg text-grey-500 mt-6 max-w-xl mx-auto font-light">
+          <p className="text-xl md:text-2xl text-grey-600 mt-8 max-w-2xl mx-auto font-extralight tracking-wide">
             The infrastructure that never sleeps. Click to explore.
           </p>
         </motion.div>
@@ -130,55 +130,56 @@ export default function FeaturedNodes() {
                 onMouseLeave={() => setHoveredNode(null)}
                 onClick={() => setExpandedNode(isExpanded ? null : node.id)}
                 whileHover={{ 
-                  scale: 1.03, 
-                  y: -12,
+                  scale: 1.04, 
+                  y: -16,
                 }}
                 animate={{
                   height: isExpanded ? 'auto' : 'auto',
                 }}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className={`glass-card p-8 group cursor-pointer transition-all duration-700 relative overflow-hidden ${
-                  isExpanded ? 'border-primary/40 shadow-[0_0_80px_hsl(42,95%,55%,0.1)]' : 
-                  isHovered ? 'border-primary/25' : ''
+                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                className={`glass-card p-10 group cursor-pointer transition-all duration-1000 relative overflow-hidden ${
+                  isExpanded ? 'border-primary/30 shadow-[0_0_100px_hsl(42,95%,55%,0.08)]' : 
+                  isHovered ? 'border-primary/20' : ''
                 }`}
               >
                 {/* Top energy line */}
-                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
                 
                 {/* Hover glow */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
                 
                 <div className="relative z-10">
                   {/* Header with sigil and status */}
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center justify-between mb-8">
                     <motion.div 
-                      className="w-14 h-14 rounded-xl bg-grey-800/80 border border-grey-700/50 flex items-center justify-center group-hover:bg-primary/10 group-hover:border-primary/30 transition-all duration-500"
-                      animate={isHovered ? { rotate: 5 } : { rotate: 0 }}
+                      className="w-18 h-18 rounded-2xl bg-grey-800/60 border border-grey-700/40 flex items-center justify-center group-hover:bg-primary/8 group-hover:border-primary/25 transition-all duration-800"
+                      animate={isHovered ? { rotate: 8 } : { rotate: 0 }}
+                      transition={{ duration: 1 }}
                     >
-                      <span className="text-primary text-2xl">{node.sigil}</span>
+                      <span className="text-primary text-3xl">{node.sigil}</span>
                     </motion.div>
                     
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                       <motion.div 
-                        className={`w-2 h-2 rounded-full ${getStatusColor(node.status).split(' ')[0]}`}
-                        animate={{ opacity: [0.5, 1, 0.5], scale: [0.9, 1.1, 0.9] }}
-                        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                        className={`w-2.5 h-2.5 rounded-full ${getStatusColor(node.status).split(' ')[0]}`}
+                        animate={{ opacity: [0.4, 1, 0.4], scale: [0.9, 1.15, 0.9] }}
+                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                       />
-                      <span className={`text-[10px] uppercase tracking-[0.2em] font-medium ${getStatusColor(node.status).split(' ')[1]}`}>
+                      <span className={`text-[11px] uppercase tracking-[0.25em] font-normal ${getStatusColor(node.status).split(' ')[1]}`}>
                         {node.status}
                       </span>
                     </div>
                   </div>
 
                   {/* Category */}
-                  <div className="mb-4">
-                    <span className="text-[10px] uppercase tracking-[0.25em] text-grey-600 bg-grey-800/50 px-3 py-1.5 rounded">
+                  <div className="mb-5">
+                    <span className="text-[11px] uppercase tracking-[0.3em] text-grey-600 bg-grey-800/40 px-4 py-2 rounded-md">
                       {node.category}
                     </span>
                   </div>
 
-                  {/* Content - BIGGER FONTS */}
-                  <h3 className="text-xl md:text-2xl font-medium text-foreground mb-4 group-hover:text-primary transition-colors duration-500 tracking-wide">
+                  {/* Content - MASSIVE FONTS */}
+                  <h3 className="text-2xl md:text-3xl font-normal text-foreground mb-5 group-hover:text-primary transition-colors duration-800 tracking-wide">
                     {node.name}
                   </h3>
                   <p className="text-base text-grey-400 leading-relaxed">

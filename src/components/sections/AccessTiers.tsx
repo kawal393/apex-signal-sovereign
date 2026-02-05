@@ -143,21 +143,21 @@ export default function AccessTiers() {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section Header - BIGGER FONTS */}
+        {/* Section Header - MASSIVE FONTS */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
           viewport={{ once: true }}
-          className="mb-20 text-center"
+          className="mb-24 text-center"
         >
-          <span className="text-[11px] uppercase tracking-[0.6em] text-grey-500 mb-6 block font-medium">
+          <span className="text-[12px] uppercase tracking-[0.8em] text-grey-600 mb-8 block font-normal">
             Access Protocol
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extralight text-grey-300 tracking-wide mb-6">
-            Tiered <span className="text-gradient-gold font-medium">Access</span>
+          <h2 className="text-5xl md:text-6xl lg:text-8xl font-extralight text-grey-400 tracking-wide mb-8">
+            Tiered <span className="text-gradient-gold font-normal">Access</span>
           </h2>
-          <p className="text-lg md:text-xl text-grey-500 max-w-2xl mx-auto font-light leading-relaxed">
+          <p className="text-xl md:text-2xl text-grey-600 max-w-3xl mx-auto font-extralight leading-relaxed tracking-wide">
             Entry is not purchased. It is recognized. Your behavior determines your elevation.
           </p>
         </motion.div>
@@ -168,7 +168,7 @@ export default function AccessTiers() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-10"
         >
           {tiers.map((tier) => {
             const isHovered = hoveredTier === tier.id;
@@ -181,36 +181,37 @@ export default function AccessTiers() {
                 onMouseEnter={() => setHoveredTier(tier.id)}
                 onMouseLeave={() => setHoveredTier(null)}
                 whileHover={{ 
-                  scale: 1.02, 
-                  y: -12,
+                  scale: 1.03, 
+                  y: -16,
                 }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className={`relative p-8 md:p-10 rounded-lg bg-grey-900/80 backdrop-blur-xl border ${colorClasses.border} ${isHovered ? colorClasses.glow : ''} transition-all duration-700 cursor-default group`}
+                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                className={`relative p-10 md:p-12 rounded-xl bg-grey-900/90 backdrop-blur-2xl border ${colorClasses.border} ${isHovered ? colorClasses.glow : ''} transition-all duration-1000 cursor-default group`}
               >
                 {/* Top accent line */}
-                <div className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent ${tier.color === 'gold' ? 'via-primary/60' : tier.color === 'crimson' ? 'via-crimson-bright/50' : 'via-silver-mid/40'} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+                <div className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent ${tier.color === 'gold' ? 'via-primary/50' : tier.color === 'crimson' ? 'via-crimson-bright/40' : 'via-silver-mid/30'} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000`} />
                 
                 {/* Level indicator */}
-                <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center justify-between mb-10">
                   <motion.div 
-                    className={`w-16 h-16 rounded-xl bg-grey-800/80 border ${colorClasses.border} flex items-center justify-center transition-all duration-500`}
-                    whileHover={{ rotate: 5 }}
+                    className={`w-20 h-20 rounded-2xl bg-grey-800/60 border ${colorClasses.border} flex items-center justify-center transition-all duration-800`}
+                    whileHover={{ rotate: 8 }}
+                    transition={{ duration: 0.8 }}
                   >
-                    <span className={`${colorClasses.sigil} text-3xl`}>{tier.sigil}</span>
+                    <span className={`${colorClasses.sigil} text-4xl`}>{tier.sigil}</span>
                   </motion.div>
                   
-                  <div className={`px-4 py-2 rounded-full border ${colorClasses.badge} text-[10px] uppercase tracking-[0.25em] font-semibold`}>
+                  <div className={`px-5 py-2.5 rounded-full border ${colorClasses.badge} text-[11px] uppercase tracking-[0.3em] font-medium`}>
                     Level {tier.level}
                   </div>
                 </div>
 
-                {/* Tier name - BIGGER */}
-                <h3 className="text-2xl md:text-3xl font-medium text-foreground mb-4 tracking-wide">
+                {/* Tier name - MASSIVE */}
+                <h3 className="text-3xl md:text-4xl font-normal text-foreground mb-5 tracking-wide">
                   {tier.name}
                 </h3>
                 
                 {/* Description */}
-                <p className="text-base text-grey-400 leading-relaxed mb-8 font-light">
+                <p className="text-lg text-grey-500 leading-relaxed mb-10 font-extralight">
                   {tier.description}
                 </p>
 
