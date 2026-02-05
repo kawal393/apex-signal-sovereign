@@ -48,6 +48,7 @@ Welcome home.`,
 const Manifesto = () => {
   const [scrollDepth, setScrollDepth] = useState(0);
   const [activeSection, setActiveSection] = useState(0);
+  const voidActive = activeSection === 0;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,7 +70,7 @@ const Manifesto = () => {
   return (
     <div className="relative min-h-screen bg-black">
       {/* 3D Void Background */}
-      <SovereignVoid scrollDepth={scrollDepth} className="fixed inset-0 z-0" />
+      <SovereignVoid active={voidActive} scrollDepth={scrollDepth} className="fixed inset-0 z-0" />
       
       {/* Atmospheric overlays */}
       <div className="fixed inset-0 pointer-events-none z-[1]">
