@@ -88,11 +88,18 @@ export default {
   				operating: 'hsl(var(--status-operating))',
   				frozen: 'hsl(var(--status-frozen))'
   			},
-  			gold: {
-  				DEFAULT: 'hsl(38 90% 55%)',
-  				bright: 'hsl(45 100% 70%)',
-  				deep: 'hsl(30 80% 40%)'
-  			}
+			gold: {
+				DEFAULT: 'hsl(42 90% 55%)',
+				light: 'hsl(48 100% 75%)',
+				bright: 'hsl(45 100% 68%)',
+				deep: 'hsl(35 85% 45%)',
+				ember: 'hsl(28 90% 50%)'
+			},
+			dimensional: {
+				dark: 'hsl(260 20% 2%)',
+				deep: 'hsl(260 15% 5%)',
+				mid: 'hsl(260 12% 10%)'
+			}
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
