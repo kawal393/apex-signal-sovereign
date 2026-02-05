@@ -17,7 +17,16 @@ const Commons = () => {
   const presence = usePresence();
   const { isAudioEnabled, status, playThresholdTone } = useApexSystem();
   const [scrollDepth, setScrollDepth] = useState(0);
+  const [currentTime, setCurrentTime] = useState(new Date());
   const heroActive = scrollDepth < 0.18;
+
+  // Live clock update
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Track scroll depth for 3D camera and audio
   useEffect(() => {
@@ -144,6 +153,69 @@ const Commons = () => {
           
           {/* Content overlay - MASSIVE FONTS with READABLE COLORS */}
           <div className="relative z-20 text-center px-6 py-24 mt-24">
+            {/* Presence Header - Location & Time */}
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 3, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-16"
+            >
+              <motion.div 
+                className="flex items-center justify-center gap-6 text-grey-500"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 4, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <span className="text-[10px] md:text-[11px] uppercase tracking-[0.5em] font-light">
+                  {presence.city.replace(/_/g, ' ')}
+                </span>
+                <span className="w-1 h-1 rounded-full bg-grey-600" />
+                <span className="text-[10px] md:text-[11px] uppercase tracking-[0.5em] font-light">
+                  {new Date().toLocaleDateString('en-US', { 
+                    weekday: 'long',
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </span>
+                <span className="w-1 h-1 rounded-full bg-grey-600" />
+                <motion.span 
+                  className="text-[10px] md:text-[11px] uppercase tracking-[0.5em] font-light tabular-nums"
+                  key={currentTime.getSeconds()}
+                  initial={{ opacity: 0.5 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {currentTime.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false 
+                  })}
+                </motion.span>
+              </motion.div>
+              
+              {/* Time of day indicator */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 2.5, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                className="mt-4"
+              >
+                <span className={`text-[9px] uppercase tracking-[0.6em] px-4 py-1.5 rounded-full border ${
+                  presence.timeOfDay === 'night' ? 'text-purple-light/70 border-purple-mid/20 bg-purple-mid/5' :
+                  presence.timeOfDay === 'dawn' ? 'text-primary/70 border-primary/20 bg-primary/5' :
+                  presence.timeOfDay === 'dusk' ? 'text-primary/60 border-primary/15 bg-primary/5' :
+                  'text-silver-light/70 border-silver-mid/20 bg-silver-mid/5'
+                }`}>
+                  {presence.timeOfDay === 'night' ? '◆ Night Watch' :
+                   presence.timeOfDay === 'dawn' ? '◇ Dawn Rising' :
+                   presence.timeOfDay === 'dusk' ? '◈ Dusk Approaching' :
+                   '◇ Day Cycle'}
+                </span>
+              </motion.div>
+            </motion.div>
+
             <motion.div
               initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
