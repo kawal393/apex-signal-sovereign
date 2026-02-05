@@ -99,9 +99,9 @@
     --spacing: 0.25rem;
   }
 
-  .dark {
-    /* Dark mode is default for this design */
-    --background: 0 0% 15%;
+  .dark, :root {
+    /* Dark mode is the default for this design */
+    --background: 240 10% 3%;
     --foreground: 248 0.3% 98.4%;
     --card: 266 4% 20.8%;
     --card-foreground: 248 0.3% 98.4%;
