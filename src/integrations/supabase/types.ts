@@ -14,7 +14,181 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      access_requests: {
+        Row: {
+          behavioral_data: Json | null
+          created_at: string
+          id: string
+          intent: string
+          notes: string | null
+          patience_score_at_request: number | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          scroll_depth_at_request: number | null
+          status: string
+          time_spent_before_request: number | null
+          visitor_id: string | null
+        }
+        Insert: {
+          behavioral_data?: Json | null
+          created_at?: string
+          id?: string
+          intent: string
+          notes?: string | null
+          patience_score_at_request?: number | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          scroll_depth_at_request?: number | null
+          status?: string
+          time_spent_before_request?: number | null
+          visitor_id?: string | null
+        }
+        Update: {
+          behavioral_data?: Json | null
+          created_at?: string
+          id?: string
+          intent?: string
+          notes?: string | null
+          patience_score_at_request?: number | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          scroll_depth_at_request?: number | null
+          status?: string
+          time_spent_before_request?: number | null
+          visitor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "access_requests_visitor_id_fkey"
+            columns: ["visitor_id"]
+            isOneToOne: false
+            referencedRelation: "visitor_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      node_signals: {
+        Row: {
+          created_at: string
+          id: string
+          message: string | null
+          metadata: Json | null
+          node_id: number
+          node_name: string
+          signal_strength: number | null
+          signal_type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message?: string | null
+          metadata?: Json | null
+          node_id: number
+          node_name: string
+          signal_strength?: number | null
+          signal_type: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string | null
+          metadata?: Json | null
+          node_id?: number
+          node_name?: string
+          signal_strength?: number | null
+          signal_type?: string
+        }
+        Relationships: []
+      }
+      session_events: {
+        Row: {
+          event_data: Json | null
+          event_type: string
+          id: string
+          session_id: string
+          timestamp: string
+          visitor_id: string | null
+        }
+        Insert: {
+          event_data?: Json | null
+          event_type: string
+          id?: string
+          session_id: string
+          timestamp?: string
+          visitor_id?: string | null
+        }
+        Update: {
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+          session_id?: string
+          timestamp?: string
+          visitor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_events_visitor_id_fkey"
+            columns: ["visitor_id"]
+            isOneToOne: false
+            referencedRelation: "visitor_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      visitor_profiles: {
+        Row: {
+          access_level: string
+          created_at: string
+          curiosity_score: number | null
+          deepest_scroll_depth: number | null
+          fingerprint: string
+          first_visit: string
+          id: string
+          impatience_events: number
+          last_visit: string
+          metadata: Json | null
+          nodes_viewed: string[] | null
+          patience_score: number | null
+          total_time_seconds: number
+          updated_at: string
+          visit_count: number
+        }
+        Insert: {
+          access_level?: string
+          created_at?: string
+          curiosity_score?: number | null
+          deepest_scroll_depth?: number | null
+          fingerprint: string
+          first_visit?: string
+          id?: string
+          impatience_events?: number
+          last_visit?: string
+          metadata?: Json | null
+          nodes_viewed?: string[] | null
+          patience_score?: number | null
+          total_time_seconds?: number
+          updated_at?: string
+          visit_count?: number
+        }
+        Update: {
+          access_level?: string
+          created_at?: string
+          curiosity_score?: number | null
+          deepest_scroll_depth?: number | null
+          fingerprint?: string
+          first_visit?: string
+          id?: string
+          impatience_events?: number
+          last_visit?: string
+          metadata?: Json | null
+          nodes_viewed?: string[] | null
+          patience_score?: number | null
+          total_time_seconds?: number
+          updated_at?: string
+          visit_count?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
