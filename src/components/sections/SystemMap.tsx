@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Suspense, lazy } from "react";
+import LivingNode from "@/components/nodes/LivingNode";
 
 const UltimateMapBackground = lazy(() => import("@/components/3d/UltimateMapBackground"));
 
@@ -10,58 +11,45 @@ interface Node {
   category?: string;
 }
 
-// APEX-prefixed node names (MANDATORY)
+// APEX-prefixed node names
 const nodes: Node[] = [
   { id: 1, name: "APEX NDIS Watchtower", status: "Active", category: "Signals" },
   { id: 2, name: "APEX Corporate Translator", status: "Active", category: "Operations" },
   { id: 3, name: "APEX-ATA Ledger", status: "Active", category: "Trust" },
   { id: 4, name: "APEX Grant Radar", status: "Frozen", category: "Capital" },
-  { id: 5, name: "APEX Insurance Wording Drift", status: "Frozen", category: "Risk" },
-  { id: 6, name: "APEX DCP Arbitrage Tracker", status: "Frozen", category: "Markets" },
-  { id: 7, name: "APEX Grid Constraint Watchtower", status: "Frozen", category: "Energy" },
-  { id: 8, name: "APEX Pharma Zombie Detector", status: "Frozen", category: "Health" },
+  { id: 5, name: "APEX Insurance Drift", status: "Frozen", category: "Risk" },
+  { id: 6, name: "APEX DCP Arbitrage", status: "Frozen", category: "Markets" },
+  { id: 7, name: "APEX Grid Constraint", status: "Frozen", category: "Energy" },
+  { id: 8, name: "APEX Pharma Zombie", status: "Frozen", category: "Health" },
   { id: 9, name: "APEX Verified", status: "Frozen", category: "Trust" },
   { id: 10, name: "APEX Optionality Vault", status: "Frozen", category: "Strategy" },
 ];
-
-const getStatusStyles = (status: Node["status"]) => {
-  if (status === "Active") {
-    return {
-      badge: "bg-[hsl(42,90%,55%,0.12)] text-primary border-primary/40",
-      card: "border-primary/20 hover:border-primary/40",
-      glow: "shadow-[0_0_40px_hsl(42,90%,55%,0.08)]",
-    };
-  }
-  return {
-    badge: "bg-muted/20 text-muted-foreground/50 border-muted/20",
-    card: "border-border/10 opacity-60",
-    glow: "",
-  };
-};
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.08 },
+    transition: { staggerChildren: 0.1 },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.96 },
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
-    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 1, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
 export default function SystemMap() {
+  const activeNodes = nodes.filter(n => n.status === "Active");
+  const frozenNodes = nodes.filter(n => n.status === "Frozen");
+
   return (
-    <section id="system-map" className="relative py-24 md:py-32 border-b border-border/10">
+    <section id="system-map" className="relative py-24 md:py-32 border-b border-border/5">
       <div className="container mx-auto px-6 relative z-10">
-        {/* Section Header - ritualistic */}
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -69,15 +57,14 @@ export default function SystemMap() {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-16"
         >
-          <span className="text-[10px] uppercase tracking-[0.5em] text-muted-foreground/50 mb-5 block font-medium">
+          <span className="text-[10px] uppercase tracking-[0.5em] text-muted-foreground/40 mb-5 block font-medium">
             Network Topology
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight text-foreground mb-6 tracking-wide">
-            The <span className="text-gradient-gold font-medium">APEX System Map</span>
+            The <span className="text-gradient-gold font-medium">System Map</span>
           </h2>
-          <p className="text-muted-foreground/60 max-w-2xl mx-auto text-base font-light leading-relaxed tracking-wide">
-            A living constellation of truth nodes. Active pathways illuminate with energy. 
-            Frozen assets await resurrection.
+          <p className="text-muted-foreground/50 max-w-2xl mx-auto text-base font-light leading-relaxed tracking-wide">
+            A living constellation. Active nodes emit signal. Sealed nodes await conditions.
           </p>
         </motion.div>
         
@@ -92,9 +79,9 @@ export default function SystemMap() {
           <Suspense fallback={
             <div className="w-full h-[550px] md:h-[650px] flex items-center justify-center">
               <motion.div 
-                className="w-12 h-12 border border-primary/30 border-t-primary rounded-full"
+                className="w-10 h-10 border border-primary/20 border-t-primary/60 rounded-full"
                 animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
               />
             </div>
           }>
@@ -102,18 +89,18 @@ export default function SystemMap() {
           </Suspense>
         </motion.div>
 
-        {/* Stats - ceremonial presentation */}
+        {/* Living Stats */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="grid grid-cols-3 gap-8 md:gap-16 max-w-3xl mx-auto mb-20"
+          className="grid grid-cols-3 gap-8 md:gap-16 max-w-2xl mx-auto mb-20"
         >
           {[
-            { value: "147", label: "Active Nodes", active: true },
-            { value: "2.4M", label: "Total Value", active: true },
-            { value: "89", label: "Frozen Assets", active: false },
+            { value: activeNodes.length, label: "Active Nodes" },
+            { value: frozenNodes.length, label: "Sealed Nodes" },
+            { value: nodes.length, label: "Total Network" },
           ].map((stat, i) => (
             <motion.div 
               key={i} 
@@ -123,72 +110,71 @@ export default function SystemMap() {
               viewport={{ once: true }}
               transition={{ delay: 0.5 + i * 0.1, duration: 0.8 }}
             >
-              <div className={`text-2xl md:text-4xl font-extralight mb-3 ${
-                stat.active ? "text-primary" : "text-muted-foreground/40"
-              }`}>
+              <motion.div 
+                className={`text-2xl md:text-4xl font-extralight mb-3 ${
+                  i === 0 ? "text-primary" : "text-muted-foreground/40"
+                }`}
+                animate={i === 0 ? { 
+                  textShadow: [
+                    '0 0 20px hsl(42 90% 55% / 0.3)',
+                    '0 0 40px hsl(42 90% 55% / 0.5)',
+                    '0 0 20px hsl(42 90% 55% / 0.3)',
+                  ],
+                } : {}}
+                transition={{ duration: 4, repeat: Infinity }}
+              >
                 {stat.value}
-              </div>
-              <div className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/50 font-medium">
+              </motion.div>
+              <div className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/40 font-medium">
                 {stat.label}
               </div>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Node Cards Grid - floating in Z-space */}
+        {/* Active Nodes - Living */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"
+          className="mb-12"
         >
-          {nodes.map((node) => {
-            const styles = getStatusStyles(node.status);
-            return (
-              <motion.div
-                key={node.id}
-                variants={itemVariants}
-                whileHover={{ 
-                  scale: 1.04, 
-                  y: -8,
-                  rotateX: 2,
-                  rotateY: -1,
-                }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className={`glass-card p-5 group transition-all duration-700 cursor-pointer relative overflow-hidden ${styles.card} ${styles.glow}`}
-              >
-                {/* Hover energy glow */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                
-                {/* Top energy line */}
-                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                
-                <div className="relative z-10">
-                  <div className="flex items-start justify-between gap-2 mb-4">
-                    <span className="text-[9px] text-muted-foreground/30 font-mono tracking-wider">
-                      {String(node.id).padStart(2, "0")}
-                    </span>
-                    <span className={`text-[8px] py-1 px-2.5 rounded-full font-semibold uppercase tracking-[0.15em] border ${styles.badge}`}>
-                      {node.status}
-                    </span>
-                  </div>
-                  <h3 className={`text-sm font-medium leading-snug mb-3 transition-colors duration-500 ${
-                    node.status === "Active" 
-                      ? "text-foreground group-hover:text-primary" 
-                      : "text-muted-foreground/50"
-                  }`}>
-                    {node.name}
-                  </h3>
-                  {node.category && (
-                    <span className="text-[9px] text-muted-foreground/40 uppercase tracking-[0.2em]">
-                      {node.category}
-                    </span>
-                  )}
-                </div>
+          <motion.h3 
+            variants={itemVariants}
+            className="text-[10px] uppercase tracking-[0.4em] text-primary/60 mb-6 text-center"
+          >
+            Active Nodes
+          </motion.h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            {activeNodes.map((node) => (
+              <motion.div key={node.id} variants={itemVariants}>
+                <LivingNode {...node} />
               </motion.div>
-            );
-          })}
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Frozen Nodes - Sealed */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <motion.h3 
+            variants={itemVariants}
+            className="text-[10px] uppercase tracking-[0.4em] text-muted-foreground/30 mb-6 text-center"
+          >
+            Sealed Nodes
+          </motion.h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+            {frozenNodes.map((node) => (
+              <motion.div key={node.id} variants={itemVariants}>
+                <LivingNode {...node} />
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>
