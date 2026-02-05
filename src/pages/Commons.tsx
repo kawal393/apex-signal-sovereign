@@ -70,65 +70,70 @@ const Commons = () => {
       <main className="relative z-10">
         {/* Hero Header with MASSIVE LOGO */}
         <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden border-b border-border/5">
-          {/* Portal rings */}
+          {/* Mystical Portal Rings - Silver/Grey dominant */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <motion.div 
-              className="absolute w-[500px] h-[500px] rounded-full border border-gold/10"
-              animate={{ scale: [1, 1.03, 1], opacity: [0.15, 0.3, 0.15] }}
-              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute w-[400px] h-[400px] rounded-full border border-silver-light/20"
+              animate={{ scale: [1, 1.05, 1], opacity: [0.2, 0.4, 0.2], rotateZ: [0, 180, 360] }}
+              transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.div 
-              className="absolute w-[700px] h-[700px] rounded-full border border-silver-dark/8"
-              animate={{ scale: [1, 1.02, 1], opacity: [0.08, 0.18, 0.08] }}
-              transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              className="absolute w-[550px] h-[550px] rounded-full border border-silver-mid/15"
+              animate={{ scale: [1, 1.03, 1], opacity: [0.15, 0.3, 0.15], rotateZ: [360, 180, 0] }}
+              transition={{ duration: 25, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             />
             <motion.div 
-              className="absolute w-[900px] h-[900px] rounded-full border border-purple-mid/5"
-              animate={{ scale: [1, 1.015, 1], opacity: [0.05, 0.12, 0.05] }}
-              transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+              className="absolute w-[700px] h-[700px] rounded-full border border-grey-500/10"
+              animate={{ scale: [1, 1.02, 1], opacity: [0.1, 0.25, 0.1], rotateZ: [0, -90, 0] }}
+              transition={{ duration: 30, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            />
+            <motion.div 
+              className="absolute w-[900px] h-[900px] rounded-full border border-purple-void/8"
+              animate={{ scale: [1, 1.015, 1], opacity: [0.05, 0.15, 0.05] }}
+              transition={{ duration: 35, repeat: Infinity, ease: "easeInOut", delay: 3 }}
             />
           </div>
           
-          {/* MASSIVE SOVEREIGN LOGO */}
+          {/* MASSIVE SOVEREIGN LOGO - SILVER/GREY MYSTICAL */}
           <div className="absolute inset-0 flex items-center justify-center">
-            {/* Glow layers */}
+            {/* Deep void glow - grey/silver */}
             <motion.div
-              className="absolute blur-3xl"
-              animate={{ opacity: [0.25, 0.45, 0.25], scale: [1, 1.08, 1] }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute blur-[100px]"
+              animate={{ opacity: [0.15, 0.35, 0.15], scale: [1, 1.1, 1] }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
             >
               <img 
                 src={apexLogo} 
                 alt="" 
-                className="w-[400px] md:w-[550px] lg:w-[700px] h-auto"
-                style={{ filter: 'brightness(1.5)' }}
+                className="w-[500px] md:w-[650px] lg:w-[800px] h-auto"
+                style={{ filter: 'grayscale(100%) brightness(2)' }}
               />
             </motion.div>
             
-            {/* Purple accent */}
+            {/* Purple dimensional rift */}
             <motion.div
-              className="absolute blur-[80px]"
-              animate={{ opacity: [0.08, 0.2, 0.08] }}
-              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+              className="absolute blur-[120px]"
+              animate={{ opacity: [0.05, 0.15, 0.05], rotateZ: [0, 10, 0] }}
+              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
             >
               <img 
                 src={apexLogo} 
                 alt="" 
-                className="w-[400px] md:w-[550px] lg:w-[700px] h-auto"
-                style={{ filter: 'hue-rotate(240deg) brightness(0.7)' }}
+                className="w-[500px] md:w-[650px] lg:w-[800px] h-auto"
+                style={{ filter: 'hue-rotate(270deg) brightness(0.5) saturate(2)' }}
               />
             </motion.div>
             
-            {/* Main logo */}
+            {/* Main logo - silver/grey treatment */}
             <motion.img
               src={apexLogo}
               alt=""
-              initial={{ opacity: 0, scale: 1.2, filter: 'blur(30px)' }}
-              animate={{ opacity: 0.75, scale: 1, filter: 'blur(0px)' }}
-              transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] }}
-              className="w-[400px] md:w-[550px] lg:w-[700px] h-auto object-contain relative z-10"
+              initial={{ opacity: 0, scale: 1.3, filter: 'blur(40px)' }}
+              animate={{ opacity: 0.85, scale: 1, filter: 'blur(0px)' }}
+              transition={{ duration: 4, ease: [0.16, 1, 0.3, 1] }}
+              className="w-[500px] md:w-[650px] lg:w-[800px] h-auto object-contain relative z-10"
               style={{
-                filter: 'drop-shadow(0 0 80px hsl(42 100% 55% / 0.35)) drop-shadow(0 0 160px hsl(35 90% 50% / 0.2))',
+                filter: 'grayscale(30%) drop-shadow(0 0 60px hsl(0 0% 70% / 0.4)) drop-shadow(0 0 120px hsl(270 40% 40% / 0.2)) drop-shadow(0 0 200px hsl(0 0% 50% / 0.15))',
               }}
             />
           </div>
@@ -146,13 +151,13 @@ const Commons = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.5, duration: 1.5 }}
               >
-                Infrastructure of Truth
+                The Inevitable Infrastructure
               </motion.span>
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-extralight text-grey-100 tracking-[0.02em] mb-8">
-                <span className="text-gradient-gold font-medium">APEX Commons</span>
+              <h1 className="text-4xl md:text-6xl lg:text-8xl font-extralight text-grey-100 tracking-[0.02em] mb-8">
+                <span className="text-gradient-silver font-medium">APEX SYSTEM</span>
               </h1>
-              <p className="text-lg md:text-xl text-grey-400 font-light max-w-xl mx-auto tracking-wide">
-                The network observes. Verified signal awaits.
+              <p className="text-lg md:text-xl text-grey-500 font-light max-w-xl mx-auto tracking-wide">
+                What must happen, will happen. You are already inside.
               </p>
             </motion.div>
             
@@ -164,27 +169,32 @@ const Commons = () => {
               className="flex flex-wrap items-center justify-center gap-8 mt-16"
             >
               {[
-                { label: "INTELLIGENCE", sigil: "◆", color: "gold" },
-                { label: "ACCESS", sigil: "◈", color: "silver" },
-                { label: "EQUITY", sigil: "◇", color: "crimson" },
+                { label: "INTELLIGENCE", sigil: "◆", color: "silver" },
+                { label: "ACCESS", sigil: "◈", color: "grey" },
+                { label: "INEVITABILITY", sigil: "◇", color: "purple" },
               ].map((item, i) => (
                 <motion.div
                   key={item.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 2.2 + i * 0.15, duration: 0.8 }}
-                  whileHover={{ y: -4, scale: 1.02 }}
-                  className={`group px-6 py-3 text-[9px] uppercase tracking-[0.5em] font-medium flex items-center gap-4 
-                    ${item.color === 'gold' ? 'text-gold/70 border-gold/15' : 
-                      item.color === 'silver' ? 'text-silver-mid/70 border-silver-dark/15' : 
-                      'text-crimson/60 border-crimson/15'} 
-                    border rounded-sm bg-black/50 backdrop-blur-md cursor-default transition-all duration-500`}
+                  initial={{ opacity: 0, y: 20, rotateX: 45 }}
+                  animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                  transition={{ delay: 2.2 + i * 0.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                  whileHover={{ y: -6, scale: 1.03, rotateX: -5 }}
+                  className={`group px-8 py-4 text-[9px] uppercase tracking-[0.5em] font-medium flex items-center gap-4 
+                    ${item.color === 'silver' ? 'text-silver-light/80 border-silver-mid/20' : 
+                      item.color === 'grey' ? 'text-grey-300/70 border-grey-500/20' : 
+                      'text-purple-light/60 border-purple-mid/20'} 
+                    border rounded-sm bg-black/70 backdrop-blur-xl cursor-default transition-all duration-700`}
+                  style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
                 >
-                  <span className={`${item.color === 'gold' ? 'text-gold/50 group-hover:text-gold' : 
-                    item.color === 'silver' ? 'text-silver-mid/40 group-hover:text-silver-light' : 
-                    'text-crimson/40 group-hover:text-crimson'} transition-colors duration-500`}>
+                  <motion.span 
+                    className={`${item.color === 'silver' ? 'text-silver-mid/60 group-hover:text-silver-light' : 
+                      item.color === 'grey' ? 'text-grey-400/50 group-hover:text-grey-200' : 
+                      'text-purple-mid/50 group-hover:text-purple-light'} transition-colors duration-500`}
+                    animate={{ rotateY: [0, 360] }}
+                    transition={{ duration: 20 + i * 5, repeat: Infinity, ease: "linear" }}
+                  >
                     {item.sigil}
-                  </span>
+                  </motion.span>
                   {item.label}
                 </motion.div>
               ))}
