@@ -1,9 +1,11 @@
 // TRUE WEBGL 3D DEPTH - React Three Fiber
-// Cursor-reactive particles that drift toward mouse in real 3D space
+// Cursor-reactive particles + Post-processing (Bloom, Chromatic Aberration)
 
-import { useRef, useMemo, useState, useEffect, useCallback } from 'react';
+import { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
+import { EffectComposer, Bloom, ChromaticAberration, Vignette, Noise } from '@react-three/postprocessing';
+import { BlendFunction } from 'postprocessing';
 import * as THREE from 'three';
 
 // Shared cursor state for 3D projection
@@ -396,6 +398,40 @@ export default function SovereignVoid({ scrollDepth = 0, className = '' }: Sover
         <AmbientParticles count={2000} />
         <SilverOrb />
         <OrbitalRings />
+        
+        {/* POST-PROCESSING EFFECTS */}
+        <EffectComposer>
+          {/* Bloom - makes bright areas glow */}
+          <Bloom
+            intensity={0.8}
+            luminanceThreshold={0.2}
+            luminanceSmoothing={0.9}
+            mipmapBlur={true}
+            radius={0.85}
+          />
+          
+          {/* Chromatic Aberration - RGB split at edges for cinematic depth */}
+          <ChromaticAberration
+            blendFunction={BlendFunction.NORMAL}
+            offset={new THREE.Vector2(0.0015, 0.0012)}
+            radialModulation={true}
+            modulationOffset={0.3}
+          />
+          
+          {/* Vignette - darkened edges for focus */}
+          <Vignette
+            darkness={0.5}
+            offset={0.3}
+            blendFunction={BlendFunction.NORMAL}
+          />
+          
+          {/* Subtle film grain for texture */}
+          <Noise
+            premultiply
+            blendFunction={BlendFunction.SOFT_LIGHT}
+            opacity={0.15}
+          />
+        </EffectComposer>
       </Canvas>
     </div>
   );
