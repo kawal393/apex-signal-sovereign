@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Suspense, lazy } from "react";
 
-const MapBackground = lazy(() => import("@/components/3d/MapBackground"));
+const UltimateMapBackground = lazy(() => import("@/components/3d/UltimateMapBackground"));
 
 interface Node {
   id: number;
@@ -26,9 +26,9 @@ const nodes: Node[] = [
 const getStatusClass = (status: Node["status"]) => {
   switch (status) {
     case "Active":
-      return "bg-[#00d4ff]/15 text-[#00d4ff] border-[#00d4ff]/40 shadow-[0_0_15px_rgba(0,212,255,0.25)]";
+      return "bg-[#00d4ff]/15 text-[#00d4ff] border-[#00d4ff]/50 shadow-[0_0_20px_rgba(0,212,255,0.3)]";
     case "Operating":
-      return "bg-primary/15 text-primary border-primary/40";
+      return "bg-primary/15 text-primary border-primary/50";
     case "Frozen":
       return "bg-muted/10 text-muted-foreground border-muted/20";
   }
@@ -38,55 +38,82 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.06 },
+    transition: { staggerChildren: 0.05 },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 15, scale: 0.95 },
+  hidden: { opacity: 0, y: 20, scale: 0.95 },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
 export default function SystemMap() {
   return (
-    <section id="system-map" className="px-6 py-16 border-b border-border relative overflow-hidden">
-      <div className="max-w-7xl mx-auto relative z-10">
+    <section id="system-map" className="relative py-20 md:py-28 border-b border-border/20">
+      <div className="container mx-auto px-6 relative z-10">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="mb-8 text-center"
+          transition={{ duration: 0.8 }}
+          className="text-center mb-12"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3 block">
+          <span className="text-xs uppercase tracking-[0.35em] text-muted-foreground mb-4 block font-medium">
             Network Topology
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">
-            System Map
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight text-foreground mb-5">
+            The <span className="text-gradient-gold font-medium">System Map</span>
           </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg font-light leading-relaxed">
+            A living network of truth nodes. Active pathways illuminate. Frozen assets await resurrection.
+          </p>
         </motion.div>
-
+        
         {/* 3D Network Visualization */}
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="mb-12 glass-card border-primary/10 overflow-hidden rounded-lg"
+          transition={{ duration: 1, delay: 0.2 }}
+          className="mb-16"
         >
           <Suspense fallback={
-            <div className="w-full h-[500px] md:h-[600px] flex items-center justify-center bg-background/50">
-              <div className="w-10 h-10 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+            <div className="w-full h-[550px] md:h-[650px] flex items-center justify-center">
+              <div className="w-16 h-16 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
             </div>
           }>
-            <MapBackground />
+            <UltimateMapBackground />
           </Suspense>
+        </motion.div>
+
+        {/* Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="grid grid-cols-3 gap-6 md:gap-12 max-w-3xl mx-auto mb-16"
+        >
+          {[
+            { value: "147", label: "Active Nodes", color: "text-[#00d4ff]" },
+            { value: "2.4M", label: "Total Value", color: "text-primary" },
+            { value: "89", label: "Frozen Assets", color: "text-muted-foreground" },
+          ].map((stat, i) => (
+            <div key={i} className="text-center">
+              <div className={`text-2xl md:text-4xl font-light ${stat.color} mb-2`}>
+                {stat.value}
+              </div>
+              <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-medium">
+                {stat.label}
+              </div>
+            </div>
+          ))}
         </motion.div>
 
         {/* Node Cards Grid */}
@@ -95,28 +122,28 @@ export default function SystemMap() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"
         >
           {nodes.map((node) => (
             <motion.div
               key={node.id}
               variants={itemVariants}
-              whileHover={{ scale: 1.03, y: -3 }}
-              className="glass-card p-4 group hover:border-primary/30 transition-all duration-300 cursor-pointer relative overflow-hidden"
+              whileHover={{ scale: 1.04, y: -4 }}
+              className="glass-card p-5 group hover:border-primary/40 transition-all duration-400 cursor-pointer relative overflow-hidden"
             >
               {/* Hover glow effect */}
-              <div className="absolute inset-0 bg-gradient-radial from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-gradient-radial from-primary/8 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
               
               <div className="relative z-10">
-                <div className="flex items-start justify-between gap-2 mb-2">
-                  <span className="text-[10px] text-muted-foreground/40 font-mono">
+                <div className="flex items-start justify-between gap-2 mb-3">
+                  <span className="text-[10px] text-muted-foreground/50 font-mono">
                     {String(node.id).padStart(2, "0")}
                   </span>
-                  <span className={`text-[9px] py-0.5 px-2 rounded-full font-medium uppercase tracking-wider ${getStatusClass(node.status)}`}>
+                  <span className={`text-[9px] py-1 px-2.5 rounded-full font-semibold uppercase tracking-wider ${getStatusClass(node.status)}`}>
                     {node.status}
                   </span>
                 </div>
-                <h3 className="text-xs font-medium text-foreground leading-tight group-hover:text-primary transition-colors duration-300 mb-1">
+                <h3 className="text-sm font-medium text-foreground leading-tight group-hover:text-primary transition-colors duration-300 mb-2">
                   {node.name}
                 </h3>
                 {node.category && (
