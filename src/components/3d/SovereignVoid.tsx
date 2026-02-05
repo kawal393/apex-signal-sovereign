@@ -82,7 +82,7 @@ function CursorReactiveParticles({
     const cursorActive = cursorState.active;
     const time = state.clock.elapsedTime;
     
-    // Process particles in batches for cache efficiency
+    // Process particles - ULTRA SMOOTH physics
     for (let i = 0; i < count; i++) {
       const ix = i * 3;
       const iy = ix + 1;
@@ -92,7 +92,7 @@ function CursorReactiveParticles({
       const py = posArray[iy];
       const pz = posArray[iz];
       
-      // Simplified cursor attraction
+      // Simplified cursor attraction - smoother
       if (cursorActive) {
         const dx = cursorPos.x - px;
         const dy = cursorPos.y - py;
@@ -101,22 +101,22 @@ function CursorReactiveParticles({
         
         if (distSq < 225 && distSq > 0.01) { // 15^2 = 225
           const dist = Math.sqrt(distSq);
-          const force = (1 - dist / 15) * 0.025;
+          const force = (1 - dist / 15) * 0.015; // Gentler force
           velocities[ix] += dx / dist * force;
           velocities[iy] += dy / dist * force;
           velocities[iz] += dz / dist * force;
         }
       }
       
-      // Return to origin
-      velocities[ix] += (origPositions[ix] - px) * 0.004;
-      velocities[iy] += (origPositions[iy] - py) * 0.004;
-      velocities[iz] += (origPositions[iz] - pz) * 0.004;
+      // Return to origin - slower, smoother
+      velocities[ix] += (origPositions[ix] - px) * 0.002;
+      velocities[iy] += (origPositions[iy] - py) * 0.002;
+      velocities[iz] += (origPositions[iz] - pz) * 0.002;
       
-      // Damping and apply
-      velocities[ix] *= 0.94;
-      velocities[iy] *= 0.94;
-      velocities[iz] *= 0.94;
+      // Heavier damping for smoother motion
+      velocities[ix] *= 0.96;
+      velocities[iy] *= 0.96;
+      velocities[iz] *= 0.96;
       
       posArray[ix] += velocities[ix];
       posArray[iy] += velocities[iy];
@@ -124,7 +124,7 @@ function CursorReactiveParticles({
     }
     
     positionAttr.needsUpdate = true;
-    ref.current.rotation.y = time * 0.008;
+    ref.current.rotation.y = time * 0.005; // Slower rotation
   });
 
   return (
@@ -174,14 +174,14 @@ function AmbientParticles({ count = 300 }: { count?: number }) {
     return [positions, colors];
   }, [count]);
 
-  // Slower rotation, update every 3rd frame
+  // Slower rotation, update every 3rd frame - ULTRA SMOOTH
   const frameSkip = useRef(0);
   useFrame((state) => {
     if (!ref.current) return;
     frameSkip.current++;
     if (frameSkip.current % 3 !== 0) return;
-    ref.current.rotation.x = state.clock.elapsedTime * 0.005;
-    ref.current.rotation.y = state.clock.elapsedTime * 0.003;
+    ref.current.rotation.x = state.clock.elapsedTime * 0.003;
+    ref.current.rotation.y = state.clock.elapsedTime * 0.002;
   });
 
   return (
@@ -199,7 +199,7 @@ function AmbientParticles({ count = 300 }: { count?: number }) {
   );
 }
 
-// Central silver orb - OPTIMIZED: lower geometry, skip frames
+// Central silver orb - OPTIMIZED: lower geometry, skip frames, SLOWER pulse
 function SilverOrb() {
   const ref = useRef<THREE.Mesh>(null);
   const glowRef = useRef<THREE.Mesh>(null);
@@ -209,7 +209,7 @@ function SilverOrb() {
     if (!ref.current || !glowRef.current) return;
     frameSkip.current++;
     if (frameSkip.current % 2 !== 0) return;
-    const pulse = Math.sin(state.clock.elapsedTime * 0.3) * 0.12 + 1;
+    const pulse = Math.sin(state.clock.elapsedTime * 0.2) * 0.08 + 1; // Slower, subtler pulse
     ref.current.scale.setScalar(pulse);
     glowRef.current.scale.setScalar(pulse * 2.5);
   });
@@ -228,7 +228,7 @@ function SilverOrb() {
   );
 }
 
-// Orbital rings - OPTIMIZED: 2 rings instead of 4, lower segments
+// Orbital rings - OPTIMIZED: 2 rings, ULTRA SLOW rotation
 function OrbitalRings() {
   const ring1 = useRef<THREE.Mesh>(null);
   const ring2 = useRef<THREE.Mesh>(null);
@@ -239,12 +239,12 @@ function OrbitalRings() {
     if (frameSkip.current % 2 !== 0) return;
     const t = state.clock.elapsedTime;
     if (ring1.current) {
-      ring1.current.rotation.x = t * 0.06;
-      ring1.current.rotation.y = t * 0.08;
+      ring1.current.rotation.x = t * 0.04; // Slower
+      ring1.current.rotation.y = t * 0.05;
     }
     if (ring2.current) {
-      ring2.current.rotation.x = -t * 0.04;
-      ring2.current.rotation.z = t * 0.06;
+      ring2.current.rotation.x = -t * 0.025;
+      ring2.current.rotation.z = t * 0.04;
     }
   });
 
@@ -272,8 +272,8 @@ function LogoPlane() {
   
   useFrame((state) => {
     if (!ref.current) return;
-    // Subtle breathing animation synced with orb
-    const pulse = Math.sin(state.clock.elapsedTime * 0.3) * 0.03 + 1;
+    // Ultra subtle breathing animation synced with orb - SLOWER
+    const pulse = Math.sin(state.clock.elapsedTime * 0.2) * 0.02 + 1;
     ref.current.scale.setScalar(pulse);
   });
 
@@ -363,19 +363,19 @@ function CursorTracker({ cursorState }: { cursorState: CursorState }) {
   return null;
 }
 
-// Camera controller - responds to scroll
+// Camera controller - responds to scroll - ULTRA SMOOTH
 function CameraController({ scrollDepth = 0 }: { scrollDepth: number }) {
   const { camera } = useThree();
 
   useFrame(() => {
-    // Move camera based on scroll - traveling through the void
+    // Move camera based on scroll - traveling through the void - SLOWER interpolation
     const targetZ = 20 - scrollDepth * 15;
     const targetY = scrollDepth * 4;
     const targetX = Math.sin(scrollDepth * Math.PI) * 2;
     
-    camera.position.x += (targetX - camera.position.x) * 0.015;
-    camera.position.y += (targetY - camera.position.y) * 0.015;
-    camera.position.z += (targetZ - camera.position.z) * 0.015;
+    camera.position.x += (targetX - camera.position.x) * 0.008; // Smoother
+    camera.position.y += (targetY - camera.position.y) * 0.008;
+    camera.position.z += (targetZ - camera.position.z) * 0.008;
     
     camera.lookAt(0, 0, 0);
   });

@@ -41,51 +41,51 @@
   .dark, :root {
     /* === THE ABSOLUTE VOID - Pure sovereign black === */
     --background: 0 0% 0%;
-    --foreground: 0 0% 88%;
+    --foreground: 0 0% 75%;
     
-    /* Obsidian surfaces - DEEPER */
-    --card: 0 0% 2%;
-    --card-foreground: 0 0% 85%;
+    /* Obsidian surfaces - ULTRA DEEP */
+    --card: 0 0% 1%;
+    --card-foreground: 0 0% 70%;
     
     --popover: 0 0% 1%;
-    --popover-foreground: 0 0% 85%;
+    --popover-foreground: 0 0% 70%;
     
     /* === SACRED GOLD - Primary sovereign energy === */
     --primary: 42 95% 55%;
     --primary-foreground: 0 0% 0%;
     
     /* Gold spectrum - full range */
-    --gold-light: 48 100% 78%;
-    --gold-bright: 45 100% 68%;
-    --gold-deep: 35 90% 45%;
-    --gold-ember: 28 95% 50%;
+    --gold-light: 48 100% 75%;
+    --gold-bright: 45 100% 65%;
+    --gold-deep: 35 90% 42%;
+    --gold-ember: 28 95% 48%;
     
     /* === SOVEREIGN SILVER === */
-    --silver-light: 0 0% 80%;
-    --silver-mid: 0 0% 55%;
-    --silver-dark: 0 0% 35%;
+    --silver-light: 0 0% 70%;
+    --silver-mid: 0 0% 45%;
+    --silver-dark: 0 0% 28%;
     
     /* === DIMENSIONAL PURPLE === */
-    --purple-light: 280 60% 65%;
-    --purple-mid: 275 50% 45%;
-    --purple-deep: 270 45% 30%;
-    --purple-void: 265 40% 12%;
+    --purple-light: 280 55% 58%;
+    --purple-mid: 275 45% 40%;
+    --purple-deep: 270 40% 25%;
+    --purple-void: 265 35% 10%;
     
     /* === CRIMSON POWER - The chosen accent === */
-    --crimson-bright: 0 80% 55%;
-    --crimson-deep: 355 75% 45%;
-    --crimson-blood: 350 70% 35%;
+    --crimson-bright: 0 75% 50%;
+    --crimson-deep: 355 70% 40%;
+    --crimson-blood: 350 65% 30%;
     
-    /* === NEUTRAL GREY SCALE - DARKER === */
-    --grey-100: 0 0% 90%;
-    --grey-200: 0 0% 70%;
-    --grey-300: 0 0% 55%;
-    --grey-400: 0 0% 40%;
-    --grey-500: 0 0% 28%;
-    --grey-600: 0 0% 16%;
-    --grey-700: 0 0% 10%;
-    --grey-800: 0 0% 6%;
-    --grey-900: 0 0% 3%;
+    /* === NEUTRAL GREY SCALE - ULTRA DARK === */
+    --grey-100: 0 0% 80%;
+    --grey-200: 0 0% 60%;
+    --grey-300: 0 0% 45%;
+    --grey-400: 0 0% 32%;
+    --grey-500: 0 0% 22%;
+    --grey-600: 0 0% 12%;
+    --grey-700: 0 0% 7%;
+    --grey-800: 0 0% 4%;
+    --grey-900: 0 0% 2%;
     
     --secondary: 0 0% 6%;
     --secondary-foreground: 0 0% 85%;
