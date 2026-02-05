@@ -16,7 +16,7 @@ interface CursorState {
 
 // Cursor-reactive particle field - particles drift toward mouse
 function CursorReactiveParticles({ 
-  count = 2000, 
+  count = 800, 
   cursorState 
 }: { 
   count?: number;
@@ -150,7 +150,7 @@ function CursorReactiveParticles({
 }
 
 // Ambient particle field - background depth
-function AmbientParticles({ count = 2000 }: { count?: number }) {
+function AmbientParticles({ count = 600 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null);
   
   const [positions, colors] = useMemo(() => {
@@ -394,8 +394,8 @@ export default function SovereignVoid({ scrollDepth = 0, className = '' }: Sover
         <pointLight position={[0, 0, 0]} intensity={1.5} color="#a0a0b0" />
         <pointLight position={[5, 5, 10]} intensity={0.3} color="#6040a0" />
         
-        <CursorReactiveParticles count={2500} cursorState={cursorState} />
-        <AmbientParticles count={2000} />
+        <CursorReactiveParticles count={800} cursorState={cursorState} />
+        <AmbientParticles count={500} />
         <SilverOrb />
         <OrbitalRings />
         
