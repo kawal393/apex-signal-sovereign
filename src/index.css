@@ -232,24 +232,25 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background: radial-gradient(ellipse at center, hsl(38 90% 55% / 0.08) 0%, transparent 60%);
+    background: radial-gradient(ellipse at center, hsl(38 90% 55% / 0.1) 0%, transparent 60%);
     pointer-events: none;
   }
 
-  /* Golden text gradient */
+  /* Golden text gradient - enhanced */
   .text-gradient-gold {
-    background: linear-gradient(135deg, hsl(45 100% 70%) 0%, hsl(38 90% 55%) 50%, hsl(30 80% 45%) 100%);
+    background: linear-gradient(135deg, hsl(48 100% 75%) 0%, hsl(42 100% 60%) 30%, hsl(38 90% 55%) 60%, hsl(32 85% 48%) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    filter: drop-shadow(0 0 20px hsl(38 90% 55% / 0.4));
   }
 
   /* Ethereal border glow */
   .border-glow {
     box-shadow: 
-      0 0 20px hsl(38 90% 55% / 0.15),
-      0 0 60px hsl(38 90% 55% / 0.1),
-      inset 0 0 20px hsl(38 90% 55% / 0.05);
+      0 0 30px hsl(38 90% 55% / 0.2),
+      0 0 80px hsl(38 90% 55% / 0.12),
+      inset 0 0 30px hsl(38 90% 55% / 0.06);
   }
 }
 
