@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, useMemo } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useState, useMemo, useEffect } from "react";
+import { useNodeSignal } from "@/hooks/useNodeSignals";
 import { useApexSystem } from "@/contexts/ApexSystemContext";
 
 interface LivingNodeProps {
@@ -10,17 +10,9 @@ interface LivingNodeProps {
   category?: string;
 }
 
-interface NodeSignal {
-  id: string;
-  signal_type: string;
-  signal_strength: number;
-  message: string;
-  created_at: string;
-}
-
 export default function LivingNode({ id, name, status, category }: LivingNodeProps) {
+  const lastSignal = useNodeSignal(id);
   const [signalStrength, setSignalStrength] = useState(0.7);
-  const [lastSignal, setLastSignal] = useState<NodeSignal | null>(null);
   const [timeSinceSignal, setTimeSinceSignal] = useState<string>("--");
   const [isHovered, setIsHovered] = useState(false);
   const { trackNodeFocus, trackNodeBlur } = useApexSystem();
@@ -31,49 +23,22 @@ export default function LivingNode({ id, name, status, category }: LivingNodePro
     delay: id * 0.3,
   }), [id]);
 
-  // Fetch real signals for Active nodes
+  // Update signal strength when signal arrives (from shared realtime subscription)
+  useEffect(() => {
+    if (lastSignal) {
+      setSignalStrength(Number(lastSignal.signal_strength) || 0.7);
+    }
+  }, [lastSignal]);
+
+  // Update time since signal display (cheap interval, no network)
   useEffect(() => {
     if (status !== "Active") return;
 
-    const fetchSignals = async () => {
-      const { data } = await supabase
-        .from('node_signals')
-        .select('*')
-        .eq('node_id', id)
-        .order('created_at', { ascending: false })
-        .limit(1);
-
-      if (data && data.length > 0) {
-        setLastSignal(data[0]);
-        setSignalStrength(Number(data[0].signal_strength) || 0.7);
-      }
-    };
-
-    fetchSignals();
-
-    // Real-time subscription for live updates
-    const channel = supabase
-      .channel(`node_${id}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'node_signals',
-          filter: `node_id=eq.${id}`,
-        },
-        (payload) => {
-          const newSignal = payload.new as NodeSignal;
-          setLastSignal(newSignal);
-          setSignalStrength(Number(newSignal.signal_strength) || 0.7);
-        }
-      )
-      .subscribe();
-
-    // Update time since signal
-    const timeInterval = setInterval(() => {
+    const interval = setInterval(() => {
       if (lastSignal) {
-        const seconds = Math.floor((Date.now() - new Date(lastSignal.created_at).getTime()) / 1000);
+        const seconds = Math.floor(
+          (Date.now() - new Date(lastSignal.created_at).getTime()) / 1000
+        );
         if (seconds < 60) {
           setTimeSinceSignal(`${seconds}s ago`);
         } else if (seconds < 3600) {
@@ -82,22 +47,24 @@ export default function LivingNode({ id, name, status, category }: LivingNodePro
           setTimeSinceSignal(`${Math.floor(seconds / 3600)}h ago`);
         }
       }
-    }, 1000);
+    }, 5000); // Update every 5s instead of every 1s
 
-    // Simulate signal fluctuation
-    const fluctuateInterval = setInterval(() => {
-      setSignalStrength(prev => {
-        const delta = (Math.random() - 0.5) * 0.15;
-        return Math.max(0.3, Math.min(1, prev + delta));
+    return () => clearInterval(interval);
+  }, [status, lastSignal]);
+
+  // Very slow signal fluctuation (cosmetic)
+  useEffect(() => {
+    if (status !== "Active") return;
+
+    const interval = setInterval(() => {
+      setSignalStrength((prev) => {
+        const delta = (Math.random() - 0.5) * 0.1;
+        return Math.max(0.4, Math.min(1, prev + delta));
       });
-    }, 3000 + Math.random() * 2000);
+    }, 6000 + id * 500); // Stagger by node id
 
-    return () => {
-      channel.unsubscribe();
-      clearInterval(timeInterval);
-      clearInterval(fluctuateInterval);
-    };
-  }, [status, id, lastSignal]);
+    return () => clearInterval(interval);
+  }, [status, id]);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -108,6 +75,7 @@ export default function LivingNode({ id, name, status, category }: LivingNodePro
     setIsHovered(false);
     trackNodeBlur(name);
   };
+
 
   if (status === "Frozen") {
     // Frozen nodes - completely sealed, no interaction

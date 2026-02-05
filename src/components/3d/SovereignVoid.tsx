@@ -635,18 +635,18 @@ export default function SovereignVoid({
         <SovereignCore />
         <LogoPlane />
         
-        {/* Enhanced post-processing - STRONGER GLOW */}
-        <EffectComposer multisampling={4}>
+        {/* Post-processing - NO multisampling to avoid GPU stalls */}
+        <EffectComposer multisampling={0}>
           <Bloom
-            intensity={0.9}
-            luminanceThreshold={0.15}
-            luminanceSmoothing={0.95}
+            intensity={0.7}
+            luminanceThreshold={0.2}
+            luminanceSmoothing={0.9}
             mipmapBlur
-            radius={0.9}
+            radius={0.75}
           />
           <Vignette
-            darkness={0.55}
-            offset={0.25}
+            darkness={0.5}
+            offset={0.3}
             blendFunction={BlendFunction.NORMAL}
           />
         </EffectComposer>
