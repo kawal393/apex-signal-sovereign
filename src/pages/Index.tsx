@@ -7,7 +7,7 @@ import SovereignVoid from "@/components/3d/SovereignVoid";
 import { useRotatingStatement } from "@/hooks/useRotatingStatement";
 import { usePresence } from "@/hooks/usePresence";
 import { useApexSystem } from "@/contexts/ApexSystemContext";
-import apexLogo from "@/assets/apex-logo.png";
+
 
 const Index = () => {
   const [ritualComplete, setRitualComplete] = useState(false);
@@ -62,70 +62,6 @@ const Index = () => {
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_10%,black/70_55%,black_100%)]" />
             </div>
 
-            {/* MASSIVE SOVEREIGN LOGO - CENTER */}
-            {/* IMPORTANT: keep centering transforms OUTSIDE framer-motion to avoid transform override */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none relative">
-              <motion.div
-                className="relative"
-                initial={{ opacity: 0, scale: 1.15, filter: 'blur(40px)' }}
-                animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                transition={{ duration: 3.2, ease: [0.16, 1, 0.3, 1] }}
-              >
-                {/* Massive glow layers */}
-                <motion.div
-                  className="absolute inset-0 blur-3xl"
-                  animate={{
-                    opacity: [0.25, 0.4, 0.25],
-                    scale: [1, 1.12, 1],
-                  }}
-                  transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <img
-                    src={apexLogo}
-                    alt=""
-                    className="w-[500px] md:w-[700px] lg:w-[900px] h-auto"
-                    style={{ filter: 'brightness(1.25)' }}
-                  />
-                </motion.div>
-
-                {/* Purple accent layer */}
-                <motion.div
-                  className="absolute inset-0 blur-[100px]"
-                  animate={{ opacity: [0.08, 0.18, 0.08] }}
-                  transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                >
-                  <img
-                    src={apexLogo}
-                    alt=""
-                    className="w-[500px] md:w-[700px] lg:w-[900px] h-auto"
-                    style={{ filter: 'hue-rotate(240deg) brightness(0.75)' }}
-                  />
-                </motion.div>
-
-                {/* MAIN LOGO - avoid animating CSS filter (expensive); animate opacity/scale instead */}
-                <motion.img
-                  src={apexLogo}
-                  alt="APEX"
-                  className="w-[500px] md:w-[700px] lg:w-[900px] h-auto object-contain relative z-10"
-                  style={{
-                    filter:
-                      'drop-shadow(0 0 70px hsl(42 95% 55% / 0.35)) drop-shadow(0 0 140px hsl(42 95% 55% / 0.18))',
-                  }}
-                  animate={{ scale: [1, 1.01, 1], opacity: [0.92, 1, 0.92] }}
-                  transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-                />
-
-                {/* Crimson accent ring */}
-                <motion.div
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[800px] lg:w-[1000px] h-[600px] md:h-[800px] lg:h-[1000px] rounded-full border border-crimson/10"
-                  animate={{
-                    scale: [1, 1.04, 1],
-                    opacity: [0.08, 0.16, 0.08],
-                  }}
-                  transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-                />
-              </motion.div>
-            </div>
 
             {/* Status indicator */}
             {status !== 'observer' && (
