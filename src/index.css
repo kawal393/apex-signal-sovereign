@@ -100,68 +100,79 @@
   }
 
   .dark, :root {
-    /* Dark mode - Otherworldly dimension */
-    --background: 260 15% 2%;
-    --foreground: 45 20% 95%;
-    --card: 260 12% 8%;
-    --card-foreground: 45 15% 92%;
-    --popover: 260 15% 6%;
-    --popover-foreground: 45 15% 92%;
+    /* THE VOID - Absolute black space, not darkness */
+    --background: 260 20% 1%;
+    --foreground: 42 15% 92%;
     
-    /* Sacred Gold Primary */
-    --primary: 42 85% 55%;
-    --primary-foreground: 260 20% 5%;
+    /* Dimensional card surfaces */
+    --card: 260 18% 4%;
+    --card-foreground: 42 12% 90%;
     
-    /* Dimensional Gold Variations */
-    --gold-light: 48 100% 75%;
-    --gold-bright: 45 95% 65%;
-    --gold-deep: 35 80% 45%;
+    --popover: 260 20% 3%;
+    --popover-foreground: 42 12% 90%;
+    
+    /* Sacred Gold - Energy, not decoration */
+    --primary: 42 90% 55%;
+    --primary-foreground: 260 25% 3%;
+    
+    /* Gold energy spectrum */
+    --gold-light: 48 100% 78%;
+    --gold-bright: 45 95% 68%;
+    --gold-deep: 35 85% 45%;
     --gold-ember: 28 90% 50%;
     
-    --secondary: 260 10% 15%;
-    --secondary-foreground: 45 15% 90%;
-    --muted: 260 8% 18%;
-    --muted-foreground: 45 8% 55%;
-    --accent: 42 60% 25%;
-    --accent-foreground: 45 20% 95%;
-    --destructive: 0 65% 50%;
-    --destructive-foreground: 45 20% 95%;
-    --border: 42 30% 20%;
-    --input: 42 20% 15%;
-    --ring: 42 70% 50%;
+    --secondary: 260 12% 8%;
+    --secondary-foreground: 42 10% 88%;
     
-    /* Enhanced Status Colors */
-    --status-active: 185 100% 50%;
-    --status-operating: 42 90% 55%;
-    --status-frozen: 260 5% 35%;
+    --muted: 260 10% 12%;
+    --muted-foreground: 42 5% 50%;
     
-    /* Dimensional Glass */
-    --glass-bg: 260 15% 5% / 0.85;
-    --glass-border: 42 50% 50% / 0.15;
-    --glass-glow: 42 90% 55% / 0.2;
+    --accent: 42 50% 20%;
+    --accent-foreground: 42 15% 92%;
     
-    --chart-1: 42 85% 55%;
-    --chart-2: 185 80% 50%;
+    --destructive: 0 60% 45%;
+    --destructive-foreground: 42 15% 92%;
+    
+    --border: 42 25% 15%;
+    --input: 42 15% 10%;
+    --ring: 42 80% 55%;
+    
+    /* Node status - sacred energy levels */
+    --status-active: 42 95% 55%;
+    --status-operating: 35 90% 50%;
+    --status-frozen: 260 8% 30%;
+    
+    /* Dimensional glass */
+    --glass-bg: 260 20% 3% / 0.9;
+    --glass-border: 42 50% 45% / 0.12;
+    --glass-glow: 42 95% 55% / 0.15;
+    
+    --chart-1: 42 90% 55%;
+    --chart-2: 35 85% 50%;
     --chart-3: 28 90% 50%;
-    --chart-4: 320 70% 55%;
-    --chart-5: 260 40% 50%;
-    --sidebar: 260 15% 6%;
-    --sidebar-foreground: 45 15% 92%;
-    --sidebar-primary: 42 85% 55%;
-    --sidebar-primary-foreground: 260 20% 5%;
-    --sidebar-accent: 260 10% 12%;
-    --sidebar-accent-foreground: 45 15% 92%;
-    --sidebar-border: 42 30% 15%;
-    --sidebar-ring: 42 70% 50%;
-    --radius: 0.5rem;
-    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.2);
-    --shadow-xs: 0 1px 4px 0px hsl(0 0% 0% / 0.25);
-    --shadow-sm: 0 2px 8px 0px hsl(0 0% 0% / 0.3), 0 1px 3px -1px hsl(42 90% 55% / 0.1);
-    --shadow: 0 4px 12px 0px hsl(0 0% 0% / 0.35), 0 2px 6px -1px hsl(42 90% 55% / 0.08);
-    --shadow-md: 0 6px 20px 0px hsl(0 0% 0% / 0.4), 0 4px 10px -2px hsl(42 90% 55% / 0.1);
-    --shadow-lg: 0 12px 40px 0px hsl(0 0% 0% / 0.45), 0 8px 20px -4px hsl(42 90% 55% / 0.12);
-    --shadow-xl: 0 20px 60px 0px hsl(0 0% 0% / 0.5), 0 12px 30px -6px hsl(42 90% 55% / 0.15);
-    --shadow-2xl: 0 30px 80px 0px hsl(0 0% 0% / 0.6), 0 0 60px hsl(42 90% 55% / 0.1);
+    --chart-4: 48 100% 70%;
+    --chart-5: 260 30% 40%;
+    
+    --sidebar: 260 20% 3%;
+    --sidebar-foreground: 42 12% 90%;
+    --sidebar-primary: 42 90% 55%;
+    --sidebar-primary-foreground: 260 25% 3%;
+    --sidebar-accent: 260 15% 8%;
+    --sidebar-accent-foreground: 42 12% 90%;
+    --sidebar-border: 42 25% 12%;
+    --sidebar-ring: 42 80% 55%;
+    
+    --radius: 0.375rem;
+    
+    /* Volumetric shadows - depth in Z-space */
+    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.3);
+    --shadow-xs: 0 2px 6px 0px hsl(0 0% 0% / 0.35);
+    --shadow-sm: 0 4px 12px 0px hsl(0 0% 0% / 0.4), 0 2px 4px -1px hsl(42 90% 55% / 0.05);
+    --shadow: 0 8px 24px 0px hsl(0 0% 0% / 0.45), 0 4px 8px -2px hsl(42 90% 55% / 0.06);
+    --shadow-md: 0 12px 36px 0px hsl(0 0% 0% / 0.5), 0 6px 12px -3px hsl(42 90% 55% / 0.08);
+    --shadow-lg: 0 20px 50px 0px hsl(0 0% 0% / 0.55), 0 10px 25px -5px hsl(42 90% 55% / 0.1);
+    --shadow-xl: 0 30px 70px 0px hsl(0 0% 0% / 0.6), 0 15px 35px -8px hsl(42 90% 55% / 0.12);
+    --shadow-2xl: 0 40px 90px 0px hsl(0 0% 0% / 0.7), 0 0 80px hsl(42 90% 55% / 0.08);
   }
 }
 
@@ -183,21 +194,23 @@
 }
 
 @layer components {
-  /* Dimensional Glass Card */
+  /* Dimensional Glass Card - floating in Z-space */
   .glass-card {
-    @apply relative overflow-hidden;
+    @apply relative overflow-hidden rounded-md;
     background: linear-gradient(
       165deg,
-      hsl(260 15% 8% / 0.95) 0%,
-      hsl(260 12% 5% / 0.9) 100%
+      hsl(260 18% 5% / 0.95) 0%,
+      hsl(260 20% 3% / 0.92) 100%
     );
-    border: 1px solid hsl(42 50% 40% / 0.2);
-    backdrop-filter: blur(40px) saturate(1.5);
-    -webkit-backdrop-filter: blur(40px) saturate(1.5);
+    border: 1px solid hsl(42 40% 35% / 0.1);
+    backdrop-filter: blur(40px) saturate(1.4);
+    -webkit-backdrop-filter: blur(40px) saturate(1.4);
     box-shadow: 
-      0 0 0 1px hsl(42 90% 55% / 0.05),
-      0 8px 32px hsl(0 0% 0% / 0.4),
-      inset 0 1px 0 hsl(42 90% 55% / 0.08);
+      0 0 0 1px hsl(42 90% 55% / 0.03),
+      0 15px 50px hsl(0 0% 0% / 0.5),
+      0 5px 20px hsl(0 0% 0% / 0.3),
+      inset 0 1px 0 hsl(42 90% 55% / 0.05);
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .glass-card::before {
@@ -206,51 +219,51 @@
     inset: 0;
     background: linear-gradient(
       135deg,
-      hsl(42 90% 55% / 0.06) 0%,
-      transparent 40%,
-      hsl(42 90% 55% / 0.02) 100%
+      hsl(42 90% 55% / 0.03) 0%,
+      transparent 50%,
+      hsl(42 90% 55% / 0.01) 100%
     );
     pointer-events: none;
   }
 
-  /* Noise Texture Overlay - Subtle film grain */
+  .glass-card:hover {
+    border-color: hsl(42 50% 45% / 0.2);
+    box-shadow: 
+      0 0 0 1px hsl(42 90% 55% / 0.05),
+      0 25px 70px hsl(0 0% 0% / 0.55),
+      0 10px 30px hsl(0 0% 0% / 0.35),
+      0 0 40px hsl(42 90% 55% / 0.05),
+      inset 0 1px 0 hsl(42 90% 55% / 0.08);
+  }
+
+  /* Noise texture - subtle film grain */
   .noise-overlay {
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 9999;
-    opacity: 0.025;
+    opacity: 0.02;
     mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   }
 
-  /* Dimensional Status Chips */
+  /* Node status indicators */
   .status-active {
-    @apply px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest;
-    background: linear-gradient(135deg, hsl(185 100% 50% / 0.2) 0%, hsl(185 100% 40% / 0.1) 100%);
-    color: hsl(185 100% 65%);
-    border: 1px solid hsl(185 100% 50% / 0.5);
+    @apply px-3 py-1 rounded-full text-[9px] font-semibold uppercase tracking-[0.15em];
+    background: linear-gradient(135deg, hsl(42 90% 55% / 0.15) 0%, hsl(35 85% 50% / 0.08) 100%);
+    color: hsl(42 100% 70%);
+    border: 1px solid hsl(42 90% 55% / 0.35);
     box-shadow: 
-      0 0 20px hsl(185 100% 50% / 0.3),
-      0 0 60px hsl(185 100% 50% / 0.15),
-      inset 0 1px 0 hsl(185 100% 70% / 0.2);
-    text-shadow: 0 0 20px hsl(185 100% 50% / 0.8);
-  }
-
-  .status-operating {
-    @apply px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest;
-    background: linear-gradient(135deg, hsl(42 90% 55% / 0.2) 0%, hsl(35 85% 45% / 0.1) 100%);
-    color: hsl(45 100% 70%);
-    border: 1px solid hsl(42 90% 55% / 0.4);
-    box-shadow: 0 0 25px hsl(42 90% 55% / 0.2);
+      0 0 25px hsl(42 90% 55% / 0.2),
+      inset 0 1px 0 hsl(42 100% 75% / 0.15);
     text-shadow: 0 0 15px hsl(42 90% 55% / 0.6);
   }
 
   .status-frozen {
-    @apply px-4 py-1.5 rounded-full text-xs font-medium uppercase tracking-widest;
-    background: hsl(260 10% 15% / 0.6);
-    color: hsl(260 5% 50%);
-    border: 1px solid hsl(260 5% 25%);
+    @apply px-3 py-1 rounded-full text-[9px] font-medium uppercase tracking-[0.15em];
+    background: hsl(260 12% 10% / 0.6);
+    color: hsl(260 5% 45%);
+    border: 1px solid hsl(260 8% 20%);
   }
 
   /* Dimensional Light Bloom */
