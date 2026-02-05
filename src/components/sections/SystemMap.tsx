@@ -6,117 +6,136 @@ const UltimateMapBackground = lazy(() => import("@/components/3d/UltimateMapBack
 interface Node {
   id: number;
   name: string;
-  status: "Active" | "Operating" | "Frozen";
+  status: "Active" | "Frozen";
   category?: string;
 }
 
+// APEX-prefixed node names (MANDATORY)
 const nodes: Node[] = [
-  { id: 1, name: "NDIS Watchtower", status: "Active", category: "Signals" },
-  { id: 2, name: "Corporate Translator", status: "Active", category: "Operations" },
-  { id: 3, name: "APEX-ATA Ledger", status: "Active", category: "Signals" },
-  { id: 4, name: "Grant Radar", status: "Frozen", category: "Capital" },
-  { id: 5, name: "Insurance Wording Drift Watchtower", status: "Frozen", category: "Risk" },
-  { id: 6, name: "DCP Arbitrage Tracker", status: "Frozen", category: "Markets" },
-  { id: 7, name: "Grid Constraint Watchtower", status: "Frozen", category: "Energy" },
-  { id: 8, name: "Pharma Zombie Detector", status: "Frozen", category: "Health" },
+  { id: 1, name: "APEX NDIS Watchtower", status: "Active", category: "Signals" },
+  { id: 2, name: "APEX Corporate Translator", status: "Active", category: "Operations" },
+  { id: 3, name: "APEX-ATA Ledger", status: "Active", category: "Trust" },
+  { id: 4, name: "APEX Grant Radar", status: "Frozen", category: "Capital" },
+  { id: 5, name: "APEX Insurance Wording Drift", status: "Frozen", category: "Risk" },
+  { id: 6, name: "APEX DCP Arbitrage Tracker", status: "Frozen", category: "Markets" },
+  { id: 7, name: "APEX Grid Constraint Watchtower", status: "Frozen", category: "Energy" },
+  { id: 8, name: "APEX Pharma Zombie Detector", status: "Frozen", category: "Health" },
   { id: 9, name: "APEX Verified", status: "Frozen", category: "Trust" },
-  { id: 10, name: "Optionality Vault", status: "Frozen", category: "Strategy" },
+  { id: 10, name: "APEX Optionality Vault", status: "Frozen", category: "Strategy" },
 ];
 
-const getStatusClass = (status: Node["status"]) => {
-  switch (status) {
-    case "Active":
-      return "bg-[#00d4ff]/15 text-[#00d4ff] border-[#00d4ff]/50 shadow-[0_0_20px_rgba(0,212,255,0.3)]";
-    case "Operating":
-      return "bg-primary/15 text-primary border-primary/50";
-    case "Frozen":
-      return "bg-muted/10 text-muted-foreground border-muted/20";
+const getStatusStyles = (status: Node["status"]) => {
+  if (status === "Active") {
+    return {
+      badge: "bg-[hsl(42,90%,55%,0.12)] text-primary border-primary/40",
+      card: "border-primary/20 hover:border-primary/40",
+      glow: "shadow-[0_0_40px_hsl(42,90%,55%,0.08)]",
+    };
   }
+  return {
+    badge: "bg-muted/20 text-muted-foreground/50 border-muted/20",
+    card: "border-border/10 opacity-60",
+    glow: "",
+  };
 };
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.05 },
+    transition: { staggerChildren: 0.08 },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.95 },
+  hidden: { opacity: 0, y: 30, scale: 0.96 },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
 export default function SystemMap() {
   return (
-    <section id="system-map" className="relative py-20 md:py-28 border-b border-border/20">
+    <section id="system-map" className="relative py-24 md:py-32 border-b border-border/10">
       <div className="container mx-auto px-6 relative z-10">
-        {/* Section Header */}
+        {/* Section Header - ritualistic */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12"
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center mb-16"
         >
-          <span className="text-xs uppercase tracking-[0.35em] text-muted-foreground mb-4 block font-medium">
+          <span className="text-[10px] uppercase tracking-[0.5em] text-muted-foreground/50 mb-5 block font-medium">
             Network Topology
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight text-foreground mb-5">
-            The <span className="text-gradient-gold font-medium">System Map</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight text-foreground mb-6 tracking-wide">
+            The <span className="text-gradient-gold font-medium">APEX System Map</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg font-light leading-relaxed">
-            A living network of truth nodes. Active pathways illuminate. Frozen assets await resurrection.
+          <p className="text-muted-foreground/60 max-w-2xl mx-auto text-base font-light leading-relaxed tracking-wide">
+            A living constellation of truth nodes. Active pathways illuminate with energy. 
+            Frozen assets await resurrection.
           </p>
         </motion.div>
         
         {/* 3D Network Visualization */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
+          initial={{ opacity: 0, scale: 0.97 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="mb-16"
+          transition={{ duration: 1.5, delay: 0.3 }}
+          className="mb-20"
         >
           <Suspense fallback={
             <div className="w-full h-[550px] md:h-[650px] flex items-center justify-center">
-              <div className="w-16 h-16 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+              <motion.div 
+                className="w-12 h-12 border border-primary/30 border-t-primary rounded-full"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              />
             </div>
           }>
             <UltimateMapBackground />
           </Suspense>
         </motion.div>
 
-        {/* Stats */}
+        {/* Stats - ceremonial presentation */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="grid grid-cols-3 gap-6 md:gap-12 max-w-3xl mx-auto mb-16"
+          transition={{ duration: 1, delay: 0.4 }}
+          className="grid grid-cols-3 gap-8 md:gap-16 max-w-3xl mx-auto mb-20"
         >
           {[
-            { value: "147", label: "Active Nodes", color: "text-[#00d4ff]" },
-            { value: "2.4M", label: "Total Value", color: "text-primary" },
-            { value: "89", label: "Frozen Assets", color: "text-muted-foreground" },
+            { value: "147", label: "Active Nodes", active: true },
+            { value: "2.4M", label: "Total Value", active: true },
+            { value: "89", label: "Frozen Assets", active: false },
           ].map((stat, i) => (
-            <div key={i} className="text-center">
-              <div className={`text-2xl md:text-4xl font-light ${stat.color} mb-2`}>
+            <motion.div 
+              key={i} 
+              className="text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 + i * 0.1, duration: 0.8 }}
+            >
+              <div className={`text-2xl md:text-4xl font-extralight mb-3 ${
+                stat.active ? "text-primary" : "text-muted-foreground/40"
+              }`}>
                 {stat.value}
               </div>
-              <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-medium">
+              <div className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/50 font-medium">
                 {stat.label}
               </div>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
 
-        {/* Node Cards Grid */}
+        {/* Node Cards Grid - floating in Z-space */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -124,36 +143,52 @@ export default function SystemMap() {
           viewport={{ once: true }}
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"
         >
-          {nodes.map((node) => (
-            <motion.div
-              key={node.id}
-              variants={itemVariants}
-              whileHover={{ scale: 1.04, y: -4 }}
-              className="glass-card p-5 group hover:border-primary/40 transition-all duration-400 cursor-pointer relative overflow-hidden"
-            >
-              {/* Hover glow effect */}
-              <div className="absolute inset-0 bg-gradient-radial from-primary/8 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
-              
-              <div className="relative z-10">
-                <div className="flex items-start justify-between gap-2 mb-3">
-                  <span className="text-[10px] text-muted-foreground/50 font-mono">
-                    {String(node.id).padStart(2, "0")}
-                  </span>
-                  <span className={`text-[9px] py-1 px-2.5 rounded-full font-semibold uppercase tracking-wider ${getStatusClass(node.status)}`}>
-                    {node.status}
-                  </span>
+          {nodes.map((node) => {
+            const styles = getStatusStyles(node.status);
+            return (
+              <motion.div
+                key={node.id}
+                variants={itemVariants}
+                whileHover={{ 
+                  scale: 1.04, 
+                  y: -8,
+                  rotateX: 2,
+                  rotateY: -1,
+                }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className={`glass-card p-5 group transition-all duration-700 cursor-pointer relative overflow-hidden ${styles.card} ${styles.glow}`}
+              >
+                {/* Hover energy glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                
+                {/* Top energy line */}
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                
+                <div className="relative z-10">
+                  <div className="flex items-start justify-between gap-2 mb-4">
+                    <span className="text-[9px] text-muted-foreground/30 font-mono tracking-wider">
+                      {String(node.id).padStart(2, "0")}
+                    </span>
+                    <span className={`text-[8px] py-1 px-2.5 rounded-full font-semibold uppercase tracking-[0.15em] border ${styles.badge}`}>
+                      {node.status}
+                    </span>
+                  </div>
+                  <h3 className={`text-sm font-medium leading-snug mb-3 transition-colors duration-500 ${
+                    node.status === "Active" 
+                      ? "text-foreground group-hover:text-primary" 
+                      : "text-muted-foreground/50"
+                  }`}>
+                    {node.name}
+                  </h3>
+                  {node.category && (
+                    <span className="text-[9px] text-muted-foreground/40 uppercase tracking-[0.2em]">
+                      {node.category}
+                    </span>
+                  )}
                 </div>
-                <h3 className="text-sm font-medium text-foreground leading-tight group-hover:text-primary transition-colors duration-300 mb-2">
-                  {node.name}
-                </h3>
-                {node.category && (
-                  <span className="text-[10px] text-muted-foreground/60 uppercase tracking-wider">
-                    {node.category}
-                  </span>
-                )}
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>
