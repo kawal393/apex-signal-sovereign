@@ -143,17 +143,17 @@ const Commons = () => {
               transition={{ duration: 2, delay: 1, ease: [0.16, 1, 0.3, 1] }}
             >
               <motion.span 
-                className="text-[9px] uppercase tracking-[0.7em] text-grey-500 block mb-8"
+                className="text-[9px] uppercase tracking-[0.7em] text-grey-600 block mb-8"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.5, duration: 1.5 }}
               >
                 The Inevitable Infrastructure
               </motion.span>
-              <h1 className="text-4xl md:text-6xl lg:text-8xl font-extralight text-grey-100 tracking-[0.02em] mb-8">
-                <span className="text-gradient-silver font-medium">APEX SYSTEM</span>
+              <h1 className="text-4xl md:text-6xl lg:text-8xl font-extralight text-grey-500 tracking-[0.02em] mb-8">
+                <span className="text-grey-400 font-medium">APEX SYSTEM</span>
               </h1>
-              <p className="text-lg md:text-xl text-grey-500 font-light max-w-xl mx-auto tracking-wide">
+              <p className="text-lg md:text-xl text-grey-600 font-light max-w-xl mx-auto tracking-wide">
                 What must happen, will happen. You are already inside.
               </p>
             </motion.div>
