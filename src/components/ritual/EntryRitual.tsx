@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useStillness } from "@/hooks/useStillness";
 import { usePresence } from "@/hooks/usePresence";
 import { useApexSystem } from "@/contexts/ApexSystemContext";
-import { useState, useEffect, useCallback, forwardRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface EntryRitualProps {
   onComplete: () => void;
@@ -10,10 +10,7 @@ interface EntryRitualProps {
 
 type RitualPhase = 'void' | 'stillness' | 'presence' | 'audio_offer' | 'reveal';
 
-const EntryRitual = forwardRef<HTMLDivElement, EntryRitualProps>(function EntryRitual(
-  { onComplete },
-  ref
-) {
+export default function EntryRitual({ onComplete }: EntryRitualProps) {
   const [phase, setPhase] = useState<RitualPhase>('void');
   const { isStill, stillnessProgress } = useStillness({ requiredStillnessMs: 4000 });
   const presence = usePresence();
@@ -71,7 +68,6 @@ const EntryRitual = forwardRef<HTMLDivElement, EntryRitualProps>(function EntryR
 
   return (
     <motion.div 
-      ref={ref}
       className="fixed inset-0 z-50 bg-black flex items-center justify-center"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -304,6 +300,4 @@ const EntryRitual = forwardRef<HTMLDivElement, EntryRitualProps>(function EntryR
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,black_100%)]" />
     </motion.div>
   );
-});
-
-export default EntryRitual;
+}
