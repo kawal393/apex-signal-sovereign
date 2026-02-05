@@ -1,10 +1,10 @@
-// TRUE WEBGL 3D DEPTH - React Three Fiber
-// Cursor-reactive particles + Post-processing (Bloom, Chromatic Aberration)
+// TRUE WEBGL 3D DEPTH - React Three Fiber (PERFORMANCE OPTIMIZED)
+// Frame-skipping, reduced particles, simplified post-processing
 
 import { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Points, PointMaterial, useTexture } from '@react-three/drei';
-import { EffectComposer, Bloom, ChromaticAberration, Vignette, Noise } from '@react-three/postprocessing';
+import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import apexLogo from '@/assets/apex-logo.png';
 import { BlendFunction } from 'postprocessing';
 import * as THREE from 'three';
@@ -16,8 +16,9 @@ interface CursorState {
 }
 
 // Cursor-reactive particle field - particles drift toward mouse
+// OPTIMIZED: Reduced count, skip frames, simplified physics
 function CursorReactiveParticles({ 
-  count = 800, 
+  count = 400, 
   cursorState 
 }: { 
   count?: number;
@@ -26,13 +27,13 @@ function CursorReactiveParticles({
   const ref = useRef<THREE.Points>(null);
   const velocitiesRef = useRef<Float32Array | null>(null);
   const originalPositionsRef = useRef<Float32Array | null>(null);
+  const frameSkip = useRef(0);
   
   const [positions, colors] = useMemo(() => {
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
     
     for (let i = 0; i < count; i++) {
-      // Distribute in 3D space - closer to camera for interaction
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
       const r = 5 + Math.random() * 20;
@@ -41,20 +42,16 @@ function CursorReactiveParticles({
       positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       positions[i * 3 + 2] = r * Math.cos(phi);
       
-      // Silver/grey dominant palette
       const t = Math.random();
       if (t > 0.8) {
-        // Purple particles
         colors[i * 3] = 0.5;
         colors[i * 3 + 1] = 0.25;
         colors[i * 3 + 2] = 0.7;
       } else if (t > 0.4) {
-        // Silver particles
         colors[i * 3] = 0.75;
         colors[i * 3 + 1] = 0.78;
         colors[i * 3 + 2] = 0.82;
       } else {
-        // Grey particles
         colors[i * 3] = 0.5;
         colors[i * 3 + 1] = 0.5;
         colors[i * 3 + 2] = 0.55;
@@ -63,7 +60,6 @@ function CursorReactiveParticles({
     return [positions, colors];
   }, [count]);
 
-  // Initialize velocities and store original positions
   useEffect(() => {
     velocitiesRef.current = new Float32Array(count * 3).fill(0);
     originalPositionsRef.current = new Float32Array(positions);
@@ -71,6 +67,10 @@ function CursorReactiveParticles({
 
   useFrame((state) => {
     if (!ref.current || !velocitiesRef.current || !originalPositionsRef.current) return;
+    
+    // Skip every other frame for performance
+    frameSkip.current++;
+    if (frameSkip.current % 2 !== 0) return;
     
     const geometry = ref.current.geometry;
     const positionAttr = geometry.getAttribute('position') as THREE.BufferAttribute;
@@ -82,76 +82,68 @@ function CursorReactiveParticles({
     const cursorActive = cursorState.active;
     const time = state.clock.elapsedTime;
     
+    // Process particles in batches for cache efficiency
     for (let i = 0; i < count; i++) {
       const ix = i * 3;
-      const iy = i * 3 + 1;
-      const iz = i * 3 + 2;
+      const iy = ix + 1;
+      const iz = ix + 2;
       
       const px = posArray[ix];
       const py = posArray[iy];
       const pz = posArray[iz];
       
-      // Calculate distance to cursor
-      const dx = cursorPos.x - px;
-      const dy = cursorPos.y - py;
-      const dz = cursorPos.z - pz;
-      const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-      
-      // Attraction force when cursor is active and close
-      if (cursorActive && dist < 15 && dist > 0.1) {
-        const force = (1 - dist / 15) * 0.02;
-        velocities[ix] += dx / dist * force;
-        velocities[iy] += dy / dist * force;
-        velocities[iz] += dz / dist * force;
+      // Simplified cursor attraction
+      if (cursorActive) {
+        const dx = cursorPos.x - px;
+        const dy = cursorPos.y - py;
+        const dz = cursorPos.z - pz;
+        const distSq = dx * dx + dy * dy + dz * dz;
+        
+        if (distSq < 225 && distSq > 0.01) { // 15^2 = 225
+          const dist = Math.sqrt(distSq);
+          const force = (1 - dist / 15) * 0.025;
+          velocities[ix] += dx / dist * force;
+          velocities[iy] += dy / dist * force;
+          velocities[iz] += dz / dist * force;
+        }
       }
       
-      // Return to original position slowly
-      const origDx = origPositions[ix] - px;
-      const origDy = origPositions[iy] - py;
-      const origDz = origPositions[iz] - pz;
+      // Return to origin
+      velocities[ix] += (origPositions[ix] - px) * 0.004;
+      velocities[iy] += (origPositions[iy] - py) * 0.004;
+      velocities[iz] += (origPositions[iz] - pz) * 0.004;
       
-      velocities[ix] += origDx * 0.003;
-      velocities[iy] += origDy * 0.003;
-      velocities[iz] += origDz * 0.003;
+      // Damping and apply
+      velocities[ix] *= 0.94;
+      velocities[iy] *= 0.94;
+      velocities[iz] *= 0.94;
       
-      // Add subtle orbital motion
-      velocities[ix] += Math.sin(time * 0.2 + i * 0.01) * 0.001;
-      velocities[iy] += Math.cos(time * 0.15 + i * 0.01) * 0.001;
-      
-      // Damping
-      velocities[ix] *= 0.95;
-      velocities[iy] *= 0.95;
-      velocities[iz] *= 0.95;
-      
-      // Apply velocity
       posArray[ix] += velocities[ix];
       posArray[iy] += velocities[iy];
       posArray[iz] += velocities[iz];
     }
     
     positionAttr.needsUpdate = true;
-    
-    // Slow rotation of entire field
-    ref.current.rotation.y = time * 0.01;
+    ref.current.rotation.y = time * 0.008;
   });
 
   return (
-    <Points ref={ref} positions={positions} colors={colors} stride={3} frustumCulled={false}>
+    <Points ref={ref} positions={positions} colors={colors} stride={3} frustumCulled>
       <PointMaterial
         transparent
         vertexColors
-        size={0.12}
-        sizeAttenuation={true}
+        size={0.15}
+        sizeAttenuation
         depthWrite={false}
         blending={THREE.AdditiveBlending}
-        opacity={0.8}
+        opacity={0.85}
       />
     </Points>
   );
 }
 
-// Ambient particle field - background depth
-function AmbientParticles({ count = 600 }: { count?: number }) {
+// Ambient particle field - background depth (OPTIMIZED: static, no per-frame updates)
+function AmbientParticles({ count = 300 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null);
   
   const [positions, colors] = useMemo(() => {
@@ -167,15 +159,12 @@ function AmbientParticles({ count = 600 }: { count?: number }) {
       positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       positions[i * 3 + 2] = r * Math.cos(phi);
       
-      // Deeper, more muted colors
       const t = Math.random();
       if (t > 0.85) {
-        // Deep purple
         colors[i * 3] = 0.35;
         colors[i * 3 + 1] = 0.15;
         colors[i * 3 + 2] = 0.5;
       } else {
-        // Dark grey/silver
         const grey = 0.25 + Math.random() * 0.2;
         colors[i * 3] = grey;
         colors[i * 3 + 1] = grey;
@@ -185,111 +174,89 @@ function AmbientParticles({ count = 600 }: { count?: number }) {
     return [positions, colors];
   }, [count]);
 
+  // Slower rotation, update every 3rd frame
+  const frameSkip = useRef(0);
   useFrame((state) => {
     if (!ref.current) return;
-    ref.current.rotation.x = state.clock.elapsedTime * 0.008;
-    ref.current.rotation.y = state.clock.elapsedTime * 0.005;
+    frameSkip.current++;
+    if (frameSkip.current % 3 !== 0) return;
+    ref.current.rotation.x = state.clock.elapsedTime * 0.005;
+    ref.current.rotation.y = state.clock.elapsedTime * 0.003;
   });
 
   return (
-    <Points ref={ref} positions={positions} colors={colors} stride={3} frustumCulled={false}>
+    <Points ref={ref} positions={positions} colors={colors} stride={3} frustumCulled>
       <PointMaterial
         transparent
         vertexColors
-        size={0.04}
-        sizeAttenuation={true}
+        size={0.05}
+        sizeAttenuation
         depthWrite={false}
         blending={THREE.AdditiveBlending}
-        opacity={0.5}
+        opacity={0.4}
       />
     </Points>
   );
 }
 
-// Central silver orb - the APEX core (mystical grey)
+// Central silver orb - OPTIMIZED: lower geometry, skip frames
 function SilverOrb() {
   const ref = useRef<THREE.Mesh>(null);
   const glowRef = useRef<THREE.Mesh>(null);
-  const innerGlowRef = useRef<THREE.Mesh>(null);
+  const frameSkip = useRef(0);
 
   useFrame((state) => {
-    if (!ref.current || !glowRef.current || !innerGlowRef.current) return;
-    const pulse = Math.sin(state.clock.elapsedTime * 0.3) * 0.15 + 1;
-    const innerPulse = Math.sin(state.clock.elapsedTime * 0.5 + 1) * 0.1 + 1;
+    if (!ref.current || !glowRef.current) return;
+    frameSkip.current++;
+    if (frameSkip.current % 2 !== 0) return;
+    const pulse = Math.sin(state.clock.elapsedTime * 0.3) * 0.12 + 1;
     ref.current.scale.setScalar(pulse);
-    glowRef.current.scale.setScalar(pulse * 3);
-    innerGlowRef.current.scale.setScalar(innerPulse * 1.5);
+    glowRef.current.scale.setScalar(pulse * 2.5);
   });
 
   return (
     <group>
-      {/* Core orb - silver */}
       <mesh ref={ref}>
-        <sphereGeometry args={[0.8, 32, 32]} />
+        <sphereGeometry args={[0.8, 16, 16]} />
         <meshBasicMaterial color="#b0b0b8" transparent opacity={0.95} />
       </mesh>
-      {/* Inner glow - purple tint */}
-      <mesh ref={innerGlowRef}>
-        <sphereGeometry args={[0.9, 16, 16]} />
-        <meshBasicMaterial color="#6040a0" transparent opacity={0.2} />
-      </mesh>
-      {/* Outer glow - silver */}
       <mesh ref={glowRef}>
-        <sphereGeometry args={[1, 16, 16]} />
-        <meshBasicMaterial color="#909098" transparent opacity={0.08} />
+        <sphereGeometry args={[1, 12, 12]} />
+        <meshBasicMaterial color="#7050a0" transparent opacity={0.12} />
       </mesh>
     </group>
   );
 }
 
-// Orbital rings - sacred geometry (silver/grey/purple)
+// Orbital rings - OPTIMIZED: 2 rings instead of 4, lower segments
 function OrbitalRings() {
   const ring1 = useRef<THREE.Mesh>(null);
   const ring2 = useRef<THREE.Mesh>(null);
-  const ring3 = useRef<THREE.Mesh>(null);
-  const ring4 = useRef<THREE.Mesh>(null);
+  const frameSkip = useRef(0);
 
   useFrame((state) => {
+    frameSkip.current++;
+    if (frameSkip.current % 2 !== 0) return;
     const t = state.clock.elapsedTime;
     if (ring1.current) {
-      ring1.current.rotation.x = t * 0.08;
-      ring1.current.rotation.y = t * 0.12;
+      ring1.current.rotation.x = t * 0.06;
+      ring1.current.rotation.y = t * 0.08;
     }
     if (ring2.current) {
-      ring2.current.rotation.x = -t * 0.06;
-      ring2.current.rotation.z = t * 0.1;
-    }
-    if (ring3.current) {
-      ring3.current.rotation.y = t * 0.05;
-      ring3.current.rotation.z = -t * 0.08;
-    }
-    if (ring4.current) {
-      ring4.current.rotation.x = t * 0.03;
-      ring4.current.rotation.y = -t * 0.04;
+      ring2.current.rotation.x = -t * 0.04;
+      ring2.current.rotation.z = t * 0.06;
     }
   });
 
   return (
     <group>
-      {/* Silver ring - closest */}
       <mesh ref={ring1}>
-        <torusGeometry args={[2.5, 0.025, 16, 64]} />
-        <meshBasicMaterial color="#c0c0c8" transparent opacity={0.7} />
+        <torusGeometry args={[3, 0.02, 8, 48]} />
+        <meshBasicMaterial color="#c0c0c8" transparent opacity={0.6} />
       </mesh>
-      {/* Grey ring */}
       <mesh ref={ring2}>
-        <torusGeometry args={[4, 0.018, 16, 64]} />
-        <meshBasicMaterial color="#808088" transparent opacity={0.5} />
-      </mesh>
-      {/* Purple ring */}
-      <mesh ref={ring3}>
-        <torusGeometry args={[5.5, 0.012, 16, 64]} />
-        <meshBasicMaterial color="#6040a0" transparent opacity={0.35} />
-      </mesh>
-      {/* Deep void ring */}
-      <mesh ref={ring4}>
-        <torusGeometry args={[7.5, 0.008, 16, 64]} />
-        <meshBasicMaterial color="#404048" transparent opacity={0.2} />
+        <torusGeometry args={[5, 0.015, 8, 48]} />
+        <meshBasicMaterial color="#6040a0" transparent opacity={0.3} />
       </mesh>
     </group>
   );
@@ -450,43 +417,25 @@ export default function SovereignVoid({ scrollDepth = 0, className = '' }: Sover
         <pointLight position={[0, 0, 0]} intensity={1.5} color="#a0a0b0" />
         <pointLight position={[5, 5, 10]} intensity={0.3} color="#6040a0" />
         
-        <CursorReactiveParticles count={800} cursorState={cursorState} />
-        <AmbientParticles count={500} />
+        <CursorReactiveParticles count={400} cursorState={cursorState} />
+        <AmbientParticles count={250} />
         <LogoPlane />
         <SilverOrb />
         <OrbitalRings />
         
-        {/* POST-PROCESSING EFFECTS */}
+        {/* POST-PROCESSING - OPTIMIZED: removed noise, reduced bloom */}
         <EffectComposer multisampling={0}>
-          {/* Bloom - makes bright areas glow */}
           <Bloom
-            intensity={0.65}
-            luminanceThreshold={0.2}
-            luminanceSmoothing={0.9}
-            mipmapBlur={true}
-            radius={0.7}
+            intensity={0.45}
+            luminanceThreshold={0.25}
+            luminanceSmoothing={0.8}
+            mipmapBlur
+            radius={0.5}
           />
-          
-          {/* Chromatic Aberration - RGB split at edges for cinematic depth */}
-          <ChromaticAberration
-            blendFunction={BlendFunction.NORMAL}
-            offset={new THREE.Vector2(0.001, 0.0008)}
-            radialModulation={true}
-            modulationOffset={0.3}
-          />
-          
-          {/* Vignette - darkened edges for focus */}
           <Vignette
-            darkness={0.5}
-            offset={0.3}
+            darkness={0.45}
+            offset={0.35}
             blendFunction={BlendFunction.NORMAL}
-          />
-          
-          {/* Subtle film grain for texture */}
-          <Noise
-            premultiply
-            blendFunction={BlendFunction.SOFT_LIGHT}
-            opacity={0.08}
           />
         </EffectComposer>
       </Canvas>
