@@ -38,7 +38,7 @@ export default function CommonsCTA() {
 
         {/* Heading - ritualistic */}
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight text-foreground tracking-wide mb-6">
-          Access the <span className="text-gradient-gold font-medium">APEX System</span>
+          Access the <span className="text-gradient-gold font-medium">APEX Infrastructure</span>
         </h2>
 
         {/* Description */}
