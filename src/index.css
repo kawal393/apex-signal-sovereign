@@ -4,6 +4,7 @@
 
 /* THE APEX SYSTEM - Premium Design System
    Ultra-premium, minimal, sovereign, futuristic
+   Golden Ethereal Theme
    All colors in HSL format
 */
 
@@ -11,50 +12,55 @@
 
 @layer base {
   :root {
-    /* Obsidian Dark Theme */
-    --background: 240 6% 4%;
-    --foreground: 0 0% 95%;
+    /* Deep Space Obsidian with warm undertones */
+    --background: 20 8% 4%;
+    --foreground: 45 20% 95%;
     
-    --card: 240 5% 8%;
-    --card-foreground: 0 0% 95%;
+    --card: 20 6% 8%;
+    --card-foreground: 45 20% 95%;
     
-    --popover: 240 5% 6%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 20 6% 6%;
+    --popover-foreground: 45 20% 95%;
     
-    --primary: 185 80% 55%;
-    --primary-foreground: 240 6% 4%;
+    /* Golden Sovereign Primary */
+    --primary: 38 90% 55%;
+    --primary-foreground: 20 8% 4%;
     
-    --secondary: 240 4% 16%;
-    --secondary-foreground: 0 0% 90%;
+    /* Warm amber glow */
+    --primary-glow: 30 95% 50%;
     
-    --muted: 240 4% 14%;
-    --muted-foreground: 240 5% 55%;
+    --secondary: 20 4% 14%;
+    --secondary-foreground: 45 15% 85%;
     
-    --accent: 185 70% 50%;
-    --accent-foreground: 240 6% 4%;
+    --muted: 20 4% 14%;
+    --muted-foreground: 30 8% 50%;
+    
+    --accent: 38 85% 50%;
+    --accent-foreground: 20 8% 4%;
     
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 98%;
     
-    --border: 240 4% 16%;
-    --input: 240 4% 16%;
-    --ring: 185 80% 55%;
+    --border: 30 8% 14%;
+    --input: 30 6% 16%;
+    --ring: 38 90% 55%;
     
     --radius: 0.5rem;
     
-    /* Status Colors */
-    --status-active: 165 82% 51%;
-    --status-operating: 45 93% 58%;
-    --status-frozen: 240 4% 46%;
+    /* Status Colors - Warm spectrum */
+    --status-active: 38 90% 55%;
+    --status-operating: 28 95% 55%;
+    --status-frozen: 20 5% 40%;
     
-    /* Glass Effects */
-    --glass-bg: 240 5% 8% / 0.6;
-    --glass-border: 0 0% 100% / 0.08;
-    --glass-glow: 185 80% 55% / 0.15;
+    /* Glass Effects - Warm tint */
+    --glass-bg: 20 6% 8% / 0.7;
+    --glass-border: 38 50% 50% / 0.12;
+    --glass-glow: 38 90% 55% / 0.15;
     
     /* Gradients */
-    --gradient-radial: radial-gradient(ellipse at center, hsl(185 80% 55% / 0.08) 0%, transparent 70%);
-    --gradient-spotlight: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), hsl(185 80% 55% / 0.06), transparent 40%);
+    --gradient-radial: radial-gradient(ellipse at center, hsl(38 90% 55% / 0.1) 0%, transparent 70%);
+    --gradient-spotlight: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), hsl(38 90% 55% / 0.08), transparent 40%);
+    --gradient-golden: linear-gradient(135deg, hsl(38 90% 55%) 0%, hsl(30 95% 50%) 50%, hsl(25 90% 45%) 100%);
   }
 
   .dark {
@@ -80,7 +86,7 @@
 }
 
 @layer components {
-  /* Glassmorphism Card */
+  /* Glassmorphism Card - Golden */
   .glass-card {
     @apply relative overflow-hidden rounded-lg;
     background: hsl(var(--glass-bg));
@@ -95,7 +101,7 @@
     inset: 0;
     background: linear-gradient(
       135deg,
-      hsl(0 0% 100% / 0.04) 0%,
+      hsl(38 90% 55% / 0.03) 0%,
       transparent 50%
     );
     pointer-events: none;
@@ -107,16 +113,17 @@
     inset: 0;
     pointer-events: none;
     z-index: 9999;
-    opacity: 0.03;
+    opacity: 0.035;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   }
   
-  /* Status Chips */
+  /* Status Chips - Golden theme */
   .status-active {
     @apply px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wider;
     background: hsl(var(--status-active) / 0.15);
     color: hsl(var(--status-active));
-    border: 1px solid hsl(var(--status-active) / 0.3);
+    border: 1px solid hsl(var(--status-active) / 0.4);
+    box-shadow: 0 0 20px hsl(var(--status-active) / 0.2);
   }
   
   .status-operating {
@@ -133,15 +140,40 @@
     border: 1px solid hsl(var(--status-frozen) / 0.2);
   }
   
-  /* Light Bloom Effect */
+  /* Light Bloom Effect - Golden */
   .light-bloom {
     position: absolute;
-    width: 600px;
-    height: 600px;
+    width: 800px;
+    height: 800px;
     border-radius: 50%;
-    background: radial-gradient(circle, hsl(185 80% 55% / 0.08) 0%, transparent 70%);
-    filter: blur(60px);
+    background: radial-gradient(circle, hsl(38 90% 55% / 0.12) 0%, hsl(30 95% 50% / 0.05) 40%, transparent 70%);
+    filter: blur(80px);
     pointer-events: none;
+  }
+  
+  /* Sacred geometry glow */
+  .sacred-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, hsl(38 90% 55% / 0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  
+  /* Golden text gradient */
+  .text-gradient-gold {
+    background: linear-gradient(135deg, hsl(45 100% 70%) 0%, hsl(38 90% 55%) 50%, hsl(30 80% 45%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Ethereal border glow */
+  .border-glow {
+    box-shadow: 
+      0 0 20px hsl(38 90% 55% / 0.15),
+      0 0 60px hsl(38 90% 55% / 0.1),
+      inset 0 0 20px hsl(38 90% 55% / 0.05);
   }
 }
 
@@ -165,6 +197,14 @@
   .animate-glow {
     animation: glow 3s ease-in-out infinite alternate;
   }
+  
+  .animate-shimmer {
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  
+  .animate-sacred-pulse {
+    animation: sacred-pulse 4s ease-in-out infinite;
+  }
 }
 
 @keyframes float {
@@ -187,9 +227,31 @@
 
 @keyframes glow {
   from {
-    box-shadow: 0 0 20px hsl(185 80% 55% / 0.2);
+    box-shadow: 0 0 20px hsl(38 90% 55% / 0.3);
   }
   to {
-    box-shadow: 0 0 40px hsl(185 80% 55% / 0.4);
+    box-shadow: 0 0 60px hsl(38 90% 55% / 0.5);
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes sacred-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
   }
 }

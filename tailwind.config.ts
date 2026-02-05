@@ -55,6 +55,11 @@ export default {
           operating: "hsl(var(--status-operating))",
           frozen: "hsl(var(--status-frozen))",
         },
+        gold: {
+          DEFAULT: "hsl(38 90% 55%)",
+          bright: "hsl(45 100% 70%)",
+          deep: "hsl(30 80% 40%)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
