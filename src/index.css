@@ -39,16 +39,16 @@
   }
 
   .dark, :root {
-    /* === THE VOID - Absolute sovereign black === */
+    /* === THE ABSOLUTE VOID - Pure sovereign black === */
     --background: 0 0% 0%;
-    --foreground: 0 0% 92%;
+    --foreground: 0 0% 88%;
     
-    /* Obsidian surfaces */
-    --card: 0 0% 3%;
-    --card-foreground: 0 0% 90%;
+    /* Obsidian surfaces - DEEPER */
+    --card: 0 0% 2%;
+    --card-foreground: 0 0% 85%;
     
-    --popover: 0 0% 2%;
-    --popover-foreground: 0 0% 90%;
+    --popover: 0 0% 1%;
+    --popover-foreground: 0 0% 85%;
     
     /* === SACRED GOLD - Primary sovereign energy === */
     --primary: 42 95% 55%;
@@ -61,31 +61,31 @@
     --gold-ember: 28 95% 50%;
     
     /* === SOVEREIGN SILVER === */
-    --silver-light: 0 0% 85%;
-    --silver-mid: 0 0% 65%;
-    --silver-dark: 0 0% 45%;
+    --silver-light: 0 0% 80%;
+    --silver-mid: 0 0% 55%;
+    --silver-dark: 0 0% 35%;
     
     /* === DIMENSIONAL PURPLE === */
-    --purple-light: 280 60% 70%;
-    --purple-mid: 275 50% 50%;
-    --purple-deep: 270 45% 35%;
-    --purple-void: 265 40% 15%;
+    --purple-light: 280 60% 65%;
+    --purple-mid: 275 50% 45%;
+    --purple-deep: 270 45% 30%;
+    --purple-void: 265 40% 12%;
     
     /* === CRIMSON POWER - The chosen accent === */
     --crimson-bright: 0 80% 55%;
     --crimson-deep: 355 75% 45%;
     --crimson-blood: 350 70% 35%;
     
-    /* === NEUTRAL GREY SCALE === */
-    --grey-100: 0 0% 95%;
-    --grey-200: 0 0% 80%;
-    --grey-300: 0 0% 65%;
-    --grey-400: 0 0% 50%;
-    --grey-500: 0 0% 35%;
-    --grey-600: 0 0% 20%;
-    --grey-700: 0 0% 12%;
-    --grey-800: 0 0% 8%;
-    --grey-900: 0 0% 4%;
+    /* === NEUTRAL GREY SCALE - DARKER === */
+    --grey-100: 0 0% 90%;
+    --grey-200: 0 0% 70%;
+    --grey-300: 0 0% 55%;
+    --grey-400: 0 0% 40%;
+    --grey-500: 0 0% 28%;
+    --grey-600: 0 0% 16%;
+    --grey-700: 0 0% 10%;
+    --grey-800: 0 0% 6%;
+    --grey-900: 0 0% 3%;
     
     --secondary: 0 0% 6%;
     --secondary-foreground: 0 0% 85%;
