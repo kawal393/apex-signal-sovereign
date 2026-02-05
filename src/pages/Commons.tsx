@@ -12,68 +12,88 @@ const TempleBackground = lazy(() => import("@/components/3d/TempleBackground"));
 
 const Commons = () => {
   return (
-    <div className="relative min-h-screen bg-background">
+    <div className="relative min-h-screen bg-[#050508]">
       {/* Noise overlay */}
       <div className="noise-overlay" />
-      
-      {/* 3D Temple Background for header */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <Suspense fallback={null}>
-          <TempleBackground />
-        </Suspense>
-      </div>
       
       {/* Navigation */}
       <ApexNav />
       
       {/* Main Content */}
-      <main className="relative z-10 pt-32">
-        {/* Page Header with enhanced effects */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="px-6 pb-24 border-b border-border relative"
-        >
-          {/* Header glow */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-radial from-primary/15 to-transparent blur-[80px]" />
+      <main className="relative z-10 pt-24">
+        {/* Hero Header with Temple Background */}
+        <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden border-b border-border">
+          {/* 3D Temple Background */}
+          <div className="absolute inset-0">
+            <Suspense fallback={null}>
+              <TempleBackground />
+            </Suspense>
           </div>
           
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="flex items-start gap-8 flex-col md:flex-row md:items-center">
-              {/* Mini logo with glow */}
-              <motion.div 
-                className="relative"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                <div className="absolute inset-0 bg-gradient-radial from-primary/30 to-transparent blur-[30px]" />
-                <img 
-                  src={apexLogo} 
-                  alt="APEX" 
-                  className="h-20 w-auto object-contain relative z-10 drop-shadow-[0_0_40px_rgba(212,160,32,0.5)]"
-                />
-              </motion.div>
-              
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-2 h-2 rounded-full bg-status-active animate-pulse shadow-[0_0_15px_rgba(212,160,32,0.8)]" />
-                  <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                    Public Portal
-                  </span>
-                </div>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight">
-                  The Commons
-                </h1>
-                <p className="mt-4 text-lg text-muted-foreground max-w-xl">
-                  Operational intelligence infrastructure. Real-time signal monitoring.
-                </p>
+          {/* Content overlay */}
+          <div className="relative z-10 text-center px-6 py-20">
+            {/* Logo with glow */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-8 relative"
+            >
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-48 h-48 bg-gradient-radial from-primary/40 to-transparent blur-[50px]" />
               </div>
-            </div>
+              <img 
+                src={apexLogo} 
+                alt="APEX" 
+                className="h-28 md:h-36 w-auto mx-auto relative z-10 drop-shadow-[0_0_50px_rgba(212,160,32,0.6)]"
+              />
+            </motion.div>
+            
+            {/* Title */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <h1 className="text-3xl md:text-5xl font-light text-foreground tracking-wide mb-4">
+                APEX <span className="text-muted-foreground">—</span>{" "}
+                <span className="text-gradient-gold font-medium">Infrastructure of Truth.</span>
+              </h1>
+            </motion.div>
+            
+            {/* Category chips - like reference */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="flex flex-wrap items-center justify-center gap-3 mt-8"
+            >
+              {[
+                { label: "INTELLIGENCE", color: "primary" },
+                { label: "ACCESS", color: "destructive" },
+                { label: "EQUITY", color: "destructive" },
+              ].map((chip, i) => (
+                <div
+                  key={chip.label}
+                  className={`px-5 py-2 glass-card text-xs uppercase tracking-[0.2em] font-medium flex items-center gap-2
+                    ${chip.color === "primary" ? "text-primary border-primary/30" : "text-[#e07040] border-[#e07040]/30"}
+                  `}
+                >
+                  {chip.color === "destructive" && (
+                    <span className="text-[#e07040]">♥</span>
+                  )}
+                  {chip.label}
+                  {chip.color === "primary" && (
+                    <span className="text-primary">▸</span>
+                  )}
+                </div>
+              ))}
+            </motion.div>
           </div>
-        </motion.section>
+          
+          {/* Bottom gradient fade */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050508] to-transparent" />
+        </section>
         
         {/* System Map with 3D Network */}
         <SystemMap />
