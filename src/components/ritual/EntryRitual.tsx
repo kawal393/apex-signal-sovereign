@@ -12,7 +12,7 @@ type RitualPhase = 'void' | 'stillness' | 'presence' | 'audio_offer' | 'reveal';
 
 export default function EntryRitual({ onComplete }: EntryRitualProps) {
   const [phase, setPhase] = useState<RitualPhase>('void');
-  const { isStill, stillnessProgress } = useStillness({ requiredStillnessMs: 4000 });
+  const { isStill, stillnessProgress } = useStillness({ requiredStillnessMs: 6500 });
   const presence = usePresence();
   const { enableAudio, isReturningVisitor, returnCount, status } = useApexSystem();
   const [audioAccepted, setAudioAccepted] = useState(false);
@@ -26,7 +26,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
   // Phase progression
   useEffect(() => {
     if (phase === 'void') {
-      const timer = setTimeout(() => setPhase('stillness'), 1000);
+      const timer = setTimeout(() => setPhase('stillness'), 2000);
       return () => clearTimeout(timer);
     }
   }, [phase]);
@@ -39,14 +39,14 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
 
   useEffect(() => {
     if (phase === 'presence') {
-      const timer = setTimeout(() => setPhase('audio_offer'), 2800);
+      const timer = setTimeout(() => setPhase('audio_offer'), 6500);
       return () => clearTimeout(timer);
     }
   }, [phase]);
 
   useEffect(() => {
     if (phase === 'reveal') {
-      const timer = setTimeout(onComplete, 1800);
+      const timer = setTimeout(onComplete, 4500);
       return () => clearTimeout(timer);
     }
   }, [phase, onComplete]);
@@ -61,7 +61,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
 
   // Skip directly to reveal for patient returning visitors
   useEffect(() => {
-    if (isReturningVisitor && returnCount > 2 && phase === 'stillness' && stillnessProgress > 0.3) {
+    if (isReturningVisitor && returnCount > 3 && phase === 'stillness' && stillnessProgress > 0.7) {
       setPhase('presence');
     }
   }, [isReturningVisitor, returnCount, phase, stillnessProgress]);
