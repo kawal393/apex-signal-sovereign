@@ -3,8 +3,9 @@
 
 import { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Points, PointMaterial } from '@react-three/drei';
+import { Points, PointMaterial, useTexture } from '@react-three/drei';
 import { EffectComposer, Bloom, ChromaticAberration, Vignette, Noise } from '@react-three/postprocessing';
+import apexLogo from '@/assets/apex-logo.png';
 import { BlendFunction } from 'postprocessing';
 import * as THREE from 'three';
 
@@ -294,6 +295,61 @@ function OrbitalRings() {
   );
 }
 
+// 3D Logo Plane - embedded in the scene with depth and occlusion
+function LogoPlane() {
+  const ref = useRef<THREE.Group>(null);
+  const texture = useTexture(apexLogo);
+  
+  // Configure texture for proper transparency
+  texture.premultiplyAlpha = false;
+  
+  useFrame((state) => {
+    if (!ref.current) return;
+    // Subtle breathing animation synced with orb
+    const pulse = Math.sin(state.clock.elapsedTime * 0.3) * 0.03 + 1;
+    ref.current.scale.setScalar(pulse);
+  });
+
+  return (
+    <group ref={ref} position={[0, 0, 2]}>
+      {/* Outer glow layer - large, very subtle */}
+      <mesh position={[0, 0, -0.2]} renderOrder={1}>
+        <planeGeometry args={[12, 12]} />
+        <meshBasicMaterial
+          color="#6040a0"
+          transparent
+          opacity={0.04}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+      
+      {/* Inner glow layer - silver ambient */}
+      <mesh position={[0, 0, -0.1]} renderOrder={2}>
+        <planeGeometry args={[8, 8]} />
+        <meshBasicMaterial
+          color="#a0a0b0"
+          transparent
+          opacity={0.06}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+      
+      {/* Main logo plane */}
+      <mesh renderOrder={3}>
+        <planeGeometry args={[6, 6]} />
+        <meshBasicMaterial
+          map={texture}
+          transparent
+          depthWrite={false}
+          opacity={0.95}
+        />
+      </mesh>
+    </group>
+  );
+}
+
 // Cursor tracker - projects 2D mouse to 3D space
 function CursorTracker({ cursorState }: { cursorState: CursorState }) {
   const { camera, size } = useThree();
@@ -396,6 +452,7 @@ export default function SovereignVoid({ scrollDepth = 0, className = '' }: Sover
         
         <CursorReactiveParticles count={800} cursorState={cursorState} />
         <AmbientParticles count={500} />
+        <LogoPlane />
         <SilverOrb />
         <OrbitalRings />
         
