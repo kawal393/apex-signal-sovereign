@@ -143,7 +143,7 @@ export default function AccessTiers() {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section Header - MASSIVE FONTS */}
+        {/* Section Header - MASSIVE FONTS - READABLE */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -151,13 +151,13 @@ export default function AccessTiers() {
           viewport={{ once: true }}
           className="mb-24 text-center"
         >
-          <span className="text-[12px] uppercase tracking-[0.8em] text-grey-600 mb-8 block font-normal">
+          <span className="text-[12px] uppercase tracking-[0.8em] text-grey-400 mb-8 block font-normal">
             Access Protocol
           </span>
-          <h2 className="text-5xl md:text-6xl lg:text-8xl font-extralight text-grey-400 tracking-wide mb-8">
+          <h2 className="text-5xl md:text-6xl lg:text-8xl font-extralight text-grey-100 tracking-wide mb-8">
             Tiered <span className="text-gradient-gold font-normal">Access</span>
           </h2>
-          <p className="text-xl md:text-2xl text-grey-600 max-w-3xl mx-auto font-extralight leading-relaxed tracking-wide">
+          <p className="text-xl md:text-2xl text-grey-300 max-w-3xl mx-auto font-extralight leading-relaxed tracking-wide">
             Entry is not purchased. It is recognized. Your behavior determines your elevation.
           </p>
         </motion.div>
@@ -205,13 +205,13 @@ export default function AccessTiers() {
                   </div>
                 </div>
 
-                {/* Tier name - MASSIVE */}
-                <h3 className="text-3xl md:text-4xl font-normal text-foreground mb-5 tracking-wide">
+                {/* Tier name - MASSIVE - READABLE */}
+                <h3 className="text-3xl md:text-4xl font-normal text-grey-100 mb-5 tracking-wide">
                   {tier.name}
                 </h3>
                 
                 {/* Description */}
-                <p className="text-lg text-grey-500 leading-relaxed mb-10 font-extralight">
+                <p className="text-lg text-grey-300 leading-relaxed mb-10 font-extralight">
                   {tier.description}
                 </p>
 

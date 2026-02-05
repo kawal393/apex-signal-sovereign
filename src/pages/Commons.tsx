@@ -141,7 +141,7 @@ const Commons = () => {
             />
           </div>
           
-          {/* Content overlay - MASSIVE FONTS */}
+          {/* Content overlay - MASSIVE FONTS with READABLE COLORS */}
           <div className="relative z-20 text-center px-6 py-24 mt-24">
             <motion.div
               initial={{ opacity: 0, y: 80 }}
@@ -149,28 +149,28 @@ const Commons = () => {
               transition={{ duration: 3.5, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
               <motion.span 
-                className="text-[11px] md:text-[13px] uppercase tracking-[1em] text-grey-500 block mb-12"
+                className="text-[11px] md:text-[13px] uppercase tracking-[1em] text-grey-300 block mb-12"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.8, duration: 2.5 }}
               >
                 The Inevitable Infrastructure
               </motion.span>
-              <h1 className="text-6xl md:text-8xl lg:text-[12rem] font-extralight text-grey-500 tracking-[0.04em] mb-12 leading-[0.85]">
-                <span className="text-grey-400 font-normal">APEX</span>
+              <h1 className="text-6xl md:text-8xl lg:text-[12rem] font-extralight text-grey-100 tracking-[0.04em] mb-12 leading-[0.85]">
+                <span className="text-grey-100 font-normal">APEX</span>
               </h1>
-              <h2 className="text-3xl md:text-5xl lg:text-6xl font-extralight text-grey-600 tracking-[0.2em] mb-12">
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-extralight text-grey-300 tracking-[0.2em] mb-12">
                 SYSTEM
               </h2>
-              <p className="text-xl md:text-2xl lg:text-3xl text-grey-500 font-extralight max-w-3xl mx-auto tracking-wider leading-relaxed">
+              <p className="text-xl md:text-2xl lg:text-3xl text-grey-200 font-extralight max-w-3xl mx-auto tracking-wider leading-relaxed">
                 What must happen, will happen.
               </p>
-              <p className="text-lg md:text-xl text-grey-600 font-extralight mt-4 tracking-widest">
+              <p className="text-lg md:text-xl text-grey-400 font-extralight mt-4 tracking-widest">
                 You are already inside.
               </p>
             </motion.div>
             
-            {/* Category sigils - LARGER */}
+            {/* Category sigils - LARGER with READABLE COLORS */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
@@ -189,15 +189,15 @@ const Commons = () => {
                   transition={{ delay: 3.2 + i * 0.3, duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
                   whileHover={{ y: -10, scale: 1.08 }}
                   className={`group px-10 py-6 text-[11px] md:text-[13px] uppercase tracking-[0.6em] font-normal flex items-center gap-6 
-                    ${item.color === 'silver' ? 'text-silver-light/60 border-silver-dark/15' : 
-                      item.color === 'grey' ? 'text-grey-400/50 border-grey-700/15' : 
-                      'text-purple-light/40 border-purple-deep/12'} 
+                    ${item.color === 'silver' ? 'text-silver-light border-silver-mid/30' : 
+                      item.color === 'grey' ? 'text-grey-200 border-grey-500/30' : 
+                      'text-purple-light border-purple-mid/30'} 
                     border rounded-lg bg-black/90 backdrop-blur-2xl cursor-default transition-all duration-1000`}
                 >
                   <motion.span 
-                    className={`${item.color === 'silver' ? 'text-silver-mid/40 group-hover:text-silver-light' : 
-                      item.color === 'grey' ? 'text-grey-600/30 group-hover:text-grey-400' : 
-                      'text-purple-deep/30 group-hover:text-purple-light'} transition-colors duration-1000 text-xl`}
+                    className={`${item.color === 'silver' ? 'text-silver-mid group-hover:text-silver-light' : 
+                      item.color === 'grey' ? 'text-grey-400 group-hover:text-grey-200' : 
+                      'text-purple-mid group-hover:text-purple-light'} transition-colors duration-1000 text-xl`}
                     animate={{ rotateY: [0, 360] }}
                     transition={{ duration: 35 + i * 8, repeat: Infinity, ease: "linear" }}
                   >

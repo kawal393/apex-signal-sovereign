@@ -85,7 +85,7 @@ export default function ActivityFeed() {
   return (
     <section className="px-6 py-24 md:py-32 border-b border-border/5 relative overflow-hidden">
       <div className="max-w-4xl mx-auto">
-        {/* Section Header */}
+        {/* Section Header - READABLE */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -94,10 +94,10 @@ export default function ActivityFeed() {
           className="mb-12 flex items-center justify-between"
         >
           <div>
-            <span className="text-[11px] uppercase tracking-[0.6em] text-grey-500 mb-4 block font-medium">
+            <span className="text-[11px] uppercase tracking-[0.6em] text-grey-400 mb-4 block font-medium">
               System Activity
             </span>
-            <h2 className="text-3xl md:text-4xl font-extralight text-grey-300 tracking-wide">
+            <h2 className="text-3xl md:text-4xl font-extralight text-grey-100 tracking-wide">
               Live <span className="text-gradient-gold font-medium">Signal Feed</span>
             </h2>
           </div>

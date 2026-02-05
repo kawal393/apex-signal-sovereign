@@ -91,7 +91,7 @@ export default function FeaturedNodes() {
       </div>
       
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Section Header - MASSIVE FONTS */}
+        {/* Section Header - MASSIVE FONTS - READABLE */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -99,13 +99,13 @@ export default function FeaturedNodes() {
           viewport={{ once: true }}
           className="mb-24 text-center"
         >
-          <span className="text-[12px] uppercase tracking-[0.8em] text-grey-600 mb-8 block font-normal">
+          <span className="text-[12px] uppercase tracking-[0.8em] text-grey-400 mb-8 block font-normal">
             Active Nodes
           </span>
-          <h2 className="text-5xl md:text-6xl lg:text-8xl font-extralight text-grey-400 tracking-wide">
+          <h2 className="text-5xl md:text-6xl lg:text-8xl font-extralight text-grey-100 tracking-wide">
             Featured <span className="text-gradient-gold font-normal">Nodes</span>
           </h2>
-          <p className="text-xl md:text-2xl text-grey-600 mt-8 max-w-2xl mx-auto font-extralight tracking-wide">
+          <p className="text-xl md:text-2xl text-grey-300 mt-8 max-w-2xl mx-auto font-extralight tracking-wide">
             The infrastructure that never sleeps. Click to explore.
           </p>
         </motion.div>
@@ -178,11 +178,11 @@ export default function FeaturedNodes() {
                     </span>
                   </div>
 
-                  {/* Content - MASSIVE FONTS */}
-                  <h3 className="text-2xl md:text-3xl font-normal text-foreground mb-5 group-hover:text-primary transition-colors duration-800 tracking-wide">
+                  {/* Content - MASSIVE FONTS - READABLE */}
+                  <h3 className="text-2xl md:text-3xl font-normal text-grey-100 mb-5 group-hover:text-primary transition-colors duration-800 tracking-wide">
                     {node.name}
                   </h3>
-                  <p className="text-base text-grey-400 leading-relaxed">
+                  <p className="text-lg text-grey-300 leading-relaxed">
                     {node.description}
                   </p>
 
