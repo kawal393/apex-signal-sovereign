@@ -1,36 +1,38 @@
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import ApexFooter from "@/components/layout/ApexFooter";
 import SystemMap from "@/components/sections/SystemMap";
 import FeaturedNodes from "@/components/sections/FeaturedNodes";
 import AccessRequest from "@/components/sections/AccessRequest";
-import WatchingVoid from "@/components/effects/WatchingVoid";
+import SovereignVoid from "@/components/3d/SovereignVoid";
 import { usePresence } from "@/hooks/usePresence";
 import { useApexSystem } from "@/contexts/ApexSystemContext";
-import apexHeroBg from "@/assets/apex-hero-bg.png";
-import { useEffect } from "react";
-import { audioPresence } from "@/lib/audioPresence";
+import apexLogo from "@/assets/apex-logo.png";
+import { advancedAudioPresence } from "@/lib/audioPresenceAdvanced";
 
 const Commons = () => {
   const presence = usePresence();
   const { isAudioEnabled, status, playThresholdTone } = useApexSystem();
-  const atmosphereIntensity = presence.timeOfDay === 'night' ? 'medium' : 'subtle';
+  const [scrollDepth, setScrollDepth] = useState(0);
 
-  // Track scroll depth for audio
+  // Track scroll depth for 3D camera and audio
   useEffect(() => {
-    if (!isAudioEnabled) return;
-
     let lastSection = 0;
     
     const handleScroll = () => {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const depth = maxScroll > 0 ? window.scrollY / maxScroll : 0;
-      audioPresence.updateScrollDepth(depth);
+      setScrollDepth(depth);
       
-      // Play threshold tone when crossing section boundaries
-      const currentSection = Math.floor(depth * 4);
-      if (currentSection !== lastSection && currentSection > 0) {
-        playThresholdTone();
-        lastSection = currentSection;
+      if (isAudioEnabled) {
+        advancedAudioPresence.updateScrollDepth(depth);
+        
+        // Play threshold tone when crossing section boundaries
+        const currentSection = Math.floor(depth * 4);
+        if (currentSection !== lastSection && currentSection > 0) {
+          playThresholdTone();
+          lastSection = currentSection;
+        }
       }
     };
 
@@ -40,8 +42,15 @@ const Commons = () => {
 
   return (
     <div className="relative min-h-screen bg-black">
-      {/* The Watching Void */}
-      <WatchingVoid intensity={atmosphereIntensity} particleCount={50} />
+      {/* TRUE WEBGL 3D VOID */}
+      <SovereignVoid scrollDepth={scrollDepth} className="fixed inset-0 z-0" />
+      
+      {/* Atmospheric overlays */}
+      <div className="fixed inset-0 pointer-events-none z-[1]">
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-black to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black to-transparent" />
+      </div>
       
       {/* Status indicator */}
       {status !== 'observer' && (
@@ -51,7 +60,7 @@ const Commons = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
         >
-          <span className="text-[8px] uppercase tracking-[0.3em] text-primary/40 bg-black/50 px-3 py-1.5 rounded-sm border border-primary/10">
+          <span className="text-[8px] uppercase tracking-[0.3em] text-gold/50 bg-black/70 px-4 py-2 rounded-sm border border-gold/15">
             {status === 'acknowledged' ? 'Acknowledged' : 'Under Consideration'}
           </span>
         </motion.div>
@@ -59,93 +68,121 @@ const Commons = () => {
       
       {/* Main Content */}
       <main className="relative z-10">
-        {/* Hero Header */}
-        <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden border-b border-border/5">
+        {/* Hero Header with MASSIVE LOGO */}
+        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden border-b border-border/5">
           {/* Portal rings */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <motion.div 
-              className="absolute w-[400px] h-[400px] rounded-full"
-              style={{
-                border: '1px solid hsl(42 50% 50% / 0.06)',
-                boxShadow: '0 0 60px hsl(42 90% 55% / 0.02)',
-              }}
-              animate={{ scale: [1, 1.02, 1], opacity: [0.12, 0.25, 0.12] }}
-              transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute w-[500px] h-[500px] rounded-full border border-gold/10"
+              animate={{ scale: [1, 1.03, 1], opacity: [0.15, 0.3, 0.15] }}
+              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.div 
-              className="absolute w-[650px] h-[650px] rounded-full"
-              style={{ border: '1px solid hsl(42 40% 45% / 0.03)' }}
-              animate={{ scale: [1, 1.015, 1], opacity: [0.06, 0.15, 0.06] }}
-              transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+              className="absolute w-[700px] h-[700px] rounded-full border border-silver-dark/8"
+              animate={{ scale: [1, 1.02, 1], opacity: [0.08, 0.18, 0.08] }}
+              transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            />
+            <motion.div 
+              className="absolute w-[900px] h-[900px] rounded-full border border-purple-mid/5"
+              animate={{ scale: [1, 1.015, 1], opacity: [0.05, 0.12, 0.05] }}
+              transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 4 }}
             />
           </div>
           
-          {/* APEX Image */}
+          {/* MASSIVE SOVEREIGN LOGO */}
           <div className="absolute inset-0 flex items-center justify-center">
+            {/* Glow layers */}
+            <motion.div
+              className="absolute blur-3xl"
+              animate={{ opacity: [0.25, 0.45, 0.25], scale: [1, 1.08, 1] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <img 
+                src={apexLogo} 
+                alt="" 
+                className="w-[400px] md:w-[550px] lg:w-[700px] h-auto"
+                style={{ filter: 'brightness(1.5)' }}
+              />
+            </motion.div>
+            
+            {/* Purple accent */}
+            <motion.div
+              className="absolute blur-[80px]"
+              animate={{ opacity: [0.08, 0.2, 0.08] }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+            >
+              <img 
+                src={apexLogo} 
+                alt="" 
+                className="w-[400px] md:w-[550px] lg:w-[700px] h-auto"
+                style={{ filter: 'hue-rotate(240deg) brightness(0.7)' }}
+              />
+            </motion.div>
+            
+            {/* Main logo */}
             <motion.img
-              src={apexHeroBg}
+              src={apexLogo}
               alt=""
-              initial={{ opacity: 0, scale: 1.1, filter: 'blur(25px)' }}
-              animate={{ opacity: 0.6, scale: 1, filter: 'blur(0px)' }}
+              initial={{ opacity: 0, scale: 1.2, filter: 'blur(30px)' }}
+              animate={{ opacity: 0.75, scale: 1, filter: 'blur(0px)' }}
               transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] }}
-              className="w-auto h-[65vh] object-contain"
+              className="w-[400px] md:w-[550px] lg:w-[700px] h-auto object-contain relative z-10"
               style={{
-                filter: 'drop-shadow(0 0 100px hsl(42 100% 55% / 0.25)) drop-shadow(0 0 200px hsl(35 90% 50% / 0.1))',
+                filter: 'drop-shadow(0 0 80px hsl(42 100% 55% / 0.35)) drop-shadow(0 0 160px hsl(35 90% 50% / 0.2))',
               }}
             />
-          </div>
-          
-          {/* Atmospheric overlays */}
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-black to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 h-80 bg-gradient-to-t from-black via-black/90 to-transparent" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_15%,black/60_60%)]" />
           </div>
           
           {/* Content overlay */}
-          <div className="relative z-10 text-center px-6 py-20 mt-16">
+          <div className="relative z-20 text-center px-6 py-20 mt-20">
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.5, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 2, delay: 1, ease: [0.16, 1, 0.3, 1] }}
             >
               <motion.span 
-                className="text-[9px] uppercase tracking-[0.6em] text-muted-foreground/35 block mb-6"
+                className="text-[9px] uppercase tracking-[0.7em] text-grey-500 block mb-8"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.2, duration: 1.2 }}
+                transition={{ delay: 1.5, duration: 1.5 }}
               >
                 Infrastructure of Truth
               </motion.span>
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-extralight text-foreground tracking-[0.02em] mb-6">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-extralight text-grey-100 tracking-[0.02em] mb-8">
                 <span className="text-gradient-gold font-medium">APEX Commons</span>
               </h1>
-              <p className="text-base md:text-lg text-muted-foreground/45 font-light max-w-xl mx-auto tracking-wide">
+              <p className="text-lg md:text-xl text-grey-400 font-light max-w-xl mx-auto tracking-wide">
                 The network observes. Verified signal awaits.
               </p>
             </motion.div>
             
             {/* Category sigils */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, delay: 1.8 }}
-              className="flex flex-wrap items-center justify-center gap-6 mt-14"
+              transition={{ duration: 1.5, delay: 2 }}
+              className="flex flex-wrap items-center justify-center gap-8 mt-16"
             >
               {[
-                { label: "INTELLIGENCE", sigil: "◆" },
-                { label: "ACCESS", sigil: "◈" },
-                { label: "EQUITY", sigil: "◇" },
+                { label: "INTELLIGENCE", sigil: "◆", color: "gold" },
+                { label: "ACCESS", sigil: "◈", color: "silver" },
+                { label: "EQUITY", sigil: "◇", color: "crimson" },
               ].map((item, i) => (
                 <motion.div
                   key={item.label}
-                  initial={{ opacity: 0, y: 15 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 2 + i * 0.15, duration: 0.8 }}
-                  whileHover={{ y: -3 }}
-                  className="group px-5 py-2.5 text-[8px] uppercase tracking-[0.4em] font-medium flex items-center gap-3 text-primary/50 border border-primary/8 rounded-sm bg-black/30 backdrop-blur-sm cursor-default"
+                  transition={{ delay: 2.2 + i * 0.15, duration: 0.8 }}
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  className={`group px-6 py-3 text-[9px] uppercase tracking-[0.5em] font-medium flex items-center gap-4 
+                    ${item.color === 'gold' ? 'text-gold/70 border-gold/15' : 
+                      item.color === 'silver' ? 'text-silver-mid/70 border-silver-dark/15' : 
+                      'text-crimson/60 border-crimson/15'} 
+                    border rounded-sm bg-black/50 backdrop-blur-md cursor-default transition-all duration-500`}
                 >
-                  <span className="text-primary/30 group-hover:text-primary/50 transition-colors duration-700">
+                  <span className={`${item.color === 'gold' ? 'text-gold/50 group-hover:text-gold' : 
+                    item.color === 'silver' ? 'text-silver-mid/40 group-hover:text-silver-light' : 
+                    'text-crimson/40 group-hover:text-crimson'} transition-colors duration-500`}>
                     {item.sigil}
                   </span>
                   {item.label}

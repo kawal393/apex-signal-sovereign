@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
-import { audioPresence } from '@/lib/audioPresence';
+import { advancedAudioPresence } from '@/lib/audioPresenceAdvanced';
 import { behaviorEngine } from '@/lib/behaviorEngine';
 import { consequenceEngine } from '@/lib/consequenceEngine';
 
@@ -92,15 +92,15 @@ export function ApexSystemProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const enableAudio = useCallback(async () => {
-    const success = await audioPresence.initialize();
+    const success = await advancedAudioPresence.initialize();
     if (success) {
-      audioPresence.fadeIn(3);
+      advancedAudioPresence.fadeIn(4);
       setIsAudioEnabled(true);
     }
   }, []);
 
   const disableAudio = useCallback(() => {
-    audioPresence.fadeOut(2);
+    advancedAudioPresence.fadeOut(2);
     setIsAudioEnabled(false);
   }, []);
 
@@ -114,7 +114,7 @@ export function ApexSystemProvider({ children }: { children: ReactNode }) {
 
   const playThresholdTone = useCallback(() => {
     if (isAudioEnabled) {
-      audioPresence.playThresholdTone(0.5);
+      advancedAudioPresence.playThresholdTone(0.5);
     }
   }, [isAudioEnabled]);
 
@@ -125,13 +125,13 @@ export function ApexSystemProvider({ children }: { children: ReactNode }) {
     const handleMouseMove = (e: MouseEvent) => {
       const x = e.clientX / window.innerWidth;
       const y = e.clientY / window.innerHeight;
-      audioPresence.updateCursor(x, y);
+      advancedAudioPresence.updateCursor(x, y);
     };
     
     const handleScroll = () => {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const depth = maxScroll > 0 ? window.scrollY / maxScroll : 0;
-      audioPresence.updateScrollDepth(depth);
+      advancedAudioPresence.updateScrollDepth(depth);
     };
     
     window.addEventListener('mousemove', handleMouseMove);

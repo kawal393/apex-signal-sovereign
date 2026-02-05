@@ -2,7 +2,7 @@
 // Real responses to visitor behavior
 
 import { behaviorEngine } from './behaviorEngine';
-import { audioPresence } from './audioPresence';
+import { advancedAudioPresence } from './audioPresenceAdvanced';
 
 type ConsequenceType = 
   | 'delay_access'
@@ -76,14 +76,13 @@ class ConsequenceEngine {
 
   private handleImpatience(): void {
     if (this.impatienceCount === 1) {
-      // First offense - subtle warning
-      audioPresence.playImpatienceResponse();
+      advancedAudioPresence.playImpatienceResponse();
     } else if (this.impatienceCount === 2) {
       // Second offense - delay
       this.state.isDelayed = true;
       this.state.delayEndTime = Date.now() + 3000;
       this.state.warningMessage = "Stillness is required.";
-      audioPresence.playImpatienceResponse();
+      advancedAudioPresence.playImpatienceResponse();
       this.notifyListeners();
       
       setTimeout(() => {
@@ -112,7 +111,7 @@ class ConsequenceEngine {
     // Reward patience with reveals
     if (!this.state.revealedContent.includes('patience_reward')) {
       this.state.revealedContent.push('patience_reward');
-      audioPresence.playApprovalTone();
+      advancedAudioPresence.playApprovalTone();
       this.notifyListeners();
     }
   }
@@ -121,7 +120,7 @@ class ConsequenceEngine {
     // Reward curiosity
     if (!this.state.revealedContent.includes('curiosity_reward')) {
       this.state.revealedContent.push('curiosity_reward');
-      audioPresence.playApprovalTone();
+      advancedAudioPresence.playApprovalTone();
       this.notifyListeners();
     }
   }
@@ -208,7 +207,7 @@ class ConsequenceEngine {
         this.state.warningMessage = "The system is watching.";
         break;
       case 'play_sound':
-        audioPresence.playThresholdTone(0.5);
+        advancedAudioPresence.playThresholdTone(0.5);
         break;
     }
     this.notifyListeners();
