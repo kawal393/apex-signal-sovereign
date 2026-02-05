@@ -224,17 +224,17 @@ function SilverOrb() {
     <group>
       {/* Core orb - silver */}
       <mesh ref={ref}>
-        <sphereGeometry args={[0.8, 64, 64]} />
+        <sphereGeometry args={[0.8, 32, 32]} />
         <meshBasicMaterial color="#b0b0b8" transparent opacity={0.95} />
       </mesh>
       {/* Inner glow - purple tint */}
       <mesh ref={innerGlowRef}>
-        <sphereGeometry args={[0.9, 32, 32]} />
+        <sphereGeometry args={[0.9, 16, 16]} />
         <meshBasicMaterial color="#6040a0" transparent opacity={0.2} />
       </mesh>
       {/* Outer glow - silver */}
       <mesh ref={glowRef}>
-        <sphereGeometry args={[1, 32, 32]} />
+        <sphereGeometry args={[1, 16, 16]} />
         <meshBasicMaterial color="#909098" transparent opacity={0.08} />
       </mesh>
     </group>
@@ -272,22 +272,22 @@ function OrbitalRings() {
     <group>
       {/* Silver ring - closest */}
       <mesh ref={ring1}>
-        <torusGeometry args={[2.5, 0.025, 16, 100]} />
+        <torusGeometry args={[2.5, 0.025, 16, 64]} />
         <meshBasicMaterial color="#c0c0c8" transparent opacity={0.7} />
       </mesh>
       {/* Grey ring */}
       <mesh ref={ring2}>
-        <torusGeometry args={[4, 0.018, 16, 100]} />
+        <torusGeometry args={[4, 0.018, 16, 64]} />
         <meshBasicMaterial color="#808088" transparent opacity={0.5} />
       </mesh>
       {/* Purple ring */}
       <mesh ref={ring3}>
-        <torusGeometry args={[5.5, 0.012, 16, 100]} />
+        <torusGeometry args={[5.5, 0.012, 16, 64]} />
         <meshBasicMaterial color="#6040a0" transparent opacity={0.35} />
       </mesh>
       {/* Deep void ring */}
       <mesh ref={ring4}>
-        <torusGeometry args={[7.5, 0.008, 16, 100]} />
+        <torusGeometry args={[7.5, 0.008, 16, 64]} />
         <meshBasicMaterial color="#404048" transparent opacity={0.2} />
       </mesh>
     </group>
@@ -377,9 +377,9 @@ export default function SovereignVoid({ scrollDepth = 0, className = '' }: Sover
     <div className={`absolute inset-0 ${className}`}>
       <Canvas
         camera={{ position: [0, 0, 20], fov: 55 }}
-        dpr={[1, 2]}
+        dpr={[1, 1.25]}
         gl={{ 
-          antialias: true, 
+          antialias: false,
           alpha: true,
           powerPreference: 'high-performance'
         }}
@@ -400,20 +400,20 @@ export default function SovereignVoid({ scrollDepth = 0, className = '' }: Sover
         <OrbitalRings />
         
         {/* POST-PROCESSING EFFECTS */}
-        <EffectComposer>
+        <EffectComposer multisampling={0}>
           {/* Bloom - makes bright areas glow */}
           <Bloom
-            intensity={0.8}
+            intensity={0.65}
             luminanceThreshold={0.2}
             luminanceSmoothing={0.9}
             mipmapBlur={true}
-            radius={0.85}
+            radius={0.7}
           />
           
           {/* Chromatic Aberration - RGB split at edges for cinematic depth */}
           <ChromaticAberration
             blendFunction={BlendFunction.NORMAL}
-            offset={new THREE.Vector2(0.0015, 0.0012)}
+            offset={new THREE.Vector2(0.001, 0.0008)}
             radialModulation={true}
             modulationOffset={0.3}
           />
@@ -429,7 +429,7 @@ export default function SovereignVoid({ scrollDepth = 0, className = '' }: Sover
           <Noise
             premultiply
             blendFunction={BlendFunction.SOFT_LIGHT}
-            opacity={0.15}
+            opacity={0.08}
           />
         </EffectComposer>
       </Canvas>

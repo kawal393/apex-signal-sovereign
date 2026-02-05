@@ -1,6 +1,6 @@
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Sparkles, Stars, Line, Billboard, useTexture } from '@react-three/drei';
-import { useRef, Suspense, useMemo } from 'react';
+import { useRef, Suspense, useMemo, forwardRef } from 'react';
 import * as THREE from 'three';
 import apexLogoSrc from '@/assets/apex-logo.png';
 
@@ -38,7 +38,7 @@ function BackgroundLogo() {
 }
 
 // Ultimate Sacred Pyramid at top
-function TopPyramid() {
+const TopPyramid = forwardRef<THREE.Group, {}>(function TopPyramid(_props, forwardedRef) {
   const groupRef = useRef<THREE.Group>(null);
   const eyeRef = useRef<THREE.Mesh>(null);
   const raysRef = useRef<THREE.Group>(null);
@@ -78,7 +78,15 @@ function TopPyramid() {
   }, []);
 
   return (
-    <group ref={groupRef} position={[0, 2.5, -2]} scale={0.7}>
+    <group
+      ref={(node) => {
+        groupRef.current = node;
+        if (typeof forwardedRef === 'function') forwardedRef(node);
+        else if (forwardedRef) (forwardedRef as any).current = node;
+      }}
+      position={[0, 2.5, -2]}
+      scale={0.7}
+    >
       {/* Main pyramid */}
       {pyramidLines.map((line, i) => (
         <line key={`main-${i}`}>
@@ -154,7 +162,7 @@ function TopPyramid() {
       </mesh>
     </group>
   );
-}
+});
 
 // Network node with enhanced glow
 function NetworkNode({ position, isActive }: { 
@@ -212,7 +220,7 @@ function NetworkNode({ position, isActive }: {
 }
 
 // Central hub - enhanced
-function CentralHub() {
+const CentralHub = forwardRef<THREE.Group, {}>(function CentralHub(_props, forwardedRef) {
   const groupRef = useRef<THREE.Group>(null);
   const coreRef = useRef<THREE.Mesh>(null);
   
@@ -228,7 +236,14 @@ function CentralHub() {
   });
 
   return (
-    <group ref={groupRef} position={[0, 0, 0]}>
+    <group
+      ref={(node) => {
+        groupRef.current = node;
+        if (typeof forwardedRef === 'function') forwardedRef(node);
+        else if (forwardedRef) (forwardedRef as any).current = node;
+      }}
+      position={[0, 0, 0]}
+    >
       {/* Core diamond */}
       <mesh rotation={[0, 0, Math.PI / 4]}>
         <octahedronGeometry args={[0.25, 0]} />
@@ -270,7 +285,7 @@ function CentralHub() {
       </mesh>
     </group>
   );
-}
+});
 
 function Scene() {
   const nodes = useMemo(() => [
@@ -319,9 +334,9 @@ function Scene() {
       <pointLight position={[0, 0, 6]} intensity={0.8} color={CYAN_ACTIVE} />
       <spotLight position={[0, 5, 2]} angle={0.4} penumbra={0.8} intensity={1} color={GOLD_BRIGHT} />
       
-      <Stars radius={100} depth={50} count={5000} factor={4} saturation={0.1} fade speed={0.3} />
-      <Sparkles count={100} scale={10} size={1.5} speed={0.12} color={CYAN_ACTIVE} opacity={0.4} />
-      <Sparkles count={60} scale={8} size={1.2} speed={0.18} color={GOLD_BRIGHT} opacity={0.3} />
+      <Stars radius={100} depth={50} count={2500} factor={4} saturation={0.1} fade speed={0.3} />
+      <Sparkles count={60} scale={10} size={1.5} speed={0.12} color={CYAN_ACTIVE} opacity={0.35} />
+      <Sparkles count={40} scale={8} size={1.2} speed={0.18} color={GOLD_BRIGHT} opacity={0.25} />
       
       <BackgroundLogo />
       <TopPyramid />
@@ -352,8 +367,8 @@ export default function UltimateMapBackground() {
     <div className="w-full h-[550px] md:h-[650px] relative">
       <Canvas
         camera={{ position: [0, 0, 5], fov: 45 }}
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-        dpr={[1, 2]}
+        gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
+        dpr={[1, 1.25]}
       >
         <Suspense fallback={null}>
           <Scene />
