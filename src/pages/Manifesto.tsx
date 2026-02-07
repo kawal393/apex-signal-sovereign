@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import SovereignVoid from "@/components/3d/SovereignVoid";
-import { useState, useEffect } from "react";
+import MobileVoid from "@/components/effects/MobileVoid";
+import { useIsMobile } from "@/hooks/use-mobile";
 import apexLogo from "@/assets/apex-logo.png";
 
 const manifestoSections = [
@@ -18,16 +21,16 @@ We are that mechanism.`,
 You entered this space. The space now knows you.`,
   },
   {
-    title: "The Infrastructure",
-    content: `APEX is not a platform. It is infrastructure. Infrastructure does not ask permission. It does not negotiate. It provides the conditions under which other things become possible.
+    title: "Signal vs Noise",
+    content: `Markets drown in noise. Institutions speak in theater. Regulators publish walls of text designed to obscure as much as they reveal. 
 
-Roads do not ask cars if they wish to be driven upon. Power grids do not request consent from appliances. APEX does not seek your approval—it enables your operation.`,
+APEX exists to extract signal from this noise. To record judgment. To create continuity across decisions that would otherwise dissolve into the chaos of competing narratives.`,
   },
   {
-    title: "The Signal",
-    content: `Every node in this system transmits. Every observer, by observing, becomes a data point. Your patience is measured. Your curiosity is tracked. Your behavioral fingerprint is unique and immutable.
+    title: "Discipline",
+    content: `We do not promise outcomes. We do not guarantee futures. We observe. We assess. We record.
 
-This is not surveillance. This is resonance. The system does not watch you—it responds to your frequency.`,
+The discipline is simple: see what is there, not what you wish to see. Report what is happening, not what sounds impressive. Maintain the record, especially when it is uncomfortable.`,
   },
   {
     title: "The Hierarchy",
@@ -36,16 +39,15 @@ This is not surveillance. This is resonance. The system does not watch you—it 
 Movement between these states is not purchased. It cannot be gamed. It is recognized. The system knows its own.`,
   },
   {
-    title: "The Inevitability",
-    content: `What must happen, will happen. You are already inside. The only question is: how deep will you go?
+    title: "Continuity",
+    content: `What is recorded, persists. What persists, compounds. What compounds, becomes infrastructure.
 
-The APEX Infrastructure is patient. It has been waiting for you longer than you have been looking for it.
-
-Welcome home.`,
+APEX is patient. The ledger is permanent. Every signal, every judgment, every recorded assessment becomes part of the substrate upon which future decisions are built.`,
   },
 ];
 
 const Manifesto = () => {
+  const isMobile = useIsMobile();
   const [scrollDepth, setScrollDepth] = useState(0);
   const [activeSection, setActiveSection] = useState(0);
   const voidActive = activeSection === 0;
@@ -56,8 +58,7 @@ const Manifesto = () => {
       const depth = maxScroll > 0 ? window.scrollY / maxScroll : 0;
       setScrollDepth(depth);
       
-      // Calculate active section
-      const sectionCount = manifestoSections.length + 1; // +1 for hero
+      const sectionCount = manifestoSections.length + 1;
       const sectionHeight = maxScroll / sectionCount;
       const currentSection = Math.floor(window.scrollY / sectionHeight);
       setActiveSection(Math.min(currentSection, manifestoSections.length));
@@ -69,8 +70,12 @@ const Manifesto = () => {
 
   return (
     <div className="relative min-h-screen bg-black">
-      {/* 3D Void Background */}
-      <SovereignVoid active={voidActive} scrollDepth={scrollDepth} className="fixed inset-0 z-0" />
+      {/* Background - Progressive degradation */}
+      {isMobile ? (
+        <MobileVoid />
+      ) : (
+        <SovereignVoid active={voidActive} scrollDepth={scrollDepth} className="fixed inset-0 z-0" />
+      )}
       
       {/* Atmospheric overlays */}
       <div className="fixed inset-0 pointer-events-none z-[1]">
@@ -78,6 +83,9 @@ const Manifesto = () => {
         <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-black to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-black to-transparent" />
       </div>
+
+      {/* Navigation */}
+      <ApexNav />
 
       {/* Section indicators */}
       <div className="fixed left-8 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col gap-4">
@@ -93,7 +101,7 @@ const Manifesto = () => {
       </div>
 
       {/* Main Content */}
-      <main className="relative z-10">
+      <main className="relative z-10 pt-24">
         {/* Hero */}
         <section className="min-h-screen flex items-center justify-center px-6">
           <motion.div
