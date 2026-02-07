@@ -1,7 +1,7 @@
-// TRANSCENDENT WEBGL 3D VOID - Maximum Smoothness
+// TRANSCENDENT WEBGL 3D VOID - Maximum Smoothness + Adaptive Quality
 // Particle trails, enhanced glow, silky 120fps motion
 
-import { useRef, useMemo, useState, useEffect } from 'react';
+import { useRef, useMemo, useState, useEffect, forwardRef, memo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Points, PointMaterial, useTexture, Trail } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
@@ -15,6 +15,24 @@ interface CursorState {
   velocity: THREE.Vector3;
   active: boolean;
 }
+
+// Quality level for adaptive rendering
+type QualityLevel = 'high' | 'medium' | 'low';
+
+interface QualityConfig {
+  starCount: number;
+  particleCount: number;
+  trailCount: number;
+  tendrilCount: number;
+  bloomIntensity: number;
+  geometryDetail: number;
+}
+
+const QUALITY_CONFIGS: Record<QualityLevel, QualityConfig> = {
+  high: { starCount: 300, particleCount: 180, trailCount: 4, tendrilCount: 3, bloomIntensity: 0.35, geometryDetail: 1 },
+  medium: { starCount: 200, particleCount: 120, trailCount: 3, tendrilCount: 2, bloomIntensity: 0.25, geometryDetail: 0.75 },
+  low: { starCount: 100, particleCount: 60, trailCount: 2, tendrilCount: 1, bloomIntensity: 0.15, geometryDetail: 0.5 },
+};
 
 // Check for reduced motion preference
 function usePrefersReducedMotion() {
@@ -31,8 +49,52 @@ function usePrefersReducedMotion() {
   return prefersReduced;
 }
 
+// Visibility-based pausing
+function useVisibility() {
+  const [isVisible, setIsVisible] = useState(true);
+  
+  useEffect(() => {
+    const handleVisibility = () => setIsVisible(!document.hidden);
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, []);
+  
+  return isVisible;
+}
+
+// Adaptive quality based on frame rate
+function useAdaptiveQuality(): QualityLevel {
+  const [quality, setQuality] = useState<QualityLevel>('high');
+  const frameTimesRef = useRef<number[]>([]);
+  const lastCheckRef = useRef(0);
+  
+  useFrame((_, delta) => {
+    frameTimesRef.current.push(delta);
+    lastCheckRef.current += delta;
+    
+    // Check every 2 seconds
+    if (lastCheckRef.current > 2 && frameTimesRef.current.length > 30) {
+      const avgDelta = frameTimesRef.current.reduce((a, b) => a + b) / frameTimesRef.current.length;
+      const fps = 1 / avgDelta;
+      
+      if (fps < 30 && quality !== 'low') {
+        setQuality('low');
+      } else if (fps < 45 && quality === 'high') {
+        setQuality('medium');
+      } else if (fps >= 55 && quality !== 'high') {
+        setQuality('high');
+      }
+      
+      frameTimesRef.current = [];
+      lastCheckRef.current = 0;
+    }
+  });
+  
+  return quality;
+}
+
 // Deep space star field with parallax layers - OPTIMIZED
-function StarField({ count = 300 }: { count?: number }) {
+const StarField = memo(function StarField({ count = 300 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null);
   const timeRef = useRef(0);
   
@@ -71,7 +133,7 @@ function StarField({ count = 300 }: { count?: number }) {
     return [positions, sizes, colors];
   }, [count]);
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (!ref.current) return;
     timeRef.current += delta * 0.15;
     ref.current.rotation.y = timeRef.current * 0.012;
@@ -91,16 +153,16 @@ function StarField({ count = 300 }: { count?: number }) {
       />
     </Points>
   );
-}
+});
 
-// Volumetric nebula clouds
-function NebulaClouds() {
+// Volumetric nebula clouds - REDUCED geometry
+const NebulaClouds = memo(function NebulaClouds() {
   const cloud1 = useRef<THREE.Mesh>(null);
   const cloud2 = useRef<THREE.Mesh>(null);
   const cloud3 = useRef<THREE.Mesh>(null);
   const timeRef = useRef(0);
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     timeRef.current += delta * 0.3;
     const t = timeRef.current;
     if (cloud1.current) {
@@ -120,23 +182,23 @@ function NebulaClouds() {
   return (
     <group>
       <mesh ref={cloud1} position={[-10, 6, -25]}>
-        <sphereGeometry args={[18, 20, 20]} />
+        <sphereGeometry args={[18, 12, 12]} />
         <meshBasicMaterial color="#3a1860" transparent opacity={0.18} side={THREE.BackSide} />
       </mesh>
       <mesh ref={cloud2} position={[12, -4, -30]}>
-        <sphereGeometry args={[15, 20, 20]} />
+        <sphereGeometry args={[15, 12, 12]} />
         <meshBasicMaterial color="#4a2800" transparent opacity={0.12} side={THREE.BackSide} />
       </mesh>
       <mesh ref={cloud3} position={[0, 0, -18]}>
-        <sphereGeometry args={[25, 20, 20]} />
+        <sphereGeometry args={[25, 12, 12]} />
         <meshBasicMaterial color="#1a1a28" transparent opacity={0.25} side={THREE.BackSide} />
       </mesh>
     </group>
   );
-}
+});
 
 // Energy tendrils with trails
-function EnergyTendrils({ count = 4 }: { count?: number }) {
+const EnergyTendrils = memo(function EnergyTendrils({ count = 3 }: { count?: number }) {
   const refs = useRef<THREE.Mesh[]>([]);
   const timeRef = useRef(0);
   
@@ -150,7 +212,7 @@ function EnergyTendrils({ count = 4 }: { count?: number }) {
     }));
   }, [count]);
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     timeRef.current += delta * 0.4;
     const t = timeRef.current;
     refs.current.forEach((mesh, i) => {
@@ -184,205 +246,209 @@ function EnergyTendrils({ count = 4 }: { count?: number }) {
       ))}
     </group>
   );
-}
+});
 
 // PARTICLE TRAILS - orbiting particles with persistent trails
-function ParticleTrails({ count = 4 }: { count?: number }) {
-  const groupRef = useRef<THREE.Group>(null);
-  const particlesRef = useRef<THREE.Mesh[]>([]);
-  const timeRef = useRef(0);
-  
-  const orbits = useMemo(() => {
-    return Array.from({ length: count }, (_, i) => ({
-      radius: 3 + Math.random() * 8,
-      speed: 0.15 + Math.random() * 0.2,
-      phase: (i / count) * Math.PI * 2,
-      tilt: Math.random() * 0.4 - 0.2,
-      yOffset: (Math.random() - 0.5) * 4,
-    }));
-  }, [count]);
-
-  useFrame((state, delta) => {
-    timeRef.current += delta * 0.5;
-    const t = timeRef.current;
+const ParticleTrails = memo(forwardRef<THREE.Group, { count?: number }>(
+  function ParticleTrails({ count = 4 }, _ref) {
+    const groupRef = useRef<THREE.Group>(null);
+    const particlesRef = useRef<THREE.Mesh[]>([]);
+    const timeRef = useRef(0);
     
-    particlesRef.current.forEach((particle, i) => {
-      if (!particle) return;
-      const orbit = orbits[i];
-      const angle = t * orbit.speed + orbit.phase;
-      
-      particle.position.x = Math.cos(angle) * orbit.radius;
-      particle.position.y = Math.sin(angle) * orbit.radius * 0.4 + orbit.yOffset;
-      particle.position.z = Math.sin(angle) * orbit.radius * orbit.tilt;
-      
-      const scale = 0.08 + Math.sin(t * 2 + orbit.phase) * 0.03;
-      particle.scale.setScalar(scale);
-    });
-  });
+    const orbits = useMemo(() => {
+      return Array.from({ length: count }, (_, i) => ({
+        radius: 3 + Math.random() * 8,
+        speed: 0.15 + Math.random() * 0.2,
+        phase: (i / count) * Math.PI * 2,
+        tilt: Math.random() * 0.4 - 0.2,
+        yOffset: (Math.random() - 0.5) * 4,
+      }));
+    }, [count]);
 
-  return (
-    <group ref={groupRef}>
-      {orbits.map((orbit, i) => (
-        <Trail
-          key={i}
-          width={0.8}
-          length={20}
-          color={i % 3 === 0 ? '#e8b84a' : i % 3 === 1 ? '#9070c0' : '#c0c0d0'}
-          attenuation={(t) => t * t}
-        >
-          <mesh ref={(el) => { if (el) particlesRef.current[i] = el; }}>
-            <sphereGeometry args={[0.08, 8, 8]} />
-            <meshBasicMaterial 
-              color={i % 3 === 0 ? '#ffcc55' : i % 3 === 1 ? '#a080d0' : '#d0d0e0'} 
-              transparent 
-              opacity={0.95}
-            />
-          </mesh>
-        </Trail>
-      ))}
-    </group>
-  );
-}
+    useFrame((_, delta) => {
+      timeRef.current += delta * 0.5;
+      const t = timeRef.current;
+      
+      particlesRef.current.forEach((particle, i) => {
+        if (!particle) return;
+        const orbit = orbits[i];
+        const angle = t * orbit.speed + orbit.phase;
+        
+        particle.position.x = Math.cos(angle) * orbit.radius;
+        particle.position.y = Math.sin(angle) * orbit.radius * 0.4 + orbit.yOffset;
+        particle.position.z = Math.sin(angle) * orbit.radius * orbit.tilt;
+        
+        const scale = 0.08 + Math.sin(t * 2 + orbit.phase) * 0.03;
+        particle.scale.setScalar(scale);
+      });
+    });
+
+    return (
+      <group ref={groupRef}>
+        {orbits.map((orbit, i) => (
+          <Trail
+            key={i}
+            width={0.8}
+            length={20}
+            color={i % 3 === 0 ? '#e8b84a' : i % 3 === 1 ? '#9070c0' : '#c0c0d0'}
+            attenuation={(t) => t * t}
+          >
+            <mesh ref={(el) => { if (el) particlesRef.current[i] = el; }}>
+              <sphereGeometry args={[0.08, 6, 6]} />
+              <meshBasicMaterial 
+                color={i % 3 === 0 ? '#ffcc55' : i % 3 === 1 ? '#a080d0' : '#d0d0e0'} 
+                transparent 
+                opacity={0.95}
+              />
+            </mesh>
+          </Trail>
+        ))}
+      </group>
+    );
+  }
+));
 
 // Cursor-reactive particles - ULTRA SMOOTH
-function CursorReactiveParticles({ count = 180, cursorState }: { count?: number; cursorState: CursorState }) {
-  const ref = useRef<THREE.Points>(null);
-  const velocitiesRef = useRef<Float32Array | null>(null);
-  const originalPositionsRef = useRef<Float32Array | null>(null);
-  
-  const [positions, colors] = useMemo(() => {
-    const positions = new Float32Array(count * 3);
-    const colors = new Float32Array(count * 3);
+const CursorReactiveParticles = memo(forwardRef<THREE.Points, { count?: number; cursorState: CursorState }>(
+  function CursorReactiveParticles({ count = 180, cursorState }, _ref) {
+    const ref = useRef<THREE.Points>(null);
+    const velocitiesRef = useRef<Float32Array | null>(null);
+    const originalPositionsRef = useRef<Float32Array | null>(null);
     
-    for (let i = 0; i < count; i++) {
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      const r = 3 + Math.random() * 20;
+    const [positions, colors] = useMemo(() => {
+      const positions = new Float32Array(count * 3);
+      const colors = new Float32Array(count * 3);
       
-      positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-      positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-      positions[i * 3 + 2] = r * Math.cos(phi);
-      
-      const t = Math.random();
-      if (t > 0.82) {
-        colors[i * 3] = 0.95;
-        colors[i * 3 + 1] = 0.75;
-        colors[i * 3 + 2] = 0.35;
-      } else if (t > 0.65) {
-        colors[i * 3] = 0.65;
-        colors[i * 3 + 1] = 0.45;
-        colors[i * 3 + 2] = 0.85;
-      } else {
-        const grey = 0.55 + Math.random() * 0.35;
-        colors[i * 3] = grey;
-        colors[i * 3 + 1] = grey;
-        colors[i * 3 + 2] = grey + 0.12;
-      }
-    }
-    return [positions, colors];
-  }, [count]);
-
-  useEffect(() => {
-    velocitiesRef.current = new Float32Array(count * 3).fill(0);
-    originalPositionsRef.current = new Float32Array(positions);
-  }, [count, positions]);
-
-  useFrame((state, delta) => {
-    if (!ref.current || !velocitiesRef.current || !originalPositionsRef.current) return;
-    
-    const geometry = ref.current.geometry;
-    const positionAttr = geometry.getAttribute('position') as THREE.BufferAttribute;
-    const colorAttr = geometry.getAttribute('color') as THREE.BufferAttribute;
-    const posArray = positionAttr.array as Float32Array;
-    const colorArray = colorAttr.array as Float32Array;
-    const velocities = velocitiesRef.current;
-    const origPositions = originalPositionsRef.current;
-    
-    const cursorPos = cursorState.position;
-    const cursorVel = cursorState.velocity;
-    const cursorActive = cursorState.active;
-    
-    // Smooth delta clamping for consistent physics
-    const smoothDelta = Math.min(delta, 0.033);
-    const timeScale = smoothDelta * 60;
-    
-    for (let i = 0; i < count; i++) {
-      const ix = i * 3;
-      const iy = ix + 1;
-      const iz = ix + 2;
-      
-      const px = posArray[ix];
-      const py = posArray[iy];
-      const pz = posArray[iz];
-      
-      if (cursorActive) {
-        const dx = cursorPos.x - px;
-        const dy = cursorPos.y - py;
-        const dz = cursorPos.z - pz;
-        const distSq = dx * dx + dy * dy + dz * dz;
+      for (let i = 0; i < count; i++) {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        const r = 3 + Math.random() * 20;
         
-        if (distSq < 625 && distSq > 0.01) {
-          const dist = Math.sqrt(distSq);
-          const force = (1 - dist / 25) * 0.018 * timeScale;
-          
-          const swirlX = -cursorVel.y * 0.4;
-          const swirlY = cursorVel.x * 0.4;
-          
-          velocities[ix] += (dx / dist * force) + swirlX * 0.008 * timeScale;
-          velocities[iy] += (dy / dist * force) + swirlY * 0.008 * timeScale;
-          velocities[iz] += dz / dist * force;
-          
-          const brightness = 1 + (1 - dist / 25) * 0.6;
-          colorArray[ix] = Math.min(1, colorArray[ix] * brightness);
-          colorArray[iy] = Math.min(1, colorArray[iy] * brightness);
-          colorArray[iz] = Math.min(1, colorArray[iz] * brightness);
+        positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        positions[i * 3 + 2] = r * Math.cos(phi);
+        
+        const t = Math.random();
+        if (t > 0.82) {
+          colors[i * 3] = 0.95;
+          colors[i * 3 + 1] = 0.75;
+          colors[i * 3 + 2] = 0.35;
+        } else if (t > 0.65) {
+          colors[i * 3] = 0.65;
+          colors[i * 3 + 1] = 0.45;
+          colors[i * 3 + 2] = 0.85;
+        } else {
+          const grey = 0.55 + Math.random() * 0.35;
+          colors[i * 3] = grey;
+          colors[i * 3 + 1] = grey;
+          colors[i * 3 + 2] = grey + 0.12;
         }
       }
+      return [positions, colors];
+    }, [count]);
+
+    useEffect(() => {
+      velocitiesRef.current = new Float32Array(count * 3).fill(0);
+      originalPositionsRef.current = new Float32Array(positions);
+    }, [count, positions]);
+
+    useFrame((_, delta) => {
+      if (!ref.current || !velocitiesRef.current || !originalPositionsRef.current) return;
       
-      const distFromCenter = Math.sqrt(px * px + py * py);
-      if (distFromCenter > 0.1) {
-        const orbitalForce = 0.00025 * timeScale;
-        velocities[ix] += (-py / distFromCenter) * orbitalForce;
-        velocities[iy] += (px / distFromCenter) * orbitalForce;
+      const geometry = ref.current.geometry;
+      const positionAttr = geometry.getAttribute('position') as THREE.BufferAttribute;
+      const colorAttr = geometry.getAttribute('color') as THREE.BufferAttribute;
+      const posArray = positionAttr.array as Float32Array;
+      const colorArray = colorAttr.array as Float32Array;
+      const velocities = velocitiesRef.current;
+      const origPositions = originalPositionsRef.current;
+      
+      const cursorPos = cursorState.position;
+      const cursorVel = cursorState.velocity;
+      const cursorActive = cursorState.active;
+      
+      // Smooth delta clamping for consistent physics
+      const smoothDelta = Math.min(delta, 0.033);
+      const timeScale = smoothDelta * 60;
+      
+      for (let i = 0; i < count; i++) {
+        const ix = i * 3;
+        const iy = ix + 1;
+        const iz = ix + 2;
+        
+        const px = posArray[ix];
+        const py = posArray[iy];
+        const pz = posArray[iz];
+        
+        if (cursorActive) {
+          const dx = cursorPos.x - px;
+          const dy = cursorPos.y - py;
+          const dz = cursorPos.z - pz;
+          const distSq = dx * dx + dy * dy + dz * dz;
+          
+          if (distSq < 625 && distSq > 0.01) {
+            const dist = Math.sqrt(distSq);
+            const force = (1 - dist / 25) * 0.018 * timeScale;
+            
+            const swirlX = -cursorVel.y * 0.4;
+            const swirlY = cursorVel.x * 0.4;
+            
+            velocities[ix] += (dx / dist * force) + swirlX * 0.008 * timeScale;
+            velocities[iy] += (dy / dist * force) + swirlY * 0.008 * timeScale;
+            velocities[iz] += dz / dist * force;
+            
+            const brightness = 1 + (1 - dist / 25) * 0.6;
+            colorArray[ix] = Math.min(1, colorArray[ix] * brightness);
+            colorArray[iy] = Math.min(1, colorArray[iy] * brightness);
+            colorArray[iz] = Math.min(1, colorArray[iz] * brightness);
+          }
+        }
+        
+        const distFromCenter = Math.sqrt(px * px + py * py);
+        if (distFromCenter > 0.1) {
+          const orbitalForce = 0.00025 * timeScale;
+          velocities[ix] += (-py / distFromCenter) * orbitalForce;
+          velocities[iy] += (px / distFromCenter) * orbitalForce;
+        }
+        
+        velocities[ix] += (origPositions[ix] - px) * 0.0008 * timeScale;
+        velocities[iy] += (origPositions[iy] - py) * 0.0008 * timeScale;
+        velocities[iz] += (origPositions[iz] - pz) * 0.0008 * timeScale;
+        
+        // Ultra heavy damping for silky motion
+        const damping = Math.pow(0.965, timeScale);
+        velocities[ix] *= damping;
+        velocities[iy] *= damping;
+        velocities[iz] *= damping;
+        
+        posArray[ix] += velocities[ix];
+        posArray[iy] += velocities[iy];
+        posArray[iz] += velocities[iz];
       }
       
-      velocities[ix] += (origPositions[ix] - px) * 0.0008 * timeScale;
-      velocities[iy] += (origPositions[iy] - py) * 0.0008 * timeScale;
-      velocities[iz] += (origPositions[iz] - pz) * 0.0008 * timeScale;
-      
-      // Ultra heavy damping for silky motion
-      const damping = Math.pow(0.965, timeScale);
-      velocities[ix] *= damping;
-      velocities[iy] *= damping;
-      velocities[iz] *= damping;
-      
-      posArray[ix] += velocities[ix];
-      posArray[iy] += velocities[iy];
-      posArray[iz] += velocities[iz];
-    }
-    
-    positionAttr.needsUpdate = true;
-    colorAttr.needsUpdate = true;
-    ref.current.rotation.y += 0.0008 * timeScale;
-  });
+      positionAttr.needsUpdate = true;
+      colorAttr.needsUpdate = true;
+      ref.current.rotation.y += 0.0008 * timeScale;
+    });
 
-  return (
-    <Points ref={ref} positions={positions} colors={colors} stride={3} frustumCulled>
-      <PointMaterial
-        transparent
-        vertexColors
-        size={0.14}
-        sizeAttenuation
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-        opacity={0.92}
-      />
-    </Points>
-  );
-}
+    return (
+      <Points ref={ref} positions={positions} colors={colors} stride={3} frustumCulled>
+        <PointMaterial
+          transparent
+          vertexColors
+          size={0.14}
+          sizeAttenuation
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+          opacity={0.92}
+        />
+      </Points>
+    );
+  }
+));
 
-// Pulsing energy rings - SMOOTHER
-function EnergyRings() {
+// Pulsing energy rings - SMOOTHER with reduced geometry
+const EnergyRings = memo(function EnergyRings() {
   const rings = useRef<THREE.Mesh[]>([]);
   const timeRef = useRef(0);
   
@@ -394,7 +460,7 @@ function EnergyRings() {
     { radius: 12, color: '#7060a0', speed: 0.03, phase: Math.PI * 1.3 },
   ], []);
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     timeRef.current += delta * 0.4;
     const t = timeRef.current;
     rings.current.forEach((ring, i) => {
@@ -413,108 +479,112 @@ function EnergyRings() {
     <group>
       {ringConfigs.map((config, i) => (
         <mesh key={i} ref={(el) => { if (el) rings.current[i] = el; }}>
-          <torusGeometry args={[config.radius, 0.018, 12, 80]} />
+          <torusGeometry args={[config.radius, 0.018, 8, 48]} />
           <meshBasicMaterial color={config.color} transparent opacity={0.22} blending={THREE.AdditiveBlending} />
         </mesh>
       ))}
     </group>
   );
-}
+});
 
-// Central core with enhanced glow
-function SovereignCore() {
-  const coreRef = useRef<THREE.Mesh>(null);
-  const glowRef = useRef<THREE.Mesh>(null);
-  const pulseRef = useRef<THREE.Mesh>(null);
-  const outerPulseRef = useRef<THREE.Mesh>(null);
-  const timeRef = useRef(0);
+// Central core with enhanced glow - REDUCED geometry
+const SovereignCore = memo(forwardRef<THREE.Group>(
+  function SovereignCore(_, _ref) {
+    const coreRef = useRef<THREE.Mesh>(null);
+    const glowRef = useRef<THREE.Mesh>(null);
+    const pulseRef = useRef<THREE.Mesh>(null);
+    const outerPulseRef = useRef<THREE.Mesh>(null);
+    const timeRef = useRef(0);
 
-  useFrame((state, delta) => {
-    if (!coreRef.current || !glowRef.current || !pulseRef.current || !outerPulseRef.current) return;
-    timeRef.current += delta * 0.3;
-    const t = timeRef.current;
-    
-    const pulse = Math.sin(t * 0.12) * 0.08 + 1;
-    const fastPulse = Math.sin(t * 0.25) * 0.04 + 1;
-    const slowPulse = Math.sin(t * 0.06) * 0.06 + 1;
-    
-    coreRef.current.scale.setScalar(pulse);
-    glowRef.current.scale.setScalar(pulse * 2.5);
-    pulseRef.current.scale.setScalar(fastPulse * 4);
-    outerPulseRef.current.scale.setScalar(slowPulse * 6);
-    
-    coreRef.current.rotation.y = t * 0.03;
-    coreRef.current.rotation.x = Math.sin(t * 0.02) * 0.08;
-    
-    // Glow intensity pulsing
-    const glowMat = glowRef.current.material as THREE.MeshBasicMaterial;
-    glowMat.opacity = 0.12 + Math.sin(t * 0.15) * 0.05;
-    
-    const pulseMat = pulseRef.current.material as THREE.MeshBasicMaterial;
-    pulseMat.opacity = 0.05 + Math.sin(t * 0.2) * 0.025;
-  });
+    useFrame((_, delta) => {
+      if (!coreRef.current || !glowRef.current || !pulseRef.current || !outerPulseRef.current) return;
+      timeRef.current += delta * 0.3;
+      const t = timeRef.current;
+      
+      const pulse = Math.sin(t * 0.12) * 0.08 + 1;
+      const fastPulse = Math.sin(t * 0.25) * 0.04 + 1;
+      const slowPulse = Math.sin(t * 0.06) * 0.06 + 1;
+      
+      coreRef.current.scale.setScalar(pulse);
+      glowRef.current.scale.setScalar(pulse * 2.5);
+      pulseRef.current.scale.setScalar(fastPulse * 4);
+      outerPulseRef.current.scale.setScalar(slowPulse * 6);
+      
+      coreRef.current.rotation.y = t * 0.03;
+      coreRef.current.rotation.x = Math.sin(t * 0.02) * 0.08;
+      
+      // Glow intensity pulsing
+      const glowMat = glowRef.current.material as THREE.MeshBasicMaterial;
+      glowMat.opacity = 0.12 + Math.sin(t * 0.15) * 0.05;
+      
+      const pulseMat = pulseRef.current.material as THREE.MeshBasicMaterial;
+      pulseMat.opacity = 0.05 + Math.sin(t * 0.2) * 0.025;
+    });
 
-  return (
-    <group>
-      {/* Outer pulse wave */}
-      <mesh ref={outerPulseRef}>
-        <sphereGeometry args={[1, 28, 28]} />
-        <meshBasicMaterial color="#7050a0" transparent opacity={0.025} blending={THREE.AdditiveBlending} />
-      </mesh>
-      
-      {/* Middle pulse wave */}
-      <mesh ref={pulseRef}>
-        <sphereGeometry args={[1, 28, 28]} />
-        <meshBasicMaterial color="#e8b84a" transparent opacity={0.04} blending={THREE.AdditiveBlending} />
-      </mesh>
-      
-      {/* Inner glow sphere */}
-      <mesh ref={glowRef}>
-        <sphereGeometry args={[1, 20, 20]} />
-        <meshBasicMaterial color="#7050a0" transparent opacity={0.12} blending={THREE.AdditiveBlending} />
-      </mesh>
-      
-      {/* Core */}
-      <mesh ref={coreRef}>
-        <sphereGeometry args={[0.65, 36, 36]} />
-        <meshBasicMaterial color="#d0d0e0" transparent opacity={0.96} />
-      </mesh>
-    </group>
-  );
-}
+    return (
+      <group>
+        {/* Outer pulse wave */}
+        <mesh ref={outerPulseRef}>
+          <sphereGeometry args={[1, 16, 16]} />
+          <meshBasicMaterial color="#7050a0" transparent opacity={0.025} blending={THREE.AdditiveBlending} />
+        </mesh>
+        
+        {/* Middle pulse wave */}
+        <mesh ref={pulseRef}>
+          <sphereGeometry args={[1, 16, 16]} />
+          <meshBasicMaterial color="#e8b84a" transparent opacity={0.04} blending={THREE.AdditiveBlending} />
+        </mesh>
+        
+        {/* Inner glow sphere */}
+        <mesh ref={glowRef}>
+          <sphereGeometry args={[1, 12, 12]} />
+          <meshBasicMaterial color="#7050a0" transparent opacity={0.12} blending={THREE.AdditiveBlending} />
+        </mesh>
+        
+        {/* Core */}
+        <mesh ref={coreRef}>
+          <sphereGeometry args={[0.65, 24, 24]} />
+          <meshBasicMaterial color="#d0d0e0" transparent opacity={0.96} />
+        </mesh>
+      </group>
+    );
+  }
+));
 
 // 3D Logo with glow
-function LogoPlane() {
-  const ref = useRef<THREE.Group>(null);
-  const texture = useTexture(apexLogo);
-  const timeRef = useRef(0);
-  
-  texture.premultiplyAlpha = false;
-  
-  useFrame((state, delta) => {
-    if (!ref.current) return;
-    timeRef.current += delta * 0.25;
-    const pulse = Math.sin(timeRef.current * 0.1) * 0.015 + 1;
-    ref.current.scale.setScalar(pulse);
-  });
+const LogoPlane = memo(forwardRef<THREE.Group>(
+  function LogoPlane(_, _ref) {
+    const ref = useRef<THREE.Group>(null);
+    const texture = useTexture(apexLogo);
+    const timeRef = useRef(0);
+    
+    texture.premultiplyAlpha = false;
+    
+    useFrame((_, delta) => {
+      if (!ref.current) return;
+      timeRef.current += delta * 0.25;
+      const pulse = Math.sin(timeRef.current * 0.1) * 0.015 + 1;
+      ref.current.scale.setScalar(pulse);
+    });
 
-  return (
-    <group ref={ref} position={[0, 0, 2]}>
-      <mesh position={[0, 0, -0.3]} renderOrder={1}>
-        <planeGeometry args={[16, 16]} />
-        <meshBasicMaterial color="#7050a0" transparent opacity={0.04} depthWrite={false} blending={THREE.AdditiveBlending} />
-      </mesh>
-      <mesh position={[0, 0, -0.15]} renderOrder={2}>
-        <planeGeometry args={[12, 12]} />
-        <meshBasicMaterial color="#e8b84a" transparent opacity={0.05} depthWrite={false} blending={THREE.AdditiveBlending} />
-      </mesh>
-      <mesh renderOrder={3}>
-        <planeGeometry args={[7.5, 7.5]} />
-        <meshBasicMaterial map={texture} transparent depthWrite={false} opacity={0.88} />
-      </mesh>
-    </group>
-  );
-}
+    return (
+      <group ref={ref} position={[0, 0, 2]}>
+        <mesh position={[0, 0, -0.3]} renderOrder={1}>
+          <planeGeometry args={[16, 16]} />
+          <meshBasicMaterial color="#7050a0" transparent opacity={0.04} depthWrite={false} blending={THREE.AdditiveBlending} />
+        </mesh>
+        <mesh position={[0, 0, -0.15]} renderOrder={2}>
+          <planeGeometry args={[12, 12]} />
+          <meshBasicMaterial color="#e8b84a" transparent opacity={0.05} depthWrite={false} blending={THREE.AdditiveBlending} />
+        </mesh>
+        <mesh renderOrder={3}>
+          <planeGeometry args={[7.5, 7.5]} />
+          <meshBasicMaterial map={texture} transparent depthWrite={false} opacity={0.88} />
+        </mesh>
+      </group>
+    );
+  }
+));
 
 // Cursor tracker - SILKY SMOOTH
 function CursorTracker({ cursorState }: { cursorState: CursorState }) {
@@ -570,7 +640,7 @@ function CameraController({ scrollDepth = 0 }: { scrollDepth: number }) {
   const targetRef = useRef({ x: 0, y: 0, z: 24 });
   const currentRef = useRef({ x: 0, y: 0, z: 24 });
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     targetRef.current.z = 24 - scrollDepth * 20;
     targetRef.current.y = scrollDepth * 6;
     targetRef.current.x = Math.sin(scrollDepth * Math.PI) * 4;
@@ -589,6 +659,52 @@ function CameraController({ scrollDepth = 0 }: { scrollDepth: number }) {
   });
 
   return null;
+}
+
+// Adaptive scene that adjusts based on performance
+function AdaptiveScene({ cursorState, scrollDepth }: { cursorState: CursorState; scrollDepth: number }) {
+  const quality = useAdaptiveQuality();
+  const config = QUALITY_CONFIGS[quality];
+  
+  return (
+    <>
+      <CameraController scrollDepth={scrollDepth} />
+      <CursorTracker cursorState={cursorState} />
+      
+      <ambientLight intensity={0.025} />
+      <pointLight position={[0, 0, 0]} intensity={2.5} color="#e8b84a" distance={35} />
+      <pointLight position={[12, 12, 12]} intensity={0.7} color="#7050a0" distance={45} />
+      <pointLight position={[-12, -6, 6]} intensity={0.4} color="#b0b0c0" distance={35} />
+      
+      {/* Background layers */}
+      <StarField count={config.starCount} />
+      <NebulaClouds />
+
+      {/* Core elements */}
+      <EnergyTendrils count={config.tendrilCount} />
+      <EnergyRings />
+      <ParticleTrails count={config.trailCount} />
+      <CursorReactiveParticles count={config.particleCount} cursorState={cursorState} />
+      <SovereignCore />
+      <LogoPlane />
+      
+      {/* Post-processing */}
+      <EffectComposer multisampling={0}>
+        <Bloom
+          intensity={config.bloomIntensity}
+          luminanceThreshold={0.25}
+          luminanceSmoothing={0.95}
+          mipmapBlur
+          radius={0.4}
+        />
+        <Vignette
+          darkness={0.45}
+          offset={0.25}
+          blendFunction={BlendFunction.NORMAL}
+        />
+      </EffectComposer>
+    </>
+  );
 }
 
 // Main component
@@ -611,6 +727,7 @@ export default function SovereignVoid({
   }));
   
   const prefersReducedMotion = usePrefersReducedMotion();
+  const isVisible = useVisibility();
 
   // Skip WebGL entirely for reduced motion users
   if (prefersReducedMotion) {
@@ -622,7 +739,10 @@ export default function SovereignVoid({
     );
   }
 
-  if (!active) {
+  // Pause when not active or tab hidden
+  const shouldRender = active && isVisible;
+
+  if (!shouldRender) {
     return <div className={`absolute inset-0 ${className}`} aria-hidden="true" />;
   }
 
@@ -640,48 +760,14 @@ export default function SovereignVoid({
           preserveDrawingBuffer: false,
           failIfMajorPerformanceCaveat: true,
         }}
-        frameloop={active ? 'always' : 'demand'}
+        frameloop="always"
         performance={{ min: 0.5 }}
         style={{ willChange: 'transform' }}
       >
         <color attach="background" args={['#000000']} />
         <fog attach="fog" args={['#020208', 12, 70]} />
         
-        <CameraController scrollDepth={scrollDepth} />
-        <CursorTracker cursorState={cursorState} />
-        
-        <ambientLight intensity={0.025} />
-        <pointLight position={[0, 0, 0]} intensity={2.5} color="#e8b84a" distance={35} />
-        <pointLight position={[12, 12, 12]} intensity={0.7} color="#7050a0" distance={45} />
-        <pointLight position={[-12, -6, 6]} intensity={0.4} color="#b0b0c0" distance={35} />
-        
-        {/* Background layers - REDUCED for 60fps */}
-        <StarField count={300} />
-        <NebulaClouds />
-
-        {/* Core elements - OPTIMIZED */}
-        <EnergyTendrils count={3} />
-        <EnergyRings />
-        <ParticleTrails count={4} />
-        <CursorReactiveParticles count={180} cursorState={cursorState} />
-        <SovereignCore />
-        <LogoPlane />
-        
-        {/* Post-processing - LIGHTER bloom */}
-        <EffectComposer multisampling={0}>
-          <Bloom
-            intensity={0.35}
-            luminanceThreshold={0.25}
-            luminanceSmoothing={0.95}
-            mipmapBlur
-            radius={0.4}
-          />
-          <Vignette
-            darkness={0.45}
-            offset={0.25}
-            blendFunction={BlendFunction.NORMAL}
-          />
-        </EffectComposer>
+        <AdaptiveScene cursorState={cursorState} scrollDepth={scrollDepth} />
       </Canvas>
     </div>
   );
