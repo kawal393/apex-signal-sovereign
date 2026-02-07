@@ -328,44 +328,72 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
           </motion.div>
         )}
 
-        {/* Reveal Phase - ULTRA SMOOTH */}
+        {/* Reveal Phase - ACKNOWLEDGMENT MOMENT */}
         {phase === 'reveal' && (
           <motion.div
             key="reveal"
-            initial={{ opacity: 0, scale: 0.8, filter: 'blur(20px)' }}
-            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, scale: 1.2, filter: 'blur(15px)' }}
-            transition={{ duration: 4.5, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-center gap-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: prefersReducedMotion ? 0.5 : 2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center px-6"
           >
+            {/* Micro-reward acknowledgment */}
             <motion.div
-              className="w-36 h-36 flex items-center justify-center"
-              animate={{
-                boxShadow: [
-                  '0 0 80px hsl(42 90% 55% / 0.1)',
-                  '0 0 150px hsl(42 90% 55% / 0.3)',
-                  '0 0 80px hsl(42 90% 55% / 0.1)',
-                ],
-              }}
-              transition={{ duration: 5, repeat: Infinity, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <motion.span 
-                className="text-7xl text-primary"
-                animate={{ rotateY: [0, 360] }}
-                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-              >
-                ◆
-              </motion.span>
-            </motion.div>
-            
-            <motion.p
-              className="text-sm uppercase tracking-[1em] text-muted-foreground/25"
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.5, duration: 3.5, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-12"
             >
-              Entering
-            </motion.p>
+              {isReturningVisitor ? (
+                <>
+                  <p className="text-4xl md:text-5xl lg:text-6xl font-light text-foreground mb-4 tracking-wide">
+                    You returned.
+                  </p>
+                  <p className="text-lg md:text-xl text-foreground/50 tracking-[0.3em] uppercase">
+                    {returnCount} times now.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-4xl md:text-5xl lg:text-6xl font-light text-foreground mb-4 tracking-wide">
+                    You waited.
+                  </p>
+                  <p className="text-lg md:text-xl text-foreground/50 tracking-[0.3em] uppercase">
+                    Few do.
+                  </p>
+                </>
+              )}
+            </motion.div>
+
+            {/* System notices sigil */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1.2, duration: 2, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-center gap-6"
+            >
+              <motion.div
+                className="flex items-center gap-4"
+                animate={{ opacity: [0.4, 0.8, 0.4] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                <span className="text-2xl text-primary">◆</span>
+                <span className="text-sm uppercase tracking-[0.4em] text-muted-foreground/40">
+                  The system notices
+                </span>
+                <span className="text-2xl text-primary">◆</span>
+              </motion.div>
+              
+              <motion.p
+                className="text-[10px] uppercase tracking-[0.6em] text-muted-foreground/20"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2.5, duration: 1.5 }}
+              >
+                Entering
+              </motion.p>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -225,6 +225,47 @@ export type Database = {
           },
         ]
       }
+      scheduled_insights: {
+        Row: {
+          content: string
+          delivered: boolean | null
+          delivered_at: string | null
+          generated_at: string
+          id: string
+          insight_type: string
+          metadata: Json | null
+          target_visitor_id: string | null
+        }
+        Insert: {
+          content: string
+          delivered?: boolean | null
+          delivered_at?: string | null
+          generated_at?: string
+          id?: string
+          insight_type: string
+          metadata?: Json | null
+          target_visitor_id?: string | null
+        }
+        Update: {
+          content?: string
+          delivered?: boolean | null
+          delivered_at?: string | null
+          generated_at?: string
+          id?: string
+          insight_type?: string
+          metadata?: Json | null
+          target_visitor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scheduled_insights_target_visitor_id_fkey"
+            columns: ["target_visitor_id"]
+            isOneToOne: false
+            referencedRelation: "visitor_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       session_events: {
         Row: {
           event_data: Json | null
@@ -274,6 +315,7 @@ export type Database = {
           metadata: Json | null
           nodes_viewed: string[] | null
           patience_score: number | null
+          promotion_probability: number | null
           total_time_seconds: number
           updated_at: string
           visit_count: number
@@ -291,6 +333,7 @@ export type Database = {
           metadata?: Json | null
           nodes_viewed?: string[] | null
           patience_score?: number | null
+          promotion_probability?: number | null
           total_time_seconds?: number
           updated_at?: string
           visit_count?: number
@@ -308,6 +351,7 @@ export type Database = {
           metadata?: Json | null
           nodes_viewed?: string[] | null
           patience_score?: number | null
+          promotion_probability?: number | null
           total_time_seconds?: number
           updated_at?: string
           visit_count?: number
