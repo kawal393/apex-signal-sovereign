@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { Loader2 } from "lucide-react";
 import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import MobileVoid from "@/components/effects/MobileVoid";
@@ -10,7 +11,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { ApexButton } from "@/components/ui/apex-button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -26,6 +26,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { supabase } from "@/integrations/supabase/client";
+import { generateVerdictBrief } from "@/lib/apexAI";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -42,6 +45,9 @@ type FormData = z.infer<typeof formSchema>;
 const RequestAccess = () => {
   const isMobile = useIsMobile();
   const [submitted, setSubmitted] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [aiRecommendation, setAiRecommendation] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -57,9 +63,53 @@ const RequestAccess = () => {
   });
 
   const onSubmit = async (data: FormData) => {
-    console.log("Verdict Brief Request:", data);
-    // TODO: Wire to backend
-    setSubmitted(true);
+    setIsProcessing(true);
+    
+    try {
+      // 1. Store in database
+      const { data: insertedRequest, error: insertError } = await supabase
+        .from('access_requests')
+        .insert({
+          intent: data.description,
+          notes: `Name: ${data.name}, Email: ${data.email}, Org: ${data.organization || 'N/A'}`,
+          name: data.name,
+          email: data.email,
+          organization: data.organization || null,
+          decision_area: data.decisionArea,
+          urgency: data.deadline,
+          budget_range: data.budget,
+        })
+        .select()
+        .single();
+
+      if (insertError) {
+        console.error('Insert error:', insertError);
+        toast({ title: 'Submission failed', description: 'Please try again.', variant: 'destructive' });
+        setIsProcessing(false);
+        return;
+      }
+
+      // 2. Trigger AI assessment in background
+      generateVerdictBrief({
+        requestId: insertedRequest.id,
+        decisionContext: data.description,
+        decisionArea: data.decisionArea,
+        urgency: data.deadline,
+        organization: data.organization,
+      }).then((result) => {
+        if (result.success) {
+          console.log('AI assessment complete:', result.recommendation);
+          setAiRecommendation(result.recommendation || null);
+        }
+      }).catch(console.error);
+
+      setSubmitted(true);
+    } catch (err) {
+      console.error('Submission error:', err);
+      toast({ title: 'Error', description: 'Something went wrong.', variant: 'destructive' });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -264,9 +314,18 @@ const RequestAccess = () => {
                       variant="primary" 
                       size="lg" 
                       className="w-full"
-                      disabled={form.formState.isSubmitting}
+                      disabled={form.formState.isSubmitting || isProcessing}
                     >
-                      {form.formState.isSubmitting ? "SUBMITTING..." : "SUBMIT REQUEST"}
+                      {isProcessing ? (
+                        <span className="flex items-center gap-2">
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          PROCESSING...
+                        </span>
+                      ) : form.formState.isSubmitting ? (
+                        "SUBMITTING..."
+                      ) : (
+                        "SUBMIT REQUEST"
+                      )}
                     </ApexButton>
                   </form>
                 </Form>

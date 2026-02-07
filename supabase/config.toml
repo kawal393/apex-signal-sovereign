@@ -1,1 +1,10 @@
 project_id = "bckoxhxwnuvyfgjmyrqa"
+
+[functions.apex-oracle]
+verify_jwt = false
+
+[functions.apex-verdict]
+verify_jwt = false
+
+[functions.apex-classifier]
+verify_jwt = false

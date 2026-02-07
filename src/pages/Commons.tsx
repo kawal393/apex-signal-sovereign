@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { MessageCircle } from "lucide-react";
 import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import SystemMap from "@/components/sections/SystemMap";
@@ -10,21 +11,40 @@ import AccessTiers from "@/components/sections/AccessTiers";
 import ActivityFeed from "@/components/sections/ActivityFeed";
 import SovereignVoid from "@/components/3d/SovereignVoid";
 import MobileVoid from "@/components/effects/MobileVoid";
+import SovereignInterface from "@/components/oracle/SovereignInterface";
 import { ApexButton } from "@/components/ui/apex-button";
 import { usePresence } from "@/hooks/usePresence";
 import { useApexSystem } from "@/contexts/ApexSystemContext";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useVisitorClassification } from "@/hooks/useVisitorClassification";
+import { useToast } from "@/hooks/use-toast";
 import apexLogo from "@/assets/apex-logo.png";
 import { advancedAudioPresence } from "@/lib/audioPresenceAdvanced";
-
 const Commons = () => {
   const presence = usePresence();
-  const { isAudioEnabled, status, playThresholdTone } = useApexSystem();
+  const { isAudioEnabled, status, playThresholdTone, visitorId } = useApexSystem();
   const isMobile = useIsMobile();
   const [scrollDepth, setScrollDepth] = useState(0);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [oracleOpen, setOracleOpen] = useState(false);
   const heroActive = scrollDepth < 0.18;
+  const { toast } = useToast();
 
+  // AI-powered visitor classification
+  const handleLevelChange = useCallback((newLevel: string, previousLevel: string) => {
+    toast({
+      title: newLevel === 'acknowledged' ? 'Status Elevated' : 'Inner Circle Access',
+      description: newLevel === 'acknowledged' 
+        ? 'You have been acknowledged by the system.'
+        : 'Welcome to the Inner Circle.',
+    });
+  }, [toast]);
+
+  useVisitorClassification({
+    visitorId,
+    enabled: !!visitorId,
+    onLevelChange: handleLevelChange,
+  });
   // Live clock update
   useEffect(() => {
     const interval = setInterval(() => {
@@ -283,6 +303,35 @@ const Commons = () => {
         {/* Access Request */}
         <AccessRequest />
       </main>
+      
+      {/* Sovereign Interface (AI Oracle Chat) */}
+      <SovereignInterface
+        isOpen={oracleOpen}
+        onClose={() => setOracleOpen(false)}
+        visitorId={visitorId}
+        accessLevel={status}
+      />
+
+      {/* Oracle Trigger Button - Fixed */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 2, duration: 0.8 }}
+        onClick={() => setOracleOpen(true)}
+        className="fixed bottom-8 right-8 z-40 w-14 h-14 rounded-full bg-black/90 border border-primary/30 flex items-center justify-center hover:border-primary/60 hover:bg-primary/10 transition-all duration-500 group"
+        style={{
+          boxShadow: '0 0 40px hsl(42 95% 55% / 0.15)',
+        }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <MessageCircle className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors" />
+        <motion.span
+          className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-primary"
+          animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        />
+      </motion.button>
       
       {/* Footer */}
       <ApexFooter />
