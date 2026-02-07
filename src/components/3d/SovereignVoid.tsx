@@ -603,14 +603,19 @@ export default function SovereignVoid({
     <div className={`absolute inset-0 ${className}`}>
       <Canvas
         camera={{ position: [0, 0, 24], fov: 48 }}
-        dpr={active ? [1, 1.5] : [1, 1]}
+        dpr={[1, 1]} // Fixed DPR for consistent performance
         gl={{
           antialias: false,
           alpha: true,
           powerPreference: 'high-performance',
           stencil: false,
+          depth: false, // Disable depth buffer for 2.5D scene
+          preserveDrawingBuffer: false,
+          failIfMajorPerformanceCaveat: true, // Fall back if GPU is weak
         }}
         frameloop={active ? 'always' : 'demand'}
+        performance={{ min: 0.5 }} // Allow frame throttling
+        style={{ willChange: 'transform' }} // GPU layer hint
       >
         <color attach="background" args={['#000000']} />
         <fog attach="fog" args={['#020208', 12, 70]} />
@@ -623,30 +628,30 @@ export default function SovereignVoid({
         <pointLight position={[12, 12, 12]} intensity={0.7} color="#7050a0" distance={45} />
         <pointLight position={[-12, -6, 6]} intensity={0.4} color="#b0b0c0" distance={35} />
         
-        {/* Background layers */}
-        <StarField count={active ? 800 : 260} />
+        {/* Background layers - reduced counts for smoothness */}
+        <StarField count={active ? 500 : 200} />
         <NebulaClouds />
 
-        {/* Core elements */}
-        <EnergyTendrils count={active ? 8 : 5} />
+        {/* Core elements - reduced complexity */}
+        <EnergyTendrils count={active ? 5 : 3} />
         <EnergyRings />
-        {active && <ParticleTrails count={10} />}
-        <CursorReactiveParticles count={active ? 420 : 200} cursorState={cursorState} />
+        {active && <ParticleTrails count={6} />}
+        <CursorReactiveParticles count={active ? 280 : 140} cursorState={cursorState} />
         <SovereignCore />
         <LogoPlane />
         
-        {/* Post-processing - NO multisampling to avoid GPU stalls */}
+        {/* Post-processing - minimal for smoothness */}
         <EffectComposer multisampling={0}>
           <Bloom
-            intensity={0.7}
-            luminanceThreshold={0.2}
-            luminanceSmoothing={0.9}
+            intensity={0.5}
+            luminanceThreshold={0.25}
+            luminanceSmoothing={0.95}
             mipmapBlur
-            radius={0.75}
+            radius={0.6}
           />
           <Vignette
-            darkness={0.5}
-            offset={0.3}
+            darkness={0.45}
+            offset={0.25}
             blendFunction={BlendFunction.NORMAL}
           />
         </EffectComposer>

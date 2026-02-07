@@ -77,17 +77,15 @@ const Nodes = () => {
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <a
-                      href={node.externalUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1"
+                    <ApexButton 
+                      variant="primary" 
+                      size="sm" 
+                      className="flex-1 gap-2"
+                      onClick={() => window.open(node.externalUrl, '_blank', 'noopener,noreferrer')}
                     >
-                      <ApexButton variant="primary" size="sm" className="w-full gap-2">
-                        OPEN LIVE TOOL
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </ApexButton>
-                    </a>
+                      OPEN LIVE TOOL
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </ApexButton>
                     <Link to="/request-access" className="flex-1">
                       <ApexButton variant="outline" size="sm" className="w-full">
                         REQUEST VERDICT BRIEF
