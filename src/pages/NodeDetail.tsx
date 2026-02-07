@@ -118,17 +118,15 @@ const NodeDetail = () => {
                 transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="flex flex-col sm:flex-row gap-4"
               >
-                <a
-                  href={node.externalUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1"
+                <ApexButton 
+                  variant="primary" 
+                  size="lg" 
+                  className="flex-1 gap-2"
+                  onClick={() => window.open(node.externalUrl, '_blank', 'noopener,noreferrer')}
                 >
-                  <ApexButton variant="primary" size="lg" className="w-full gap-2">
-                    OPEN LIVE TOOL
-                    <ExternalLink className="w-4 h-4" />
-                  </ApexButton>
-                </a>
+                  OPEN LIVE TOOL
+                  <ExternalLink className="w-4 h-4" />
+                </ApexButton>
                 <Link to="/request-access" className="flex-1">
                   <ApexButton variant="outline" size="lg" className="w-full">
                     REQUEST VERDICT BRIEF
