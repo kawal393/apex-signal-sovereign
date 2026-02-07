@@ -6,6 +6,28 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
 
+// Rate limiting: max 5 requests per minute per IP (verdict generation is expensive)
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW_MS = 60000; // 1 minute
+
+function checkRateLimit(identifier: string): { allowed: boolean; remaining: number } {
+  const now = Date.now();
+  const entry = rateLimitMap.get(identifier);
+
+  if (!entry || now > entry.resetTime) {
+    rateLimitMap.set(identifier, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return { allowed: true, remaining: RATE_LIMIT_MAX - 1 };
+  }
+
+  if (entry.count >= RATE_LIMIT_MAX) {
+    return { allowed: false, remaining: 0 };
+  }
+
+  entry.count++;
+  return { allowed: true, remaining: RATE_LIMIT_MAX - entry.count };
+}
+
 // Verdict Brief Generation Prompt
 const VERDICT_SYSTEM_PROMPT = `You are the APEX Verdict Engine - an AI that generates preliminary risk assessments for decision contexts.
 
@@ -48,10 +70,49 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Rate limiting check
+  const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                   req.headers.get('cf-connecting-ip') || 
+                   'unknown';
+  
+  const rateCheck = checkRateLimit(clientIP);
+  if (!rateCheck.allowed) {
+    console.warn(`Rate limit exceeded for IP: ${clientIP}`);
+    return new Response(
+      JSON.stringify({ error: 'Rate limit reached. Retry in 60 seconds.' }),
+      { 
+        status: 429, 
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json',
+          'X-RateLimit-Remaining': '0',
+          'Retry-After': '60'
+        } 
+      }
+    );
+  }
+
   const startTime = Date.now();
 
   try {
-    const { requestId, decisionContext, decisionArea, urgency, organization } = await req.json();
+    const body = await req.json();
+    const { requestId, decisionContext, decisionArea, urgency, organization } = body;
+
+    // Input validation
+    if (!decisionContext || typeof decisionContext !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'Invalid request: decisionContext required' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Limit context length to prevent abuse
+    if (decisionContext.length > 10000) {
+      return new Response(
+        JSON.stringify({ error: 'Decision context too long. Maximum 10000 characters.' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {
@@ -66,7 +127,7 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    console.log('Processing verdict brief for request:', requestId);
+    console.log('Processing verdict brief for request:', requestId, 'IP:', clientIP);
 
     const userPrompt = `
 DECISION AREA: ${decisionArea || 'Unspecified'}
@@ -125,7 +186,7 @@ Generate a preliminary Verdict Brief assessment.`;
     else if (riskScore <= 0.25) recommendation = 'FAVORABLE_CONDITIONS';
 
     // Update the access request with AI assessment
-    if (requestId) {
+    if (requestId && typeof requestId === 'string') {
       await supabase
         .from('access_requests')
         .update({
@@ -160,7 +221,13 @@ Generate a preliminary Verdict Brief assessment.`;
         recommendation,
         processingTimeMs: processingTime,
       }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { 
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json',
+          'X-RateLimit-Remaining': String(rateCheck.remaining)
+        } 
+      }
     );
 
   } catch (error) {

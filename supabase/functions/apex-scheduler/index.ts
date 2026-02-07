@@ -5,8 +5,30 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-cron-secret',
 };
+
+// Rate limiting: max 2 manual invocations per hour to prevent abuse
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_MAX = 2;
+const RATE_LIMIT_WINDOW_MS = 3600000; // 1 hour
+
+function checkRateLimit(identifier: string): { allowed: boolean; remaining: number } {
+  const now = Date.now();
+  const entry = rateLimitMap.get(identifier);
+
+  if (!entry || now > entry.resetTime) {
+    rateLimitMap.set(identifier, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return { allowed: true, remaining: RATE_LIMIT_MAX - 1 };
+  }
+
+  if (entry.count >= RATE_LIMIT_MAX) {
+    return { allowed: false, remaining: 0 };
+  }
+
+  entry.count++;
+  return { allowed: true, remaining: RATE_LIMIT_MAX - entry.count };
+}
 
 // Thresholds for tier promotion
 const THRESHOLDS = {
@@ -48,7 +70,36 @@ Deno.serve(async (req) => {
     return new Response('ok', { headers: corsHeaders });
   }
 
-  console.log('[apex-scheduler] Starting scheduled intelligence cycle');
+  // Check for cron secret header (for automated cron jobs)
+  const cronSecret = Deno.env.get('CRON_SECRET');
+  const providedSecret = req.headers.get('x-cron-secret');
+  const isCronJob = cronSecret && providedSecret === cronSecret;
+
+  // If not a cron job, apply rate limiting
+  if (!isCronJob) {
+    const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                     req.headers.get('cf-connecting-ip') || 
+                     'unknown';
+    
+    const rateCheck = checkRateLimit(clientIP);
+    if (!rateCheck.allowed) {
+      console.warn(`Scheduler rate limit exceeded for IP: ${clientIP}`);
+      return new Response(
+        JSON.stringify({ error: 'Rate limit exceeded. Scheduler can only be invoked 2 times per hour manually.' }),
+        { 
+          status: 429, 
+          headers: { 
+            ...corsHeaders, 
+            'Content-Type': 'application/json',
+            'X-RateLimit-Remaining': '0',
+            'Retry-After': '3600'
+          } 
+        }
+      );
+    }
+  }
+
+  console.log('[apex-scheduler] Starting scheduled intelligence cycle', isCronJob ? '(cron)' : '(manual)');
 
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
@@ -239,6 +290,7 @@ Deno.serve(async (req) => {
         timestamp: new Date().toISOString(),
         stale_visitors_found: staleVisitors?.length || 0,
         near_threshold_found: nearThresholdVisitors?.length || 0,
+        is_cron: isCronJob,
       },
       output_data: results,
     });
