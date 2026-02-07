@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -11,12 +12,13 @@ const navItems = [
   { label: "Request Access", href: "/request-access" },
 ];
 
-export default function ApexNav() {
+const ApexNav = forwardRef<HTMLElement>((_, ref) => {
   const location = useLocation();
   const isGate = location.pathname === "/";
 
   return (
     <motion.nav
+      ref={ref}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.3 }}
@@ -100,4 +102,8 @@ export default function ApexNav() {
       </div>
     </motion.nav>
   );
-}
+});
+
+ApexNav.displayName = "ApexNav";
+
+export default ApexNav;

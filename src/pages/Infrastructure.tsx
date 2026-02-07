@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { motion } from "framer-motion";
 import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
@@ -32,11 +33,11 @@ const infrastructureLoop = [
   },
 ];
 
-const Infrastructure = () => {
+const Infrastructure = forwardRef<HTMLDivElement>((_, ref) => {
   const isMobile = useIsMobile();
 
   return (
-    <div className="relative min-h-screen bg-black">
+    <div ref={ref} className="relative min-h-screen bg-black">
       {/* Background */}
       {isMobile && <MobileVoid />}
       <div className="fixed inset-0 pointer-events-none z-[1]">
@@ -237,6 +238,8 @@ const Infrastructure = () => {
       <ApexFooter />
     </div>
   );
-};
+});
+
+Infrastructure.displayName = "Infrastructure";
 
 export default Infrastructure;

@@ -12,16 +12,16 @@ export default function CosmicVoid({
   showPortals = true,
   showParticles = true 
 }: CosmicVoidProps) {
-  // Generate star field particles - extremely slow movement
+  // Reduced star count and slower animations for better performance
   const stars = useMemo(() => 
-    Array.from({ length: 80 }).map((_, i) => ({
+    Array.from({ length: 40 }).map((_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
       size: 0.5 + Math.random() * 1.5,
-      duration: 40 + Math.random() * 60, // Very slow: 40-100s
-      delay: Math.random() * 20,
-      opacity: 0.1 + Math.random() * 0.4,
+      duration: 60 + Math.random() * 80, // Even slower: 60-140s
+      delay: Math.random() * 30,
+      opacity: 0.08 + Math.random() * 0.25,
     })),
   []);
 
@@ -40,77 +40,54 @@ export default function CosmicVoid({
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(260,30%,8%,0.4),transparent)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_120%,hsl(35,20%,5%,0.3),transparent)]" />
       
-      {/* Portal rings - sacred geometry */}
+      {/* Portal rings - CSS animations for better performance */}
       {showPortals && (
         <>
-          <motion.div 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+          <div 
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full animate-[pulse_12s_ease-in-out_infinite]"
             style={{
               width: '500px',
               height: '500px',
               border: '1px solid hsl(42 60% 50% / 0.08)',
               boxShadow: '0 0 80px hsl(42 90% 55% / 0.05), inset 0 0 80px hsl(42 90% 55% / 0.02)',
             }}
-            animate={{ 
-              scale: [1, 1.02, 1],
-              opacity: [0.3, 0.5, 0.3],
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
           />
-          <motion.div 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+          <div 
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full animate-[pulse_16s_ease-in-out_infinite_2s]"
             style={{
               width: '800px',
               height: '800px',
               border: '1px solid hsl(42 50% 45% / 0.05)',
               boxShadow: '0 0 120px hsl(42 90% 55% / 0.03)',
             }}
-            animate={{ 
-              scale: [1, 1.015, 1],
-              opacity: [0.2, 0.35, 0.2],
-            }}
-            transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 2 }}
           />
-          <motion.div 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+          <div 
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full animate-[pulse_20s_ease-in-out_infinite_4s]"
             style={{
               width: '1100px',
               height: '1100px',
               border: '1px solid hsl(42 40% 40% / 0.03)',
             }}
-            animate={{ 
-              scale: [1, 1.01, 1],
-              opacity: [0.1, 0.2, 0.1],
-            }}
-            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 4 }}
           />
         </>
       )}
       
-      {/* Star field - extremely slow cosmic particles */}
+      {/* Star field - CSS animations for performance */}
       {showParticles && (
         <div className="absolute inset-0">
           {stars.map((star) => (
-            <motion.div
+            <div
               key={star.id}
-              className="absolute rounded-full"
+              className="absolute rounded-full animate-[twinkle_var(--duration)_ease-in-out_infinite_var(--delay)]"
               style={{
                 left: `${star.x}%`,
                 top: `${star.y}%`,
                 width: `${star.size}px`,
                 height: `${star.size}px`,
                 background: `radial-gradient(circle, hsl(42 80% 75% / ${star.opacity}) 0%, transparent 70%)`,
-                boxShadow: star.size > 1 ? `0 0 ${star.size * 4}px hsl(42 90% 60% / ${star.opacity * 0.5})` : 'none',
-              }}
-              animate={{
-                opacity: [star.opacity * 0.3, star.opacity, star.opacity * 0.3],
-                scale: [0.8, 1.2, 0.8],
-              }}
-              transition={{
-                duration: star.duration,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: star.delay,
+                boxShadow: star.size > 1 ? `0 0 ${star.size * 3}px hsl(42 90% 60% / ${star.opacity * 0.4})` : 'none',
+                ['--duration' as string]: `${star.duration}s`,
+                ['--delay' as string]: `${star.delay}s`,
               }}
             />
           ))}

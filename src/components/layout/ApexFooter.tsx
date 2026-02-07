@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import apexLogo from "@/assets/apex-logo.png";
@@ -10,9 +11,10 @@ const footerLinks = [
   { label: "Disclaimers", href: "/disclaimers" },
 ];
 
-export default function ApexFooter() {
+const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
   return (
     <motion.footer
+      ref={ref}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
@@ -61,4 +63,8 @@ export default function ApexFooter() {
       </div>
     </motion.footer>
   );
-}
+});
+
+ApexFooter.displayName = "ApexFooter";
+
+export default ApexFooter;
