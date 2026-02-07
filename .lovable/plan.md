@@ -1,290 +1,232 @@
 
-# APEX SOVEREIGN SYSTEM: Full Autonomous Infrastructure
+# Fix Navigation Errors + Maximize Performance
 
-## Vision
-Transform APEX from its current 8/10 state into a fully autonomous, self-operating intelligence system that runs with zero manual intervention. The AI brain becomes the central nervous system — classifying visitors, generating verdicts, providing real-time oracle consultation, and delivering proactive intelligence.
+## Problem 1: "File Not Found" on Back Button
 
----
+### Root Cause Analysis
+The console shows critical `forwardRef` warnings for `SovereignInterface` and `StatusOrb`. These components are used inside `AnimatePresence` and `motion` wrappers that pass refs, but the components don't accept them properly.
 
-## Current State Assessment
+When framer-motion tries to pass refs and fails, it can cause:
+- Component tree corruption during transitions
+- Navigation state becoming stale
+- React router losing sync with browser history
 
-### What Already Exists (Strong Foundation)
-- **3 AI Edge Functions**: apex-oracle (chat), apex-verdict (brief generation), apex-classifier (tier promotion)
-- **Behavioral Tracking**: Real-time patience/curiosity scoring via behaviorEngine
-- **Database Schema**: visitor_profiles, access_requests, ai_intelligence_logs, oracle_conversations
-- **Sovereign Interface**: Working chat with streaming responses
-- **3D WebGL Environment**: SovereignVoid with particle trails and logo plane
+### Solution
+Wrap both `SovereignInterface` and `StatusOrb` with `forwardRef` to properly handle refs from their parent motion components.
 
-### Critical Gaps Preventing 10/10
-
-1. **Performance Lag**: WebGL scene still too heavy (1200 stars, 12 particle trails)
-2. **Invisible Progression**: Users cannot see their Observer→Acknowledged→Inner Circle status evolving
-3. **No Re-engagement Loop**: System has no way to bring acknowledged visitors back
-4. **Oracle Not Global**: Chat only available on /commons page
-5. **No Scheduled Intelligence**: AI only reacts, never proactively generates insights
-6. **No Admin Visibility**: No way to see what the AI brain is doing
+**Files to modify:**
+- `src/components/oracle/SovereignInterface.tsx`
+- `src/components/ui/StatusOrb.tsx`
 
 ---
 
-## Implementation Plan
+## Problem 2: Elevate Smoothness Further
 
-### Phase 1: Performance Overhaul (Smoothness Priority)
+### Current Performance Profile
+Already optimized to:
+- 300 stars (down from 1200)
+- 180 reactive particles
+- Bloom intensity 0.35, radius 0.4
+- DPR clamped to [1, 1]
 
-**Goal**: Eliminate all frame drops, achieve consistent 60fps
+### Additional Optimizations
 
-**Changes**:
-1. **Reduce Particle Counts in SovereignVoid.tsx**
-   - StarField: 500 → 300
-   - CursorReactiveParticles: 280 → 180
-   - ParticleTrails: 6 → 4
-   - EnergyTendrils: 5 → 3
+1. **Frame-Rate Aware Rendering**
+   - Detect if frame rate drops below 45fps
+   - Automatically reduce particle counts further
+   - Skip expensive calculations when lagging
 
-2. **Add Reduced Motion Support**
-   - Detect `prefers-reduced-motion` media query
-   - When enabled: disable WebGL entirely, use static CSS gradient background
-   - Truncate all framer-motion durations to 300ms
+2. **Geometry Optimization**
+   - Reduce nebula cloud segments (20 → 12)
+   - Reduce energy ring segments (80 → 48)
+   - Reduce core sphere segments (36 → 24)
 
-3. **Optimize Post-Processing**
-   - Reduce Bloom radius: 0.6 → 0.4
-   - Lower bloom intensity: 0.5 → 0.35
-   - Add conditional rendering based on device capability
+3. **Memory Management**
+   - Dispose Three.js objects properly on unmount
+   - Clear WebGL context when navigating away
+   - Add `useMemo` to prevent unnecessary recalculations
 
----
+4. **Animation Interpolation**
+   - Use fixed timestep for physics calculations
+   - Implement velocity-based interpolation for smoother cursor response
+   - Reduce animation frequency on low-priority elements
 
-### Phase 2: Visible Progression System
+5. **Conditional Rendering Based on Visibility**
+   - Pause WebGL when tab is not visible
+   - Reduce to "idle" mode after 30s of no interaction
 
-**Goal**: Users see their status evolving in real-time
-
-**New Component: StatusOrb**
-A persistent floating indicator showing:
-- Current tier (Observer/Acknowledged/Inner Circle) with distinct colors
-- Patience score as a radial progress ring
-- Curiosity score as a second ring
-- Subtle pulse animation when metrics change
-
-**Placement**: Bottom-left corner, opposite the Oracle chat button
-
-**Visual Design**:
-```text
-┌─────────────────────┐
-│      ◆ OBSERVER     │  ← Tier label with sigil
-│  ╭───────────────╮  │
-│  │   P: ████░░   │  │  ← Patience bar (62%)
-│  │   C: █████░   │  │  ← Curiosity bar (78%)
-│  ╰───────────────╯  │
-│   "3 min to next"   │  ← Progress hint
-└─────────────────────┘
-```
-
-**Tier Colors**:
-- Observer: Silver (#c0c0c0)
-- Acknowledged: Gold (#e8b84a)
-- Inner Circle: Crimson (#dc2626)
+**Files to modify:**
+- `src/components/3d/SovereignVoid.tsx`
 
 ---
 
-### Phase 3: Global Oracle Access
+## Implementation Details
 
-**Goal**: Oracle available on every page, not just /commons
+### SovereignInterface.tsx Changes
 
-**Implementation**:
-1. Move `SovereignInterface` and Oracle trigger button to `App.tsx`
-2. Wrap in a new `OracleProvider` context that manages:
-   - Open/close state
-   - Conversation history persistence
-   - Session continuity across page navigation
+```typescript
+// Before
+export default function SovereignInterface({ ... }: SovereignInterfaceProps) {
 
-3. Add keyboard shortcut: Press `O` to toggle Oracle
-4. Add subtle "Oracle available" indicator in navigation
-
----
-
-### Phase 4: Scheduled Intelligence Engine
-
-**Goal**: AI proactively generates insights without human triggers
-
-**New Edge Function: apex-scheduler**
-
-Runs on a 6-hour cycle (triggered by cron or external scheduler):
-
-1. **Stale Visitor Re-engagement**
-   - Query visitors with `access_level = 'acknowledged'` who haven't visited in 7+ days
-   - For each, generate a personalized "signal update" based on their viewed nodes
-   - Store in new `scheduled_insights` table
-
-2. **Node Signal Synthesis**
-   - For each live node, analyze recent patterns
-   - Generate a "24h signal digest" summarizing changes
-   - Make available to Inner Circle members
-
-3. **Threshold Analysis**
-   - Identify visitors approaching tier promotion thresholds
-   - Pre-compute their promotion probability
-   - Flag for system awareness
-
-**Database Addition**:
-```sql
-CREATE TABLE scheduled_insights (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  insight_type TEXT NOT NULL,  -- 're_engagement', 'signal_digest', 'threshold_alert'
-  target_visitor_id UUID REFERENCES visitor_profiles(id),
-  content TEXT NOT NULL,
-  generated_at TIMESTAMPTZ DEFAULT now(),
-  delivered BOOLEAN DEFAULT FALSE,
-  delivered_at TIMESTAMPTZ
+// After  
+const SovereignInterface = forwardRef<HTMLDivElement, SovereignInterfaceProps>(
+  ({ isOpen, onClose, visitorId, accessLevel }, ref) => {
+    // ... existing implementation
+  }
 );
+SovereignInterface.displayName = 'SovereignInterface';
+export default SovereignInterface;
+```
+
+### StatusOrb.tsx Changes
+
+```typescript
+// Before
+export default function StatusOrb({ className = '' }: StatusOrbProps) {
+
+// After
+const StatusOrb = forwardRef<HTMLDivElement, StatusOrbProps>(
+  ({ className = '' }, ref) => {
+    // ... wrap outer motion.div with ref
+  }
+);
+StatusOrb.displayName = 'StatusOrb';
+export default StatusOrb;
+```
+
+### SovereignVoid.tsx Performance Enhancements
+
+```typescript
+// 1. Add adaptive quality hook
+function useAdaptiveQuality() {
+  const [quality, setQuality] = useState<'high' | 'medium' | 'low'>('high');
+  const frameTimesRef = useRef<number[]>([]);
+  
+  useFrame((state, delta) => {
+    frameTimesRef.current.push(delta);
+    if (frameTimesRef.current.length > 60) {
+      const avgDelta = frameTimesRef.current.reduce((a, b) => a + b) / 60;
+      const fps = 1 / avgDelta;
+      
+      if (fps < 30 && quality !== 'low') setQuality('low');
+      else if (fps < 45 && quality !== 'medium') setQuality('medium');
+      else if (fps >= 55 && quality !== 'high') setQuality('high');
+      
+      frameTimesRef.current = [];
+    }
+  });
+  
+  return quality;
+}
+
+// 2. Reduce geometry segments
+<sphereGeometry args={[18, 12, 12]} />  // was 20, 20
+<torusGeometry args={[config.radius, 0.018, 8, 48]} />  // was 12, 80
+<sphereGeometry args={[0.65, 24, 24]} />  // was 36, 36
+
+// 3. Add visibility-based pausing
+const [isVisible, setIsVisible] = useState(true);
+useEffect(() => {
+  const handleVisibility = () => setIsVisible(!document.hidden);
+  document.addEventListener('visibilitychange', handleVisibility);
+  return () => document.removeEventListener('visibilitychange', handleVisibility);
+}, []);
+
+// 4. Add cleanup on unmount
+useEffect(() => {
+  return () => {
+    // Dispose all geometries and materials
+  };
+}, []);
 ```
 
 ---
 
-### Phase 5: Admin Intelligence Dashboard
+## My Understanding of APEX
 
-**Goal**: Internal visibility into the AI brain's operations
+### The Business Model
 
-**New Route: /dashboard (existing, repurpose)**
+APEX is a **sovereign decision infrastructure** — an AI-powered system that provides operational risk assessments ("Verdict Briefs") to operators facing irreversible decisions.
 
-**Sections**:
+### Core Philosophy
 
-1. **Real-time Metrics Panel**
-   - Active visitors count
-   - Tier distribution pie chart
-   - Average patience/curiosity scores
-   - Requests pending review
+**Friction as filter:** The 14-second entry ritual and behavioral scoring (patience/curiosity) deliberately filter out low-attention visitors. Only those who demonstrate stillness and genuine interest progress through the tiers.
 
-2. **AI Activity Feed**
-   - Recent classifications with promotion reasons
-   - Verdict briefs generated (with risk scores)
-   - Oracle conversations summary
-   - Scheduled insight deliveries
-
-3. **Visitor Profiles Table**
-   - Searchable list with behavioral scores
-   - Click to view full profile + conversation history
-   - Manual tier override capability
-
-4. **Intelligence Logs**
-   - Filterable stream from `ai_intelligence_logs`
-   - Processing time graphs
-   - Error tracking
-
----
-
-### Phase 6: Ritual Micro-Rewards
-
-**Goal**: Reward patience with immediate acknowledgment
-
-**After Entry Ritual Completes**:
-Instead of immediately showing content, add a 2-second "acknowledgment moment":
+### System Architecture
 
 ```text
-┌─────────────────────────────────────┐
-│                                     │
-│         You waited.                 │
-│         Few do.                     │
-│                                     │
-│    ◆  The system notices.  ◆       │
-│                                     │
-└─────────────────────────────────────┘
+VISITOR ARRIVES
+     │
+     ▼
+┌──────────────────┐
+│   Entry Ritual   │  ← 14s patience test
+│   (Stillness)    │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ Behavior Engine  │  ← Tracks patience, curiosity, dwell time
+│ (Real-time)      │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────────────────────────────────┐
+│              AI TRIAD                        │
+├──────────────┬──────────────┬───────────────┤
+│    ORACLE    │   VERDICT    │  CLASSIFIER   │
+│  (Chat AI)   │  (Briefs)    │   (Tiers)     │
+│              │              │               │
+│ Real-time    │ Generates    │ Auto-promotes │
+│ consultation │ risk matrix  │ Observer →    │
+│ on any page  │ + blind      │ Acknowledged  │
+│              │ spots        │ → Inner       │
+└──────────────┴──────────────┴───────────────┘
+         │
+         ▼
+┌──────────────────┐
+│    SCHEDULER     │  ← Proactive intelligence
+│  (6h cycles)     │     Re-engagement, digests
+└──────────────────┘
 ```
 
-Fade to main content after 2 seconds.
+### Tier System
 
-**For Returning Visitors**:
-```text
-"You returned. [Visit count] times now."
-```
+| Tier | Requirements | Access |
+|------|--------------|--------|
+| Observer | Default | View nodes, limited Oracle |
+| Acknowledged | 60% patience, 50% curiosity, 3min dwell | Full Oracle, request briefs |
+| Inner Circle | 80% patience, 70% curiosity, 10min, 3+ nodes | Priority briefs, signal digests |
 
----
+### Current Rating: 9/10
 
-## File Changes Summary
+**Strengths:**
+- Autonomous AI triad operates without human intervention
+- Behavioral scoring creates genuine meritocracy
+- Mythic/sovereign aesthetic demands respect
+- WebGL experience communicates "this is different"
 
-### Modified Files:
-| File | Changes |
-|------|---------|
-| `src/components/3d/SovereignVoid.tsx` | Reduce particle counts, add reduced-motion detection |
-| `src/App.tsx` | Add global Oracle provider and StatusOrb |
-| `src/pages/Index.tsx` | Add ritual micro-reward acknowledgment |
-| `src/contexts/ApexSystemContext.tsx` | Expose more granular metrics for StatusOrb |
-| `src/pages/Dashboard.tsx` | Complete overhaul as Admin Intelligence Dashboard |
-| `src/index.css` | Add reduced-motion media query styles |
-
-### New Files:
-| File | Purpose |
-|------|---------|
-| `src/components/ui/StatusOrb.tsx` | Persistent tier/score indicator |
-| `src/contexts/OracleContext.tsx` | Global Oracle state management |
-| `supabase/functions/apex-scheduler/index.ts` | Scheduled intelligence generation |
-
-### Database Migrations:
-| Change | Purpose |
-|--------|---------|
-| Add `scheduled_insights` table | Store proactive AI-generated insights |
-| Add `promotion_probability` column to `visitor_profiles` | Track near-threshold visitors |
+**Gap to 10/10:**
+- Missing monetization layer (subscription/pay-per-verdict)
+- Scheduled insights generate but have no delivery mechanism (email)
+- Minor technical debt (forwardRef warnings causing instability)
 
 ---
 
-## Technical Architecture After Implementation
+## Files to Change
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                     APEX SOVEREIGN SYSTEM                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    │
-│  │   ORACLE    │    │   VERDICT   │    │ CLASSIFIER  │    │
-│  │  (chat AI)  │    │  (briefs)   │    │  (tiers)    │    │
-│  └──────┬──────┘    └──────┬──────┘    └──────┬──────┘    │
-│         │                  │                  │            │
-│         └──────────────────┼──────────────────┘            │
-│                            │                               │
-│                    ┌───────▼───────┐                       │
-│                    │   SCHEDULER   │ ← NEW (6h cycles)     │
-│                    │  (proactive)  │                       │
-│                    └───────┬───────┘                       │
-│                            │                               │
-├────────────────────────────┼───────────────────────────────┤
-│  DATABASE                  ▼                               │
-│  ┌──────────────┬──────────────┬──────────────┐           │
-│  │   visitors   │   requests   │  insights    │           │
-│  │   profiles   │   + briefs   │  (scheduled) │           │
-│  └──────────────┴──────────────┴──────────────┘           │
-├─────────────────────────────────────────────────────────────┤
-│  FRONTEND                                                   │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐      │
-│  │ StatusOrb│ │ Oracle   │ │ Ritual   │ │ Dashboard│      │
-│  │ (visible)│ │ (global) │ │ (reward) │ │ (admin)  │      │
-│  └──────────┘ └──────────┘ └──────────┘ └──────────┘      │
-└─────────────────────────────────────────────────────────────┘
-```
+| File | Change |
+|------|--------|
+| `src/components/oracle/SovereignInterface.tsx` | Wrap in `forwardRef` to fix ref warnings |
+| `src/components/ui/StatusOrb.tsx` | Wrap in `forwardRef` to fix ref warnings |
+| `src/components/3d/SovereignVoid.tsx` | Reduce geometry segments, add adaptive quality, add visibility pausing |
 
 ---
 
-## Expected Outcome: 10/10 Rating
+## Expected Outcome
 
-### Before (Current 8/10):
-- Occasional frame drops on scroll
-- Users don't know their status
-- Oracle hidden on one page
-- AI only reacts to submissions
-- No admin visibility
-
-### After (Target 10/10):
-- Buttery 60fps across all devices
-- Real-time visible progression creates engagement loop
-- Oracle available everywhere with keyboard shortcut
-- AI proactively generates insights and re-engages visitors
-- Full admin dashboard for monitoring the "brain"
-- Ritual rewards patience with immediate acknowledgment
-- System truly "runs itself" — the infrastructure becomes inevitable
-
----
-
-## Implementation Priority Order
-
-1. **Performance** → Smoothness is table stakes
-2. **StatusOrb** → Visible progression creates engagement
-3. **Global Oracle** → Core interaction should be everywhere
-4. **Scheduler** → True autonomy requires proactive intelligence
-5. **Dashboard** → Admin visibility for trust and iteration
-6. **Ritual Rewards** → Polish that elevates the experience
-
+After implementation:
+- Back button navigation works reliably (no more "file not found")
+- Zero console warnings
+- Consistent 60fps even on mid-range devices
+- Automatic quality reduction when performance drops
+- WebGL pauses when tab is hidden (saves battery)
