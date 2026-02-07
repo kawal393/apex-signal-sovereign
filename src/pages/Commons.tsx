@@ -81,20 +81,11 @@ const Commons = () => {
       <main className="relative z-10">
         {/* Hero Header with MASSIVE LOGO - BIGGER FONTS */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden border-b border-border/5">
-          {/* Mystical Portal Rings - OPTIMIZED: CSS only, no JS animation */}
+          {/* Mystical Portal Rings - PURE CSS for zero JS overhead */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div 
-              className="absolute w-[450px] h-[450px] rounded-full border border-silver-light/10 animate-[spin_80s_linear_infinite]"
-              style={{ willChange: 'transform' }}
-            />
-            <div 
-              className="absolute w-[600px] h-[600px] rounded-full border border-silver-mid/8 animate-[spin_100s_linear_infinite_reverse]"
-              style={{ willChange: 'transform' }}
-            />
-            <div 
-              className="absolute w-[800px] h-[800px] rounded-full border border-grey-600/5 animate-[spin_120s_linear_infinite]"
-              style={{ willChange: 'transform' }}
-            />
+            <div className="absolute w-[450px] h-[450px] rounded-full border border-silver-light/8 animate-spin-slow" />
+            <div className="absolute w-[600px] h-[600px] rounded-full border border-silver-mid/5 animate-spin-slower" />
+            <div className="absolute w-[800px] h-[800px] rounded-full border border-grey-600/3 animate-spin-slowest" />
           </div>
           
           {/* LOGO INTEGRATED INTO THE VOID - more subtle, blends with 3D */}

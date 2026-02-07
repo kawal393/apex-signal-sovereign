@@ -122,7 +122,13 @@ const NodeDetail = () => {
                   variant="primary" 
                   size="lg" 
                   className="flex-1 gap-2"
-                  onClick={() => window.open(node.externalUrl, '_blank', 'noopener,noreferrer')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const newWindow = window.open(node.externalUrl, '_blank', 'noopener,noreferrer');
+                    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+                      window.location.href = node.externalUrl!;
+                    }
+                  }}
                 >
                   OPEN LIVE TOOL
                   <ExternalLink className="w-4 h-4" />
