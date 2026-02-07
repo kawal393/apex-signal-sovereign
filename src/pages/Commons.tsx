@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import SystemMap from "@/components/sections/SystemMap";
 import FeaturedNodes from "@/components/sections/FeaturedNodes";
@@ -8,12 +10,12 @@ import AccessTiers from "@/components/sections/AccessTiers";
 import ActivityFeed from "@/components/sections/ActivityFeed";
 import SovereignVoid from "@/components/3d/SovereignVoid";
 import MobileVoid from "@/components/effects/MobileVoid";
+import { ApexButton } from "@/components/ui/apex-button";
 import { usePresence } from "@/hooks/usePresence";
 import { useApexSystem } from "@/contexts/ApexSystemContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import apexLogo from "@/assets/apex-logo.png";
 import { advancedAudioPresence } from "@/lib/audioPresenceAdvanced";
-import { Link } from "react-router-dom";
 
 const Commons = () => {
   const presence = usePresence();
@@ -72,37 +74,8 @@ const Commons = () => {
         <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-black to-transparent" />
       </div>
       
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group">
-            <img src={apexLogo} alt="APEX" className="w-10 h-10 opacity-60 group-hover:opacity-100 transition-opacity duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)]" />
-            <span className="text-sm font-medium text-grey-400 group-hover:text-grey-200 transition-colors duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] tracking-widest">
-              APEX INFRASTRUCTURE
-            </span>
-          </Link>
-          
-          <div className="flex items-center gap-6">
-            <Link 
-              to="/manifesto" 
-              className="text-[11px] uppercase tracking-[0.2em] text-grey-500 hover:text-grey-300 transition-colors"
-            >
-              Manifesto
-            </Link>
-            <Link 
-              to="/dashboard" 
-              className="text-[11px] uppercase tracking-[0.2em] text-grey-500 hover:text-grey-300 transition-colors"
-            >
-              Dashboard
-            </Link>
-            {status !== 'observer' && (
-              <span className="text-[9px] uppercase tracking-[0.3em] text-primary/60 bg-primary/10 px-3 py-1.5 rounded-full border border-primary/20">
-                {status === 'acknowledged' ? 'Acknowledged' : 'Under Consideration'}
-              </span>
-            )}
-          </div>
-        </div>
-      </nav>
+      {/* Navigation - Now using ApexNav component */}
+      <ApexNav />
       
       {/* Main Content */}
       <main className="relative z-10">

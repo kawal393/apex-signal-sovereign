@@ -106,6 +106,16 @@ const Index = () => {
             {/* Main Content - Bottom */}
             <main className="relative z-20 flex min-h-screen flex-col items-center justify-end px-6 pb-24 md:pb-32">
               <div className="max-w-4xl mx-auto text-center">
+                {/* Reality Anchor */}
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-sm md:text-base text-grey-400 leading-relaxed mb-12 max-w-2xl mx-auto"
+                >
+                  APEX issues written Verdict Briefs that help operators make irreversible decisions under regulatory, institutional, and market pressure.
+                </motion.p>
+
                 {/* Rotating Statement */}
                 <motion.div
                   initial={{ opacity: 0, y: 60 }}
