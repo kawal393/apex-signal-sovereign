@@ -16,50 +16,137 @@ export type Database = {
     Tables: {
       access_requests: {
         Row: {
+          ai_assessment: string | null
+          ai_processed_at: string | null
+          ai_recommendation: string | null
+          ai_risk_score: number | null
           behavioral_data: Json | null
+          budget_range: string | null
           created_at: string
+          decision_area: string | null
+          email: string | null
           id: string
           intent: string
+          name: string | null
           notes: string | null
+          organization: string | null
           patience_score_at_request: number | null
           reviewed_at: string | null
           reviewed_by: string | null
           scroll_depth_at_request: number | null
           status: string
           time_spent_before_request: number | null
+          urgency: string | null
           visitor_id: string | null
         }
         Insert: {
+          ai_assessment?: string | null
+          ai_processed_at?: string | null
+          ai_recommendation?: string | null
+          ai_risk_score?: number | null
           behavioral_data?: Json | null
+          budget_range?: string | null
           created_at?: string
+          decision_area?: string | null
+          email?: string | null
           id?: string
           intent: string
+          name?: string | null
           notes?: string | null
+          organization?: string | null
           patience_score_at_request?: number | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           scroll_depth_at_request?: number | null
           status?: string
           time_spent_before_request?: number | null
+          urgency?: string | null
           visitor_id?: string | null
         }
         Update: {
+          ai_assessment?: string | null
+          ai_processed_at?: string | null
+          ai_recommendation?: string | null
+          ai_risk_score?: number | null
           behavioral_data?: Json | null
+          budget_range?: string | null
           created_at?: string
+          decision_area?: string | null
+          email?: string | null
           id?: string
           intent?: string
+          name?: string | null
           notes?: string | null
+          organization?: string | null
           patience_score_at_request?: number | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           scroll_depth_at_request?: number | null
           status?: string
           time_spent_before_request?: number | null
+          urgency?: string | null
           visitor_id?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "access_requests_visitor_id_fkey"
+            columns: ["visitor_id"]
+            isOneToOne: false
+            referencedRelation: "visitor_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_intelligence_logs: {
+        Row: {
+          created_at: string
+          id: string
+          input_data: Json | null
+          log_type: string
+          model_used: string | null
+          output_data: Json | null
+          processing_time_ms: number | null
+          request_id: string | null
+          tokens_used: number | null
+          trigger_source: string
+          visitor_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          input_data?: Json | null
+          log_type: string
+          model_used?: string | null
+          output_data?: Json | null
+          processing_time_ms?: number | null
+          request_id?: string | null
+          tokens_used?: number | null
+          trigger_source: string
+          visitor_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          input_data?: Json | null
+          log_type?: string
+          model_used?: string | null
+          output_data?: Json | null
+          processing_time_ms?: number | null
+          request_id?: string | null
+          tokens_used?: number | null
+          trigger_source?: string
+          visitor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_intelligence_logs_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "access_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_intelligence_logs_visitor_id_fkey"
             columns: ["visitor_id"]
             isOneToOne: false
             referencedRelation: "visitor_profiles"
@@ -99,6 +186,44 @@ export type Database = {
           signal_type?: string
         }
         Relationships: []
+      }
+      oracle_conversations: {
+        Row: {
+          context: Json | null
+          created_at: string
+          id: string
+          messages: Json
+          session_id: string
+          status: string
+          visitor_id: string | null
+        }
+        Insert: {
+          context?: Json | null
+          created_at?: string
+          id?: string
+          messages?: Json
+          session_id: string
+          status?: string
+          visitor_id?: string | null
+        }
+        Update: {
+          context?: Json | null
+          created_at?: string
+          id?: string
+          messages?: Json
+          session_id?: string
+          status?: string
+          visitor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "oracle_conversations_visitor_id_fkey"
+            columns: ["visitor_id"]
+            isOneToOne: false
+            referencedRelation: "visitor_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       session_events: {
         Row: {

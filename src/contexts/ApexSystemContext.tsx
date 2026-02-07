@@ -22,6 +22,9 @@ interface ApexSystemContextType {
   isRestricted: boolean;
   status: 'observer' | 'acknowledged' | 'considered';
   
+  // Visitor
+  visitorId: string | undefined;
+  
   // Actions
   trackNodeFocus: (nodeId: string) => void;
   trackNodeBlur: (nodeId: string) => void;
@@ -45,6 +48,7 @@ export function ApexSystemProvider({ children }: { children: ReactNode }) {
   const [warning, setWarning] = useState<string | null>(null);
   const [isRestricted, setIsRestricted] = useState(false);
   const [status, setStatus] = useState<'observer' | 'acknowledged' | 'considered'>('observer');
+  const [visitorId, setVisitorId] = useState<string | undefined>(undefined);
 
   // Initialize engines
   useEffect(() => {
@@ -58,6 +62,10 @@ export function ApexSystemProvider({ children }: { children: ReactNode }) {
       setCuriosityScore(metrics.curiosityScore);
       setIsReturningVisitor(behaviorEngine.isReturningVisitor());
       setReturnCount(behaviorEngine.getReturnCount());
+      
+      // Get visitor ID from behavior engine
+      const vid = behaviorEngine.getVisitorId?.() || localStorage.getItem('apex_visitor_id') || undefined;
+      setVisitorId(vid);
       
       setIsInitialized(true);
     };
@@ -158,6 +166,7 @@ export function ApexSystemProvider({ children }: { children: ReactNode }) {
         warning,
         isRestricted,
         status,
+        visitorId,
         trackNodeFocus,
         trackNodeBlur,
         playThresholdTone,
