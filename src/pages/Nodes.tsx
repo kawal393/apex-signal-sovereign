@@ -81,7 +81,15 @@ const Nodes = () => {
                       variant="primary" 
                       size="sm" 
                       className="flex-1 gap-2"
-                      onClick={() => window.open(node.externalUrl, '_blank', 'noopener,noreferrer')}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        // Try window.open first, fallback to location for sandboxed iframes
+                        const newWindow = window.open(node.externalUrl, '_blank', 'noopener,noreferrer');
+                        if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+                          // Popup blocked or sandboxed - navigate directly
+                          window.location.href = node.externalUrl!;
+                        }
+                      }}
                     >
                       OPEN LIVE TOOL
                       <ExternalLink className="w-3.5 h-3.5" />

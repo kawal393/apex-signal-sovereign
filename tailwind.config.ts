@@ -183,6 +183,19 @@ export default {
             transform: 'scale(1.02)',
             filter: 'brightness(1.1) drop-shadow(0 0 150px hsl(42 100% 55% / 0.5))'
           }
+        },
+        // Ultra-slow spins for portal rings - GPU optimized
+        'spin-slow': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' }
+        },
+        'spin-slower': {
+          '0%': { transform: 'rotate(360deg)' },
+          '100%': { transform: 'rotate(0deg)' }
+        },
+        'spin-slowest': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' }
         }
       },
       animation: {
@@ -194,7 +207,10 @@ export default {
         float: 'float 10s ease-in-out infinite',
         'float-slow': 'float-slow 15s ease-in-out infinite',
         'pulse-glow': 'pulse-glow 6s ease-in-out infinite',
-        'sovereign-pulse': 'sovereign-pulse 10s ease-in-out infinite'
+        'sovereign-pulse': 'sovereign-pulse 10s ease-in-out infinite',
+        'spin-slow': 'spin-slow 80s linear infinite',
+        'spin-slower': 'spin-slower 100s linear infinite',
+        'spin-slowest': 'spin-slowest 120s linear infinite'
       },
       boxShadow: {
         '2xs': 'var(--shadow-2xs)',
