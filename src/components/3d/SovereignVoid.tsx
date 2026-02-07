@@ -16,8 +16,23 @@ interface CursorState {
   active: boolean;
 }
 
-// Deep space star field with parallax layers - ULTRA SMOOTH
-function StarField({ count = 1200 }: { count?: number }) {
+// Check for reduced motion preference
+function usePrefersReducedMotion() {
+  const [prefersReduced, setPrefersReduced] = useState(false);
+  
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReduced(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+  
+  return prefersReduced;
+}
+
+// Deep space star field with parallax layers - OPTIMIZED
+function StarField({ count = 300 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null);
   const timeRef = useRef(0);
   
@@ -121,7 +136,7 @@ function NebulaClouds() {
 }
 
 // Energy tendrils with trails
-function EnergyTendrils({ count = 8 }: { count?: number }) {
+function EnergyTendrils({ count = 4 }: { count?: number }) {
   const refs = useRef<THREE.Mesh[]>([]);
   const timeRef = useRef(0);
   
@@ -172,7 +187,7 @@ function EnergyTendrils({ count = 8 }: { count?: number }) {
 }
 
 // PARTICLE TRAILS - orbiting particles with persistent trails
-function ParticleTrails({ count = 12 }: { count?: number }) {
+function ParticleTrails({ count = 4 }: { count?: number }) {
   const groupRef = useRef<THREE.Group>(null);
   const particlesRef = useRef<THREE.Mesh[]>([]);
   const timeRef = useRef(0);
@@ -230,7 +245,7 @@ function ParticleTrails({ count = 12 }: { count?: number }) {
 }
 
 // Cursor-reactive particles - ULTRA SMOOTH
-function CursorReactiveParticles({ count = 600, cursorState }: { count?: number; cursorState: CursorState }) {
+function CursorReactiveParticles({ count = 180, cursorState }: { count?: number; cursorState: CursorState }) {
   const ref = useRef<THREE.Points>(null);
   const velocitiesRef = useRef<Float32Array | null>(null);
   const originalPositionsRef = useRef<Float32Array | null>(null);
@@ -594,6 +609,18 @@ export default function SovereignVoid({
     velocity: new THREE.Vector3(0, 0, 0),
     active: false
   }));
+  
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  // Skip WebGL entirely for reduced motion users
+  if (prefersReducedMotion) {
+    return (
+      <div className={`absolute inset-0 ${className}`} aria-hidden="true">
+        <div className="absolute inset-0 bg-gradient-to-b from-[hsl(260,20%,2%)] via-[hsl(260,18%,1%)] to-black" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_40%,hsl(42_80%_50%_/_0.03),transparent)]" />
+      </div>
+    );
+  }
 
   if (!active) {
     return <div className={`absolute inset-0 ${className}`} aria-hidden="true" />;
@@ -603,19 +630,19 @@ export default function SovereignVoid({
     <div className={`absolute inset-0 ${className}`}>
       <Canvas
         camera={{ position: [0, 0, 24], fov: 48 }}
-        dpr={[1, 1]} // Fixed DPR for consistent performance
+        dpr={[1, 1]}
         gl={{
           antialias: false,
           alpha: true,
           powerPreference: 'high-performance',
           stencil: false,
-          depth: false, // Disable depth buffer for 2.5D scene
+          depth: false,
           preserveDrawingBuffer: false,
-          failIfMajorPerformanceCaveat: true, // Fall back if GPU is weak
+          failIfMajorPerformanceCaveat: true,
         }}
         frameloop={active ? 'always' : 'demand'}
-        performance={{ min: 0.5 }} // Allow frame throttling
-        style={{ willChange: 'transform' }} // GPU layer hint
+        performance={{ min: 0.5 }}
+        style={{ willChange: 'transform' }}
       >
         <color attach="background" args={['#000000']} />
         <fog attach="fog" args={['#020208', 12, 70]} />
@@ -628,26 +655,26 @@ export default function SovereignVoid({
         <pointLight position={[12, 12, 12]} intensity={0.7} color="#7050a0" distance={45} />
         <pointLight position={[-12, -6, 6]} intensity={0.4} color="#b0b0c0" distance={35} />
         
-        {/* Background layers - reduced counts for smoothness */}
-        <StarField count={active ? 500 : 200} />
+        {/* Background layers - REDUCED for 60fps */}
+        <StarField count={300} />
         <NebulaClouds />
 
-        {/* Core elements - reduced complexity */}
-        <EnergyTendrils count={active ? 5 : 3} />
+        {/* Core elements - OPTIMIZED */}
+        <EnergyTendrils count={3} />
         <EnergyRings />
-        {active && <ParticleTrails count={6} />}
-        <CursorReactiveParticles count={active ? 280 : 140} cursorState={cursorState} />
+        <ParticleTrails count={4} />
+        <CursorReactiveParticles count={180} cursorState={cursorState} />
         <SovereignCore />
         <LogoPlane />
         
-        {/* Post-processing - minimal for smoothness */}
+        {/* Post-processing - LIGHTER bloom */}
         <EffectComposer multisampling={0}>
           <Bloom
-            intensity={0.5}
+            intensity={0.35}
             luminanceThreshold={0.25}
             luminanceSmoothing={0.95}
             mipmapBlur
-            radius={0.6}
+            radius={0.4}
           />
           <Vignette
             darkness={0.45}
