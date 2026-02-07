@@ -182,20 +182,20 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
             {isReturningVisitor ? (
               <>
                 <motion.p
-                  className="text-7xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-extralight tracking-[0.03em] text-primary mb-12 leading-[1]"
+                  className="text-7xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-medium tracking-[0.02em] text-foreground mb-12 leading-[1]"
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.8, duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
                   style={{ 
                     willChange: 'transform, opacity',
-                    textShadow: '0 0 120px hsl(42 90% 55% / 0.4), 0 0 60px hsl(42 90% 55% / 0.2)'
+                    textShadow: '0 0 150px hsl(42 90% 55% / 0.5), 0 0 80px hsl(42 90% 55% / 0.3)'
                   }}
                 >
                   You have returned
                 </motion.p>
 
                 <motion.p
-                  className="text-2xl md:text-3xl lg:text-4xl uppercase tracking-[1em] text-muted-foreground/60"
+                  className="text-2xl md:text-3xl lg:text-4xl uppercase tracking-[0.8em] text-foreground/80 font-normal"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.5, duration: 2, ease: [0.16, 1, 0.3, 1] }}
@@ -206,7 +206,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
 
                 {status === 'considered' && (
                   <motion.p
-                    className="text-base uppercase tracking-[0.6em] text-primary/50 mt-12"
+                    className="text-lg uppercase tracking-[0.5em] text-primary font-medium mt-12"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 2.2, duration: 2, ease: [0.16, 1, 0.3, 1] }}
@@ -219,7 +219,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
             ) : (
               <>
                 <motion.p
-                  className="text-6xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-extralight tracking-[0.03em] text-muted-foreground/80 mb-12 leading-[1]"
+                  className="text-6xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-medium tracking-[0.02em] text-foreground mb-12 leading-[1]"
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.8, duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
@@ -229,7 +229,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
                 </motion.p>
 
                 <motion.p
-                  className="text-2xl md:text-3xl lg:text-4xl uppercase tracking-[1em] text-muted-foreground/60"
+                  className="text-2xl md:text-3xl lg:text-4xl uppercase tracking-[0.8em] text-foreground/80 font-normal"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.5, duration: 2, ease: [0.16, 1, 0.3, 1] }}
