@@ -101,22 +101,19 @@ const Commons = () => {
       <main className="relative z-10">
         {/* Hero Header with MASSIVE LOGO - BIGGER FONTS */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden border-b border-border/5">
-          {/* Mystical Portal Rings - ULTRA SMOOTH */}
+          {/* Mystical Portal Rings - OPTIMIZED: CSS only, no JS animation */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <motion.div 
-              className="absolute w-[450px] h-[450px] rounded-full border border-silver-light/15"
-              animate={{ scale: [1, 1.04, 1], opacity: [0.15, 0.32, 0.15], rotateZ: [0, 180, 360] }}
-              transition={{ duration: 40, repeat: Infinity, ease: [0.45, 0, 0.55, 1] }}
+            <div 
+              className="absolute w-[450px] h-[450px] rounded-full border border-silver-light/10 animate-[spin_80s_linear_infinite]"
+              style={{ willChange: 'transform' }}
             />
-            <motion.div 
-              className="absolute w-[600px] h-[600px] rounded-full border border-silver-mid/10"
-              animate={{ scale: [1, 1.03, 1], opacity: [0.1, 0.22, 0.1], rotateZ: [360, 180, 0] }}
-              transition={{ duration: 50, repeat: Infinity, ease: [0.45, 0, 0.55, 1], delay: 0.5 }}
+            <div 
+              className="absolute w-[600px] h-[600px] rounded-full border border-silver-mid/8 animate-[spin_100s_linear_infinite_reverse]"
+              style={{ willChange: 'transform' }}
             />
-            <motion.div 
-              className="absolute w-[800px] h-[800px] rounded-full border border-grey-600/8"
-              animate={{ scale: [1, 1.02, 1], opacity: [0.08, 0.18, 0.08], rotateZ: [0, -90, 0] }}
-              transition={{ duration: 60, repeat: Infinity, ease: [0.45, 0, 0.55, 1], delay: 1 }}
+            <div 
+              className="absolute w-[800px] h-[800px] rounded-full border border-grey-600/5 animate-[spin_120s_linear_infinite]"
+              style={{ willChange: 'transform' }}
             />
           </div>
           
@@ -219,36 +216,38 @@ const Commons = () => {
             <motion.div
               initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 4.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 3, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              style={{ willChange: 'transform, opacity' }}
             >
               <motion.span 
-                className="text-[11px] md:text-[13px] uppercase tracking-[1em] text-grey-300 block mb-12"
+                className="text-sm md:text-base uppercase tracking-[0.8em] text-grey-200 block mb-10 font-normal"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.5, duration: 3.5, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: 1.2, duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
               >
                 The Inevitable Infrastructure
               </motion.span>
-              <h1 className="text-7xl md:text-9xl lg:text-[14rem] font-extralight text-grey-100 tracking-[0.04em] mb-12 leading-[0.85]">
-                <span className="text-grey-100 font-normal">APEX</span>
+              <h1 className="text-7xl md:text-9xl lg:text-[14rem] font-semibold text-foreground tracking-[0.03em] mb-10 leading-[0.85]">
+                APEX
               </h1>
-              <h2 className="text-4xl md:text-6xl lg:text-7xl font-extralight text-grey-300 tracking-[0.25em] mb-12">
+              <h2 className="text-4xl md:text-6xl lg:text-7xl font-medium text-foreground/90 tracking-[0.2em] mb-10">
                 INFRASTRUCTURE
               </h2>
-              <p className="text-xl md:text-2xl lg:text-3xl text-grey-200 font-extralight max-w-3xl mx-auto tracking-wider leading-relaxed">
+              <p className="text-xl md:text-2xl lg:text-3xl text-foreground/80 font-normal max-w-3xl mx-auto tracking-wide leading-relaxed">
                 What must happen, will happen.
               </p>
-              <p className="text-lg md:text-xl text-grey-400 font-extralight mt-4 tracking-widest">
+              <p className="text-lg md:text-xl text-foreground/60 font-normal mt-4 tracking-widest">
                 You are already inside.
               </p>
             </motion.div>
             
-            {/* Category sigils - LARGER with READABLE COLORS */}
+            {/* Category sigils - GPU OPTIMIZED */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 3.5, delay: 2.2, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-wrap items-center justify-center gap-8 md:gap-12 mt-24"
+              transition={{ duration: 2.5, delay: 1.8, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-wrap items-center justify-center gap-8 md:gap-12 mt-20"
+              style={{ willChange: 'transform, opacity' }}
             >
               {[
                 { label: "INTELLIGENCE", sigil: "◆", color: "silver" },
@@ -259,23 +258,21 @@ const Commons = () => {
                   key={item.label}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 2.8 + i * 0.4, duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
-                  whileHover={{ y: -8, scale: 1.05, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }}
-                  className={`group px-10 py-6 text-[11px] md:text-[13px] uppercase tracking-[0.6em] font-normal flex items-center gap-6 
-                    ${item.color === 'silver' ? 'text-silver-light border-silver-mid/30' : 
-                      item.color === 'grey' ? 'text-grey-200 border-grey-500/30' : 
-                      'text-purple-light border-purple-mid/30'} 
-                    border rounded-lg bg-black/90 backdrop-blur-2xl cursor-default transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)]`}
+                  transition={{ delay: 2.2 + i * 0.3, duration: 2, ease: [0.16, 1, 0.3, 1] }}
+                  whileHover={{ y: -6, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }}
+                  className={`group px-8 py-5 text-xs md:text-sm uppercase tracking-[0.5em] font-medium flex items-center gap-5 
+                    ${item.color === 'silver' ? 'text-foreground border-silver-mid/40' : 
+                      item.color === 'grey' ? 'text-foreground/90 border-grey-500/40' : 
+                      'text-foreground/90 border-purple-mid/40'} 
+                    border rounded-lg bg-black/95 backdrop-blur-xl cursor-default transition-all duration-700`}
+                  style={{ willChange: 'transform' }}
                 >
-                  <motion.span 
-                    className={`${item.color === 'silver' ? 'text-silver-mid group-hover:text-silver-light' : 
-                      item.color === 'grey' ? 'text-grey-400 group-hover:text-grey-200' : 
-                      'text-purple-mid group-hover:text-purple-light'} transition-colors duration-[1500ms] text-xl`}
-                    animate={{ rotateY: [0, 360] }}
-                    transition={{ duration: 50 + i * 10, repeat: Infinity, ease: "linear" }}
+                  <span className={`${item.color === 'silver' ? 'text-primary' : 
+                    item.color === 'grey' ? 'text-foreground/70' : 
+                    'text-purple-light'} text-lg`}
                   >
                     {item.sigil}
-                  </motion.span>
+                  </span>
                   {item.label}
                 </motion.div>
               ))}
