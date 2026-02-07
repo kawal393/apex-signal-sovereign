@@ -39,7 +39,8 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
 
   useEffect(() => {
     if (phase === 'presence') {
-      const timer = setTimeout(() => setPhase('audio_offer'), 7500);
+      // Minimum 8 seconds to let text fully breathe
+      const timer = setTimeout(() => setPhase('audio_offer'), 8000);
       return () => clearTimeout(timer);
     }
   }, [phase]);
@@ -71,7 +72,8 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
       className="fixed inset-0 z-50 bg-black flex items-center justify-center"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 4.5, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] }}
+      style={{ willChange: 'opacity' }}
     >
       <AnimatePresence mode="wait">
         {/* Stillness Phase */}
@@ -133,29 +135,31 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
           </motion.div>
         )}
           
-        {/* Presence Phase - MASSIVE TYPOGRAPHY */}
+        {/* Presence Phase - MASSIVE TYPOGRAPHY - GPU OPTIMIZED */}
         {phase === 'presence' && (
           <motion.div
             key="presence"
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
-            transition={{ duration: 5, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, y: -40 }}
+            transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] }}
             className="text-center px-6 max-w-7xl"
+            style={{ willChange: 'transform, opacity' }}
           >
-            {/* Location + precise datetime - BIGGER */}
+            {/* Location + precise datetime */}
             <motion.div
-              initial={{ opacity: 0, y: -40 }}
+              initial={{ opacity: 0, y: -30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 5, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-20"
+              transition={{ delay: 0.5, duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-16"
+              style={{ willChange: 'transform, opacity' }}
             >
-              <div className="flex flex-wrap items-center justify-center gap-8 text-muted-foreground/35">
-                <span className="text-base md:text-lg uppercase tracking-[0.7em] font-light">
+              <div className="flex flex-wrap items-center justify-center gap-6 text-muted-foreground/50">
+                <span className="text-lg md:text-xl uppercase tracking-[0.6em] font-light">
                   {presence.city}
                 </span>
-                <span className="w-2 h-2 rounded-full bg-muted-foreground/20" />
-                <span className="text-base md:text-lg uppercase tracking-[0.5em] tabular-nums font-light">
+                <span className="w-2 h-2 rounded-full bg-muted-foreground/30" />
+                <span className="text-lg md:text-xl uppercase tracking-[0.4em] tabular-nums font-light">
                   {now.toLocaleDateString(undefined, {
                     weekday: 'long',
                     year: 'numeric',
@@ -163,8 +167,8 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
                     day: 'numeric',
                   })}
                 </span>
-                <span className="w-2 h-2 rounded-full bg-muted-foreground/20" />
-                <span className="text-base md:text-lg uppercase tracking-[0.5em] tabular-nums font-light">
+                <span className="w-2 h-2 rounded-full bg-muted-foreground/30" />
+                <span className="text-lg md:text-xl uppercase tracking-[0.4em] tabular-nums font-light">
                   {now.toLocaleTimeString(undefined, {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -178,29 +182,35 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
             {isReturningVisitor ? (
               <>
                 <motion.p
-                  className="text-6xl md:text-8xl lg:text-9xl xl:text-[10rem] font-extralight tracking-[0.04em] text-primary/80 mb-14 leading-[1.05]"
-                  initial={{ opacity: 0, y: 40, filter: 'blur(25px)' }}
-                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  transition={{ delay: 1.5, duration: 5.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-7xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-extralight tracking-[0.03em] text-primary mb-12 leading-[1]"
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8, duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ 
+                    willChange: 'transform, opacity',
+                    textShadow: '0 0 120px hsl(42 90% 55% / 0.4), 0 0 60px hsl(42 90% 55% / 0.2)'
+                  }}
                 >
                   You have returned
                 </motion.p>
 
                 <motion.p
-                  className="text-xl md:text-2xl lg:text-3xl uppercase tracking-[1.2em] text-muted-foreground/45"
-                  initial={{ opacity: 0, y: 25 }}
+                  className="text-2xl md:text-3xl lg:text-4xl uppercase tracking-[1em] text-muted-foreground/60"
+                  initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 2.8, duration: 4.5, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ delay: 1.5, duration: 2, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ willChange: 'transform, opacity' }}
                 >
                   Visit № {returnCount}
                 </motion.p>
 
                 {status === 'considered' && (
                   <motion.p
-                    className="text-sm uppercase tracking-[0.8em] text-primary/40 mt-16"
+                    className="text-base uppercase tracking-[0.6em] text-primary/50 mt-12"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 4, duration: 4, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ delay: 2.2, duration: 2, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ willChange: 'transform, opacity' }}
                   >
                     Status: Under consideration
                   </motion.p>
@@ -209,19 +219,21 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
             ) : (
               <>
                 <motion.p
-                  className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-extralight tracking-[0.04em] text-muted-foreground/60 mb-14 leading-[1.05]"
-                  initial={{ opacity: 0, y: 40, filter: 'blur(25px)' }}
-                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  transition={{ delay: 1.5, duration: 5.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-6xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-extralight tracking-[0.03em] text-muted-foreground/80 mb-12 leading-[1]"
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8, duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ willChange: 'transform, opacity' }}
                 >
                   Arriving
                 </motion.p>
 
                 <motion.p
-                  className="text-xl md:text-2xl lg:text-3xl uppercase tracking-[1.2em] text-muted-foreground/40"
-                  initial={{ opacity: 0, y: 25 }}
+                  className="text-2xl md:text-3xl lg:text-4xl uppercase tracking-[1em] text-muted-foreground/60"
+                  initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 2.8, duration: 4.5, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ delay: 1.5, duration: 2, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ willChange: 'transform, opacity' }}
                 >
                   The infrastructure observes
                 </motion.p>
