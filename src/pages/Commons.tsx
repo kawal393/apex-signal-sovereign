@@ -7,8 +7,10 @@ import AccessRequest from "@/components/sections/AccessRequest";
 import AccessTiers from "@/components/sections/AccessTiers";
 import ActivityFeed from "@/components/sections/ActivityFeed";
 import SovereignVoid from "@/components/3d/SovereignVoid";
+import MobileVoid from "@/components/effects/MobileVoid";
 import { usePresence } from "@/hooks/usePresence";
 import { useApexSystem } from "@/contexts/ApexSystemContext";
+import { useIsMobile } from "@/hooks/use-mobile";
 import apexLogo from "@/assets/apex-logo.png";
 import { advancedAudioPresence } from "@/lib/audioPresenceAdvanced";
 import { Link } from "react-router-dom";
@@ -16,6 +18,7 @@ import { Link } from "react-router-dom";
 const Commons = () => {
   const presence = usePresence();
   const { isAudioEnabled, status, playThresholdTone } = useApexSystem();
+  const isMobile = useIsMobile();
   const [scrollDepth, setScrollDepth] = useState(0);
   const [currentTime, setCurrentTime] = useState(new Date());
   const heroActive = scrollDepth < 0.18;
@@ -55,8 +58,12 @@ const Commons = () => {
 
   return (
     <div className="relative min-h-screen bg-black">
-      {/* TRUE WEBGL 3D VOID */}
-      <SovereignVoid active={heroActive} scrollDepth={scrollDepth} className="fixed inset-0 z-0" />
+      {/* Progressive degradation: 2D void for mobile, WebGL for desktop */}
+      {isMobile ? (
+        <MobileVoid />
+      ) : (
+        <SovereignVoid active={heroActive} scrollDepth={scrollDepth} className="fixed inset-0 z-0" />
+      )}
       
       {/* Atmospheric overlays - DARKER */}
       <div className="fixed inset-0 pointer-events-none z-[1]">

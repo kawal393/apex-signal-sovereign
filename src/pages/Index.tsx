@@ -4,9 +4,11 @@ import { useState, useCallback, useEffect } from "react";
 import { ApexButton } from "@/components/ui/apex-button";
 import EntryRitual from "@/components/ritual/EntryRitual";
 import SovereignVoid from "@/components/3d/SovereignVoid";
+import MobileVoid from "@/components/effects/MobileVoid";
 import { useRotatingStatement } from "@/hooks/useRotatingStatement";
 import { usePresence } from "@/hooks/usePresence";
 import { useApexSystem } from "@/contexts/ApexSystemContext";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 
 const Index = () => {
@@ -16,6 +18,7 @@ const Index = () => {
   const statement = useRotatingStatement();
   const presence = usePresence();
   const { isAudioEnabled, status, playThresholdTone } = useApexSystem();
+  const isMobile = useIsMobile();
 
   const handleRitualComplete = useCallback(() => {
     setRitualComplete(true);
@@ -46,9 +49,13 @@ const Index = () => {
         )}
       </AnimatePresence>
 
-      {/* TRUE WEBGL 3D VOID */}
+      {/* 3D/2D VOID - Progressive degradation for mobile */}
       {contentVisible && (
-        <SovereignVoid scrollDepth={scrollDepth} className="z-0" />
+        isMobile ? (
+          <MobileVoid />
+        ) : (
+          <SovereignVoid scrollDepth={scrollDepth} className="z-0" />
+        )
       )}
 
       {/* Content */}

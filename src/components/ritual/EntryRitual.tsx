@@ -2,13 +2,29 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useStillness } from "@/hooks/useStillness";
 import { usePresence } from "@/hooks/usePresence";
 import { useApexSystem } from "@/contexts/ApexSystemContext";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 interface EntryRitualProps {
   onComplete: () => void;
 }
 
 type RitualPhase = 'void' | 'stillness' | 'presence' | 'audio_offer' | 'reveal';
+
+// Check for reduced motion preference
+function usePrefersReducedMotion() {
+  const [prefersReduced, setPrefersReduced] = useState(false);
+  
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReduced(mq.matches);
+    
+    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+  
+  return prefersReduced;
+}
 
 export default function EntryRitual({ onComplete }: EntryRitualProps) {
   const [phase, setPhase] = useState<RitualPhase>('void');
@@ -17,40 +33,47 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
   const { enableAudio, isReturningVisitor, returnCount, status } = useApexSystem();
   const [audioAccepted, setAudioAccepted] = useState(false);
   const [now, setNow] = useState(() => new Date());
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  // Animation config based on reduced motion preference
+  const motionConfig = useMemo(() => ({
+    duration: prefersReducedMotion ? 0.3 : 3,
+    ease: prefersReducedMotion ? "easeOut" : [0.16, 1, 0.3, 1] as const,
+    presenceDuration: prefersReducedMotion ? 3000 : 8000,
+  }), [prefersReducedMotion]);
 
   useEffect(() => {
     const interval = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
 
-  // Phase progression - ULTRA SLOW
+  // Phase progression - respects reduced motion
   useEffect(() => {
     if (phase === 'void') {
-      const timer = setTimeout(() => setPhase('stillness'), 2500);
+      const timer = setTimeout(() => setPhase('stillness'), prefersReducedMotion ? 500 : 2500);
       return () => clearTimeout(timer);
     }
-  }, [phase]);
+  }, [phase, prefersReducedMotion]);
 
   useEffect(() => {
-    if (phase === 'stillness' && isStill) {
+    if (phase === 'stillness' && (isStill || prefersReducedMotion)) {
       setPhase('presence');
     }
-  }, [phase, isStill]);
+  }, [phase, isStill, prefersReducedMotion]);
 
   useEffect(() => {
     if (phase === 'presence') {
-      // Minimum 8 seconds to let text fully breathe
-      const timer = setTimeout(() => setPhase('audio_offer'), 8000);
+      const timer = setTimeout(() => setPhase('audio_offer'), motionConfig.presenceDuration);
       return () => clearTimeout(timer);
     }
-  }, [phase]);
+  }, [phase, motionConfig.presenceDuration]);
 
   useEffect(() => {
     if (phase === 'reveal') {
-      const timer = setTimeout(onComplete, 5000);
+      const timer = setTimeout(onComplete, prefersReducedMotion ? 1000 : 5000);
       return () => clearTimeout(timer);
     }
-  }, [phase, onComplete]);
+  }, [phase, onComplete, prefersReducedMotion]);
 
   const handleAudioChoice = useCallback(async (accept: boolean) => {
     if (accept) {
@@ -59,6 +82,11 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
     }
     setPhase('reveal');
   }, [enableAudio]);
+
+  // Skip ritual entirely
+  const handleSkipRitual = useCallback(() => {
+    onComplete();
+  }, [onComplete]);
 
   // Skip directly to reveal for patient returning visitors
   useEffect(() => {
@@ -72,18 +100,30 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
       className="fixed inset-0 z-50 bg-black flex items-center justify-center"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: motionConfig.duration, ease: motionConfig.ease }}
       style={{ willChange: 'opacity' }}
     >
+      {/* Skip ritual link - subtle, bottom right */}
+      {(isReturningVisitor || prefersReducedMotion) && phase !== 'reveal' && (
+        <motion.button
+          onClick={handleSkipRitual}
+          className="absolute bottom-8 right-8 text-[10px] uppercase tracking-[0.4em] text-muted-foreground/20 hover:text-muted-foreground/50 transition-colors duration-700 z-50"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: prefersReducedMotion ? 0.3 : 2, duration: 1 }}
+        >
+          Skip →
+        </motion.button>
+      )}
       <AnimatePresence mode="wait">
         {/* Stillness Phase */}
-        {phase === 'stillness' && (
+        {phase === 'stillness' && !prefersReducedMotion && (
           <motion.div
             key="stillness"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: motionConfig.duration, ease: motionConfig.ease }}
             className="text-center"
           >
             {/* Stillness progress indicator */}
@@ -121,14 +161,14 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
                 animate={{
                   scale: [1, 1.4, 1],
                 }}
-                transition={{ duration: 5, repeat: Infinity, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 5, repeat: Infinity, ease: motionConfig.ease }}
               />
             </motion.div>
             
             <motion.p
               className="text-sm tracking-[0.7em] uppercase text-muted-foreground/25"
               animate={{ opacity: [0.15, 0.4, 0.15] }}
-              transition={{ duration: 6, repeat: Infinity, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 6, repeat: Infinity, ease: motionConfig.ease }}
             >
               {stillnessProgress < 0.5 ? "Be still" : "Almost there"}
             </motion.p>
