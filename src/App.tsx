@@ -20,6 +20,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Protocol from "./pages/Protocol";
 import Ledger from "./pages/Ledger";
+import RequestVerdict from "./pages/RequestVerdict";
 import NotFound from "./pages/NotFound";
 import StatusOrb from "./components/ui/StatusOrb";
 import SovereignInterface from "./components/oracle/SovereignInterface";
@@ -103,6 +104,7 @@ const App = () => (
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/protocol" element={<Protocol />} />
               <Route path="/ledger" element={<Ledger />} />
+              <Route path="/request-verdict" element={<RequestVerdict />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             {/* Global UI components */}
