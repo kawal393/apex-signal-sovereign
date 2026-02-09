@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import CanonLayer from "@/components/sections/CanonLayer";
+import TheConstellation from "@/components/sections/TheConstellation";
 import SystemMap from "@/components/sections/SystemMap";
 import FeaturedNodes from "@/components/sections/FeaturedNodes";
 import ATALedgerRegister from "@/components/sections/ATALedgerRegister";
@@ -290,7 +291,10 @@ const Commons = () => {
         {/* Canon Layer - Foundation of the Empire */}
         <CanonLayer />
         
-        {/* System Map */}
+        {/* THE CONSTELLATION - Empire Node Map */}
+        <TheConstellation />
+        
+        {/* System Map - 3D Visualization */}
         <SystemMap />
         
         {/* Featured Nodes - Interactive */}

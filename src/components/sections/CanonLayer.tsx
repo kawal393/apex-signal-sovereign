@@ -34,9 +34,8 @@ export default function CanonLayer() {
             >
               Foundation
             </motion.span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground tracking-wide leading-tight">
-              APEX Infrastructure — <br className="hidden md:block" />
-              <span className="text-gradient-gold font-normal">A Judgment Standard for the AI Age</span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground tracking-wide leading-tight">
+              APEX <span className="text-gradient-gold">Infrastructure</span>
             </h2>
           </div>
 
@@ -48,14 +47,14 @@ export default function CanonLayer() {
             transition={{ delay: 0.4, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="space-y-8 text-center"
           >
-            <p className="text-lg md:text-xl text-grey-300 leading-relaxed max-w-3xl mx-auto">
-              Apex Infrastructure is a decision-authority system operating across regulated, 
+            <p className="text-xl md:text-2xl text-grey-200 leading-relaxed max-w-3xl mx-auto font-light">
+              Apex Infrastructure is a sovereign decision-authority system operating across regulated, 
               capital-intensive, and irreversible domains.
             </p>
             
             <p className="text-lg md:text-xl text-grey-400 leading-relaxed max-w-3xl mx-auto">
-              In an era where AI produces unlimited answers, Apex exists to issue 
-              structured human judgment, recorded immutably.
+              In an era of infinite AI answers, Apex exists to issue structured human judgment 
+              and record it immutably.
             </p>
           </motion.div>
 
@@ -67,7 +66,7 @@ export default function CanonLayer() {
             transition={{ delay: 0.6, duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="mt-16 pt-12 border-t border-grey-800/30"
           >
-            <div className="grid md:grid-cols-3 gap-8 text-center">
+            <div className="grid md:grid-cols-3 gap-12 text-center">
               {[
                 { statement: "Apex does not execute.", subtext: "Observation only" },
                 { statement: "Apex does not represent.", subtext: "Independence preserved" },
@@ -79,12 +78,12 @@ export default function CanonLayer() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.8 + i * 0.15, duration: 0.8 }}
-                  className="group"
+                  className="group py-6 border-l border-grey-700/20 first:border-l-0 md:border-l"
                 >
-                  <p className="text-foreground font-medium tracking-wide mb-2">
+                  <p className="text-lg text-foreground font-medium tracking-wide mb-3">
                     {item.statement}
                   </p>
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-grey-600">
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-grey-500">
                     {item.subtext}
                   </span>
                 </motion.div>
@@ -100,8 +99,8 @@ export default function CanonLayer() {
             transition={{ delay: 1.2, duration: 1 }}
             className="mt-16 text-center"
           >
-            <p className="text-grey-500 text-sm tracking-wide">
-              All verdicts are maintained in the <span className="text-grey-400">ATA Ledger</span> — 
+            <p className="text-grey-400 text-base tracking-wide">
+              All verdicts are maintained in the <span className="text-foreground/80 font-medium">ATA Ledger</span> — 
               a permanent record of decision authority.
             </p>
           </motion.div>
