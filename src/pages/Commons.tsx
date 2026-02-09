@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
+import WhatIsApex from "@/components/sections/WhatIsApex";
 import CanonLayer from "@/components/sections/CanonLayer";
 import TheConstellation from "@/components/sections/TheConstellation";
 import SystemMap from "@/components/sections/SystemMap";
@@ -287,6 +288,9 @@ const Commons = () => {
             </motion.div>
           </div>
         </section>
+        
+        {/* What is Apex Infrastructure - Deep explanation + CTAs */}
+        <WhatIsApex />
         
         {/* Canon Layer - Foundation of the Empire */}
         <CanonLayer />

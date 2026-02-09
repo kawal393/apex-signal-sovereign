@@ -91,8 +91,11 @@ const NodeDetail = () => {
                   className="mb-12"
                 >
                   <div className="glass-card p-6 border-l-2 border-grey-600">
-                    <p className="text-grey-400 text-sm leading-relaxed italic">
-                      {node.description}
+                    <p className="text-grey-300 text-base leading-relaxed">
+                      Ghost Protocol is an operating doctrine: disciplined observation, triage, and escalation.
+                    </p>
+                    <p className="text-grey-500 text-sm mt-3">
+                      No execution. No representation. No impersonation. No deception.
                     </p>
                   </div>
                 </motion.section>
@@ -125,7 +128,7 @@ const NodeDetail = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="mb-16"
+                className="mb-12"
               >
                 <h2 className="text-xs uppercase tracking-[0.4em] text-grey-400 mb-6">
                   Who It's For
@@ -141,6 +144,35 @@ const NodeDetail = () => {
                   </ul>
                 </div>
               </motion.section>
+
+              {/* Premium CTA Panel - For NDIS Watchtower specifically */}
+              {node.id === 'ndis-watchtower' && (
+                <motion.section
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.45, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  className="mb-12"
+                >
+                  <div className="glass-card p-8 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+                    <h3 className="text-xl font-medium text-foreground mb-4">
+                      Seeing signals is not enough.
+                    </h3>
+                    <p className="text-grey-400 leading-relaxed mb-6">
+                      If you are flagged (or exposed to a flagged provider), the question is: 
+                      what does it mean for YOUR business decision?
+                    </p>
+                    <Link to="/request-verdict">
+                      <ApexButton variant="primary" size="lg" className="gap-2">
+                        Request NDIS Verdict Brief
+                        <ArrowLeft className="w-4 h-4 rotate-180" />
+                      </ApexButton>
+                    </Link>
+                    <p className="text-grey-600 text-xs mt-4">
+                      Apex Confidence Lock: refund only for structural incompleteness or delivery failure.
+                    </p>
+                  </div>
+                </motion.section>
+              )}
 
               {/* CTA Buttons */}
               <motion.div
