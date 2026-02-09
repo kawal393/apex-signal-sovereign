@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense, lazy } from "react";
 import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import WhatIsApex from "@/components/sections/WhatIsApex";
+import SocialProof from "@/components/sections/SocialProof";
 import CanonLayer from "@/components/sections/CanonLayer";
 import TheConstellation from "@/components/sections/TheConstellation";
 import SystemMap from "@/components/sections/SystemMap";
@@ -19,6 +20,7 @@ import { useApexSystem } from "@/contexts/ApexSystemContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useVisitorClassification } from "@/hooks/useVisitorClassification";
 import { useToast } from "@/hooks/use-toast";
+import { SkeletonSection } from "@/components/ui/skeleton-card";
 import apexLogo from "@/assets/apex-logo.png";
 import { advancedAudioPresence } from "@/lib/audioPresenceAdvanced";
 
@@ -291,6 +293,9 @@ const Commons = () => {
         
         {/* What is Apex Infrastructure - Deep explanation + CTAs */}
         <WhatIsApex />
+        
+        {/* Social Proof - Authority Markers */}
+        <SocialProof />
         
         {/* Canon Layer - Foundation of the Empire */}
         <CanonLayer />
