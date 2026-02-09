@@ -30,13 +30,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
-  organisationName: z.string().min(2, "Organisation name is required").max(200),
-  abn: z.string()
-    .min(11, "ABN must be 11 digits")
-    .max(14, "ABN must be 11 digits")
-    .regex(/^[\d\s]+$/, "ABN must contain only numbers"),
+  name: z.string().min(2, "Name is required").max(200),
   email: z.string().email("Valid email required").max(255),
+  organisation: z.string().min(2, "Organization is required").max(200),
+  abn: z.string()
+    .max(14, "ABN must be 11 digits")
+    .regex(/^[\d\s]*$/, "ABN must contain only numbers")
+    .optional()
+    .or(z.literal('')),
   decisionArea: z.string().min(1, "Decision area is required"),
+  urgency: z.string().min(1, "Urgency is required"),
   decisionDescription: z.string()
     .min(50, "Please provide a detailed description (minimum 50 characters)")
     .max(2000, "Description must be under 2000 characters"),
@@ -45,10 +48,9 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const notices = [
-  "APEX does not execute actions on your behalf",
-  "Conditional previews are watermarked and not citeable",
-  "Sealed verdicts are permanently recorded in the ATA Ledger",
-  "Identity authorization ($1 AUD) is required before verdict generation",
+  "Verdict Briefs are structured judgment for irreversible decisions",
+  "Delivery: within defined windows based on urgency tier",
+  "All Verdicts can be recorded to the ATA Ledger (sealed when applicable)",
 ];
 
 const RequestVerdict = () => {
@@ -60,10 +62,12 @@ const RequestVerdict = () => {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      organisationName: "",
-      abn: "",
+      name: "",
       email: "",
+      organisation: "",
+      abn: "",
       decisionArea: "",
+      urgency: "",
       decisionDescription: "",
     },
   });
@@ -76,12 +80,12 @@ const RequestVerdict = () => {
         .from('access_requests')
         .insert({
           intent: data.decisionDescription,
-          notes: `[CONDITIONAL VERDICT REQUEST] ABN: ${data.abn.replace(/\s/g, '')}`,
-          name: data.organisationName,
+          notes: `[VERDICT REQUEST] ABN: ${data.abn?.replace(/\s/g, '') || 'Not provided'} | Urgency: ${data.urgency}`,
+          name: data.name,
           email: data.email,
-          organization: data.organisationName,
+          organization: data.organisation,
           decision_area: data.decisionArea,
-          urgency: 'conditional-verdict',
+          urgency: data.urgency,
           budget_range: 'pending-authorization',
         });
 
@@ -137,11 +141,11 @@ const RequestVerdict = () => {
                     Verdict Authority
                   </span>
                   <h1 className="text-3xl md:text-4xl font-semibold text-foreground tracking-wide mb-6">
-                    Request Conditional Verdict
+                    Request an Apex Verdict Brief
                   </h1>
                   <p className="text-grey-400 max-w-lg mx-auto text-sm leading-relaxed">
-                    Submit your decision context for formal assessment. 
-                    Conditional verdicts begin unsealed and become citeable only when sealed.
+                    Verdict Briefs are structured judgment for irreversible decisions.
+                    Delivery within defined windows. All Verdicts can be recorded to the ATA Ledger.
                   </p>
                 </div>
 
@@ -169,13 +173,52 @@ const RequestVerdict = () => {
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     <div className="glass-card p-8 space-y-6">
-                      {/* Organisation Name */}
+                      {/* Name */}
                       <FormField
                         control={form.control}
-                        name="organisationName"
+                        name="name"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-grey-300">Organisation Name</FormLabel>
+                            <FormLabel className="text-grey-300">Name</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="Your name" 
+                                className="bg-black/50 border-grey-700 focus:border-primary" 
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Email */}
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-grey-300">Email</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="email"
+                                placeholder="contact@organisation.com" 
+                                className="bg-black/50 border-grey-700 focus:border-primary" 
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Organisation */}
+                      <FormField
+                        control={form.control}
+                        name="organisation"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-grey-300">Organization</FormLabel>
                             <FormControl>
                               <Input 
                                 placeholder="Registered entity name" 
@@ -188,13 +231,13 @@ const RequestVerdict = () => {
                         )}
                       />
 
-                      {/* ABN */}
+                      {/* ABN - Optional */}
                       <FormField
                         control={form.control}
                         name="abn"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-grey-300">ABN</FormLabel>
+                            <FormLabel className="text-grey-300">ABN <span className="text-grey-600">(optional)</span></FormLabel>
                             <FormControl>
                               <Input 
                                 placeholder="00 000 000 000" 
@@ -255,13 +298,37 @@ const RequestVerdict = () => {
                         )}
                       />
 
+                      {/* Urgency */}
+                      <FormField
+                        control={form.control}
+                        name="urgency"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-grey-300">Urgency</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger className="bg-black/50 border-grey-700 focus:border-primary">
+                                  <SelectValue placeholder="Select delivery window" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="7">7 days — Urgent</SelectItem>
+                                <SelectItem value="14">14 days — Standard</SelectItem>
+                                <SelectItem value="30">30 days — Flexible</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
                       {/* Decision Description */}
                       <FormField
                         control={form.control}
                         name="decisionDescription"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-grey-300">Decision Being Considered</FormLabel>
+                            <FormLabel className="text-grey-300">Decision Context <span className="text-grey-600">(max 300 words)</span></FormLabel>
                             <FormControl>
                               <Textarea 
                                 placeholder="Describe the decision you are facing. Include relevant context, constraints, and what outcome you are seeking clarity on."
@@ -276,6 +343,17 @@ const RequestVerdict = () => {
                           </FormItem>
                         )}
                       />
+                    </div>
+
+                    {/* Direct Contact */}
+                    <div className="text-center py-4 border-t border-grey-800/30">
+                      <p className="text-grey-600 text-xs mb-2">Prefer direct contact?</p>
+                      <a 
+                        href="mailto:apex@apex-infrastructure.com" 
+                        className="text-primary hover:text-primary/80 text-sm tracking-wide transition-colors"
+                      >
+                        apex@apex-infrastructure.com
+                      </a>
                     </div>
 
                     {/* Submit */}
