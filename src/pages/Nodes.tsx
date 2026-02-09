@@ -6,12 +6,13 @@ import ApexFooter from "@/components/layout/ApexFooter";
 import { ApexButton } from "@/components/ui/apex-button";
 import MobileVoid from "@/components/effects/MobileVoid";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { getLiveNodes, getSealedNodes } from "@/data/nodes";
+import { getLiveNodes, getSealedNodes, getDormantNodes } from "@/data/nodes";
 
 const Nodes = () => {
   const isMobile = useIsMobile();
   const liveNodes = getLiveNodes();
   const sealedNodes = getSealedNodes();
+  const dormantNodes = getDormantNodes();
 
   return (
     <div className="relative min-h-screen bg-black">
@@ -40,8 +41,27 @@ const Nodes = () => {
               NODES
             </h1>
             <p className="text-lg md:text-xl text-grey-400 max-w-2xl mx-auto">
-              Active monitoring engines and sealed future capacity.
+              Active monitoring engines, sealed future capacity, and dormant infrastructure awaiting conditions.
             </p>
+          </motion.div>
+
+          {/* Network Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+            className="grid grid-cols-3 gap-6 max-w-xl mx-auto mb-20"
+          >
+            {[
+              { count: liveNodes.length, label: "Live", color: "text-primary" },
+              { count: sealedNodes.length, label: "Sealed", color: "text-grey-400" },
+              { count: dormantNodes.length, label: "Dormant", color: "text-grey-600" },
+            ].map((stat, i) => (
+              <div key={i} className="text-center">
+                <span className={`text-3xl font-light ${stat.color}`}>{stat.count}</span>
+                <span className="block text-[10px] uppercase tracking-[0.3em] text-grey-500 mt-2">{stat.label}</span>
+              </div>
+            ))}
           </motion.div>
 
           {/* Live Nodes Grid */}
@@ -65,12 +85,18 @@ const Nodes = () => {
                   transition={{ delay: 0.4 + i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                   className="glass-card p-8 group"
                 >
-                  <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-start justify-between mb-4">
                     <div>
                       <span className="status-active mb-3 inline-block">LIVE</span>
                       <h3 className="text-xl font-medium text-foreground mt-2">{node.name}</h3>
                     </div>
                   </div>
+
+                  {node.domain && (
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-grey-500 mb-4">
+                      {node.domain}
+                    </p>
+                  )}
 
                   <p className="text-grey-400 text-sm leading-relaxed mb-8">
                     {node.purpose}
@@ -83,10 +109,8 @@ const Nodes = () => {
                       className="flex-1 gap-2"
                       onClick={(e) => {
                         e.preventDefault();
-                        // Try window.open first, fallback to location for sandboxed iframes
                         const newWindow = window.open(node.externalUrl, '_blank', 'noopener,noreferrer');
                         if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-                          // Popup blocked or sandboxed - navigate directly
                           window.location.href = node.externalUrl!;
                         }
                       }}
@@ -94,7 +118,7 @@ const Nodes = () => {
                       OPEN LIVE TOOL
                       <ExternalLink className="w-3.5 h-3.5" />
                     </ApexButton>
-                    <Link to="/request-access" className="flex-1">
+                    <Link to="/request-verdict" className="flex-1">
                       <ApexButton variant="outline" size="sm" className="w-full">
                         REQUEST VERDICT BRIEF
                       </ApexButton>
@@ -113,7 +137,7 @@ const Nodes = () => {
           </section>
 
           {/* Sealed Nodes Grid */}
-          <section>
+          <section className="mb-24">
             <motion.h2
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -121,10 +145,10 @@ const Nodes = () => {
               className="text-xs uppercase tracking-[0.4em] text-grey-500 mb-8 flex items-center gap-3"
             >
               <span className="w-2 h-2 rounded-full bg-grey-600" />
-              Sealed Nodes
+              Sealed Nodes — Monitoring Active
             </motion.h2>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {sealedNodes.map((node, i) => (
                 <motion.div
                   key={node.id}
@@ -132,24 +156,75 @@ const Nodes = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className="glass-card p-6 opacity-60"
+                  className="glass-card p-6 opacity-70 hover:opacity-90 transition-opacity duration-500"
                 >
                   <span className="status-frozen mb-3 inline-block">SEALED</span>
-                  <h3 className="text-lg font-medium text-grey-300 mt-2 mb-4">{node.name}</h3>
+                  <h3 className="text-lg font-medium text-grey-300 mt-2 mb-2">{node.name}</h3>
+                  {node.domain && (
+                    <p className="text-[9px] uppercase tracking-[0.15em] text-grey-600 mb-4">
+                      {node.domain}
+                    </p>
+                  )}
                   <p className="text-grey-500 text-sm leading-relaxed mb-6">
                     {node.purpose}
                   </p>
-                  <Link to="/request-access">
+                  <Link to={`/nodes/${node.id}`}>
                     <ApexButton variant="ghost" size="sm" className="w-full text-grey-400">
-                      REQUEST VERDICT BRIEF
+                      View Details →
                     </ApexButton>
                   </Link>
+                </motion.div>
+              ))}
+            </div>
+          </section>
 
+          {/* Dormant Nodes Grid */}
+          <section>
+            <motion.h2
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-xs uppercase tracking-[0.4em] text-grey-700 mb-8 flex items-center gap-3"
+            >
+              <span className="w-2 h-2 rounded-full bg-grey-800" />
+              Dormant Nodes — Infrastructure Reserved
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-grey-600 text-sm mb-8 max-w-2xl"
+            >
+              Capacity allocated for future activation. Each node represents planned expansion 
+              into regulated, capital-intensive, or irreversible decision domains.
+            </motion.p>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {dormantNodes.map((node, i) => (
+                <motion.div
+                  key={node.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="glass-card p-5 opacity-40 hover:opacity-60 transition-opacity duration-500 border-grey-800/30"
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-grey-700" />
+                    <span className="text-[9px] uppercase tracking-[0.2em] text-grey-700">Dormant</span>
+                  </div>
+                  <h3 className="text-sm font-medium text-grey-500 mb-2">{node.name}</h3>
+                  {node.domain && (
+                    <p className="text-[9px] text-grey-700 leading-relaxed">
+                      {node.domain}
+                    </p>
+                  )}
                   <Link
                     to={`/nodes/${node.id}`}
-                    className="block mt-3 text-[10px] uppercase tracking-[0.3em] text-grey-600 hover:text-grey-400 transition-colors text-center"
+                    className="block mt-4 text-[9px] uppercase tracking-[0.2em] text-grey-700 hover:text-grey-500 transition-colors"
                   >
-                    Read Node →
+                    View Reserved →
                   </Link>
                 </motion.div>
               ))}

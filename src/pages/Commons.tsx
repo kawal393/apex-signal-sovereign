@@ -2,8 +2,10 @@ import { motion } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
+import CanonLayer from "@/components/sections/CanonLayer";
 import SystemMap from "@/components/sections/SystemMap";
 import FeaturedNodes from "@/components/sections/FeaturedNodes";
+import ATALedgerRegister from "@/components/sections/ATALedgerRegister";
 import AccessRequest from "@/components/sections/AccessRequest";
 import AccessTiers from "@/components/sections/AccessTiers";
 import ConditionalVerdicts from "@/components/sections/ConditionalVerdicts";
@@ -285,11 +287,17 @@ const Commons = () => {
           </div>
         </section>
         
+        {/* Canon Layer - Foundation of the Empire */}
+        <CanonLayer />
+        
         {/* System Map */}
         <SystemMap />
         
         {/* Featured Nodes - Interactive */}
         <FeaturedNodes />
+        
+        {/* ATA Ledger Register - Authority Memory */}
+        <ATALedgerRegister />
         
         {/* Access Tiers */}
         <AccessTiers />

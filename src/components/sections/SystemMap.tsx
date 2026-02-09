@@ -1,29 +1,50 @@
 import { motion, useInView } from "framer-motion";
 import { Suspense, lazy, useRef } from "react";
+import { Link } from "react-router-dom";
 import LivingNode from "@/components/nodes/LivingNode";
+import { getLiveNodes, getSealedNodes, getDormantNodes } from "@/data/nodes";
 
 const UltimateMapBackground = lazy(() => import("@/components/3d/UltimateMapBackground"));
 
 interface Node {
   id: number;
   name: string;
-  status: "Active" | "Frozen";
+  status: "Active" | "Frozen" | "Dormant";
   category?: string;
+  nodeId?: string; // For linking to detail pages
 }
 
-// APEX-prefixed node names
-const nodes: Node[] = [
-  { id: 1, name: "APEX NDIS Watchtower", status: "Active", category: "Signals" },
-  { id: 2, name: "APEX Corporate Translator", status: "Active", category: "Operations" },
-  { id: 3, name: "APEX-ATA Ledger", status: "Active", category: "Trust" },
-  { id: 4, name: "APEX Grant Radar", status: "Frozen", category: "Capital" },
-  { id: 5, name: "APEX Insurance Drift", status: "Frozen", category: "Risk" },
-  { id: 6, name: "APEX DCP Arbitrage", status: "Frozen", category: "Markets" },
-  { id: 7, name: "APEX Grid Constraint", status: "Frozen", category: "Energy" },
-  { id: 8, name: "APEX Pharma Zombie", status: "Frozen", category: "Health" },
-  { id: 9, name: "APEX Verified", status: "Frozen", category: "Trust" },
-  { id: 10, name: "APEX Optionality Vault", status: "Frozen", category: "Strategy" },
-];
+// Map from data/nodes.ts to the format expected by LivingNode
+const liveNodesData = getLiveNodes();
+const sealedNodesData = getSealedNodes();
+const dormantNodesData = getDormantNodes();
+
+// Convert to display format
+const activeNodes: Node[] = liveNodesData.map((n, i) => ({
+  id: i + 1,
+  name: n.name,
+  status: "Active" as const,
+  category: n.domain?.split(' ')[0] || "Signals",
+  nodeId: n.id,
+}));
+
+const frozenNodes: Node[] = sealedNodesData.map((n, i) => ({
+  id: i + 10,
+  name: n.name,
+  status: "Frozen" as const,
+  category: n.domain?.split(' ')[0] || "Sealed",
+  nodeId: n.id,
+}));
+
+const dormantNodes: Node[] = dormantNodesData.map((n, i) => ({
+  id: i + 20,
+  name: n.name,
+  status: "Dormant" as const,
+  category: n.domain?.split(' ')[0] || "Reserved",
+  nodeId: n.id,
+}));
+
+const allNodes = [...activeNodes, ...frozenNodes, ...dormantNodes];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -43,9 +64,6 @@ const itemVariants = {
 };
 
 export default function SystemMap() {
-  const activeNodes = nodes.filter(n => n.status === "Active");
-  const frozenNodes = nodes.filter(n => n.status === "Frozen");
-
   // Permanent performance fix: only mount the heavy WebGL scene when near viewport
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInView = useInView(mapRef, { margin: '400px 0px', amount: 0.1 });
@@ -68,7 +86,7 @@ export default function SystemMap() {
             The <span className="text-gradient-gold font-medium">System Map</span>
           </h2>
           <p className="text-muted-foreground/50 max-w-2xl mx-auto text-base font-light leading-relaxed tracking-wide">
-            A living constellation. Active nodes emit signal. Sealed nodes await conditions.
+            A living constellation. Active nodes emit signal. Sealed nodes await conditions. Dormant nodes mark inevitable expansion.
           </p>
         </motion.div>
         
@@ -96,18 +114,19 @@ export default function SystemMap() {
           </div>
         </motion.div>
 
-        {/* Living Stats */}
+        {/* Living Stats - Updated with all three tiers */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="grid grid-cols-3 gap-8 md:gap-16 max-w-2xl mx-auto mb-20"
+          className="grid grid-cols-4 gap-4 md:gap-12 max-w-3xl mx-auto mb-20"
         >
           {[
-            { value: activeNodes.length, label: "Active Nodes" },
-            { value: frozenNodes.length, label: "Sealed Nodes" },
-            { value: nodes.length, label: "Total Network" },
+            { value: activeNodes.length, label: "Live", color: "text-primary" },
+            { value: frozenNodes.length, label: "Sealed", color: "text-grey-400" },
+            { value: dormantNodes.length, label: "Dormant", color: "text-grey-600" },
+            { value: allNodes.length, label: "Total", color: "text-muted-foreground/40" },
           ].map((stat, i) => (
             <motion.div 
               key={i} 
@@ -118,13 +137,11 @@ export default function SystemMap() {
               transition={{ delay: 0.5 + i * 0.1, duration: 0.8 }}
             >
               <motion.div 
-                className={`text-2xl md:text-4xl font-extralight mb-3 ${
-                  i === 0 ? "text-primary" : "text-muted-foreground/40"
-                }`}
+                className={`text-2xl md:text-4xl font-extralight mb-3 ${stat.color}`}
               >
                 {stat.value}
               </motion.div>
-              <div className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/40 font-medium">
+              <div className="text-[9px] md:text-[10px] uppercase tracking-[0.25em] text-muted-foreground/40 font-medium">
                 {stat.label}
               </div>
             </motion.div>
@@ -141,20 +158,49 @@ export default function SystemMap() {
         >
           <motion.h3 
             variants={itemVariants}
-            className="text-[10px] uppercase tracking-[0.4em] text-primary/60 mb-6 text-center"
+            className="text-[10px] uppercase tracking-[0.4em] text-primary/60 mb-6 text-center flex items-center justify-center gap-3"
           >
-            Active Nodes
+            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            Live Nodes
           </motion.h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
             {activeNodes.map((node) => (
               <motion.div key={node.id} variants={itemVariants}>
-                <LivingNode {...node} />
+                <Link to={`/nodes/${node.nodeId}`}>
+                  <LivingNode {...node} />
+                </Link>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
-        {/* Frozen Nodes - Sealed */}
+        {/* Sealed Nodes */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="mb-12"
+        >
+          <motion.h3 
+            variants={itemVariants}
+            className="text-[10px] uppercase tracking-[0.4em] text-muted-foreground/30 mb-6 text-center flex items-center justify-center gap-3"
+          >
+            <span className="w-2 h-2 rounded-full bg-grey-600" />
+            Sealed Nodes — Monitoring Active
+          </motion.h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-4xl mx-auto">
+            {frozenNodes.map((node) => (
+              <motion.div key={node.id} variants={itemVariants}>
+                <Link to={`/nodes/${node.nodeId}`}>
+                  <LivingNode {...node} />
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Dormant Nodes */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -163,14 +209,23 @@ export default function SystemMap() {
         >
           <motion.h3 
             variants={itemVariants}
-            className="text-[10px] uppercase tracking-[0.4em] text-muted-foreground/30 mb-6 text-center"
+            className="text-[10px] uppercase tracking-[0.4em] text-grey-700 mb-4 text-center flex items-center justify-center gap-3"
           >
-            Sealed Nodes
+            <span className="w-1.5 h-1.5 rounded-full bg-grey-800" />
+            Dormant Nodes — Infrastructure Reserved
           </motion.h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-            {frozenNodes.map((node) => (
+          <motion.p
+            variants={itemVariants}
+            className="text-grey-600 text-xs text-center mb-6 max-w-xl mx-auto"
+          >
+            Planned expansion across regulated, capital-intensive, and irreversible decision domains.
+          </motion.p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 max-w-4xl mx-auto">
+            {dormantNodes.map((node) => (
               <motion.div key={node.id} variants={itemVariants}>
-                <LivingNode {...node} />
+                <Link to={`/nodes/${node.nodeId}`} className="opacity-50 hover:opacity-70 transition-opacity">
+                  <LivingNode {...node} />
+                </Link>
               </motion.div>
             ))}
           </div>
