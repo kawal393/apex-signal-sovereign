@@ -49,7 +49,7 @@ export default function WhatIsApex() {
             </h2>
           </div>
 
-          {/* Deep Paragraph - The Core Statement */}
+          {/* Deep Paragraph */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -57,21 +57,15 @@ export default function WhatIsApex() {
             transition={{ delay: 0.3, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-center space-y-8 mb-16"
           >
-            <p className="text-lg md:text-xl lg:text-2xl text-grey-200 leading-[1.8] max-w-3xl mx-auto font-light">
-              Apex Infrastructure is a multi-domain decision authority system. We monitor public regulatory 
-              and market signals across high-stakes sectors, convert noise into structured judgment, and 
-              issue written Verdict Briefs for operators who cannot afford to be wrong.
+            <p className="text-base md:text-lg lg:text-xl text-grey-200 leading-[1.9] max-w-3xl mx-auto">
+              APEX Infrastructure is a multi-domain regulatory intelligence layer built for operators who cannot afford ambiguity. 
+              We monitor public enforcement signals across Australian sectors (NDIS, energy/grid, pharmaceuticals, corporate) 
+              and convert them into structured Verdict Briefs — clear calls under uncertainty with a validation test and a stop condition.
             </p>
             
             <p className="text-base md:text-lg text-grey-400 leading-[1.8] max-w-3xl mx-auto">
-              Apex is built for irreversible decisions where uncertainty destroys capital: compliance exposure, 
-              enforcement risk, approvals friction, partnership selection, and strategic moves with no undo button.
-            </p>
-
-            <p className="text-base md:text-lg text-grey-500 leading-[1.8] max-w-3xl mx-auto">
-              The platform includes public intelligence nodes, sealed monitoring programs, paid Verdict Briefs 
-              delivered in defined formats, and partner-tier pathways where Apex may participate through 
-              long-term commercial alignment when fit and signal strength justify it.
+              Some nodes are public, some are sealed for partners, and some remain dormant until unlocked. 
+              The objective is simple: reduce decision risk before it becomes cost.
             </p>
 
             <p className="text-sm md:text-base text-grey-500 leading-[1.8] max-w-2xl mx-auto italic">
@@ -79,7 +73,7 @@ export default function WhatIsApex() {
             </p>
           </motion.div>
 
-          {/* 3 Capability Bullets */}
+          {/* Output Snapshot — 3 Capability Bullets */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -90,18 +84,18 @@ export default function WhatIsApex() {
             {[
               {
                 icon: "◆",
-                title: "Public Intelligence Nodes",
-                description: "Live signals across regulated sectors",
+                title: "Live Monitoring Nodes",
+                description: "Public intelligence across regulated sectors",
               },
               {
                 icon: "◈",
                 title: "Verdict Briefs",
-                description: "Structured judgment for irreversible decisions",
+                description: "Advance / Hold / Partner-Only / Drop",
               },
               {
                 icon: "◇",
-                title: "Monitoring + Partner Tier",
-                description: "Ongoing advantage and commercial alignment",
+                title: "ATA Ledger",
+                description: "Institutional memory — immutable and citeable",
               },
             ].map((item, i) => (
               <motion.div
@@ -110,7 +104,7 @@ export default function WhatIsApex() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.6 + i * 0.1, duration: 0.8 }}
-                className="glass-card p-6 text-center border-grey-700/30 hover:border-primary/30 transition-all duration-500 group"
+                className="glass-card p-6 text-center border-grey-700/30 hover:border-primary/30 hover:shadow-[0_0_30px_hsl(42_95%_55%/0.08)] transition-all duration-300 group"
               >
                 <span className="text-primary text-2xl mb-4 block group-hover:scale-110 transition-transform duration-300">
                   {item.icon}
@@ -123,6 +117,31 @@ export default function WhatIsApex() {
                 </p>
               </motion.div>
             ))}
+          </motion.div>
+
+          {/* "Why Apex, not Google?" compact block */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.65, duration: 1 }}
+            className="glass-card p-8 mb-16 border-grey-700/30 text-center"
+          >
+            <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-4">
+              Why Apex, not <span className="text-grey-500">Google</span>?
+            </h3>
+            <p className="text-grey-400 leading-relaxed max-w-2xl mx-auto mb-6">
+              Google answers questions. Apex resolves decisions. Google is infinite information with no accountability. 
+              Apex is domain-specific judgment — a Verdict with a test and a kill rule.
+            </p>
+            <Link to="/how-it-works">
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+                <ApexButton variant="ghost" className="gap-2 text-primary hover:text-foreground">
+                  How Apex Works
+                  <ArrowRight className="w-4 h-4" />
+                </ApexButton>
+              </motion.div>
+            </Link>
           </motion.div>
 
           {/* CTA Block - Primary Actions */}
@@ -140,7 +159,7 @@ export default function WhatIsApex() {
                 whileHover={{ scale: 1.03, y: -3 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="group px-8 py-4 rounded-md bg-primary/10 border border-primary/40 text-primary font-medium tracking-[0.15em] uppercase text-sm flex items-center gap-3 hover:bg-primary/20 hover:border-primary/60 hover:shadow-[0_0_40px_hsl(42_95%_55%/0.2)] transition-all duration-500"
+                className="group px-8 py-4 rounded-md bg-primary/10 border border-primary/40 text-primary font-medium tracking-[0.15em] uppercase text-sm flex items-center gap-3 hover:bg-primary/20 hover:border-primary/60 hover:shadow-[0_0_40px_hsl(42_95%_55%/0.2)] transition-all duration-300"
               >
                 View Live NDIS Watchtower
                 <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

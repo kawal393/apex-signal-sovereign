@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useCallback, useEffect } from "react";
+import { ExternalLink, ArrowRight } from "lucide-react";
 import { ApexButton } from "@/components/ui/apex-button";
 import EntryRitual from "@/components/ritual/EntryRitual";
 import SovereignVoid from "@/components/3d/SovereignVoid";
@@ -28,6 +29,14 @@ const Index = () => {
   const handleProceed = useCallback(() => {
     playThresholdTone();
   }, [playThresholdTone]);
+
+  const handleOpenWatchtower = useCallback(() => {
+    const url = "https://kawal393.github.io/ndis-signal-board/";
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+      window.location.href = url;
+    }
+  }, []);
 
   // Track scroll for 3D camera
   useEffect(() => {
@@ -122,7 +131,7 @@ const Index = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 2.5, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <h1 className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-extralight text-grey-100 leading-[1.6] tracking-[0.02em] mb-16">
+                  <h1 className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-extralight text-grey-100 leading-[1.6] tracking-[0.02em] mb-12">
                     {statement.primary}
                     {statement.secondary && (
                       <>
@@ -138,6 +147,45 @@ const Index = () => {
                       </>
                     )}
                   </h1>
+                </motion.div>
+
+                {/* === ACTION ROW — CONVERSION SPINE === */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.5, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex flex-col items-center gap-6 mb-10"
+                >
+                  <div className="flex flex-col sm:flex-row items-center gap-4">
+                    {/* Primary CTA */}
+                    <motion.button
+                      onClick={handleOpenWatchtower}
+                      whileHover={{ scale: 1.04, y: -3 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="px-8 py-4 rounded-md bg-primary/10 border border-primary/40 text-primary font-medium tracking-[0.15em] uppercase text-sm flex items-center gap-3 hover:bg-primary/20 hover:border-primary/60 hover:shadow-[0_0_40px_hsl(42_95%_55%/0.2)] transition-all duration-300"
+                    >
+                      View Live NDIS Watchtower
+                      <ExternalLink className="w-4 h-4" />
+                    </motion.button>
+
+                    {/* Secondary CTA */}
+                    <Link to="/request-verdict">
+                      <motion.div whileHover={{ scale: 1.04, y: -3 }} whileTap={{ scale: 0.97 }}>
+                        <ApexButton variant="outline" size="lg" className="px-8 py-4 tracking-[0.15em]">
+                          Request a Verdict Brief
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </ApexButton>
+                      </motion.div>
+                    </Link>
+                  </div>
+
+                  {/* Email contact */}
+                  <a 
+                    href="mailto:apex@apex-infrastructure.com" 
+                    className="text-grey-500 hover:text-primary text-xs tracking-[0.15em] transition-colors duration-300"
+                  >
+                    apex@apex-infrastructure.com
+                  </a>
                 </motion.div>
                 
                 {/* Gate Entry */}

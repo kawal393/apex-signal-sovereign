@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import MobileVoid from "@/components/effects/MobileVoid";
@@ -122,9 +123,25 @@ const Ledger = () => {
             <h1 className="text-4xl md:text-5xl font-semibold text-foreground tracking-wide mb-6">
               ATA <span className="text-gradient-gold">Ledger</span>
             </h1>
-            <p className="text-grey-400 max-w-lg mx-auto mb-8">
+            <p className="text-grey-400 max-w-lg mx-auto mb-6">
               The permanent record of decision authority. Immutable. Citeable. Sovereign.
             </p>
+
+            {/* Top Banner */}
+            <div className="glass-card p-4 max-w-xl mx-auto mb-8 border-primary/20 bg-primary/5 text-center">
+              <p className="text-grey-300 text-sm font-medium">
+                SEALED entries are citeable. UNSEALED/DEMO entries are format previews.
+              </p>
+            </div>
+
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <Link to="/request-verdict">
+                <ApexButton variant="primary" size="sm" className="gap-2">
+                  Request a Sealed Verdict
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </ApexButton>
+              </Link>
+            </div>
 
             {/* Ledger Pulse indicator */}
             <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-grey-700/50 bg-grey-900/50">

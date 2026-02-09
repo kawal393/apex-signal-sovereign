@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ExternalLink, Lock, CircleDot } from "lucide-react";
+import { ExternalLink, Lock, CircleDot, ArrowRight } from "lucide-react";
 import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import { ApexButton } from "@/components/ui/apex-button";
@@ -46,6 +46,32 @@ const Nodes = () => {
             <p className="text-lg md:text-xl text-grey-400 max-w-2xl mx-auto leading-relaxed">
               A sovereign infrastructure spanning regulated, capital-intensive, and irreversible domains.
             </p>
+          </motion.div>
+
+          {/* Status Legend */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.8 }}
+            className="glass-card p-5 max-w-2xl mx-auto mb-12 border-grey-700/30"
+          >
+            <h3 className="text-[10px] uppercase tracking-[0.3em] text-grey-500 mb-4 text-center">
+              Status Legend
+            </h3>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-center gap-4 sm:gap-8">
+              <div className="flex items-center gap-2">
+                <motion.span animate={{ scale: [1, 1.2, 1], opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, repeat: Infinity }} className="w-2 h-2 rounded-full bg-primary" />
+                <span className="text-xs text-grey-300"><span className="text-primary font-medium">LIVE</span> — Click to view</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Lock className="w-3 h-3 text-grey-500" />
+                <span className="text-xs text-grey-300"><span className="text-grey-400 font-medium">SEALED</span> — Hover reveals details + Request Access</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CircleDot className="w-3 h-3 text-grey-600" />
+                <span className="text-xs text-grey-300"><span className="text-grey-500 font-medium">DORMANT</span> — Hover reveals unlock order</span>
+              </div>
+            </div>
           </motion.div>
 
           {/* Phase Indicator */}
@@ -139,7 +165,7 @@ const Nodes = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 + i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="glass-card p-8 group border-primary/20 hover:border-primary/40 transition-all duration-500 hover:shadow-[0_0_60px_hsl(42_95%_55%/0.15)]"
+                    className="glass-card p-8 group border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-[0_0_60px_hsl(42_95%_55%/0.15)] hover:-translate-y-1"
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-start gap-4">
@@ -182,12 +208,13 @@ const Nodes = () => {
                           }
                         }}
                       >
-                        OPEN LIVE TOOL
+                        VIEW NODE
                         <ExternalLink className="w-3.5 h-3.5" />
                       </ApexButton>
                       <Link to="/request-verdict" className="flex-1">
-                        <ApexButton variant="outline" size="sm" className="w-full">
-                          REQUEST VERDICT BRIEF
+                        <ApexButton variant="outline" size="sm" className="w-full gap-2">
+                          REQUEST VERDICT
+                          <ArrowRight className="w-3.5 h-3.5" />
                         </ApexButton>
                       </Link>
                     </div>
@@ -229,7 +256,7 @@ const Nodes = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="glass-card p-6 opacity-80 hover:opacity-100 transition-all duration-500 group border-grey-600/20 hover:border-grey-500/40"
+                    className="glass-card p-6 opacity-80 hover:opacity-100 transition-all duration-300 group border-grey-600/20 hover:border-grey-500/40 hover:-translate-y-1 hover:shadow-[0_0_40px_hsl(0_0%_50%/0.1)] relative"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <span className="text-2xl font-light text-grey-500/60 tabular-nums">{sequenceNum}</span>
@@ -251,11 +278,19 @@ const Nodes = () => {
                     <span className="text-[9px] uppercase tracking-[0.2em] text-grey-600 block mb-4">
                       Pulse: MONITORING
                     </span>
-                    <Link to={`/nodes/${node.id}`}>
-                      <ApexButton variant="ghost" size="sm" className="w-full text-grey-400">
-                        View Details →
-                      </ApexButton>
-                    </Link>
+                    
+                    {/* Hover overlay tooltip */}
+                    <div className="absolute inset-0 bg-black/95 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center pointer-events-none group-hover:pointer-events-auto">
+                      <Lock className="w-5 h-5 text-grey-400 mb-3" />
+                      <p className="text-grey-300 text-sm font-medium mb-2">SEALED — Monitoring active</p>
+                      <p className="text-grey-500 text-xs mb-1">Partner access only</p>
+                      <p className="text-grey-600 text-[10px] mb-4">Phase II unlock</p>
+                      <Link to="/request-access" onClick={(e) => e.stopPropagation()}>
+                        <ApexButton variant="outline" size="sm" className="text-xs pointer-events-auto">
+                          Request Access →
+                        </ApexButton>
+                      </Link>
+                    </div>
                   </motion.div>
                 );
               })}
@@ -297,7 +332,7 @@ const Nodes = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.05, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                    className="glass-card p-5 opacity-50 hover:opacity-70 transition-all duration-500 border-grey-800/30 group"
+                    className="glass-card p-5 opacity-50 hover:opacity-80 transition-all duration-300 border-grey-800/30 group hover:-translate-y-1 hover:shadow-[0_0_30px_hsl(0_0%_30%/0.08)] relative"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <span className="text-xl font-light text-grey-700/60 tabular-nums">{sequenceNum}</span>
@@ -316,12 +351,18 @@ const Nodes = () => {
                     <span className="text-[8px] uppercase tracking-[0.2em] text-grey-700 block mb-4">
                       Pulse: RESERVED
                     </span>
-                    <Link
-                      to={`/nodes/${node.id}`}
-                      className="block text-[9px] uppercase tracking-[0.2em] text-grey-700 hover:text-grey-500 transition-colors"
-                    >
-                      View Reserved →
-                    </Link>
+
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-black/95 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-5 text-center pointer-events-none group-hover:pointer-events-auto">
+                      <CircleDot className="w-5 h-5 text-grey-600 mb-3" />
+                      <p className="text-grey-400 text-sm font-medium mb-2">DORMANT — Infrastructure reserved</p>
+                      <p className="text-grey-600 text-[10px] mb-4">Scheduled unlock: Phase III #{sequenceNum}</p>
+                      <Link to="/request-access" onClick={(e) => e.stopPropagation()}>
+                        <ApexButton variant="ghost" size="sm" className="text-xs text-grey-400 pointer-events-auto">
+                          Join Unlock List →
+                        </ApexButton>
+                      </Link>
+                    </div>
                   </motion.div>
                 );
               })}

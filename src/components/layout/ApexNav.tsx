@@ -8,6 +8,7 @@ import apexLogo from "@/assets/apex-logo.png";
 const navItems = [
   { label: "Portal", href: "/commons" },
   { label: "Nodes", href: "/nodes" },
+  { label: "How It Works", href: "/how-it-works" },
   { label: "Infrastructure", href: "/infrastructure" },
   { label: "Manifesto", href: "/manifesto" },
   { label: "Request Access", href: "/request-access" },

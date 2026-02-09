@@ -6,6 +6,7 @@ import apexLogo from "@/assets/apex-logo.png";
 const footerLinks = [
   { label: "Protocol", href: "/protocol" },
   { label: "Ledger", href: "/ledger" },
+  { label: "How It Works", href: "/how-it-works" },
   { label: "Terms", href: "/terms" },
   { label: "Privacy", href: "/privacy" },
   { label: "Disclaimers", href: "/disclaimers" },
@@ -54,8 +55,30 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
           ))}
         </div>
 
+        {/* Footer CTA Strip */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8 border-t border-border/50 mb-6">
+          <Link
+            to="/request-verdict"
+            className="px-6 py-2.5 rounded-md border border-primary/30 text-primary text-xs uppercase tracking-[0.2em] hover:bg-primary/10 hover:border-primary/50 transition-all duration-300"
+          >
+            Request a Verdict →
+          </Link>
+          <a
+            href="mailto:apex@apex-infrastructure.com"
+            className="text-grey-500 hover:text-grey-300 text-xs tracking-wide transition-colors"
+          >
+            apex@apex-infrastructure.com
+          </a>
+          <Link
+            to="/request-access"
+            className="text-grey-600 hover:text-grey-400 text-[10px] uppercase tracking-[0.2em] transition-colors"
+          >
+            1–2 updates/month — join unlock list
+          </Link>
+        </div>
+
         {/* Copyright */}
-        <div className="text-center mt-8">
+        <div className="text-center mt-4">
           <p className="text-[10px] text-grey-600 tracking-widest">
             © {new Date().getFullYear()} APEX INFRASTRUCTURE
           </p>
