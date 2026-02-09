@@ -6,7 +6,7 @@ import { useApexSystem } from "@/contexts/ApexSystemContext";
 interface LivingNodeProps {
   id: number;
   name: string;
-  status: "Active" | "Frozen";
+  status: "Active" | "Frozen" | "Dormant";
   category?: string;
 }
 
@@ -77,23 +77,47 @@ export default function LivingNode({ id, name, status, category }: LivingNodePro
   };
 
 
-  if (status === "Frozen") {
-    // Frozen nodes - completely sealed, no interaction
+  if (status === "Dormant") {
+    // Dormant nodes - infrastructure reserved, minimal presence
     return (
-      <div className="relative p-5 rounded-md bg-[hsl(260,15%,3%)] border border-[hsl(260,10%,10%)] opacity-30 cursor-default select-none">
+      <div className="relative p-4 rounded-md bg-[hsl(260,15%,2%)] border border-[hsl(260,8%,8%)] opacity-40 cursor-default select-none">
+        <div className="flex items-start justify-between gap-2 mb-3">
+          <span className="text-[8px] text-muted-foreground/10 font-mono tracking-wider">
+            {String(id).padStart(2, "0")}
+          </span>
+          <span className="text-[6px] py-0.5 px-1.5 rounded-full font-medium uppercase tracking-[0.08em] bg-[hsl(260,5%,6%)] text-muted-foreground/15 border border-[hsl(260,3%,10%)]">
+            Dormant
+          </span>
+        </div>
+        <h3 className="text-xs font-medium text-muted-foreground/20 leading-snug mb-2">
+          {name}
+        </h3>
+        {category && (
+          <span className="text-[7px] text-muted-foreground/10 uppercase tracking-[0.15em]">
+            {category}
+          </span>
+        )}
+      </div>
+    );
+  }
+
+  if (status === "Frozen") {
+    // Frozen nodes - sealed, monitoring active
+    return (
+      <div className="relative p-5 rounded-md bg-[hsl(260,15%,3%)] border border-[hsl(260,10%,10%)] opacity-50 cursor-pointer select-none hover:opacity-70 transition-opacity duration-500">
         <div className="flex items-start justify-between gap-2 mb-4">
           <span className="text-[9px] text-muted-foreground/15 font-mono tracking-wider">
             {String(id).padStart(2, "0")}
           </span>
-          <span className="text-[7px] py-0.5 px-2 rounded-full font-medium uppercase tracking-[0.1em] bg-[hsl(260,8%,8%)] text-muted-foreground/20 border border-[hsl(260,5%,12%)]">
+          <span className="text-[7px] py-0.5 px-2 rounded-full font-medium uppercase tracking-[0.1em] bg-[hsl(260,8%,8%)] text-muted-foreground/25 border border-[hsl(260,5%,12%)]">
             Sealed
           </span>
         </div>
-        <h3 className="text-sm font-medium text-muted-foreground/25 leading-snug mb-3">
+        <h3 className="text-sm font-medium text-muted-foreground/30 leading-snug mb-3">
           {name}
         </h3>
         {category && (
-          <span className="text-[8px] text-muted-foreground/15 uppercase tracking-[0.2em]">
+          <span className="text-[8px] text-muted-foreground/20 uppercase tracking-[0.2em]">
             {category}
           </span>
         )}
