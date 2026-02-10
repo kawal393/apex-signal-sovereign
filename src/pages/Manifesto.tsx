@@ -5,6 +5,7 @@ import ApexFooter from "@/components/layout/ApexFooter";
 import SovereignVoid from "@/components/3d/SovereignVoid";
 import MobileVoid from "@/components/effects/MobileVoid";
 import { useIsMobile } from "@/hooks/use-mobile";
+import AmbientParticles from "@/components/effects/AmbientParticles";
 import apexLogo from "@/assets/apex-logo.png";
 
 const manifestoSections = [
@@ -83,6 +84,7 @@ const Manifesto = () => {
         <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-black to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-black to-transparent" />
       </div>
+      <AmbientParticles />
 
       {/* Navigation */}
       <ApexNav />

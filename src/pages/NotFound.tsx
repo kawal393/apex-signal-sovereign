@@ -42,7 +42,7 @@ const NotFound = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link to="/">
+          <Link to="/commons">
             <ApexButton variant="primary" size="lg" className="gap-2">
               <Home className="w-4 h-4" />
               Return to Portal
