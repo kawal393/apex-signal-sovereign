@@ -9,7 +9,9 @@ const navItems = [
   { label: "Portal", href: "/commons" },
   { label: "Nodes", href: "/nodes" },
   { label: "How It Works", href: "/how-it-works" },
+  { label: "Pricing", href: "/pricing" },
   { label: "Infrastructure", href: "/infrastructure" },
+  { label: "Ledger", href: "/ledger" },
   { label: "Manifesto", href: "/manifesto" },
   { label: "Request Access", href: "/request-access" },
 ];

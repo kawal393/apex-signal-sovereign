@@ -13,6 +13,7 @@ import Manifesto from "./pages/Manifesto";
 import Dashboard from "./pages/Dashboard";
 import Nodes from "./pages/Nodes";
 import NodeDetail from "./pages/NodeDetail";
+import NodeFrame from "./pages/NodeFrame";
 import Infrastructure from "./pages/Infrastructure";
 import RequestAccess from "./pages/RequestAccess";
 import Disclaimers from "./pages/Disclaimers";
@@ -22,9 +23,11 @@ import Protocol from "./pages/Protocol";
 import Ledger from "./pages/Ledger";
 import RequestVerdict from "./pages/RequestVerdict";
 import HowItWorks from "./pages/HowItWorks";
+import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 import StatusOrb from "./components/ui/StatusOrb";
 import SovereignInterface from "./components/oracle/SovereignInterface";
+import ReturnToPortal from "./components/ReturnToPortal";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +40,9 @@ function GlobalUI() {
     <>
       {/* StatusOrb - persistent tier indicator */}
       <StatusOrb />
+
+      {/* Return to Portal - persistent nav control */}
+      <ReturnToPortal />
 
       {/* Sovereign Interface - Global Oracle */}
       <SovereignInterface
@@ -98,6 +104,7 @@ const App = () => (
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/nodes" element={<Nodes />} />
               <Route path="/nodes/:nodeId" element={<NodeDetail />} />
+              <Route path="/node-frame/:id" element={<NodeFrame />} />
               <Route path="/infrastructure" element={<Infrastructure />} />
               <Route path="/request-access" element={<RequestAccess />} />
               <Route path="/disclaimers" element={<Disclaimers />} />
@@ -107,6 +114,7 @@ const App = () => (
               <Route path="/ledger" element={<Ledger />} />
               <Route path="/request-verdict" element={<RequestVerdict />} />
               <Route path="/how-it-works" element={<HowItWorks />} />
+              <Route path="/pricing" element={<Pricing />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             {/* Global UI components */}

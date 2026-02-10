@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ExternalLink, Lock, CircleDot, ArrowRight } from "lucide-react";
@@ -7,12 +8,26 @@ import { ApexButton } from "@/components/ui/apex-button";
 import MobileVoid from "@/components/effects/MobileVoid";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { getLiveNodes, getSealedNodes, getDormantNodes } from "@/data/nodes";
+import DormantNodeDescriptions from "@/components/sections/DormantNodeDescriptions";
+import ExternalNodeModal from "@/components/ExternalNodeModal";
 
 const Nodes = () => {
   const isMobile = useIsMobile();
   const liveNodes = getLiveNodes();
   const sealedNodes = getSealedNodes();
   const dormantNodes = getDormantNodes();
+  const [externalModal, setExternalModal] = useState<{ name: string; url: string } | null>(null);
+
+  const handleOpenExternal = (name: string, url: string) => {
+    setExternalModal({ name, url });
+  };
+
+  const confirmOpenExternal = () => {
+    if (externalModal) {
+      window.open(externalModal.url, '_blank', 'noopener,noreferrer');
+      setExternalModal(null);
+    }
+  };
 
   // Global index tracker for sequence numbers
   let globalIndex = 0;
@@ -202,10 +217,7 @@ const Nodes = () => {
                         className="flex-1 gap-2"
                         onClick={(e) => {
                           e.preventDefault();
-                          const newWindow = window.open(node.externalUrl, '_blank', 'noopener,noreferrer');
-                          if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-                            window.location.href = node.externalUrl!;
-                          }
+                          handleOpenExternal(node.name, node.externalUrl!);
                         }}
                       >
                         VIEW NODE
@@ -368,8 +380,20 @@ const Nodes = () => {
               })}
             </div>
           </section>
+
+          {/* Dormant Node Descriptions */}
+          <DormantNodeDescriptions />
         </div>
       </main>
+
+      {/* External Node Modal */}
+      <ExternalNodeModal
+        isOpen={!!externalModal}
+        nodeName={externalModal?.name || ''}
+        url={externalModal?.url || ''}
+        onConfirm={confirmOpenExternal}
+        onCancel={() => setExternalModal(null)}
+      />
 
       <ApexFooter />
     </div>

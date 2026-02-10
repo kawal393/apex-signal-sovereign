@@ -4,6 +4,7 @@ import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import WhatIsApex from "@/components/sections/WhatIsApex";
 import SocialProof from "@/components/sections/SocialProof";
+import WhyApexGrid from "@/components/sections/WhyApexGrid";
 import CanonLayer from "@/components/sections/CanonLayer";
 import TheConstellation from "@/components/sections/TheConstellation";
 import SystemMap from "@/components/sections/SystemMap";
@@ -296,6 +297,9 @@ const Commons = () => {
         
         {/* Social Proof - Authority Markers */}
         <SocialProof />
+        
+        {/* Why Apex — not Google, not AI, not consultants */}
+        <WhyApexGrid />
         
         {/* Canon Layer - Foundation of the Empire */}
         <CanonLayer />
