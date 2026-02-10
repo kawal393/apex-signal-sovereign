@@ -6,14 +6,14 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import apexLogo from "@/assets/apex-logo.png";
 
 const navItems = [
-  { label: "Portal", href: "/commons" },
-  { label: "Nodes", href: "/nodes" },
-  { label: "How It Works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Infrastructure", href: "/infrastructure" },
-  { label: "Ledger", href: "/ledger" },
-  { label: "Manifesto", href: "/manifesto" },
-  { label: "Request Access", href: "/request-access" },
+  { label: "Portal", href: "/commons", micro: "Entry" },
+  { label: "How It Works", href: "/how-it-works", micro: "Doctrine" },
+  { label: "Nodes", href: "/nodes", micro: "Scope" },
+  { label: "Pricing", href: "/pricing", micro: "Access" },
+  { label: "Infrastructure", href: "/infrastructure", micro: "" },
+  { label: "Ledger", href: "/ledger", micro: "Proof" },
+  { label: "Manifesto", href: "/manifesto", micro: "Authority" },
+  { label: "Request Access", href: "/request-access", micro: "" },
 ];
 
 const ApexNav = forwardRef<HTMLElement>((_, ref) => {
@@ -88,12 +88,17 @@ const ApexNav = forwardRef<HTMLElement>((_, ref) => {
                   <Link
                     to={item.href}
                     className={cn(
-                      "text-[10px] uppercase tracking-[0.2em] transition-all duration-500 relative group",
+                      "text-[10px] uppercase tracking-[0.2em] transition-all duration-500 relative group flex flex-col items-center gap-0.5",
                       location.pathname === item.href 
                         ? "text-primary" 
                         : "text-grey-400 hover:text-grey-200"
                     )}
                   >
+                    {item.micro && (
+                      <span className="text-[7px] tracking-[0.15em] text-grey-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        {item.micro}
+                      </span>
+                    )}
                     {item.label}
                     <span className={cn(
                       "absolute -bottom-1 left-0 h-px bg-gradient-to-r from-primary to-gold-ember transition-all duration-500",

@@ -117,24 +117,43 @@ export default function WhyApexGrid() {
                 </motion.div>
               ))}
 
-              {/* Apex — elevated */}
+              {/* Visual separator — STACK TERMINATES HERE */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.25, duration: 0.6 }}
+                className="flex items-center gap-4 py-4"
+              >
+                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+                <span className="text-[8px] uppercase tracking-[0.4em] text-primary/60 whitespace-nowrap">
+                  Ambiguity Ends Here
+                </span>
+                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+              </motion.div>
+
+              {/* Apex — physically detached and elevated */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration: 0.8 }}
-                className="glass-card p-6 border-primary/30 bg-primary/5 relative"
+                className="glass-card p-8 border-primary/40 relative mt-4"
+                style={{
+                  background: 'linear-gradient(165deg, hsl(42 50% 8% / 0.6) 0%, hsl(0 0% 2% / 0.95) 100%)',
+                  boxShadow: '0 0 0 1px hsl(42 95% 55% / 0.12), 0 0 80px hsl(42 95% 55% / 0.1), 0 30px 60px hsl(0 0% 0% / 0.6)',
+                }}
               >
-                <div className="absolute -top-3 left-6 px-3 py-0.5 bg-black border border-primary/40 rounded text-[9px] uppercase tracking-[0.3em] text-primary">
+                <div className="absolute -top-3 left-6 px-4 py-1 bg-black border border-primary/50 rounded text-[9px] uppercase tracking-[0.3em] text-primary font-medium">
                   Decision Authority
                 </div>
-                <span className="text-[9px] uppercase tracking-[0.2em] text-primary block mb-1 mt-1">
+                <span className="text-[10px] uppercase tracking-[0.25em] text-primary block mb-2 mt-1 font-medium">
                   Apex — Decision Authority Layer
                 </span>
-                <p className="text-sm text-foreground font-medium mb-1">
+                <p className="text-base text-foreground font-medium mb-2">
                   Verdicts, tests, kill rules
                 </p>
-                <p className="text-xs text-primary/70">
+                <p className="text-sm text-primary/80">
                   → One accountable judgment, recorded and irreversible
                 </p>
               </motion.div>
@@ -144,7 +163,7 @@ export default function WhyApexGrid() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.5, duration: 0.8 }}
-                className="text-center text-sm text-grey-500 italic pt-4"
+                className="text-center text-sm text-grey-500 italic pt-6"
               >
                 Apex operates only at the point where ambiguity must end.
               </motion.p>

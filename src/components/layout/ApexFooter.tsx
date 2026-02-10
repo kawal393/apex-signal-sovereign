@@ -76,7 +76,7 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
             to="/pricing"
             className="text-grey-500 hover:text-grey-300 text-[10px] uppercase tracking-[0.2em] transition-colors"
           >
-            Pricing
+            Access Conditions
           </Link>
           <Link
             to="/request-access"
