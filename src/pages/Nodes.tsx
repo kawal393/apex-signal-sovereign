@@ -233,9 +233,13 @@ const Nodes = () => {
                       </Link>
                     </div>
 
+                    <p className="text-[9px] uppercase tracking-[0.2em] text-grey-600 text-center mt-3">
+                      Opens in new tab · Portal audio remains here
+                    </p>
+
                     <Link
                       to={`/nodes/${node.id}`}
-                      className="block mt-4 text-[10px] uppercase tracking-[0.3em] text-grey-500 hover:text-grey-300 transition-colors text-center"
+                      className="block mt-3 text-[10px] uppercase tracking-[0.3em] text-grey-500 hover:text-grey-300 transition-colors text-center"
                     >
                       Read Node →
                     </Link>
@@ -294,11 +298,11 @@ const Nodes = () => {
                     </span>
                     
                     {/* Hover overlay tooltip */}
-                    <div className="absolute inset-0 bg-black/95 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center pointer-events-none group-hover:pointer-events-auto">
+                     <div className="absolute inset-0 bg-black/95 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center pointer-events-none group-hover:pointer-events-auto">
                       <Lock className="w-5 h-5 text-grey-400 mb-3" />
-                      <p className="text-grey-300 text-sm font-medium mb-2">SEALED — Monitoring active</p>
-                      <p className="text-grey-500 text-xs mb-1">Partner access only</p>
-                      <p className="text-grey-600 text-[10px] mb-4">Phase II unlock</p>
+                      <p className="text-grey-300 text-sm font-medium mb-2">SEALED — Unlock Order: #{sequenceNum}</p>
+                      <p className="text-grey-500 text-xs mb-1">Monitoring: staged / build queued</p>
+                      <p className="text-grey-600 text-[10px] mb-4">Access: Partner-only once activated</p>
                       <Link to="/request-access" onClick={(e) => e.stopPropagation()}>
                         <ApexButton variant="outline" size="sm" className="text-xs pointer-events-auto">
                           Request Access →
@@ -367,10 +371,11 @@ const Nodes = () => {
                     </span>
 
                     {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-black/95 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-5 text-center pointer-events-none group-hover:pointer-events-auto">
+                     <div className="absolute inset-0 bg-black/95 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-5 text-center pointer-events-none group-hover:pointer-events-auto">
                       <CircleDot className="w-5 h-5 text-grey-600 mb-3" />
-                      <p className="text-grey-400 text-sm font-medium mb-2">DORMANT — Infrastructure reserved</p>
-                      <p className="text-grey-600 text-[10px] mb-4">Scheduled unlock: Phase III #{sequenceNum}</p>
+                      <p className="text-grey-400 text-sm font-medium mb-2">DORMANT — Unlock Order: #{sequenceNum}</p>
+                      <p className="text-grey-600 text-[10px] mb-1">Infrastructure reserved · Phase III</p>
+                      <p className="text-grey-700 text-[9px] mb-4">Access: Partner-only once activated</p>
                       <Link to="/request-access" onClick={(e) => e.stopPropagation()}>
                         <ApexButton variant="ghost" size="sm" className="text-xs text-grey-400 pointer-events-auto">
                           Join Unlock List →

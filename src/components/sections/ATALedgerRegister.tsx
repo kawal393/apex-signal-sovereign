@@ -6,7 +6,7 @@ import { ApexButton } from "@/components/ui/apex-button";
  * ATA Ledger Register Section
  * 
  * Displays the ledger as a registry / archive / authority memory.
- * Shows 3 sanitized demo entries marked as UNSEALED/DEMONSTRATION.
+ * Shows demo entries with full 5-element verdict format marked as UNSEALED/DEMONSTRATION.
  */
 
 interface LedgerEntry {
@@ -16,7 +16,13 @@ interface LedgerEntry {
   verdictType: string;
   outcome: string;
   status: 'unsealed' | 'sealed';
+  label: string;
   summary: string;
+  tier: string;
+  confidence: string;
+  why: string[];
+  nextCheapestTest: string;
+  killRule: string;
 }
 
 const DEMO_ENTRIES: LedgerEntry[] = [
@@ -27,7 +33,17 @@ const DEMO_ENTRIES: LedgerEntry[] = [
     verdictType: "Conditional Verdict",
     outcome: "HOLD",
     status: 'unsealed',
+    label: "DEMO (UNSEALED)",
     summary: "Provider expansion into regional territory assessed against current regulatory state and enforcement patterns.",
+    tier: "Standard",
+    confidence: "78%",
+    why: [
+      "Enforcement patterns show rising audit frequency in target region",
+      "Provider registration backlog signals 4–6 month delays",
+      "Pricing band compression limits margin on expansion",
+    ],
+    nextCheapestTest: "Submit Expression of Interest to test registration queue response time",
+    killRule: "If audit frequency exceeds 2x national average in target region, abort expansion",
   },
   {
     id: "ATA-DEMO-002",
@@ -36,7 +52,17 @@ const DEMO_ENTRIES: LedgerEntry[] = [
     verdictType: "Conditional Verdict",
     outcome: "ADVANCE",
     status: 'unsealed',
+    label: "RETROACTIVE (Public-data)",
     summary: "Large load connection queue position evaluated against grid constraint forecasts and REZ bottleneck signals.",
+    tier: "Complex",
+    confidence: "85%",
+    why: [
+      "Connection queue position is inside 12-month approval window",
+      "REZ bottleneck at target substation is easing per AEMO data",
+      "Grid constraint forecast shows capacity uplift in Q3",
+    ],
+    nextCheapestTest: "File formal connection enquiry to confirm queue position and timeline",
+    killRule: "If AEMO revises constraint forecast upward by >15%, pause and reassess",
   },
   {
     id: "ATA-DEMO-003",
@@ -45,7 +71,17 @@ const DEMO_ENTRIES: LedgerEntry[] = [
     verdictType: "Conditional Verdict",
     outcome: "PARTNER-ONLY",
     status: 'unsealed',
+    label: "DEMO (UNSEALED)",
     summary: "Institutional partnership risk matrix assessed against counterparty dependency signals.",
+    tier: "Partner",
+    confidence: "62%",
+    why: [
+      "Counterparty dependency ratio exceeds safe threshold",
+      "Director tenure signals instability in governance layer",
+      "Public filing language shows hedging increase quarter-on-quarter",
+    ],
+    nextCheapestTest: "Request counterparty's latest audited financials and compare to public filings",
+    killRule: "If counterparty loses key directorship or primary contract, exit immediately",
   },
 ];
 
@@ -89,7 +125,7 @@ export default function ATALedgerRegister() {
               className="w-2 h-2 rounded-full bg-primary"
             />
             <span className="text-xs uppercase tracking-[0.2em] text-grey-400">
-              Ledger Pulse: <span className="text-grey-300">3 entries active</span>
+              Ledger Pulse: <span className="text-grey-300">{DEMO_ENTRIES.length} entries active</span>
             </span>
             <span className="text-[10px] uppercase tracking-[0.15em] text-amber-400/80 px-2 py-0.5 rounded bg-amber-400/10 border border-amber-400/20">
               UNSEALED / DEMONSTRATION
@@ -103,87 +139,78 @@ export default function ATALedgerRegister() {
             transition={{ delay: 0.5, duration: 1 }}
             className="text-grey-500 text-sm mt-6 max-w-xl mx-auto"
           >
+            Public ledger entries include demo format + retroactive proof patterns using public sources.
             Sealed, citeable entries appear only after payment and ATA-ID issuance.
           </motion.p>
         </motion.div>
 
-        {/* Ledger Entries */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-4xl mx-auto"
-        >
-          {/* Registry header */}
-          <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-3 text-[10px] uppercase tracking-[0.2em] text-grey-600 border-b border-grey-800/50">
-            <div className="col-span-2">Entry ID</div>
-            <div className="col-span-3">Domain</div>
-            <div className="col-span-4">Summary</div>
-            <div className="col-span-2">Outcome</div>
-            <div className="col-span-1 text-right">Status</div>
-          </div>
-
-          {/* Entries */}
-          <div className="divide-y divide-grey-800/30">
-            {DEMO_ENTRIES.map((entry, i) => (
-              <motion.div
-                key={entry.id}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5 + i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="group py-6 px-6 hover:bg-grey-900/30 transition-colors duration-500 rounded-lg"
-              >
-                {/* Demo warning badge */}
-                <div className="mb-4 md:hidden">
-                  <span className="text-[9px] uppercase tracking-[0.2em] text-amber-400/70 px-2 py-1 rounded bg-amber-400/5 border border-amber-400/15">
-                    SANITIZED DEMO — UNSEALED — NOT CITEABLE
+        {/* Ledger Entries — Full 5-element Verdict Cards */}
+        <div className="max-w-4xl mx-auto space-y-6">
+          {DEMO_ENTRIES.map((entry, i) => (
+            <motion.div
+              key={entry.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 + i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="glass-card p-6 md:p-8 border-grey-700/30 hover:border-grey-600/40 transition-all duration-300"
+            >
+              {/* Card header */}
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-mono text-grey-400">{entry.id}</span>
+                  <span className="text-[9px] uppercase tracking-[0.2em] text-amber-400/70 px-2 py-0.5 rounded bg-amber-400/5 border border-amber-400/15">
+                    {entry.label}
                   </span>
                 </div>
+                <span className={`inline-block px-3 py-1 rounded-md border text-xs font-medium ${outcomeColors[entry.outcome] || 'text-grey-400 border-grey-700'}`}>
+                  {entry.outcome}
+                </span>
+              </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
-                  {/* Entry ID */}
-                  <div className="md:col-span-2">
-                    <span className="text-xs font-mono text-grey-400">{entry.id}</span>
-                    <div className="text-[10px] text-grey-600 mt-1">{entry.timestamp}</div>
-                  </div>
+              <p className="text-sm text-grey-300 mb-5">{entry.domain} — {entry.summary}</p>
 
-                  {/* Domain */}
-                  <div className="md:col-span-3">
-                    <span className="text-sm text-grey-300">{entry.domain}</span>
-                    <div className="text-[10px] text-grey-600 mt-1">{entry.verdictType}</div>
-                  </div>
-
-                  {/* Summary */}
-                  <div className="md:col-span-4">
-                    <p className="text-sm text-grey-500 leading-relaxed">{entry.summary}</p>
-                  </div>
-
-                  {/* Outcome */}
-                  <div className="md:col-span-2">
-                    <span className={`inline-block px-3 py-1 rounded-md border text-xs font-medium ${outcomeColors[entry.outcome] || 'text-grey-400 border-grey-700'}`}>
-                      {entry.outcome}
-                    </span>
-                  </div>
-
-                  {/* Status */}
-                  <div className="md:col-span-1 md:text-right">
-                    <span className="text-[10px] uppercase tracking-[0.15em] text-amber-400/60">
-                      {entry.status}
-                    </span>
-                    {/* Desktop demo badge */}
-                    <div className="hidden md:block mt-2">
-                      <span className="text-[8px] uppercase tracking-[0.1em] text-amber-400/50">
-                        DEMO
-                      </span>
-                    </div>
-                  </div>
+              {/* 5-element verdict format */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                {/* Tier */}
+                <div className="space-y-1">
+                  <span className="text-[9px] uppercase tracking-[0.2em] text-grey-600 block">Tier</span>
+                  <p className="text-grey-300 font-medium">{entry.tier}</p>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+                {/* Confidence */}
+                <div className="space-y-1">
+                  <span className="text-[9px] uppercase tracking-[0.2em] text-grey-600 block">Confidence</span>
+                  <p className="text-grey-300 font-medium">{entry.confidence}</p>
+                </div>
+              </div>
+
+              {/* Why */}
+              <div className="mt-4 space-y-1">
+                <span className="text-[9px] uppercase tracking-[0.2em] text-grey-600 block mb-2">Why (max 3)</span>
+                <ul className="space-y-1.5">
+                  {entry.why.map((reason, j) => (
+                    <li key={j} className="flex items-start gap-2 text-sm text-grey-400">
+                      <span className="text-primary/60 mt-0.5 text-xs">◆</span>
+                      {reason}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Next Cheapest Test */}
+              <div className="mt-4 space-y-1">
+                <span className="text-[9px] uppercase tracking-[0.2em] text-grey-600 block">Next Cheapest Test</span>
+                <p className="text-sm text-grey-300">{entry.nextCheapestTest}</p>
+              </div>
+
+              {/* Kill Rule */}
+              <div className="mt-4 space-y-1">
+                <span className="text-[9px] uppercase tracking-[0.2em] text-crimson/70 block">Kill Rule</span>
+                <p className="text-sm text-grey-300">{entry.killRule}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
 
         {/* Registry notice */}
         <motion.div
@@ -196,11 +223,18 @@ export default function ATALedgerRegister() {
           <p className="text-grey-600 text-xs tracking-wide mb-8">
             These entries are sanitized demonstrations only. They are not citeable and carry no authority.
           </p>
-          <Link to="/request-verdict">
-            <ApexButton variant="outline" size="sm">
-              Request Conditional Verdict
-            </ApexButton>
-          </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link to="/ledger">
+              <ApexButton variant="outline" size="sm">
+                Browse Ledger →
+              </ApexButton>
+            </Link>
+            <Link to="/request-verdict">
+              <ApexButton variant="ghost" size="sm" className="text-grey-400">
+                Request Conditional Verdict
+              </ApexButton>
+            </Link>
+          </div>
         </motion.div>
       </div>
     </section>
