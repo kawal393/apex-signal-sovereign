@@ -49,8 +49,28 @@ export default function MobileVoid() {
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
       />
       
+      {/* CSS particles for mobile */}
+      {[...Array(8)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute rounded-full"
+          style={{
+            width: 1.5 + Math.random() * 1.5,
+            height: 1.5 + Math.random() * 1.5,
+            left: `${10 + Math.random() * 80}%`,
+            top: `${10 + Math.random() * 80}%`,
+            backgroundColor: i % 2 === 0 ? 'hsl(42 100% 70%)' : 'hsl(0 0% 80%)',
+            opacity: 0.2 + Math.random() * 0.15,
+            boxShadow: i % 2 === 0 ? '0 0 6px hsl(42 100% 60% / 0.5)' : '0 0 4px hsl(0 0% 70% / 0.3)',
+            animation: `float-particle ${8 + Math.random() * 6}s ease-in-out infinite`,
+            animationDelay: `${Math.random() * 10}s`,
+            willChange: 'transform, opacity',
+          }}
+        />
+      ))}
+
       {/* Noise texture */}
-      <div 
+      <div
         className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,

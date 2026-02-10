@@ -6,6 +6,7 @@ import ApexFooter from "@/components/layout/ApexFooter";
 import MobileVoid from "@/components/effects/MobileVoid";
 import { ApexButton } from "@/components/ui/apex-button";
 import { useIsMobile } from "@/hooks/use-mobile";
+import AmbientParticles from "@/components/effects/AmbientParticles";
 
 const tiers = [
   {
@@ -65,6 +66,7 @@ const Pricing = () => {
   return (
     <div className="relative min-h-screen bg-black">
       {isMobile && <MobileVoid />}
+      <AmbientParticles />
       <div className="fixed inset-0 pointer-events-none z-[1]">
         <div className="absolute inset-0 bg-black/80" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(42_50%_20%/0.06)_0%,transparent_60%)]" />
@@ -133,7 +135,7 @@ const Pricing = () => {
                   <ApexButton
                     variant={tier.popular ? "primary" : "outline"}
                     size="lg"
-                    className="w-full gap-2"
+                    className={`w-full gap-2 ${tier.popular ? 'text-black font-semibold' : ''}`}
                   >
                     {tier.cta}
                     <ArrowRight className="w-4 h-4" />
