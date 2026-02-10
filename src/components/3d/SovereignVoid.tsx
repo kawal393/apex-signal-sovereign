@@ -6,6 +6,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Points, PointMaterial, useTexture, Trail } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import apexLogo from '@/assets/apex-logo.png';
+import WebGLErrorBoundary from './WebGLErrorBoundary';
 import { BlendFunction } from 'postprocessing';
 import * as THREE from 'three';
 
@@ -748,27 +749,29 @@ export default function SovereignVoid({
 
   return (
     <div className={`absolute inset-0 ${className}`}>
-      <Canvas
-        camera={{ position: [0, 0, 24], fov: 48 }}
-        dpr={[1, 1]}
-        gl={{
-          antialias: false,
-          alpha: true,
-          powerPreference: 'high-performance',
-          stencil: false,
-          depth: false,
-          preserveDrawingBuffer: false,
-          failIfMajorPerformanceCaveat: true,
-        }}
-        frameloop="always"
-        performance={{ min: 0.5 }}
-        style={{ willChange: 'transform' }}
-      >
-        <color attach="background" args={['#000000']} />
-        <fog attach="fog" args={['#020208', 12, 70]} />
-        
-        <AdaptiveScene cursorState={cursorState} scrollDepth={scrollDepth} />
-      </Canvas>
+      <WebGLErrorBoundary className={className}>
+        <Canvas
+          camera={{ position: [0, 0, 24], fov: 48 }}
+          dpr={[1, 1]}
+          gl={{
+            antialias: false,
+            alpha: true,
+            powerPreference: 'high-performance',
+            stencil: false,
+            depth: false,
+            preserveDrawingBuffer: false,
+            failIfMajorPerformanceCaveat: true,
+          }}
+          frameloop="always"
+          performance={{ min: 0.5 }}
+          style={{ willChange: 'transform' }}
+        >
+          <color attach="background" args={['#000000']} />
+          <fog attach="fog" args={['#020208', 12, 70]} />
+          
+          <AdaptiveScene cursorState={cursorState} scrollDepth={scrollDepth} />
+        </Canvas>
+      </WebGLErrorBoundary>
     </div>
   );
 }

@@ -4,6 +4,20 @@ import { motion } from "framer-motion";
  * Lightweight 2D void effect for mobile devices
  * Replaces heavy WebGL for better FCP and battery life
  */
+
+// Pre-compute all particle properties outside the component for render stability
+const mobileParticles = Array.from({ length: 8 }, (_, i) => ({
+  id: i,
+  width: 1.5 + Math.random() * 1.5,
+  height: 1.5 + Math.random() * 1.5,
+  left: `${10 + Math.random() * 80}%`,
+  top: `${10 + Math.random() * 80}%`,
+  isGold: i % 2 === 0,
+  opacity: 0.2 + Math.random() * 0.15,
+  duration: 8 + Math.random() * 6,
+  delay: Math.random() * 10,
+}));
+
 export default function MobileVoid() {
   return (
     <div className="absolute inset-0 bg-black overflow-hidden">
@@ -49,21 +63,21 @@ export default function MobileVoid() {
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
       />
       
-      {/* CSS particles for mobile */}
-      {[...Array(8)].map((_, i) => (
+      {/* CSS particles for mobile - stable pre-computed properties */}
+      {mobileParticles.map((p) => (
         <div
-          key={i}
+          key={p.id}
           className="absolute rounded-full"
           style={{
-            width: 1.5 + Math.random() * 1.5,
-            height: 1.5 + Math.random() * 1.5,
-            left: `${10 + Math.random() * 80}%`,
-            top: `${10 + Math.random() * 80}%`,
-            backgroundColor: i % 2 === 0 ? 'hsl(42 100% 70%)' : 'hsl(0 0% 80%)',
-            opacity: 0.2 + Math.random() * 0.15,
-            boxShadow: i % 2 === 0 ? '0 0 6px hsl(42 100% 60% / 0.5)' : '0 0 4px hsl(0 0% 70% / 0.3)',
-            animation: `float-particle ${8 + Math.random() * 6}s ease-in-out infinite`,
-            animationDelay: `${Math.random() * 10}s`,
+            width: p.width,
+            height: p.height,
+            left: p.left,
+            top: p.top,
+            backgroundColor: p.isGold ? 'hsl(42 100% 70%)' : 'hsl(0 0% 80%)',
+            opacity: p.opacity,
+            boxShadow: p.isGold ? '0 0 6px hsl(42 100% 60% / 0.5)' : '0 0 4px hsl(0 0% 70% / 0.3)',
+            animation: `float-particle ${p.duration}s ease-in-out infinite`,
+            animationDelay: `${p.delay}s`,
             willChange: 'transform, opacity',
           }}
         />

@@ -1,4 +1,12 @@
 import { motion } from "framer-motion";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "@/components/ui/table";
 
 const layers = [
   {
@@ -86,7 +94,62 @@ export default function WhyApexGrid() {
             </div>
           </motion.div>
 
-          {/* ── 3. The Decision Stack ── */}
+          {/* ── 2b. Universal Comparison Grid ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, ease }}
+            className="mb-20"
+          >
+            <h3 className="text-xl md:text-2xl font-semibold text-foreground text-center mb-4">
+              Apex Does Not Compete.
+            </h3>
+            <p className="text-grey-500 text-sm text-center mb-10 max-w-xl mx-auto">
+              Every system below serves a purpose. None of them are accountable for the final call.
+            </p>
+
+            <div className="glass-card border-grey-700/30">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-grey-700/30 hover:bg-transparent">
+                    <TableHead className="text-[10px] uppercase tracking-[0.2em] text-grey-500 font-medium">System</TableHead>
+                    <TableHead className="text-[10px] uppercase tracking-[0.2em] text-grey-500 font-medium">What It Provides</TableHead>
+                    <TableHead className="text-[10px] uppercase tracking-[0.2em] text-grey-500 font-medium">Accountability</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow className="border-grey-700/20 hover:bg-muted/20">
+                    <TableCell className="text-sm text-grey-300 font-medium">Search (Google)</TableCell>
+                    <TableCell className="text-sm text-grey-400">Retrieves information on demand</TableCell>
+                    <TableCell className="text-sm text-grey-500">None — you interpret</TableCell>
+                  </TableRow>
+                  <TableRow className="border-grey-700/20 hover:bg-muted/20">
+                    <TableCell className="text-sm text-grey-300 font-medium">Generic AI (ChatGPT, Gemini)</TableCell>
+                    <TableCell className="text-sm text-grey-400">Generates analysis and options</TableCell>
+                    <TableCell className="text-sm text-grey-500">None — probabilistic output</TableCell>
+                  </TableRow>
+                  <TableRow className="border-grey-700/20 hover:bg-muted/20">
+                    <TableCell className="text-sm text-grey-300 font-medium">Consultants / Advisors</TableCell>
+                    <TableCell className="text-sm text-grey-400">Recommends paths, hedges risk</TableCell>
+                    <TableCell className="text-sm text-grey-500">Limited — advisory only</TableCell>
+                  </TableRow>
+                  <TableRow className="border-grey-700/20 hover:bg-muted/20">
+                    <TableCell className="text-sm text-grey-300 font-medium">Tools / Software</TableCell>
+                    <TableCell className="text-sm text-grey-400">Executes instructions</TableCell>
+                    <TableCell className="text-sm text-grey-500">None — follows orders</TableCell>
+                  </TableRow>
+                  {/* Apex row — elevated */}
+                  <TableRow className="border-primary/30 bg-primary/[0.04] hover:bg-primary/[0.08]">
+                    <TableCell className="text-sm text-primary font-semibold">Apex</TableCell>
+                    <TableCell className="text-sm text-foreground font-medium">Issues a verdict with test + kill rule, recorded to the ATA Ledger</TableCell>
+                    <TableCell className="text-sm text-primary font-medium">Full — accountable, sealed, citeable</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
+          </motion.div>
+
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}

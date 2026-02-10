@@ -10,6 +10,7 @@ const particles = Array.from({ length: 12 }, (_, i) => ({
   delay: Math.random() * 10,
   duration: 8 + Math.random() * 6,
   isGold: i % 3 !== 0,
+  opacity: 0.25 + Math.random() * 0.15,
 }));
 
 export default function AmbientParticles() {
@@ -27,7 +28,7 @@ export default function AmbientParticles() {
             backgroundColor: p.isGold
               ? 'hsl(42 100% 70%)'
               : 'hsl(0 0% 80%)',
-            opacity: 0.25 + Math.random() * 0.15,
+            opacity: p.opacity,
             boxShadow: p.isGold
               ? '0 0 6px hsl(42 100% 60% / 0.6)'
               : '0 0 4px hsl(0 0% 70% / 0.4)',

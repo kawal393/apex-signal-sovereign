@@ -9,7 +9,7 @@ const navItems = [
   { label: "Portal", href: "/commons", micro: "Entry" },
   { label: "How It Works", href: "/how-it-works", micro: "Doctrine" },
   { label: "Nodes", href: "/nodes", micro: "Scope" },
-  { label: "Pricing", href: "/pricing", micro: "Access" },
+  { label: "Access Conditions", href: "/pricing", micro: "Access" },
   { label: "Infrastructure", href: "/infrastructure", micro: "" },
   { label: "Ledger", href: "/ledger", micro: "Proof" },
   { label: "Manifesto", href: "/manifesto", micro: "Authority" },

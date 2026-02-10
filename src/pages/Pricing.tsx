@@ -138,7 +138,7 @@ const Pricing = () => {
                   <ApexButton
                     variant={tier.popular ? "primary" : "outline"}
                     size="lg"
-                    className={`w-full gap-2 ${tier.popular ? 'text-black font-semibold' : ''}`}
+                    className={`w-full gap-2 ${tier.popular ? 'text-white font-bold' : ''}`}
                   >
                     {tier.cta}
                     <ArrowRight className="w-4 h-4" />

@@ -51,7 +51,7 @@ const Manifesto = () => {
   const isMobile = useIsMobile();
   const [scrollDepth, setScrollDepth] = useState(0);
   const [activeSection, setActiveSection] = useState(0);
-  const voidActive = activeSection === 0;
+  // Always keep SovereignVoid active — only pause on tab hidden (handled internally)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,7 +75,7 @@ const Manifesto = () => {
       {isMobile ? (
         <MobileVoid />
       ) : (
-        <SovereignVoid active={voidActive} scrollDepth={scrollDepth} className="fixed inset-0 z-0" />
+        <SovereignVoid active={true} scrollDepth={scrollDepth} className="fixed inset-0 z-0" />
       )}
       
       {/* Atmospheric overlays */}
@@ -131,10 +131,10 @@ const Manifesto = () => {
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-extralight text-grey-300 tracking-wide mb-8">
               <span className="text-gradient-gold font-medium">MANIFESTO</span>
             </h1>
-            <p className="text-lg md:text-xl text-grey-300 font-normal leading-relaxed max-w-2xl mx-auto mb-6">
+            <p className="text-lg md:text-xl text-foreground font-medium leading-relaxed max-w-2xl mx-auto mb-6">
               Apex exists because every complex system eventually requires a mechanism to terminate uncertainty — not with more information, but with a recorded, accountable decision.
             </p>
-            <p className="text-base md:text-lg text-grey-500 font-light leading-relaxed max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-grey-400 font-normal leading-relaxed max-w-2xl mx-auto">
               The principles that govern the inevitable.
             </p>
             
