@@ -6,7 +6,7 @@ import apexLogo from "@/assets/apex-logo.png";
 const footerLinks = [
   { label: "Protocol", href: "/protocol" },
   { label: "Ledger", href: "/ledger" },
-  { label: "Pricing", href: "/pricing" },
+  { label: "Access Conditions", href: "/pricing" },
   { label: "How It Works", href: "/how-it-works" },
   { label: "Terms", href: "/terms" },
   { label: "Privacy", href: "/privacy" },

@@ -162,7 +162,7 @@
 @layer components {
   /* Dimensional Glass Card - sovereign depth */
   .glass-card {
-    @apply relative overflow-hidden rounded-md;
+    @apply relative overflow-visible rounded-md;
     background: linear-gradient(
       165deg,
       hsl(0 0% 4% / 0.96) 0%,
