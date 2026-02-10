@@ -113,25 +113,16 @@ const Index = () => {
             )}
 
             {/* Main Content - Bottom */}
-            <main className="relative z-20 flex min-h-screen flex-col items-center justify-end px-6 pb-24 md:pb-32">
+            <main className="relative z-20 flex min-h-screen flex-col items-center justify-end px-6 pb-28 md:pb-36">
               <div className="max-w-4xl mx-auto text-center">
-                {/* Reality Anchor */}
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-sm md:text-base text-grey-400 leading-relaxed mb-12 max-w-2xl mx-auto"
-                >
-                  APEX issues written Verdict Briefs that help operators make irreversible decisions under regulatory, institutional, and market pressure.
-                </motion.p>
 
-                {/* Rotating Statement */}
+                {/* 1. EXISTENCE — Rotating Statement (first thing seen) */}
                 <motion.div
                   initial={{ opacity: 0, y: 60 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 2.5, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 2.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <h1 className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-extralight text-grey-100 leading-[1.6] tracking-[0.02em] mb-12">
+                  <h1 className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-extralight text-grey-100 leading-[1.6] tracking-[0.02em] mb-8">
                     {statement.primary}
                     {statement.secondary && (
                       <>
@@ -139,7 +130,7 @@ const Index = () => {
                         <motion.span
                           initial={{ opacity: 0, filter: 'blur(20px)' }}
                           animate={{ opacity: 1, filter: 'blur(0px)' }}
-                          transition={{ duration: 2, delay: 2 }}
+                          transition={{ duration: 2, delay: 1.8 }}
                           className="font-medium text-gradient-gold"
                         >
                           {statement.secondary}
@@ -149,51 +140,22 @@ const Index = () => {
                   </h1>
                 </motion.div>
 
-                {/* === ACTION ROW — CONVERSION SPINE === */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.5, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex flex-col items-center gap-6 mb-10"
+                {/* 2. RECOGNITION — Declarative anchor */}
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 2, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-xs md:text-sm text-grey-500 leading-relaxed mb-16 md:mb-20 max-w-xl mx-auto tracking-wide"
                 >
-                  <div className="flex flex-col sm:flex-row items-center gap-4">
-                    {/* Primary CTA */}
-                    <motion.button
-                      onClick={handleOpenWatchtower}
-                      whileHover={{ scale: 1.04, y: -3 }}
-                      whileTap={{ scale: 0.97 }}
-                      className="px-8 py-4 rounded-md bg-primary/10 border border-primary/40 text-primary font-medium tracking-[0.15em] uppercase text-sm flex items-center gap-3 hover:bg-primary/20 hover:border-primary/60 hover:shadow-[0_0_40px_hsl(42_95%_55%/0.2)] transition-all duration-300"
-                    >
-                      View Live NDIS Watchtower
-                      <ExternalLink className="w-4 h-4" />
-                    </motion.button>
+                  APEX issues written Verdict Briefs that help operators make irreversible decisions under regulatory, institutional, and market pressure.
+                </motion.p>
 
-                    {/* Secondary CTA */}
-                    <Link to="/request-verdict">
-                      <motion.div whileHover={{ scale: 1.04, y: -3 }} whileTap={{ scale: 0.97 }}>
-                        <ApexButton variant="outline" size="lg" className="px-8 py-4 tracking-[0.15em]">
-                          Request a Verdict Brief
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </ApexButton>
-                      </motion.div>
-                    </Link>
-                  </div>
-
-                  {/* Email contact */}
-                  <a 
-                    href="mailto:apex@apex-infrastructure.com" 
-                    className="text-grey-500 hover:text-primary text-xs tracking-[0.15em] transition-colors duration-300"
-                  >
-                    apex@apex-infrastructure.com
-                  </a>
-                </motion.div>
-                
-                {/* Gate Entry */}
+                {/* 3. ACCESS — The single gravitational center */}
                 <motion.div
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.8, delay: 1.8, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex flex-col items-center gap-14"
+                  transition={{ duration: 1.8, delay: 1.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex flex-col items-center gap-16 mb-14"
                 >
                   <Link to="/commons" onClick={handleProceed}>
                     <motion.div
@@ -204,7 +166,7 @@ const Index = () => {
                       <ApexButton 
                         variant="primary" 
                         size="lg" 
-                        className="min-w-[220px] text-sm tracking-[0.5em] px-16 py-7"
+                        className="min-w-[240px] text-sm tracking-[0.5em] px-16 py-7"
                         style={{
                           boxShadow: '0 0 80px hsl(42 95% 55% / 0.25), 0 0 160px hsl(42 95% 55% / 0.1)',
                         }}
@@ -213,6 +175,39 @@ const Index = () => {
                       </ApexButton>
                     </motion.div>
                   </Link>
+                </motion.div>
+
+                {/* 4. ACTION — Secondary paths, deliberately subdued */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 1.5, delay: 2.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex flex-col items-center gap-5"
+                >
+                  <div className="flex items-center gap-6 text-grey-600">
+                    <button
+                      onClick={handleOpenWatchtower}
+                      className="text-[10px] md:text-xs uppercase tracking-[0.25em] hover:text-grey-400 transition-colors duration-500 flex items-center gap-2"
+                    >
+                      Live Signal
+                      <ExternalLink className="w-3 h-3" />
+                    </button>
+                    <span className="w-px h-3 bg-grey-700" />
+                    <Link 
+                      to="/request-verdict"
+                      className="text-[10px] md:text-xs uppercase tracking-[0.25em] hover:text-grey-400 transition-colors duration-500 flex items-center gap-2"
+                    >
+                      Request Verdict
+                      <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </div>
+
+                  <a 
+                    href="mailto:apex@apex-infrastructure.com" 
+                    className="text-grey-700 hover:text-grey-500 text-[10px] tracking-[0.2em] transition-colors duration-500"
+                  >
+                    apex@apex-infrastructure.com
+                  </a>
                 </motion.div>
               </div>
             </main>
