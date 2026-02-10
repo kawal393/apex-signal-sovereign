@@ -4,6 +4,7 @@ import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import MobileVoid from "@/components/effects/MobileVoid";
 import { useIsMobile } from "@/hooks/use-mobile";
+import InfrastructureDiagram from "@/components/sections/InfrastructureDiagram";
 
 const infrastructureLoop = [
   {
@@ -183,6 +184,9 @@ const Infrastructure = forwardRef<HTMLDivElement>((_, ref) => {
               </defs>
             </svg>
           </motion.div>
+
+          {/* System Architecture — Outcome View */}
+          <InfrastructureDiagram />
 
           {/* Phase Cards */}
           <div className="space-y-6">

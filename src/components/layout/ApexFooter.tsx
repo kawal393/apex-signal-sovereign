@@ -6,6 +6,7 @@ import apexLogo from "@/assets/apex-logo.png";
 const footerLinks = [
   { label: "Protocol", href: "/protocol" },
   { label: "Ledger", href: "/ledger" },
+  { label: "Pricing", href: "/pricing" },
   { label: "How It Works", href: "/how-it-works" },
   { label: "Terms", href: "/terms" },
   { label: "Privacy", href: "/privacy" },
@@ -55,13 +56,33 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
           ))}
         </div>
 
-        {/* Footer CTA Strip */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8 border-t border-border/50 mb-6">
+        {/* Command Strip */}
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pt-8 border-t border-border/50 mb-6">
+          <a
+            href="https://kawal393.github.io/ndis-signal-board/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-grey-500 hover:text-primary text-[10px] uppercase tracking-[0.2em] transition-colors duration-300"
+          >
+            Live Watchtower
+          </a>
           <Link
             to="/request-verdict"
-            className="px-6 py-2.5 rounded-md border border-primary/30 text-primary text-xs uppercase tracking-[0.2em] hover:bg-primary/10 hover:border-primary/50 transition-all duration-300"
+            className="px-5 py-2 rounded-md border border-primary/30 text-primary text-[10px] uppercase tracking-[0.2em] hover:bg-primary/10 hover:border-primary/50 transition-all duration-300"
           >
-            Request a Verdict →
+            Request Verdict →
+          </Link>
+          <Link
+            to="/pricing"
+            className="text-grey-500 hover:text-grey-300 text-[10px] uppercase tracking-[0.2em] transition-colors"
+          >
+            Pricing
+          </Link>
+          <Link
+            to="/request-access"
+            className="text-grey-500 hover:text-grey-300 text-[10px] uppercase tracking-[0.2em] transition-colors"
+          >
+            Request Access
           </Link>
           <a
             href="mailto:apex@apex-infrastructure.com"
@@ -69,12 +90,6 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
           >
             apex@apex-infrastructure.com
           </a>
-          <Link
-            to="/request-access"
-            className="text-grey-600 hover:text-grey-400 text-[10px] uppercase tracking-[0.2em] transition-colors"
-          >
-            1–2 updates/month — join unlock list
-          </Link>
         </div>
 
         {/* Copyright */}
