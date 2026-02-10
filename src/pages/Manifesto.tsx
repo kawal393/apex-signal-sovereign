@@ -131,13 +131,16 @@ const Manifesto = () => {
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-extralight text-grey-300 tracking-wide mb-8">
               <span className="text-gradient-gold font-medium">MANIFESTO</span>
             </h1>
-            <p className="text-xl md:text-2xl text-grey-500 font-light leading-relaxed max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-grey-300 font-normal leading-relaxed max-w-2xl mx-auto mb-6">
+              Apex exists because every complex system eventually requires a mechanism to terminate uncertainty — not with more information, but with a recorded, accountable decision.
+            </p>
+            <p className="text-base md:text-lg text-grey-500 font-light leading-relaxed max-w-2xl mx-auto">
               The principles that govern the inevitable.
             </p>
             
             {/* Scroll indicator */}
             <motion.div
-              className="mt-20"
+              className="mt-16"
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
             >

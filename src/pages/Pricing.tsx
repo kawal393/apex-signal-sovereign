@@ -10,9 +10,9 @@ import AmbientParticles from "@/components/effects/AmbientParticles";
 
 const tiers = [
   {
-    name: "Standard Verdict Brief",
+    name: "Standard Invocation Window",
     price: "$249",
-    delivery: "72 hours",
+    delivery: "Sealed within 72 hours",
     description: "Structured judgment for a single decision domain.",
     features: [
       "5-element Verdict structure",
@@ -26,9 +26,9 @@ const tiers = [
     popular: true,
   },
   {
-    name: "Complex Verdict Brief",
+    name: "Complex Invocation Window",
     price: "$999",
-    delivery: "5–10 business days",
+    delivery: "Sealed within 5–10 business days",
     description: "Multi-factor analysis across overlapping domains or counterparties.",
     features: [
       "Everything in Standard",
@@ -44,7 +44,7 @@ const tiers = [
   {
     name: "Partner / Retainer",
     price: "By Invitation",
-    delivery: "Ongoing",
+    delivery: "Continuous",
     description: "Sealed access, continuous monitoring, and citeable verdicts.",
     features: [
       "Everything in Complex",
@@ -87,10 +87,13 @@ const Pricing = () => {
               Verdict Authority
             </span>
             <h1 className="text-4xl md:text-5xl font-semibold text-foreground tracking-wide mb-6">
-              <span className="text-gradient-gold">Pricing</span>
+              <span className="text-gradient-gold">Access Conditions</span>
             </h1>
-            <p className="text-grey-400 max-w-xl mx-auto text-lg leading-relaxed">
+            <p className="text-grey-300 max-w-xl mx-auto text-lg leading-relaxed mb-4">
               Structured judgment for irreversible decisions. Clear deliverables. No ambiguity.
+            </p>
+            <p className="text-grey-500 text-sm italic max-w-lg mx-auto">
+              Price is a filter for seriousness, not a value explanation.
             </p>
           </motion.div>
 
@@ -118,8 +121,8 @@ const Pricing = () => {
                 <p className="text-grey-500 text-sm mb-6">{tier.description}</p>
 
                 <div className="mb-6">
-                  <span className="text-3xl font-semibold text-foreground">{tier.price}</span>
-                  <span className="text-grey-500 text-sm ml-2">/ {tier.delivery}</span>
+                  <span className="text-grey-400 text-sm block mb-1">{tier.delivery}</span>
+                  <span className="text-2xl font-medium text-foreground/80">{tier.price}</span>
                 </div>
 
                 <ul className="space-y-3 mb-8 flex-1">
