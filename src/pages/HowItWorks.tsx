@@ -36,25 +36,6 @@ const steps = [
   },
 ];
 
-const differentiators = [
-  {
-    apex: "Domain-specific judgment with accountability",
-    google: "Infinite information with no accountability",
-  },
-  {
-    apex: "Structured Verdict with test + kill rule",
-    google: "Unstructured search results",
-  },
-  {
-    apex: "Recorded to immutable ledger",
-    google: "No record, no memory",
-  },
-  {
-    apex: "Built for irreversible decisions",
-    google: "Built for general curiosity",
-  },
-];
-
 const HowItWorks = () => {
   const isMobile = useIsMobile();
 
@@ -112,7 +93,7 @@ const HowItWorks = () => {
             ))}
           </div>
 
-          {/* Why Apex, Not Google? */}
+          {/* Decision Authority Doctrine */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -120,33 +101,15 @@ const HowItWorks = () => {
             className="mb-20"
           >
             <h2 className="text-3xl md:text-4xl font-semibold text-foreground tracking-wide text-center mb-4">
-              Why Apex, not <span className="text-grey-500">Google</span>?
+              A Different Layer Entirely
             </h2>
-            <p className="text-grey-400 text-center max-w-2xl mx-auto mb-12 text-lg leading-relaxed">
-              Google answers questions. Apex resolves decisions. Google is infinite information with no accountability.
-              Apex is domain-specific judgment — a Verdict with a test and a kill rule.
+            <p className="text-grey-400 text-center max-w-2xl mx-auto mb-6 text-lg leading-relaxed">
+              Information, analysis, recommendations, and execution all serve the decision.
+              Apex is the decision itself — accountable, recorded, and final.
             </p>
-
-            <div className="grid md:grid-cols-2 gap-4">
-              {differentiators.map((d, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1 + i * 0.1, duration: 0.6 }}
-                  className="glass-card p-6 border-grey-700/30"
-                >
-                  <div className="mb-3">
-                    <span className="text-[9px] uppercase tracking-[0.2em] text-primary/70">APEX</span>
-                    <p className="text-foreground text-sm mt-1">{d.apex}</p>
-                  </div>
-                  <div className="border-t border-grey-800/50 pt-3">
-                    <span className="text-[9px] uppercase tracking-[0.2em] text-grey-600">Google</span>
-                    <p className="text-grey-500 text-sm mt-1 line-through decoration-grey-700">{d.google}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+            <p className="text-grey-500 text-center max-w-2xl mx-auto text-sm italic">
+              You invoke Apex when other systems can no longer decide.
+            </p>
           </motion.div>
 
           {/* CTA */}

@@ -119,7 +119,7 @@ export default function WhatIsApex() {
             ))}
           </motion.div>
 
-          {/* "Why Apex, not Google?" compact block */}
+          {/* Decision Authority block */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -128,11 +128,12 @@ export default function WhatIsApex() {
             className="glass-card p-8 mb-16 border-grey-700/30 text-center"
           >
             <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-4">
-              Why Apex, not <span className="text-grey-500">Google</span>?
+              Apex Is a Decision Layer — <span className="text-grey-500">Not a Tool</span>
             </h3>
             <p className="text-grey-400 leading-relaxed max-w-2xl mx-auto mb-6">
-              Google answers questions. Apex resolves decisions. Google is infinite information with no accountability. 
-              Apex is domain-specific judgment — a Verdict with a test and a kill rule.
+              Information, analysis, and recommendations all serve the decision.
+              Apex is the decision itself — accountable, recorded, and final.
+              You invoke Apex when other systems can no longer decide.
             </p>
             <Link to="/how-it-works">
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
