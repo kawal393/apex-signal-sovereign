@@ -4,6 +4,7 @@ import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import MobileVoid from "@/components/effects/MobileVoid";
 import { useIsMobile } from "@/hooks/use-mobile";
+import AmbientParticles from "@/components/effects/AmbientParticles";
 import InfrastructureDiagram from "@/components/sections/InfrastructureDiagram";
 
 const infrastructureLoop = [
@@ -41,6 +42,7 @@ const Infrastructure = forwardRef<HTMLDivElement>((_, ref) => {
     <div ref={ref} className="relative min-h-screen bg-black">
       {/* Background */}
       {isMobile && <MobileVoid />}
+      <AmbientParticles />
       <div className="fixed inset-0 pointer-events-none z-[1]">
         <div className="absolute inset-0 bg-black/80" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(275_40%_15%/0.12)_0%,transparent_60%)]" />

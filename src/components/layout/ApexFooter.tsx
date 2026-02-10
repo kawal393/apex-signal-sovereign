@@ -44,7 +44,7 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
         </div>
 
         {/* Footer links */}
-        <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10 pt-8 border-t border-border/50">
+        <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10 pt-8">
           {footerLinks.map((link) => (
             <Link
               key={link.label}
@@ -57,7 +57,7 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
         </div>
 
         {/* Command Strip */}
-        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pt-8 border-t border-border/50 mb-6">
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pt-6 mb-6">
           <a
             href="https://kawal393.github.io/ndis-signal-board/"
             target="_blank"

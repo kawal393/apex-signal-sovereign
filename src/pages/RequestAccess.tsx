@@ -8,6 +8,7 @@ import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import MobileVoid from "@/components/effects/MobileVoid";
 import { useIsMobile } from "@/hooks/use-mobile";
+import AmbientParticles from "@/components/effects/AmbientParticles";
 import { ApexButton } from "@/components/ui/apex-button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -70,6 +71,7 @@ const RequestAccess = () => {
   return (
     <div className="relative min-h-screen bg-black">
       {isMobile && <MobileVoid />}
+      <AmbientParticles />
       <div className="fixed inset-0 pointer-events-none z-[1]">
         <div className="absolute inset-0 bg-black/80" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(42_50%_20%/0.04)_0%,transparent_60%)]" />

@@ -6,6 +6,7 @@ import ApexFooter from "@/components/layout/ApexFooter";
 import MobileVoid from "@/components/effects/MobileVoid";
 import { ApexButton } from "@/components/ui/apex-button";
 import { useIsMobile } from "@/hooks/use-mobile";
+import AmbientParticles from "@/components/effects/AmbientParticles";
 
 interface VerdictElement {
   tier: string;
@@ -102,6 +103,7 @@ const Ledger = () => {
   return (
     <div className="relative min-h-screen bg-black">
       {isMobile && <MobileVoid />}
+      <AmbientParticles />
       <div className="fixed inset-0 pointer-events-none z-[1]">
         <div className="absolute inset-0 bg-black/80" />
       </div>
