@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useCallback, useEffect } from "react";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import { ApexButton } from "@/components/ui/apex-button";
 import EntryRitual from "@/components/ritual/EntryRitual";
 import SovereignVoid from "@/components/3d/SovereignVoid";
+import WebGLErrorBoundary from "@/components/3d/WebGLErrorBoundary";
 import MobileVoid from "@/components/effects/MobileVoid";
 import { useRotatingStatement } from "@/hooks/useRotatingStatement";
 import { usePresence } from "@/hooks/usePresence";
@@ -20,6 +21,7 @@ const Index = () => {
   const presence = usePresence();
   const { isAudioEnabled, status, playThresholdTone } = useApexSystem();
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   const handleRitualComplete = useCallback(() => {
     setRitualComplete(true);
@@ -28,7 +30,8 @@ const Index = () => {
 
   const handleProceed = useCallback(() => {
     playThresholdTone();
-  }, [playThresholdTone]);
+    navigate('/commons');
+  }, [playThresholdTone, navigate]);
 
   const handleOpenWatchtower = useCallback(() => {
     const url = "https://kawal393.github.io/ndis-signal-board/";
@@ -63,7 +66,9 @@ const Index = () => {
         isMobile ? (
           <MobileVoid />
         ) : (
-          <SovereignVoid scrollDepth={scrollDepth} className="z-0" />
+          <WebGLErrorBoundary className="z-0">
+            <SovereignVoid scrollDepth={scrollDepth} className="z-0" />
+          </WebGLErrorBoundary>
         )
       )}
 
@@ -157,24 +162,24 @@ const Index = () => {
                   transition={{ duration: 1.8, delay: 1.6, ease: [0.16, 1, 0.3, 1] }}
                   className="flex flex-col items-center gap-16 mb-14"
                 >
-                  <Link to="/commons" onClick={handleProceed}>
-                    <motion.div
-                      whileHover={{ scale: 1.05, y: -6 }}
-                      whileTap={{ scale: 0.98 }}
-                      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  <motion.div
+                    whileHover={{ scale: 1.05, y: -6 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    onClick={handleProceed}
+                    className="cursor-pointer relative z-30"
+                  >
+                    <ApexButton 
+                      variant="primary" 
+                      size="lg" 
+                      className="min-w-[240px] text-sm tracking-[0.5em] px-16 py-7"
+                      style={{
+                        boxShadow: '0 0 80px hsl(42 95% 55% / 0.25), 0 0 160px hsl(42 95% 55% / 0.1)',
+                      }}
                     >
-                      <ApexButton 
-                        variant="primary" 
-                        size="lg" 
-                        className="min-w-[240px] text-sm tracking-[0.5em] px-16 py-7"
-                        style={{
-                          boxShadow: '0 0 80px hsl(42 95% 55% / 0.25), 0 0 160px hsl(42 95% 55% / 0.1)',
-                        }}
-                      >
-                        PROCEED
-                      </ApexButton>
-                    </motion.div>
-                  </Link>
+                      PROCEED
+                    </ApexButton>
+                  </motion.div>
                 </motion.div>
 
                 {/* 4. ACTION — Secondary paths, deliberately subdued */}
