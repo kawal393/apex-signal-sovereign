@@ -219,7 +219,6 @@ const EnergyTendrils = memo(function EnergyTendrils({ count = 3 }: { count?: num
     refs.current.forEach((mesh, i) => {
       if (!mesh) return;
       const tendril = tendrils[i];
-      if (!tendril) return;
       mesh.rotation.z = tendril.angle + t * tendril.speed;
       mesh.scale.x = 1 + Math.sin(t * 0.3 + tendril.phase) * 0.15;
       const material = mesh.material as THREE.MeshBasicMaterial;

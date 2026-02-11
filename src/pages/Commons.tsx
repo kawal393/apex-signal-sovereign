@@ -12,7 +12,6 @@ import FeaturedNodes from "@/components/sections/FeaturedNodes";
 import ATALedgerRegister from "@/components/sections/ATALedgerRegister";
 import AccessRequest from "@/components/sections/AccessRequest";
 import AccessTiers from "@/components/sections/AccessTiers";
-import MiniAccessConditions from "@/components/sections/MiniAccessConditions";
 import ConditionalVerdicts from "@/components/sections/ConditionalVerdicts";
 import ActivityFeed from "@/components/sections/ActivityFeed";
 import SovereignVoid from "@/components/3d/SovereignVoid";
@@ -290,9 +289,6 @@ const Commons = () => {
                 <div className="w-px h-12 bg-gradient-to-b from-grey-600 to-transparent" />
               </motion.div>
             </motion.div>
-
-            {/* Mini Access Conditions — near hero CTA */}
-            <MiniAccessConditions />
           </div>
         </section>
         

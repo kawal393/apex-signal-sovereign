@@ -2,12 +2,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ApexSystemProvider, useApexSystem } from "@/contexts/ApexSystemContext";
 import { OracleProvider, useOracle } from "@/contexts/OracleContext";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
-import PageTransition from "@/components/layout/PageTransition";
 import Index from "./pages/Index";
 import Commons from "./pages/Commons";
 import Manifesto from "./pages/Manifesto";
@@ -90,36 +89,6 @@ function GlobalUI() {
   );
 }
 
-function AnimatedRoutes() {
-  const location = useLocation();
-  return (
-    <AnimatePresence mode="wait">
-      <PageTransition key={location.pathname}>
-        <Routes location={location}>
-          <Route path="/" element={<Index />} />
-          <Route path="/commons" element={<Commons />} />
-          <Route path="/manifesto" element={<Manifesto />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/nodes" element={<Nodes />} />
-          <Route path="/nodes/:nodeId" element={<NodeDetail />} />
-          <Route path="/node-frame/:id" element={<NodeFrame />} />
-          <Route path="/infrastructure" element={<Infrastructure />} />
-          <Route path="/request-access" element={<RequestAccess />} />
-          <Route path="/disclaimers" element={<Disclaimers />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/protocol" element={<Protocol />} />
-          <Route path="/ledger" element={<Ledger />} />
-          <Route path="/request-verdict" element={<RequestVerdict />} />
-          <Route path="/how-it-works" element={<HowItWorks />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </PageTransition>
-    </AnimatePresence>
-  );
-}
-
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ApexSystemProvider>
@@ -128,7 +97,26 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <AnimatedRoutes />
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/commons" element={<Commons />} />
+              <Route path="/manifesto" element={<Manifesto />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/nodes" element={<Nodes />} />
+              <Route path="/nodes/:nodeId" element={<NodeDetail />} />
+              <Route path="/node-frame/:id" element={<NodeFrame />} />
+              <Route path="/infrastructure" element={<Infrastructure />} />
+              <Route path="/request-access" element={<RequestAccess />} />
+              <Route path="/disclaimers" element={<Disclaimers />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/protocol" element={<Protocol />} />
+              <Route path="/ledger" element={<Ledger />} />
+              <Route path="/request-verdict" element={<RequestVerdict />} />
+              <Route path="/how-it-works" element={<HowItWorks />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
             {/* Global UI components */}
             <GlobalUI />
           </BrowserRouter>

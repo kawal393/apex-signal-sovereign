@@ -350,32 +350,32 @@ const Nodes = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.05, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                    className="glass-card p-5 opacity-70 hover:opacity-100 transition-all duration-300 border-grey-600/20 group hover:-translate-y-1 hover:shadow-[0_0_30px_hsl(42_50%_40%/0.1)] hover:border-grey-500/30 relative"
+                    className="glass-card p-5 opacity-50 hover:opacity-80 transition-all duration-300 border-grey-800/30 group hover:-translate-y-1 hover:shadow-[0_0_30px_hsl(0_0%_30%/0.08)] relative"
                   >
                     <div className="flex items-start justify-between mb-3">
-                      <span className="text-xl font-light text-grey-500/70 tabular-nums">{sequenceNum}</span>
-                      <CircleDot className="w-3 h-3 text-grey-500" />
+                      <span className="text-xl font-light text-grey-700/60 tabular-nums">{sequenceNum}</span>
+                      <CircleDot className="w-3 h-3 text-grey-700" />
                     </div>
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="w-1.5 h-1.5 rounded-full bg-grey-500/60" />
-                      <span className="text-[9px] uppercase tracking-[0.2em] text-grey-500">Dormant</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-grey-700" />
+                      <span className="text-[9px] uppercase tracking-[0.2em] text-grey-700">Dormant</span>
                     </div>
-                    <h3 className="text-sm font-medium text-grey-300 mb-2">{node.name}</h3>
+                    <h3 className="text-sm font-medium text-grey-500 mb-2">{node.name}</h3>
                     {node.domain && (
-                      <p className="text-[9px] text-grey-500 leading-relaxed mb-3">
+                      <p className="text-[9px] text-grey-700 leading-relaxed mb-3">
                         {node.domain}
                       </p>
                     )}
-                    <span className="text-[8px] uppercase tracking-[0.2em] text-grey-500 block mb-4">
+                    <span className="text-[8px] uppercase tracking-[0.2em] text-grey-700 block mb-4">
                       Pulse: RESERVED
                     </span>
 
                     {/* Hover overlay */}
                      <div className="absolute inset-0 bg-black/95 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-5 text-center pointer-events-none group-hover:pointer-events-auto">
                       <CircleDot className="w-5 h-5 text-grey-600 mb-3" />
-                      <p className="text-grey-300 text-sm font-medium mb-2">DORMANT — Unlock Order: #{sequenceNum}</p>
-                       <p className="text-grey-400 text-[10px] mb-1">Infrastructure reserved · Phase III</p>
-                       <p className="text-grey-500 text-[9px] mb-4">Access: Partner-only once activated</p>
+                      <p className="text-grey-400 text-sm font-medium mb-2">DORMANT — Unlock Order: #{sequenceNum}</p>
+                      <p className="text-grey-600 text-[10px] mb-1">Infrastructure reserved · Phase III</p>
+                      <p className="text-grey-700 text-[9px] mb-4">Access: Partner-only once activated</p>
                       <Link to="/request-access" onClick={(e) => e.stopPropagation()}>
                         <ApexButton variant="ghost" size="sm" className="text-xs text-grey-400 pointer-events-auto">
                           Join Unlock List →
