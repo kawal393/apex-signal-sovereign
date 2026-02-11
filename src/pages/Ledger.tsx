@@ -37,15 +37,15 @@ const DEMO_ENTRIES: LedgerEntry[] = [
     status: 'unsealed',
     summary: "Provider expansion into regional territory assessed against current regulatory state and enforcement patterns.",
     elements: {
-      tier: "HOLD",
-      confidence: "72%",
+      tier: "Standard",
+      confidence: "78%",
       why: [
-        "Current enforcement signal density in target region is elevated",
-        "Recent compliance audits in adjacent postcode clusters",
-        "Regulatory position unclear on expansion timing",
+        "Enforcement patterns show rising audit frequency in target region",
+        "Provider registration backlog signals 4–6 month delays",
+        "Pricing band compression limits margin on expansion",
       ],
-      nextTest: "Wait for next quarterly enforcement data release (est. 6 weeks)",
-      killRule: "If enforcement action announced in target region within 90 days, downgrade to DROP",
+      nextTest: "Submit Expression of Interest to test registration queue response time",
+      killRule: "If audit frequency exceeds 2x national average in target region, abort expansion",
     },
   },
   {
@@ -57,15 +57,15 @@ const DEMO_ENTRIES: LedgerEntry[] = [
     status: 'unsealed',
     summary: "Large load connection queue position evaluated against grid constraint forecasts and REZ bottleneck signals.",
     elements: {
-      tier: "ADVANCE",
-      confidence: "84%",
+      tier: "Complex",
+      confidence: "85%",
       why: [
-        "Queue position is favorable relative to current capacity timeline",
-        "REZ bottleneck resolution announced for Q3",
-        "Competitor load applications show lower priority scores",
+        "Connection queue position is inside 12-month approval window",
+        "REZ bottleneck at target substation is easing per AEMO data",
+        "Grid constraint forecast shows capacity uplift in Q3",
       ],
-      nextTest: "Confirm connection agreement terms within 30 days",
-      killRule: "If capacity allocation delayed beyond Q4, reassess with fresh constraint data",
+      nextTest: "File formal connection enquiry to confirm queue position and timeline",
+      killRule: "If AEMO revises constraint forecast upward by >15%, pause and reassess",
     },
   },
   {
@@ -77,15 +77,75 @@ const DEMO_ENTRIES: LedgerEntry[] = [
     status: 'unsealed',
     summary: "Institutional partnership risk matrix assessed against counterparty dependency signals.",
     elements: {
-      tier: "PARTNER-ONLY",
-      confidence: "68%",
+      tier: "Partner",
+      confidence: "62%",
       why: [
-        "Counterparty financial stability signals are mixed",
-        "Dependency concentration creates asymmetric risk",
-        "Exit pathways require advance structuring",
+        "Counterparty dependency ratio exceeds safe threshold",
+        "Director tenure signals instability in governance layer",
+        "Public filing language shows hedging increase quarter-on-quarter",
       ],
-      nextTest: "Structure exit clause before formal commitment",
-      killRule: "If counterparty discloses material liability exceeding 15% of deal value, DROP",
+      nextTest: "Request counterparty's latest audited financials and compare to public filings",
+      killRule: "If counterparty loses key directorship or primary contract, exit immediately",
+    },
+  },
+  {
+    id: "ATA-DEMO-004",
+    timestamp: "2025-03-XX",
+    domain: "Mining & Tenement Risk",
+    verdictType: "Conditional Verdict",
+    outcome: "HOLD",
+    status: 'unsealed',
+    summary: "Tenement renewal risk assessed against state regulatory posture and native title overlay mapping.",
+    elements: {
+      tier: "Standard",
+      confidence: "71%",
+      why: [
+        "State regulator flagged tenement cluster for priority compliance review",
+        "Native title determination pending over 40% of target area",
+        "Commodity price cycle does not support capex at current forward curve",
+      ],
+      nextTest: "Lodge pre-emptive compliance audit with state regulator to test response posture",
+      killRule: "If native title determination excludes target zone, abandon tenement strategy",
+    },
+  },
+  {
+    id: "ATA-DEMO-005",
+    timestamp: "2025-03-XX",
+    domain: "Water Rights Allocation",
+    verdictType: "Conditional Verdict",
+    outcome: "ADVANCE",
+    status: 'unsealed',
+    summary: "Water entitlement trade assessed against allocation forecast, carryover rules, and basin plan triggers.",
+    elements: {
+      tier: "Complex",
+      confidence: "80%",
+      why: [
+        "Allocation forecast exceeds 80% for target water year",
+        "Carryover rules permit multi-year banking in target zone",
+        "Basin plan trigger thresholds unlikely to activate under current inflow",
+      ],
+      nextTest: "Secure indicative quote from water broker to confirm market depth at target volume",
+      killRule: "If allocation announcement drops below 60%, exit position immediately",
+    },
+  },
+  {
+    id: "ATA-DEMO-006",
+    timestamp: "2025-04-XX",
+    domain: "Carbon & Safeguard Mechanism",
+    verdictType: "Conditional Verdict",
+    outcome: "DROP",
+    status: 'unsealed',
+    summary: "ACCU generation project viability assessed against safeguard mechanism baseline decline and method credibility.",
+    elements: {
+      tier: "Standard",
+      confidence: "88%",
+      why: [
+        "Safeguard baseline decline rate exceeds project emission reduction capacity",
+        "Method under review by Clean Energy Regulator with integrity concerns flagged",
+        "ACCU spot price insufficient to cover project operating costs at current yield",
+      ],
+      nextTest: "No test warranted — fundamentals are structurally adverse",
+      killRule: "Already triggered: method integrity review alone is sufficient to exit",
     },
   },
 ];
@@ -153,7 +213,7 @@ const Ledger = () => {
                 className="w-2 h-2 rounded-full bg-primary"
               />
               <span className="text-xs uppercase tracking-[0.2em] text-grey-400">
-                Ledger Pulse: <span className="text-grey-300">3 entries active</span>
+                Ledger Pulse: <span className="text-grey-300">{DEMO_ENTRIES.length} entries active</span>
               </span>
               <span className="text-[10px] uppercase tracking-[0.15em] text-primary/80 px-2 py-0.5 rounded bg-primary/10 border border-primary/20">
                 UNSEALED / DEMONSTRATION
