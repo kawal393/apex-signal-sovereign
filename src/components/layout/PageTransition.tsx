@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 
@@ -7,6 +8,11 @@ interface PageTransitionProps {
 
 export default function PageTransition({ children }: PageTransitionProps) {
   const location = useLocation();
+
+  // Scroll to top on every route change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [location.pathname]);
 
   return (
     <motion.div
