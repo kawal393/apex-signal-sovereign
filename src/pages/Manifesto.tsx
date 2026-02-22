@@ -121,7 +121,7 @@ const Manifesto = () => {
               transition={{ duration: 1.5, delay: 0.5 }}
             />
             <motion.span
-              className="text-[11px] uppercase tracking-[0.8em] text-grey-500 block mb-8"
+              className="text-[11px] uppercase tracking-[0.8em] text-grey-300 block mb-8"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1 }}
@@ -144,7 +144,7 @@ const Manifesto = () => {
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              <span className="text-grey-600 text-sm tracking-widest">DESCEND</span>
+              <span className="text-grey-600 text-base tracking-widest">DESCEND</span>
               <div className="mt-4 w-px h-16 bg-gradient-to-b from-grey-600 to-transparent mx-auto" />
             </motion.div>
           </motion.div>

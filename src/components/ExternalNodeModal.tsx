@@ -41,8 +41,8 @@ export default function ExternalNodeModal({ isOpen, nodeName, url, onConfirm, on
             <h3 className="text-lg font-medium text-foreground mb-2">
               Crossing into External Node
             </h3>
-            <p className="text-grey-400 text-sm mb-1">{nodeName}</p>
-            <p className="text-grey-600 text-xs mb-6">
+            <p className="text-grey-400 text-base mb-1">{nodeName}</p>
+            <p className="text-grey-600 text-base mb-6">
               Return to Portal anytime. Your session remains active.
             </p>
 

@@ -153,7 +153,7 @@ const Commons = () => {
               className="mb-16"
             >
               <motion.div 
-                className="flex items-center justify-center gap-6 text-grey-500"
+                className="flex items-center justify-center gap-6 text-grey-300"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 4, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -215,7 +215,7 @@ const Commons = () => {
               style={{ willChange: 'transform, opacity' }}
             >
               <motion.span 
-                className="text-sm md:text-base uppercase tracking-[0.8em] text-grey-200 block mb-10 font-normal"
+                className="text-base md:text-base uppercase tracking-[0.8em] text-grey-200 block mb-10 font-normal"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.2, duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
@@ -255,7 +255,7 @@ const Commons = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 2.2 + i * 0.3, duration: 2, ease: [0.16, 1, 0.3, 1] }}
                   whileHover={{ y: -6, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }}
-                  className={`group px-8 py-5 text-xs md:text-sm uppercase tracking-[0.5em] font-medium flex items-center gap-5 
+                  className={`group px-8 py-5 text-base md:text-base uppercase tracking-[0.5em] font-medium flex items-center gap-5 
                     ${item.color === 'silver' ? 'text-foreground border-silver-mid/40' : 
                       item.color === 'grey' ? 'text-foreground/90 border-grey-500/40' : 
                       'text-foreground/90 border-purple-mid/40'} 

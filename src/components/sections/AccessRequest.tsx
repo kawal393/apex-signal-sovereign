@@ -200,7 +200,7 @@ export default function AccessRequest() {
                     value={intent}
                     onChange={(e) => setIntent(e.target.value)}
                     placeholder="What signal do you seek? What would you do with verified intelligence? Be specific about your purpose."
-                    className="w-full h-44 bg-[hsl(260,18%,3%)] border border-border/15 rounded-md p-4 text-foreground/80 text-sm placeholder:text-muted-foreground/25 focus:border-primary/30 focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all duration-500 resize-none"
+                    className="w-full h-44 bg-[hsl(260,18%,3%)] border border-border/15 rounded-md p-4 text-foreground/80 text-base placeholder:text-muted-foreground/25 focus:border-primary/30 focus:outline-none focus:ring-1 focus:ring-primary/20 transition-all duration-500 resize-none"
                   />
                   <div className="flex justify-between mt-2">
                     <p className="text-[9px] text-muted-foreground/30 tracking-wide">
@@ -293,7 +293,7 @@ export default function AccessRequest() {
                 Request Received
               </h3>
 
-              <p className="text-sm text-muted-foreground/50 max-w-md mx-auto leading-relaxed mb-6">
+              <p className="text-base text-muted-foreground/50 max-w-md mx-auto leading-relaxed mb-6">
                 Your intent has been recorded. Evaluation is not instant.
                 The system will determine access based on demonstrated purpose.
               </p>

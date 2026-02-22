@@ -48,7 +48,7 @@ export default function WhyApexGrid() {
             transition={{ duration: 1.2, ease }}
             className="text-center mb-16"
           >
-            <span className="text-[10px] uppercase tracking-[0.6em] text-grey-500 block mb-5">
+            <span className="text-[10px] uppercase tracking-[0.6em] text-grey-300 block mb-5">
               Doctrine
             </span>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground tracking-wide mb-8">
@@ -76,9 +76,9 @@ export default function WhyApexGrid() {
             <div className="max-w-3xl mx-auto space-y-6 text-grey-300 text-base md:text-lg leading-[1.9]">
               <p>
                 Google retrieves information.{" "}
-                <span className="text-grey-500">AI generates possibilities.</span>{" "}
+                <span className="text-grey-300">AI generates possibilities.</span>{" "}
                 Consultants recommend options.{" "}
-                <span className="text-grey-500">Software executes instructions.</span>
+                <span className="text-grey-300">Software executes instructions.</span>
               </p>
               <p>
                 None of them are accountable for the final call.
@@ -105,7 +105,7 @@ export default function WhyApexGrid() {
             <h3 className="text-xl md:text-2xl font-semibold text-foreground text-center mb-4">
               Apex Does Not Compete.
             </h3>
-            <p className="text-grey-500 text-sm text-center mb-10 max-w-xl mx-auto">
+            <p className="text-grey-300 text-base text-center mb-10 max-w-xl mx-auto">
               Every system below serves a purpose. None of them are accountable for the final call.
             </p>
 
@@ -113,37 +113,37 @@ export default function WhyApexGrid() {
               <Table>
                 <TableHeader>
                   <TableRow className="border-grey-700/30 hover:bg-transparent">
-                    <TableHead className="text-[10px] uppercase tracking-[0.2em] text-grey-500 font-medium">System</TableHead>
-                    <TableHead className="text-[10px] uppercase tracking-[0.2em] text-grey-500 font-medium">What It Provides</TableHead>
-                    <TableHead className="text-[10px] uppercase tracking-[0.2em] text-grey-500 font-medium">Accountability</TableHead>
+                    <TableHead className="text-[10px] uppercase tracking-[0.2em] text-grey-300 font-medium">System</TableHead>
+                    <TableHead className="text-[10px] uppercase tracking-[0.2em] text-grey-300 font-medium">What It Provides</TableHead>
+                    <TableHead className="text-[10px] uppercase tracking-[0.2em] text-grey-300 font-medium">Accountability</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   <TableRow className="border-grey-700/20 hover:bg-muted/20">
-                    <TableCell className="text-sm text-grey-300 font-medium">Search (Google)</TableCell>
-                    <TableCell className="text-sm text-grey-400">Retrieves information on demand</TableCell>
-                    <TableCell className="text-sm text-grey-500">None — you interpret</TableCell>
+                    <TableCell className="text-base text-grey-300 font-medium">Search (Google)</TableCell>
+                    <TableCell className="text-base text-grey-400">Retrieves information on demand</TableCell>
+                    <TableCell className="text-base text-grey-300">None — you interpret</TableCell>
                   </TableRow>
                   <TableRow className="border-grey-700/20 hover:bg-muted/20">
-                    <TableCell className="text-sm text-grey-300 font-medium">Generic AI (ChatGPT, Gemini)</TableCell>
-                    <TableCell className="text-sm text-grey-400">Generates analysis and options</TableCell>
-                    <TableCell className="text-sm text-grey-500">None — probabilistic output</TableCell>
+                    <TableCell className="text-base text-grey-300 font-medium">Generic AI (ChatGPT, Gemini)</TableCell>
+                    <TableCell className="text-base text-grey-400">Generates analysis and options</TableCell>
+                    <TableCell className="text-base text-grey-300">None — probabilistic output</TableCell>
                   </TableRow>
                   <TableRow className="border-grey-700/20 hover:bg-muted/20">
-                    <TableCell className="text-sm text-grey-300 font-medium">Consultants / Advisors</TableCell>
-                    <TableCell className="text-sm text-grey-400">Recommends paths, hedges risk</TableCell>
-                    <TableCell className="text-sm text-grey-500">Limited — advisory only</TableCell>
+                    <TableCell className="text-base text-grey-300 font-medium">Consultants / Advisors</TableCell>
+                    <TableCell className="text-base text-grey-400">Recommends paths, hedges risk</TableCell>
+                    <TableCell className="text-base text-grey-300">Limited — advisory only</TableCell>
                   </TableRow>
                   <TableRow className="border-grey-700/20 hover:bg-muted/20">
-                    <TableCell className="text-sm text-grey-300 font-medium">Tools / Software</TableCell>
-                    <TableCell className="text-sm text-grey-400">Executes instructions</TableCell>
-                    <TableCell className="text-sm text-grey-500">None — follows orders</TableCell>
+                    <TableCell className="text-base text-grey-300 font-medium">Tools / Software</TableCell>
+                    <TableCell className="text-base text-grey-400">Executes instructions</TableCell>
+                    <TableCell className="text-base text-grey-300">None — follows orders</TableCell>
                   </TableRow>
                   {/* Apex row — elevated */}
                   <TableRow className="border-primary/30 bg-primary/[0.04] hover:bg-primary/[0.08]">
-                    <TableCell className="text-sm text-primary font-semibold">Apex</TableCell>
-                    <TableCell className="text-sm text-foreground font-medium">Issues a verdict with test + kill rule, recorded to the ATA Ledger</TableCell>
-                    <TableCell className="text-sm text-primary font-medium">Full — accountable, sealed, citeable</TableCell>
+                    <TableCell className="text-base text-primary font-semibold">Apex</TableCell>
+                    <TableCell className="text-base text-foreground font-medium">Issues a verdict with test + kill rule, recorded to the ATA Ledger</TableCell>
+                    <TableCell className="text-base text-primary font-medium">Full — accountable, sealed, citeable</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -175,8 +175,8 @@ export default function WhyApexGrid() {
                   <span className="text-[9px] uppercase tracking-[0.2em] text-grey-600 block mb-1">
                     {layer.label}
                   </span>
-                  <p className="text-sm text-grey-400 mb-1">{layer.description}</p>
-                  <p className="text-xs text-grey-600">→ {layer.output}</p>
+                  <p className="text-base text-grey-400 mb-1">{layer.description}</p>
+                  <p className="text-base text-grey-600">→ {layer.output}</p>
                 </motion.div>
               ))}
 
@@ -216,7 +216,7 @@ export default function WhyApexGrid() {
                 <p className="text-base text-foreground font-medium mb-2">
                   Verdicts, tests, kill rules
                 </p>
-                <p className="text-sm text-primary/80">
+                <p className="text-base text-primary/80">
                   → One accountable judgment, recorded and irreversible
                 </p>
               </motion.div>
@@ -226,7 +226,7 @@ export default function WhyApexGrid() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.5, duration: 0.8 }}
-                className="text-center text-sm text-grey-500 italic pt-6"
+                className="text-center text-base text-grey-300 italic pt-6"
               >
                 Apex operates only at the point where ambiguity must end.
               </motion.p>
@@ -243,7 +243,7 @@ export default function WhyApexGrid() {
           >
             <h3 className="text-xl md:text-2xl font-semibold text-foreground text-center mb-8">
               Apex Does Not Replace Anything.{" "}
-              <span className="text-grey-500">It Commands the Moment They Fail.</span>
+              <span className="text-grey-300">It Commands the Moment They Fail.</span>
             </h3>
             <div className="max-w-2xl mx-auto text-grey-300 text-base leading-[1.9] space-y-6">
               <p>
@@ -277,9 +277,9 @@ export default function WhyApexGrid() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1, duration: 0.6 }}
-                  className="flex items-start gap-3 text-grey-300 text-sm md:text-base leading-relaxed"
+                  className="flex items-start gap-3 text-grey-300 text-base md:text-base leading-relaxed"
                 >
-                  <span className="text-primary mt-1 text-xs">◆</span>
+                  <span className="text-primary mt-1 text-base">◆</span>
                   {point}
                 </motion.li>
               ))}
@@ -289,7 +289,7 @@ export default function WhyApexGrid() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-center text-grey-500 text-sm italic"
+              className="text-center text-grey-300 text-base italic"
             >
               Apex is used when the cost of indecision exceeds the cost of judgment.
             </motion.p>

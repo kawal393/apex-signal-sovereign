@@ -47,7 +47,7 @@ export default function CorporateTranslator() {
             <main className="relative z-10 pt-32 pb-24 px-6">
                 <div className="max-w-4xl mx-auto">
                     {/* Header */}
-                    <Link to="/nodes" className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-grey-500 hover:text-grey-300 transition-colors mb-12">
+                    <Link to="/nodes" className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-grey-300 hover:text-grey-300 transition-colors mb-12">
                         <ArrowLeft className="w-4 h-4" />
                         All Nodes
                     </Link>
@@ -59,7 +59,7 @@ export default function CorporateTranslator() {
                     >
                         <div className="flex items-center gap-3 mb-4">
                             <span className="status-active">LIVE SIGNAL</span>
-                            <span className="text-[10px] uppercase tracking-[0.2em] text-grey-500">Corporate Translator Node</span>
+                            <span className="text-[10px] uppercase tracking-[0.2em] text-grey-300">Corporate Translator Node</span>
                         </div>
                         <h1 className="text-3xl md:text-5xl font-semibold text-foreground tracking-wide mb-6">Instutional Intent <span className="text-gradient-gold">Decoder</span></h1>
                         <p className="text-grey-400 max-w-2xl text-lg leading-relaxed mb-12">
@@ -76,12 +76,12 @@ export default function CorporateTranslator() {
                     >
                         {/* Input */}
                         <div className="glass-card p-6 border-grey-800/50 flex flex-col">
-                            <h3 className="text-xs uppercase tracking-[0.3em] text-grey-500 mb-4">Input: Institutional Language</h3>
+                            <h3 className="text-base uppercase tracking-[0.3em] text-grey-300 mb-4">Input: Institutional Language</h3>
                             <Textarea
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 placeholder="Paste corporate announcement, prospectus excerpt, or PR release here..."
-                                className="flex-1 bg-black/50 border-grey-800 focus:border-primary/50 text-grey-300 min-h-[300px] text-sm leading-relaxed resize-none mb-6"
+                                className="flex-1 bg-black/50 border-grey-800 focus:border-primary/50 text-grey-300 min-h-[300px] text-base leading-relaxed resize-none mb-6"
                             />
                             <ApexButton
                                 variant="primary"
@@ -100,12 +100,12 @@ export default function CorporateTranslator() {
                         {/* Output */}
                         <div className="glass-card p-6 border-primary/20 bg-gradient-to-b from-primary/5 to-transparent flex flex-col relative overflow-hidden">
                             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-                            <h3 className="text-xs uppercase tracking-[0.3em] text-primary mb-4 flex items-center justify-between">
+                            <h3 className="text-base uppercase tracking-[0.3em] text-primary mb-4 flex items-center justify-between">
                                 <span>Output: Operational Reality</span>
-                                {output && <span className="text-[9px] text-grey-500 bg-black/50 px-2 py-1 rounded">DECODED</span>}
+                                {output && <span className="text-[9px] text-grey-300 bg-black/50 px-2 py-1 rounded">DECODED</span>}
                             </h3>
 
-                            <div className="flex-1 bg-black/40 border border-grey-800/50 rounded-md p-6 text-sm leading-relaxed 
+                            <div className="flex-1 bg-black/40 border border-grey-800/50 rounded-md p-6 text-base leading-relaxed 
                 font-mono relative">
                                 {isTranslating ? (
                                     <div className="absolute inset-0 flex flex-col items-center justify-center text-primary/50 gap-4">
@@ -117,11 +117,11 @@ export default function CorporateTranslator() {
                                         <p className="text-grey-200">{output}</p>
                                         <div className="mt-8 pt-4 border-t border-primary/20">
                                             <p className="text-[10px] uppercase tracking-widest text-primary/60 mb-2">Analysis Complete</p>
-                                            <p className="text-xs text-grey-500">Confidence: 89% | Source: Lexical Sentiment Drift</p>
+                                            <p className="text-base text-grey-300">Confidence: 89% | Source: Lexical Sentiment Drift</p>
                                         </div>
                                     </motion.div>
                                 ) : (
-                                    <div className="h-full flex items-center justify-center text-grey-600 text-xs uppercase tracking-widest opacity-50">
+                                    <div className="h-full flex items-center justify-center text-grey-600 text-base uppercase tracking-widest opacity-50">
                                         Awaiting Input Feed
                                     </div>
                                 )}

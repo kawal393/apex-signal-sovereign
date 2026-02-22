@@ -103,7 +103,7 @@ const Index = () => {
                   animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0.8, 0.4] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
-                <span className="text-[8px] uppercase tracking-[0.2em] text-grey-500">
+                <span className="text-[8px] uppercase tracking-[0.2em] text-grey-300">
                   Presence active
                 </span>
               </motion.div>
@@ -142,7 +142,7 @@ const Index = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 2, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-xs md:text-sm text-grey-200 leading-relaxed mb-16 md:mb-20 max-w-xl mx-auto tracking-wide"
+                  className="text-base md:text-base text-grey-200 leading-relaxed mb-16 md:mb-20 max-w-xl mx-auto tracking-wide"
                 >
                   APEX issues written Verdict Briefs that help operators make irreversible decisions under regulatory, institutional, and market pressure.
                 </motion.p>
@@ -163,7 +163,7 @@ const Index = () => {
                       <ApexButton
                         variant="primary"
                         size="lg"
-                        className="min-w-[240px] text-sm tracking-[0.5em] px-16 py-7"
+                        className="min-w-[240px] text-base tracking-[0.5em] px-16 py-7"
                         style={{
                           boxShadow: '0 0 80px hsl(42 95% 55% / 0.25), 0 0 160px hsl(42 95% 55% / 0.1)',
                         }}
@@ -184,7 +184,7 @@ const Index = () => {
                   <div className="flex items-center gap-6 text-grey-400">
                     <button
                       onClick={handleOpenWatchtower}
-                      className="text-[10px] md:text-xs uppercase tracking-[0.25em] hover:text-grey-400 transition-colors duration-500 flex items-center gap-2"
+                      className="text-[10px] md:text-base uppercase tracking-[0.25em] hover:text-grey-400 transition-colors duration-500 flex items-center gap-2"
                     >
                       Live Signal
                       <ExternalLink className="w-3 h-3" />
@@ -192,7 +192,7 @@ const Index = () => {
                     <span className="w-px h-3 bg-grey-700" />
                     <Link
                       to="/request-verdict"
-                      className="text-[10px] md:text-xs uppercase tracking-[0.25em] hover:text-grey-400 transition-colors duration-500 flex items-center gap-2"
+                      className="text-[10px] md:text-base uppercase tracking-[0.25em] hover:text-grey-400 transition-colors duration-500 flex items-center gap-2"
                     >
                       Request Verdict
                       <ArrowRight className="w-3 h-3" />
@@ -201,7 +201,7 @@ const Index = () => {
 
                   <Link
                     to="/request-access"
-                    className="text-grey-400 hover:text-grey-500 text-[10px] tracking-[0.2em] transition-colors duration-500"
+                    className="text-grey-400 hover:text-grey-300 text-[10px] tracking-[0.2em] transition-colors duration-500"
                   >
                     apex@apex-infrastructure.com
                   </Link>
@@ -223,7 +223,7 @@ const Index = () => {
                 }}
               />
               <motion.span
-                className="text-gold/30 text-sm"
+                className="text-gold/30 text-base"
                 animate={{ opacity: [0.2, 0.5, 0.2] }}
                 transition={{ duration: 6, repeat: Infinity }}
               >

@@ -217,11 +217,11 @@ export default function NetworkMap() {
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="flex flex-col items-center gap-8">
-            <div className="px-4 py-2 glass-card text-xs uppercase tracking-[0.2em] text-status-active font-medium">
+            <div className="px-4 py-2 glass-card text-base uppercase tracking-[0.2em] text-status-active font-medium">
               Active
             </div>
             <div className="h-32" />
-            <div className="px-4 py-2 glass-card text-xs uppercase tracking-[0.2em] text-muted-foreground font-medium">
+            <div className="px-4 py-2 glass-card text-base uppercase tracking-[0.2em] text-muted-foreground font-medium">
               Frozen
             </div>
           </div>

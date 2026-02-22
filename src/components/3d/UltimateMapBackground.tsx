@@ -389,11 +389,11 @@ export default function UltimateMapBackground() {
       
       {/* Status indicators */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-16 flex flex-col items-center gap-5 pointer-events-none">
-        <div className="px-6 py-2.5 glass-card border-[#00d4ff]/40 text-xs uppercase tracking-[0.3em] text-[#00d4ff] font-semibold shadow-[0_0_30px_rgba(0,212,255,0.4)]">
+        <div className="px-6 py-2.5 glass-card border-[#00d4ff]/40 text-base uppercase tracking-[0.3em] text-[#00d4ff] font-semibold shadow-[0_0_30px_rgba(0,212,255,0.4)]">
           Active
         </div>
         <div className="h-20 w-px bg-gradient-to-b from-[#00d4ff]/60 to-transparent" />
-        <div className="px-6 py-2.5 glass-card border-primary/25 text-xs uppercase tracking-[0.3em] text-muted-foreground font-semibold">
+        <div className="px-6 py-2.5 glass-card border-primary/25 text-base uppercase tracking-[0.3em] text-muted-foreground font-semibold">
           Frozen
         </div>
       </div>

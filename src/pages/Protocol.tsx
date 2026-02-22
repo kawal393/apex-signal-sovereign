@@ -24,7 +24,7 @@ const Protocol = () => {
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-16"
           >
-            <span className="text-[10px] uppercase tracking-[0.6em] text-grey-500 block mb-4">
+            <span className="text-[10px] uppercase tracking-[0.6em] text-grey-300 block mb-4">
               Engagement
             </span>
             <h1 className="text-4xl md:text-5xl font-semibold text-foreground tracking-wide mb-6">

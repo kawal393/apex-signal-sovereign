@@ -27,7 +27,7 @@ const SocialProof = () => {
           transition={{ duration: 1 }}
           className="text-center mb-20"
         >
-          <span className="text-[10px] uppercase tracking-[0.4em] text-grey-500 block mb-4">
+          <span className="text-[10px] uppercase tracking-[0.4em] text-grey-300 block mb-4">
             Authority Markers
           </span>
           <h2 className="text-3xl md:text-4xl font-semibold text-foreground tracking-wide mb-6">
@@ -53,10 +53,10 @@ const SocialProof = () => {
               whileHover={{ scale: 1.05, y: -2 }}
               className="group px-6 py-3 bg-black/80 border border-border/30 rounded-lg hover:border-primary/30 transition-all duration-500"
             >
-              <span className="text-xs uppercase tracking-[0.2em] text-foreground/90 font-medium">
+              <span className="text-base uppercase tracking-[0.2em] text-foreground/90 font-medium">
                 {sector.label}
               </span>
-              <span className="block text-[10px] text-grey-500 mt-1 group-hover:text-grey-400 transition-colors">
+              <span className="block text-[10px] text-grey-300 mt-1 group-hover:text-grey-400 transition-colors">
                 {sector.description}
               </span>
             </motion.div>
@@ -84,7 +84,7 @@ const SocialProof = () => {
               <div className="text-4xl md:text-5xl font-semibold text-foreground mb-2 tabular-nums">
                 {stat.value}
               </div>
-              <div className="text-xs uppercase tracking-[0.2em] text-grey-500">
+              <div className="text-base uppercase tracking-[0.2em] text-grey-300">
                 {stat.label}
               </div>
             </motion.div>
@@ -104,7 +104,7 @@ const SocialProof = () => {
             <h3 className="text-lg font-semibold text-foreground mb-3 tracking-wide">
               Apex Confidence Lock
             </h3>
-            <p className="text-sm text-grey-400 leading-relaxed">
+            <p className="text-base text-grey-400 leading-relaxed">
               Delivery and structural integrity of Verdict Briefs are guaranteed. 
               Refunds issued only for non-delivery or structural invalidity — 
               never for disagreement with outcomes.

@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const apexButtonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all duration-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 uppercase",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-base font-medium transition-all duration-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 uppercase",
   {
     variants: {
       variant: {
@@ -26,8 +26,8 @@ const apexButtonVariants = cva(
       },
       size: {
         default: "h-12 px-8 py-3 rounded-md tracking-[0.2em]",
-        sm: "h-9 px-4 py-2 rounded-sm text-xs tracking-[0.15em]",
-        lg: "h-14 px-12 py-4 rounded-md text-sm tracking-[0.25em]",
+        sm: "h-9 px-4 py-2 rounded-sm text-base tracking-[0.15em]",
+        lg: "h-14 px-12 py-4 rounded-md text-base tracking-[0.25em]",
         icon: "h-10 w-10 rounded-md",
       },
     },

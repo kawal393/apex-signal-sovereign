@@ -31,7 +31,7 @@ export default function NDISWatchtower() {
 
             <main className="relative z-10 pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto">
                 {/* Header */}
-                <Link to="/nodes" className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-grey-500 hover:text-grey-300 transition-colors mb-12">
+                <Link to="/nodes" className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-grey-300 hover:text-grey-300 transition-colors mb-12">
                     <ArrowLeft className="w-4 h-4" />
                     All Nodes
                 </Link>
@@ -45,7 +45,7 @@ export default function NDISWatchtower() {
                     >
                         <div className="flex items-center gap-3 mb-4">
                             <span className="status-active">LIVE STREAM</span>
-                            <span className="text-[10px] uppercase tracking-[0.2em] text-grey-500">Compliance & Pricing Board</span>
+                            <span className="text-[10px] uppercase tracking-[0.2em] text-grey-300">Compliance & Pricing Board</span>
                             <Database className="w-3.5 h-3.5 text-primary ml-2 animate-pulse" />
                         </div>
                         <h1 className="text-3xl md:text-5xl font-semibold text-foreground tracking-wide mb-6">NDIS <span className="text-gradient-gold">Watchtower</span></h1>
@@ -79,7 +79,7 @@ export default function NDISWatchtower() {
                     {/* Blur Overlay - The sovereign trap */}
                     <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-black via-black/90 to-transparent z-10 flex flex-col items-center justify-end pb-20 pointer-events-none">
                         <h3 className="text-xl font-medium text-foreground mb-4 tracking-wide">642 Signals Obfuscated</h3>
-                        <p className="text-grey-400 text-sm max-w-md text-center mb-6">
+                        <p className="text-grey-400 text-base max-w-md text-center mb-6">
                             The full Watchtower matrix is restricted to Tier 3 Partners and Retainer clients.
                         </p>
                         <Link to="/request-access" className="pointer-events-auto">
@@ -92,7 +92,7 @@ export default function NDISWatchtower() {
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr className="border-b border-grey-800 text-[10px] uppercase tracking-[0.3em] text-grey-500 bg-black/40">
+                                <tr className="border-b border-grey-800 text-[10px] uppercase tracking-[0.3em] text-grey-300 bg-black/40">
                                     <th className="p-6 font-medium">Provider Target</th>
                                     <th className="p-6 font-medium">Region</th>
                                     <th className="p-6 font-medium">Signal Event</th>
@@ -100,7 +100,7 @@ export default function NDISWatchtower() {
                                     <th className="p-6 font-medium">Capture Date</th>
                                 </tr>
                             </thead>
-                            <tbody className="text-sm">
+                            <tbody className="text-base">
                                 {mockSignals.map((signal, index) => {
                                     const isBlurred = index >= 4;
                                     return (
@@ -132,7 +132,7 @@ export default function NDISWatchtower() {
                                                     {signal.risk}
                                                 </span>
                                             </td>
-                                            <td className={`p-6 font-mono text-xs ${!isBlurred ? 'text-grey-500' : 'text-grey-700'}`}>
+                                            <td className={`p-6 font-mono text-base ${!isBlurred ? 'text-grey-300' : 'text-grey-700'}`}>
                                                 {signal.date}
                                             </td>
                                         </tr>

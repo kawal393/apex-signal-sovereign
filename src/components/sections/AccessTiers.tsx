@@ -217,7 +217,7 @@ export default function AccessTiers() {
 
                 {/* Benefits */}
                 <div className="mb-8">
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-grey-500 mb-4 block font-medium">
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-grey-300 mb-4 block font-medium">
                     Privileges
                   </span>
                   <ul className="space-y-3">
@@ -229,8 +229,8 @@ export default function AccessTiers() {
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 }}
                       >
-                        <span className={`${colorClasses.sigil} mt-1 text-sm`}>+</span>
-                        <span className="text-sm text-grey-300 leading-relaxed">
+                        <span className={`${colorClasses.sigil} mt-1 text-base`}>+</span>
+                        <span className="text-base text-grey-300 leading-relaxed">
                           {benefit}
                         </span>
                       </motion.li>
@@ -246,8 +246,8 @@ export default function AccessTiers() {
                   <ul className="space-y-2">
                     {tier.requirements.map((req, index) => (
                       <li key={index} className="flex items-start gap-3">
-                        <span className="text-grey-600 mt-1 text-xs">○</span>
-                        <span className="text-xs text-grey-500 leading-relaxed">
+                        <span className="text-grey-600 mt-1 text-base">○</span>
+                        <span className="text-base text-grey-300 leading-relaxed">
                           {req}
                         </span>
                       </li>
@@ -267,7 +267,7 @@ export default function AccessTiers() {
           viewport={{ once: true }}
           className="mt-16 text-center"
         >
-          <p className="text-grey-500 text-sm tracking-wide">
+          <p className="text-grey-300 text-base tracking-wide">
             Your current level: <span className="text-silver-light font-medium">Observer</span>
           </p>
         </motion.div>

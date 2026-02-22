@@ -116,14 +116,14 @@ const ConstellationNode = ({ node, index, globalIndex }: ConstellationNodeProps)
         <div className="flex items-start justify-between mb-3">
           {/* Sequence Number */}
           <span className={`text-2xl md:text-3xl font-light tabular-nums ${
-            isLive ? 'text-primary/80' : isSealed ? 'text-grey-500/60' : 'text-grey-700/40'
+            isLive ? 'text-primary/80' : isSealed ? 'text-grey-300/60' : 'text-grey-700/40'
           }`}>
             {sequenceNumber}
           </span>
           
           {/* Status + Pulse */}
           <div className="flex items-center gap-2">
-            {isSealed && <Lock className="w-3 h-3 text-grey-500/60" />}
+            {isSealed && <Lock className="w-3 h-3 text-grey-300/60" />}
             <motion.div
               animate={isLive ? { scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] } : {}}
               transition={{ duration: 2, repeat: Infinity }}
@@ -140,14 +140,14 @@ const ConstellationNode = ({ node, index, globalIndex }: ConstellationNodeProps)
             ? 'text-foreground group-hover:text-primary' 
             : isSealed 
             ? 'text-grey-300' 
-            : 'text-grey-500'
+            : 'text-grey-300'
         }`}>
           {node.name}
         </h3>
 
         {/* Domain */}
-        <p className={`text-xs leading-relaxed mb-4 ${
-          isLive ? 'text-grey-400' : isSealed ? 'text-grey-500' : 'text-grey-600'
+        <p className={`text-base leading-relaxed mb-4 ${
+          isLive ? 'text-grey-400' : isSealed ? 'text-grey-300' : 'text-grey-600'
         }`}>
           {node.domain || node.purpose}
         </p>
@@ -155,7 +155,7 @@ const ConstellationNode = ({ node, index, globalIndex }: ConstellationNodeProps)
         {/* Footer Row */}
         <div className="flex items-center justify-between">
           <span className={`text-[9px] uppercase tracking-[0.2em] ${
-            isLive ? 'text-primary/70' : isSealed ? 'text-grey-500' : 'text-grey-600'
+            isLive ? 'text-primary/70' : isSealed ? 'text-grey-300' : 'text-grey-600'
           }`}>
             Pulse: {getPulseLabel()}
           </span>
@@ -174,8 +174,8 @@ const ConstellationNode = ({ node, index, globalIndex }: ConstellationNodeProps)
             className="absolute inset-0 rounded-lg bg-black/95 border border-grey-600/40 flex flex-col items-center justify-center p-4 z-10"
           >
             <Lock className="w-5 h-5 text-grey-400 mb-3" />
-            <span className="text-xs uppercase tracking-[0.3em] text-grey-300 mb-2">Sealed Node</span>
-            <p className="text-[10px] text-grey-500 text-center leading-relaxed">
+            <span className="text-base uppercase tracking-[0.3em] text-grey-300 mb-2">Sealed Node</span>
+            <p className="text-[10px] text-grey-300 text-center leading-relaxed">
               Monitoring active<br />
               Verdicts restricted<br />
               <span className="text-grey-400">Unlocks in Phase II</span>
@@ -192,10 +192,10 @@ const ConstellationNode = ({ node, index, globalIndex }: ConstellationNodeProps)
             className="absolute inset-0 rounded-lg bg-black/95 border border-grey-700/30 flex flex-col items-center justify-center p-4 z-10"
           >
             <CircleDot className="w-5 h-5 text-grey-600 mb-3" />
-            <span className="text-xs uppercase tracking-[0.3em] text-grey-400 mb-2">Dormant Node</span>
+            <span className="text-base uppercase tracking-[0.3em] text-grey-400 mb-2">Dormant Node</span>
             <p className="text-[10px] text-grey-600 text-center leading-relaxed">
               Infrastructure reserved<br />
-              <span className="text-grey-500">Unlock sequence: Phase III</span>
+              <span className="text-grey-300">Unlock sequence: Phase III</span>
             </p>
           </motion.div>
         )}
@@ -241,7 +241,7 @@ export default function TheConstellation() {
           transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-12"
         >
-          <span className="text-[10px] uppercase tracking-[0.6em] text-grey-500 block mb-5">
+          <span className="text-[10px] uppercase tracking-[0.6em] text-grey-300 block mb-5">
             Empire Architecture
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground tracking-wide mb-6">
@@ -269,7 +269,7 @@ export default function TheConstellation() {
               transition={{ duration: 2, repeat: Infinity }}
               className="w-2.5 h-2.5 rounded-full bg-primary"
             />
-            <h3 className="text-xs uppercase tracking-[0.4em] text-primary font-medium">
+            <h3 className="text-base uppercase tracking-[0.4em] text-primary font-medium">
               Live Nodes — System Operational
             </h3>
           </div>
@@ -292,8 +292,8 @@ export default function TheConstellation() {
           className="mb-16"
         >
           <div className="flex items-center gap-3 mb-6">
-            <Lock className="w-3.5 h-3.5 text-grey-500" />
-            <h3 className="text-xs uppercase tracking-[0.4em] text-grey-400 font-medium">
+            <Lock className="w-3.5 h-3.5 text-grey-300" />
+            <h3 className="text-base uppercase tracking-[0.4em] text-grey-400 font-medium">
               Sealed Nodes — Monitoring Active
             </h3>
           </div>
@@ -316,11 +316,11 @@ export default function TheConstellation() {
         >
           <div className="flex items-center gap-3 mb-4">
             <CircleDot className="w-3.5 h-3.5 text-grey-600" />
-            <h3 className="text-xs uppercase tracking-[0.4em] text-grey-500 font-medium">
+            <h3 className="text-base uppercase tracking-[0.4em] text-grey-300 font-medium">
               Dormant Nodes — Infrastructure Reserved
             </h3>
           </div>
-          <p className="text-grey-600 text-xs mb-6 max-w-xl">
+          <p className="text-grey-600 text-base mb-6 max-w-xl">
             Capacity allocated for future activation. Each node represents planned expansion 
             into regulated, capital-intensive, or irreversible decision domains.
           </p>
@@ -352,7 +352,7 @@ export default function TheConstellation() {
             ].map((stat, i) => (
               <div key={i}>
                 <span className={`text-2xl md:text-3xl font-light ${stat.color}`}>{stat.value}</span>
-                <span className="block text-[9px] uppercase tracking-[0.2em] text-grey-500 mt-2">{stat.label}</span>
+                <span className="block text-[9px] uppercase tracking-[0.2em] text-grey-300 mt-2">{stat.label}</span>
               </div>
             ))}
           </div>

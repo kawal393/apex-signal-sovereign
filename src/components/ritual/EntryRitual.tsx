@@ -179,7 +179,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
             </motion.div>
             
             <motion.p
-              className="text-sm tracking-[0.7em] uppercase text-muted-foreground/25"
+              className="text-base tracking-[0.7em] uppercase text-muted-foreground/25"
               animate={{ opacity: [0.15, 0.4, 0.15] }}
               transition={{ duration: 6, repeat: Infinity, ease: motionConfig.ease }}
             >
@@ -208,11 +208,11 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
               style={{ willChange: 'transform, opacity' }}
             >
               <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-muted-foreground/50">
-                <span className="text-sm md:text-base uppercase tracking-[0.6em] font-light">
+                <span className="text-base md:text-base uppercase tracking-[0.6em] font-light">
                   {presence.city}
                 </span>
                 <span className="w-2 h-2 rounded-full bg-muted-foreground/30 hidden md:block" />
-                <span className="text-sm md:text-base uppercase tracking-[0.4em] tabular-nums font-light">
+                <span className="text-base md:text-base uppercase tracking-[0.4em] tabular-nums font-light">
                   {now.toLocaleDateString(undefined, {
                     weekday: 'long',
                     year: 'numeric',
@@ -221,7 +221,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
                   })}
                 </span>
                 <span className="w-2 h-2 rounded-full bg-muted-foreground/30 hidden md:block" />
-                <span className="text-sm md:text-base uppercase tracking-[0.4em] tabular-nums font-light">
+                <span className="text-base md:text-base uppercase tracking-[0.4em] tabular-nums font-light">
                   {now.toLocaleTimeString(undefined, {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -352,7 +352,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
             className="text-center px-6 max-w-4xl w-full"
           >
             <motion.p
-              className="text-xs md:text-sm tracking-[0.8em] uppercase text-muted-foreground/40 mb-10"
+              className="text-base md:text-base tracking-[0.8em] uppercase text-muted-foreground/40 mb-10"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 1.5 }}
@@ -373,10 +373,10 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
                   }}
                   className="relative rounded-md px-4 py-5 md:py-6 border border-border/40 bg-card/60 backdrop-blur-sm hover:border-primary/30 transition-all duration-700 group"
                 >
-                  <p className="text-[10px] md:text-xs tracking-[0.5em] uppercase text-primary/60 mb-2 font-medium">
+                  <p className="text-[10px] md:text-base tracking-[0.5em] uppercase text-primary/60 mb-2 font-medium">
                     {node.label}
                   </p>
-                  <p className="text-sm md:text-base font-medium text-foreground/80 group-hover:text-foreground transition-colors duration-500">
+                  <p className="text-base md:text-base font-medium text-foreground/80 group-hover:text-foreground transition-colors duration-500">
                     {node.name}
                   </p>
                 </motion.div>
@@ -385,7 +385,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
 
             <motion.button
               onClick={() => setPhase('reveal')}
-              className="text-sm tracking-[0.5em] uppercase text-primary/70 hover:text-primary px-8 py-4 border border-primary/25 hover:border-primary/50 rounded-sm transition-all duration-700"
+              className="text-base tracking-[0.5em] uppercase text-primary/70 hover:text-primary px-8 py-4 border border-primary/25 hover:border-primary/50 rounded-sm transition-all duration-700"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.8, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
@@ -448,7 +448,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
                 transition={{ duration: 3, repeat: Infinity }}
               >
                 <span className="text-2xl text-primary">◆</span>
-                <span className="text-sm uppercase tracking-[0.4em] text-muted-foreground/40">
+                <span className="text-base uppercase tracking-[0.4em] text-muted-foreground/40">
                   The system notices
                 </span>
                 <span className="text-2xl text-primary">◆</span>

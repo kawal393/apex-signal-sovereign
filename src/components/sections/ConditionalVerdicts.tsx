@@ -41,7 +41,7 @@ const ConditionalVerdicts = () => {
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-20"
         >
-          <span className="text-[10px] uppercase tracking-[0.6em] text-grey-500 block mb-4">
+          <span className="text-[10px] uppercase tracking-[0.6em] text-grey-300 block mb-4">
             Verdict Authority
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground tracking-wide mb-6">
@@ -64,14 +64,14 @@ const ConditionalVerdicts = () => {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="border-l-2 border-grey-700 pl-6">
               <h3 className="text-lg font-medium text-foreground mb-3">Public Nodes</h3>
-              <p className="text-grey-400 text-sm leading-relaxed">
+              <p className="text-grey-400 text-base leading-relaxed">
                 Free signals, open tools, real-time data. Useful for awareness and monitoring. 
                 Output is informational only and carries no institutional weight.
               </p>
             </div>
             <div className="border-l-2 border-primary/60 pl-6">
               <h3 className="text-lg font-medium text-foreground mb-3">Conditional Verdicts</h3>
-              <p className="text-grey-400 text-sm leading-relaxed">
+              <p className="text-grey-400 text-base leading-relaxed">
                 Structured assessments for irreversible decisions. Begin unsealed (preview) and become 
                 citeable only when sealed and recorded in the ATA Ledger.
               </p>
@@ -87,7 +87,7 @@ const ConditionalVerdicts = () => {
           transition={{ duration: 1, delay: 0.3 }}
           className="mb-16"
         >
-          <h3 className="text-[11px] uppercase tracking-[0.4em] text-grey-500 text-center mb-10">
+          <h3 className="text-[11px] uppercase tracking-[0.4em] text-grey-300 text-center mb-10">
             The Verdict Ladder
           </h3>
           <div className="space-y-4">
@@ -111,7 +111,7 @@ const ConditionalVerdicts = () => {
                   <div className="flex items-center gap-3 mb-2">
                     <h4 className="text-lg font-medium text-foreground">{item.title}</h4>
                     {item.status === 'open' && (
-                      <span className="text-[9px] uppercase tracking-[0.2em] px-2 py-0.5 rounded bg-grey-800/50 text-grey-500">
+                      <span className="text-[9px] uppercase tracking-[0.2em] px-2 py-0.5 rounded bg-grey-800/50 text-grey-300">
                         Public
                       </span>
                     )}
@@ -131,7 +131,7 @@ const ConditionalVerdicts = () => {
                       </span>
                     )}
                   </div>
-                  <p className="text-grey-400 text-sm">{item.description}</p>
+                  <p className="text-grey-400 text-base">{item.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -146,10 +146,10 @@ const ConditionalVerdicts = () => {
           transition={{ duration: 1, delay: 0.4 }}
           className="glass-card p-8 mb-16 border-grey-700/50"
         >
-          <h3 className="text-[11px] uppercase tracking-[0.4em] text-grey-500 mb-6">
+          <h3 className="text-[11px] uppercase tracking-[0.4em] text-grey-300 mb-6">
             Confidence Lock
           </h3>
-          <div className="space-y-4 text-grey-400 text-sm leading-relaxed">
+          <div className="space-y-4 text-grey-400 text-base leading-relaxed">
             <p>
               APEX guarantees delivery, structure, and completeness of all Verdict Briefs within the stated window.
             </p>
@@ -157,7 +157,7 @@ const ConditionalVerdicts = () => {
               Refunds apply only if the Verdict is incomplete, structurally invalid, or not delivered 
               within the agreed timeframe.
             </p>
-            <p className="text-grey-500 border-t border-grey-800 pt-4 mt-4">
+            <p className="text-grey-300 border-t border-grey-800 pt-4 mt-4">
               APEX does not issue refunds based on disagreement with verdict content, 
               external outcomes, or subjective interpretation.
             </p>
@@ -177,7 +177,7 @@ const ConditionalVerdicts = () => {
               Request Conditional Verdict
             </ApexButton>
           </Link>
-          <p className="text-grey-600 text-xs mt-4 tracking-wide">
+          <p className="text-grey-600 text-base mt-4 tracking-wide">
             Verdicts begin unsealed. Sealing is optional and separate.
           </p>
         </motion.div>

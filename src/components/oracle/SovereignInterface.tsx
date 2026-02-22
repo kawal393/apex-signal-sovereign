@@ -175,15 +175,15 @@ const SovereignInterface = forwardRef<HTMLDivElement, SovereignInterfaceProps>(
                     transition={{ duration: 2, repeat: Infinity }}
                   />
                   <div>
-                    <h2 className="text-sm font-medium text-foreground tracking-wide">SOVEREIGN INTERFACE</h2>
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-grey-500">
+                    <h2 className="text-base font-medium text-foreground tracking-wide">SOVEREIGN INTERFACE</h2>
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-grey-300">
                       {accessLevel === 'inner_circle' ? 'Inner Circle Access' : accessLevel === 'acknowledged' ? 'Acknowledged' : 'Observer Mode'}
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={onClose}
-                  className="p-2 text-grey-500 hover:text-foreground transition-colors"
+                  className="p-2 text-grey-300 hover:text-foreground transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -197,8 +197,8 @@ const SovereignInterface = forwardRef<HTMLDivElement, SovereignInterfaceProps>(
                     animate={{ opacity: 1 }}
                     className="text-center py-12"
                   >
-                    <p className="text-grey-400 text-sm mb-4">The Oracle awaits your inquiry.</p>
-                    <p className="text-grey-600 text-xs max-w-md mx-auto">
+                    <p className="text-grey-400 text-base mb-4">The Oracle awaits your inquiry.</p>
+                    <p className="text-grey-600 text-base max-w-md mx-auto">
                       Share your decision context. The Oracle provides opinion-based operational risk assessments, not legal advice.
                     </p>
                   </motion.div>
@@ -228,7 +228,7 @@ const SovereignInterface = forwardRef<HTMLDivElement, SovereignInterfaceProps>(
                           <ReactMarkdown>{msg.content || '...'}</ReactMarkdown>
                         </div>
                       ) : (
-                        <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                        <p className="text-base whitespace-pre-wrap">{msg.content}</p>
                       )}
                     </div>
                   </motion.div>
@@ -259,7 +259,7 @@ const SovereignInterface = forwardRef<HTMLDivElement, SovereignInterfaceProps>(
                     onKeyDown={handleKeyDown}
                     placeholder="Describe your decision context..."
                     rows={1}
-                    className="flex-1 bg-grey-900/50 border border-border/20 rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-grey-600 resize-none focus:outline-none focus:border-primary/40 transition-colors"
+                    className="flex-1 bg-grey-900/50 border border-border/20 rounded-lg px-4 py-3 text-base text-foreground placeholder:text-grey-600 resize-none focus:outline-none focus:border-primary/40 transition-colors"
                     disabled={isLoading}
                   />
                   <button

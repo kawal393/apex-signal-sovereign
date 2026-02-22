@@ -69,7 +69,7 @@ const ApexNav = forwardRef<HTMLElement>((_, ref) => {
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               />
             </motion.div>
-            <span className="text-sm font-medium text-grey-300 tracking-[0.15em] hidden sm:block">
+            <span className="text-base font-medium text-grey-300 tracking-[0.15em] hidden sm:block">
               APEX INFRASTRUCTURE
             </span>
           </Link>
@@ -138,7 +138,7 @@ const ApexNav = forwardRef<HTMLElement>((_, ref) => {
           {/* Gate indicator */}
           {isGate && (
             <motion.div
-              className="flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-grey-500"
+              className="flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-grey-300"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1 }}

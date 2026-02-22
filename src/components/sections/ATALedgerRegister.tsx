@@ -62,7 +62,7 @@ export default function ATALedgerRegister() {
           transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-16"
         >
-          <span className="text-[10px] uppercase tracking-[0.6em] text-grey-500 block mb-6">
+          <span className="text-[10px] uppercase tracking-[0.6em] text-grey-300 block mb-6">
             Authority Memory
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground tracking-wide mb-6">
@@ -82,7 +82,7 @@ export default function ATALedgerRegister() {
               transition={{ duration: 2, repeat: Infinity }}
               className="w-2 h-2 rounded-full bg-primary"
             />
-            <span className="text-xs uppercase tracking-[0.2em] text-grey-400">
+            <span className="text-base uppercase tracking-[0.2em] text-grey-400">
               Ledger Pulse: <span className="text-grey-300">{isLoading ? '...' : demoEntries.length} entries active</span>
             </span>
             <span className="text-[10px] uppercase tracking-[0.15em] text-amber-400/80 px-2 py-0.5 rounded bg-amber-400/10 border border-amber-400/20">
@@ -95,7 +95,7 @@ export default function ATALedgerRegister() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.5, duration: 1 }}
-            className="text-grey-500 text-sm mt-6 max-w-xl mx-auto"
+            className="text-grey-300 text-base mt-6 max-w-xl mx-auto"
           >
             Public ledger entries include demo format + retroactive proof patterns using public sources.
             Sealed, citeable entries appear only after payment and ATA-ID issuance.
@@ -116,20 +116,20 @@ export default function ATALedgerRegister() {
               {/* Card header */}
               <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono text-grey-400">{entry.id}</span>
+                  <span className="text-base font-mono text-grey-400">{entry.id}</span>
                   <span className="text-[9px] uppercase tracking-[0.2em] text-amber-400/70 px-2 py-0.5 rounded bg-amber-400/5 border border-amber-400/15">
                     {entry.label}
                   </span>
                 </div>
-                <span className={`inline-block px-3 py-1 rounded-md border text-xs font-medium ${outcomeColors[entry.outcome] || 'text-grey-400 border-grey-700'}`}>
+                <span className={`inline-block px-3 py-1 rounded-md border text-base font-medium ${outcomeColors[entry.outcome] || 'text-grey-400 border-grey-700'}`}>
                   {entry.outcome}
                 </span>
               </div>
 
-              <p className="text-sm text-grey-300 mb-5">{entry.domain} — {entry.summary}</p>
+              <p className="text-base text-grey-300 mb-5">{entry.domain} — {entry.summary}</p>
 
               {/* 5-element verdict format */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-base">
                 {/* Tier */}
                 <div className="space-y-1">
                   <span className="text-[9px] uppercase tracking-[0.2em] text-grey-600 block">Tier</span>
@@ -147,8 +147,8 @@ export default function ATALedgerRegister() {
                 <span className="text-[9px] uppercase tracking-[0.2em] text-grey-600 block mb-2">Why (max 3)</span>
                 <ul className="space-y-1.5">
                   {entry.why.map((reason, j) => (
-                    <li key={j} className="flex items-start gap-2 text-sm text-grey-400">
-                      <span className="text-primary/60 mt-0.5 text-xs">◆</span>
+                    <li key={j} className="flex items-start gap-2 text-base text-grey-400">
+                      <span className="text-primary/60 mt-0.5 text-base">◆</span>
                       {reason}
                     </li>
                   ))}
@@ -158,13 +158,13 @@ export default function ATALedgerRegister() {
               {/* Next Cheapest Test */}
               <div className="mt-4 space-y-1">
                 <span className="text-[9px] uppercase tracking-[0.2em] text-grey-600 block">Next Cheapest Test</span>
-                <p className="text-sm text-grey-300">{entry.nextCheapestTest}</p>
+                <p className="text-base text-grey-300">{entry.nextCheapestTest}</p>
               </div>
 
               {/* Kill Rule */}
               <div className="mt-4 space-y-1">
                 <span className="text-[9px] uppercase tracking-[0.2em] text-crimson/70 block">Kill Rule</span>
-                <p className="text-sm text-grey-300">{entry.killRule}</p>
+                <p className="text-base text-grey-300">{entry.killRule}</p>
               </div>
             </motion.div>
           ))}
@@ -178,7 +178,7 @@ export default function ATALedgerRegister() {
           transition={{ delay: 0.8, duration: 1 }}
           className="mt-12 text-center"
         >
-          <p className="text-grey-600 text-xs tracking-wide mb-8">
+          <p className="text-grey-600 text-base tracking-wide mb-8">
             These entries are sanitized demonstrations only. They are not citeable and carry no authority.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

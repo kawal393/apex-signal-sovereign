@@ -145,7 +145,7 @@ const StatusOrb = forwardRef<HTMLDivElement, StatusOrbProps>(
                 {/* Tier label */}
                 <div className="flex items-center gap-2 mb-3">
                   <span className={`text-lg ${tier.textColor}`}>{tier.sigil}</span>
-                  <span className={`text-xs uppercase tracking-[0.2em] ${tier.textColor} font-medium`}>
+                  <span className={`text-base uppercase tracking-[0.2em] ${tier.textColor} font-medium`}>
                     {tier.label}
                   </span>
                 </div>
@@ -153,7 +153,7 @@ const StatusOrb = forwardRef<HTMLDivElement, StatusOrbProps>(
                 {/* Patience bar */}
                 <div className="mb-2">
                   <div className="flex justify-between text-[9px] mb-1">
-                    <span className="text-grey-500 uppercase tracking-wider">Patience</span>
+                    <span className="text-grey-300 uppercase tracking-wider">Patience</span>
                     <span className="text-silver-light">{Math.round(patienceScore * 100)}%</span>
                   </div>
                   <div className="h-1 bg-grey-800 rounded-full overflow-hidden">
@@ -169,7 +169,7 @@ const StatusOrb = forwardRef<HTMLDivElement, StatusOrbProps>(
                 {/* Curiosity bar */}
                 <div className="mb-3">
                   <div className="flex justify-between text-[9px] mb-1">
-                    <span className="text-grey-500 uppercase tracking-wider">Curiosity</span>
+                    <span className="text-grey-300 uppercase tracking-wider">Curiosity</span>
                     <span className="text-primary">{Math.round(curiosityScore * 100)}%</span>
                   </div>
                   <div className="h-1 bg-grey-800 rounded-full overflow-hidden">

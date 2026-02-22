@@ -268,11 +268,11 @@ export default function MapBackground() {
       
       {/* Status labels */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-8 flex flex-col items-center gap-4 pointer-events-none">
-        <div className="px-5 py-2 glass-card border-[#00d4ff]/30 text-xs uppercase tracking-[0.25em] text-[#00d4ff] font-semibold shadow-[0_0_20px_rgba(0,212,255,0.3)]">
+        <div className="px-5 py-2 glass-card border-[#00d4ff]/30 text-base uppercase tracking-[0.25em] text-[#00d4ff] font-semibold shadow-[0_0_20px_rgba(0,212,255,0.3)]">
           Active
         </div>
         <div className="h-16 w-px bg-gradient-to-b from-[#00d4ff]/50 to-transparent" />
-        <div className="px-5 py-2 glass-card border-primary/20 text-xs uppercase tracking-[0.25em] text-muted-foreground font-semibold">
+        <div className="px-5 py-2 glass-card border-primary/20 text-base uppercase tracking-[0.25em] text-muted-foreground font-semibold">
           Frozen
         </div>
       </div>

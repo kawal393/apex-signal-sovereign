@@ -32,12 +32,12 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
               alt="APEX"
               className="h-10 w-auto object-contain drop-shadow-[0_0_10px_rgba(212,160,32,0.3)]"
             />
-            <span className="text-sm text-muted-foreground">
+            <span className="text-base text-muted-foreground">
               Verified Signal Infrastructure
             </span>
           </div>
 
-          <div className="flex items-center gap-2 text-xs text-muted-foreground/60">
+          <div className="flex items-center gap-2 text-base text-muted-foreground/60">
             <div className="w-1.5 h-1.5 rounded-full bg-primary/50" />
             <span className="uppercase tracking-widest">System Operational</span>
           </div>
@@ -49,7 +49,7 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
             <Link
               key={link.label}
               to={link.href}
-              className="text-[10px] uppercase tracking-[0.2em] text-grey-500 hover:text-grey-300 transition-colors"
+              className="text-[10px] uppercase tracking-[0.2em] text-grey-300 hover:text-grey-300 transition-colors"
             >
               {link.label}
             </Link>
@@ -60,7 +60,7 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pt-6 mb-6">
           <Link
             to="/nodes/ndis-watchtower"
-            className="text-grey-500 hover:text-primary text-[10px] uppercase tracking-[0.2em] transition-colors duration-300"
+            className="text-grey-300 hover:text-primary text-[10px] uppercase tracking-[0.2em] transition-colors duration-300"
           >
             Live Watchtower
           </Link>
@@ -72,19 +72,19 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
           </Link>
           <Link
             to="/pricing"
-            className="text-grey-500 hover:text-grey-300 text-[10px] uppercase tracking-[0.2em] transition-colors"
+            className="text-grey-300 hover:text-grey-300 text-[10px] uppercase tracking-[0.2em] transition-colors"
           >
             Access Conditions
           </Link>
           <Link
             to="/request-access"
-            className="text-grey-500 hover:text-grey-300 text-[10px] uppercase tracking-[0.2em] transition-colors"
+            className="text-grey-300 hover:text-grey-300 text-[10px] uppercase tracking-[0.2em] transition-colors"
           >
             Request Access
           </Link>
           <Link
             to="/request-access"
-            className="text-grey-500 hover:text-grey-300 text-xs tracking-wide transition-colors"
+            className="text-grey-300 hover:text-grey-300 text-base tracking-wide transition-colors"
           >
             apex@apex-infrastructure.com
           </Link>

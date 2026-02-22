@@ -37,7 +37,7 @@ const NotFound = () => {
         <p className="text-grey-400 text-lg mb-3">
           This path does not resolve to a known coordinate.
         </p>
-        <p className="text-grey-600 text-sm mb-10">
+        <p className="text-grey-600 text-base mb-10">
           The system remains operational. Return to the Portal.
         </p>
 
@@ -56,7 +56,7 @@ const NotFound = () => {
           </Link>
         </div>
 
-        <div className="mt-12 text-grey-700 text-xs tracking-[0.2em] uppercase">
+        <div className="mt-12 text-grey-700 text-base tracking-[0.2em] uppercase">
           Route: {location.pathname}
         </div>
       </motion.div>

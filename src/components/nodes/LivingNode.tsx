@@ -89,7 +89,7 @@ export default function LivingNode({ id, name, status, category }: LivingNodePro
             Dormant
           </span>
         </div>
-        <h3 className="text-xs font-medium text-muted-foreground/20 leading-snug mb-2">
+        <h3 className="text-base font-medium text-muted-foreground/20 leading-snug mb-2">
           {name}
         </h3>
         {category && (
@@ -113,7 +113,7 @@ export default function LivingNode({ id, name, status, category }: LivingNodePro
             Sealed
           </span>
         </div>
-        <h3 className="text-sm font-medium text-muted-foreground/30 leading-snug mb-3">
+        <h3 className="text-base font-medium text-muted-foreground/30 leading-snug mb-3">
           {name}
         </h3>
         {category && (
@@ -218,7 +218,7 @@ export default function LivingNode({ id, name, status, category }: LivingNodePro
           </div>
         </div>
 
-        <h3 className="text-sm font-medium text-foreground leading-snug mb-3 group-hover:text-primary transition-colors duration-500">
+        <h3 className="text-base font-medium text-foreground leading-snug mb-3 group-hover:text-primary transition-colors duration-500">
           {name}
         </h3>
 

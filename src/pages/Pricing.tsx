@@ -85,7 +85,7 @@ const Pricing = () => {
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-16"
           >
-            <span className="text-[10px] uppercase tracking-[0.6em] text-grey-500 block mb-4">
+            <span className="text-[10px] uppercase tracking-[0.6em] text-grey-300 block mb-4">
               Verdict Authority
             </span>
             <h1 className="text-4xl md:text-5xl font-semibold text-foreground tracking-wide mb-6">
@@ -94,7 +94,7 @@ const Pricing = () => {
             <p className="text-grey-300 max-w-xl mx-auto text-lg leading-relaxed mb-4">
               Structured judgment for irreversible decisions. Clear deliverables. No ambiguity.
             </p>
-            <p className="text-grey-500 text-sm italic max-w-lg mx-auto">
+            <p className="text-grey-300 text-base italic max-w-lg mx-auto">
               Price is a filter for seriousness, not a value explanation.
             </p>
           </motion.div>
@@ -119,16 +119,16 @@ const Pricing = () => {
                 )}
 
                 <h3 className="text-lg font-medium text-foreground mb-2">{tier.name}</h3>
-                <p className="text-grey-500 text-sm mb-6">{tier.description}</p>
+                <p className="text-grey-300 text-base mb-6">{tier.description}</p>
 
                 <div className="mb-6">
-                  <span className="text-grey-400 text-sm block mb-1">{tier.delivery}</span>
+                  <span className="text-grey-400 text-base block mb-1">{tier.delivery}</span>
                   <span className="text-2xl font-medium text-foreground/80">{tier.price}</span>
                 </div>
 
                 <ul className="space-y-3 mb-8 flex-1">
                   {tier.features.map((f, fi) => (
-                    <li key={fi} className="flex items-start gap-2 text-sm text-grey-400">
+                    <li key={fi} className="flex items-start gap-2 text-base text-grey-400">
                       <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                       {f}
                     </li>
@@ -171,12 +171,12 @@ const Pricing = () => {
           >
             <Shield className="w-6 h-6 text-primary mx-auto mb-4" />
             <h3 className="text-lg font-medium text-foreground mb-3">Confidence Lock Guarantee</h3>
-            <p className="text-grey-400 text-sm leading-relaxed mb-4">
+            <p className="text-grey-400 text-base leading-relaxed mb-4">
               Every Verdict Brief is guaranteed to contain the 5 required structural elements.
               Refunds are issued only for structural incompleteness (missing required elements)
               or delivery failure. Disagreement with the verdict outcome is not grounds for refund.
             </p>
-            <p className="text-grey-600 text-xs">
+            <p className="text-grey-600 text-base">
               Apex delivers judgment, not comfort.
             </p>
           </motion.div>
@@ -186,7 +186,7 @@ const Pricing = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.6 }}
-            className="text-center text-grey-600 text-xs tracking-wide mt-8"
+            className="text-center text-grey-600 text-base tracking-wide mt-8"
           >
             Response: 24–48h | Standard delivery: 72h | Australia-first
           </motion.p>

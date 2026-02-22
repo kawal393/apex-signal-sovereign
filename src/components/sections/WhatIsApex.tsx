@@ -38,7 +38,7 @@ export default function WhatIsApex() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 1 }}
-              className="text-[10px] uppercase tracking-[0.6em] text-grey-500 block mb-5"
+              className="text-[10px] uppercase tracking-[0.6em] text-grey-300 block mb-5"
             >
               Foundation
             </motion.span>
@@ -66,7 +66,7 @@ export default function WhatIsApex() {
               The objective is simple: reduce decision risk before it becomes cost.
             </p>
 
-            <p className="text-sm md:text-base text-grey-500 leading-[1.8] max-w-2xl mx-auto italic">
+            <p className="text-base md:text-base text-grey-300 leading-[1.8] max-w-2xl mx-auto italic">
               The engine remains disciplined by design: structured judgment, recorded memory, and clear boundaries.
             </p>
           </motion.div>
@@ -107,10 +107,10 @@ export default function WhatIsApex() {
                 <span className="text-primary text-2xl mb-4 block group-hover:scale-110 transition-transform duration-300">
                   {item.icon}
                 </span>
-                <h3 className="text-sm uppercase tracking-[0.2em] text-foreground font-medium mb-2">
+                <h3 className="text-base uppercase tracking-[0.2em] text-foreground font-medium mb-2">
                   {item.title}
                 </h3>
-                <p className="text-grey-500 text-sm">
+                <p className="text-grey-300 text-base">
                   {item.description}
                 </p>
               </motion.div>
@@ -126,7 +126,7 @@ export default function WhatIsApex() {
             className="glass-card p-8 mb-16 border-grey-700/30 text-center"
           >
             <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-4">
-              Apex Is a Decision Layer — <span className="text-grey-500">Not a Tool</span>
+              Apex Is a Decision Layer — <span className="text-grey-300">Not a Tool</span>
             </h3>
             <p className="text-grey-400 leading-relaxed max-w-2xl mx-auto mb-6">
               Information, analysis, and recommendations all serve the decision.
@@ -158,7 +158,7 @@ export default function WhatIsApex() {
                 whileHover={{ scale: 1.03, y: -3 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="group px-8 py-4 rounded-md bg-primary/10 border border-primary/40 text-primary font-medium tracking-[0.15em] uppercase text-sm flex items-center gap-3 hover:bg-primary/20 hover:border-primary/60 hover:shadow-[0_0_40px_hsl(42_95%_55%/0.2)] transition-all duration-300"
+                className="group px-8 py-4 rounded-md bg-primary/10 border border-primary/40 text-primary font-medium tracking-[0.15em] uppercase text-base flex items-center gap-3 hover:bg-primary/20 hover:border-primary/60 hover:shadow-[0_0_40px_hsl(42_95%_55%/0.2)] transition-all duration-300"
               >
                 Request Node Access
                 <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -185,7 +185,7 @@ export default function WhatIsApex() {
             {/* Tertiary Link */}
             <Link
               to="/ledger"
-              className="inline-flex items-center gap-2 text-grey-400 hover:text-grey-200 text-sm tracking-wide transition-colors duration-300 group"
+              className="inline-flex items-center gap-2 text-grey-400 hover:text-grey-200 text-base tracking-wide transition-colors duration-300 group"
             >
               See ATA Ledger
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -197,7 +197,7 @@ export default function WhatIsApex() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 1, duration: 0.8 }}
-              className="text-grey-600 text-xs tracking-wide pt-4"
+              className="text-grey-600 text-base tracking-wide pt-4"
             >
               Verdicts are recorded to the ATA Ledger. Sealed entries are citeable.
             </motion.p>

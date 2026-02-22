@@ -21,7 +21,7 @@ export default function InfrastructureDiagram() {
       transition={{ delay: 0.2, duration: 1 }}
       className="mb-16"
     >
-      <h2 className="text-xs uppercase tracking-[0.4em] text-grey-400 mb-8 text-center">
+      <h2 className="text-base uppercase tracking-[0.4em] text-grey-400 mb-8 text-center">
         System Architecture — Outcome View
       </h2>
 
@@ -40,12 +40,12 @@ export default function InfrastructureDiagram() {
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-1">
-                <h3 className="text-sm font-medium text-foreground">{layer.label}</h3>
+                <h3 className="text-base font-medium text-foreground">{layer.label}</h3>
                 <span className="text-[8px] uppercase tracking-[0.2em] text-grey-600 px-2 py-0.5 rounded bg-grey-900/50 border border-grey-800/30">
                   {layer.sublabel}
                 </span>
               </div>
-              <p className="text-grey-500 text-xs">{layer.description}</p>
+              <p className="text-grey-300 text-base">{layer.description}</p>
             </div>
           </motion.div>
         ))}

@@ -84,7 +84,7 @@ const MiningVaultDashboard = () => {
                 <div className="max-w-4xl mx-auto w-full flex-grow">
 
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-                        <Link to="/nodes" className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-grey-500 hover:text-grey-300 transition-colors mb-12">
+                        <Link to="/nodes" className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-grey-300 hover:text-grey-300 transition-colors mb-12">
                             <ArrowLeft className="w-4 h-4" />
                             All Nodes
                         </Link>
@@ -102,19 +102,19 @@ const MiningVaultDashboard = () => {
 
                     {/* TEASER PROTOCOL UI */}
                     <section className="mb-12">
-                        <h2 className="text-xs uppercase tracking-[0.4em] text-primary mb-6 flex items-center gap-3">
+                        <h2 className="text-base uppercase tracking-[0.4em] text-primary mb-6 flex items-center gap-3">
                             <AlertTriangle className="w-4 h-4" />
                             Recent Constraint Alerts (Delayed 24h)
                         </h2>
 
                         <div className="glass-card overflow-hidden border-primary/20 relative">
-                            <table className="w-full text-left text-sm">
+                            <table className="w-full text-left text-base">
                                 <thead className="border-b border-grey-800 bg-black/50">
                                     <tr>
-                                        <th className="p-4 font-normal text-grey-500 text-[10px] uppercase tracking-wider w-1/6">Date</th>
-                                        <th className="p-4 font-normal text-grey-500 text-[10px] uppercase tracking-wider w-1/4">Project</th>
-                                        <th className="p-4 font-normal text-grey-500 text-[10px] uppercase tracking-wider w-1/6">Severity</th>
-                                        <th className="p-4 font-normal text-grey-500 text-[10px] uppercase tracking-wider w-5/12">Constraint Issue</th>
+                                        <th className="p-4 font-normal text-grey-300 text-[10px] uppercase tracking-wider w-1/6">Date</th>
+                                        <th className="p-4 font-normal text-grey-300 text-[10px] uppercase tracking-wider w-1/4">Project</th>
+                                        <th className="p-4 font-normal text-grey-300 text-[10px] uppercase tracking-wider w-1/6">Severity</th>
+                                        <th className="p-4 font-normal text-grey-300 text-[10px] uppercase tracking-wider w-5/12">Constraint Issue</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-grey-800/50">
@@ -135,7 +135,7 @@ const MiningVaultDashboard = () => {
                                     })}
                                     {teaserData.length === 0 && (
                                         <tr>
-                                            <td colSpan={4} className="p-8 text-center text-grey-500">
+                                            <td colSpan={4} className="p-8 text-center text-grey-300">
                                                 Awaiting Vanguard Uplink...
                                             </td>
                                         </tr>
@@ -147,7 +147,7 @@ const MiningVaultDashboard = () => {
                                 <div className="absolute inset-0 top-32 bg-gradient-to-t from-black via-black/90 to-transparent flex flex-col items-center justify-end pb-8">
                                     <Lock className="w-8 h-8 text-primary mb-4" />
                                     <h3 className="text-xl font-medium text-white mb-2">Restricted Intelligence</h3>
-                                    <p className="text-grey-400 text-sm max-w-md text-center px-4">
+                                    <p className="text-grey-400 text-base max-w-md text-center px-4">
                                         Full real-time constraints, permit tracking, and the historic database are restricted to verified resource operators and allocators.
                                     </p>
                                 </div>
@@ -166,13 +166,13 @@ const MiningVaultDashboard = () => {
                             <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
                             <div className="max-w-xl mx-auto">
                                 <h3 className="text-2xl font-medium text-foreground mb-4 text-center">Verify Domain Clearance</h3>
-                                <p className="text-grey-400 text-sm text-center mb-8">
+                                <p className="text-grey-400 text-base text-center mb-8">
                                     Submit your corporate credentials to unlock the Mining & Land Constraint Vault.
                                 </p>
 
                                 <form onSubmit={handleRequestAccess} className="space-y-4">
                                     <div>
-                                        <label className="block text-[10px] uppercase tracking-[0.2em] text-grey-500 mb-2">Corporate Email</label>
+                                        <label className="block text-[10px] uppercase tracking-[0.2em] text-grey-300 mb-2">Corporate Email</label>
                                         <input
                                             type="email"
                                             value={email}
@@ -182,7 +182,7 @@ const MiningVaultDashboard = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-[10px] uppercase tracking-[0.2em] text-grey-500 mb-2">Operator / Tenement Request ID</label>
+                                        <label className="block text-[10px] uppercase tracking-[0.2em] text-grey-300 mb-2">Operator / Tenement Request ID</label>
                                         <input
                                             type="text"
                                             value={providerNumber}

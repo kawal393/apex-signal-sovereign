@@ -44,9 +44,9 @@ export default function PasscodeGate({ children }: { children: React.ReactNode }
             >
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-900/40 to-transparent" />
 
-                <Lock className="w-8 h-8 text-grey-500 mx-auto mb-6" />
+                <Lock className="w-8 h-8 text-grey-300 mx-auto mb-6" />
                 <h2 className="text-xl font-medium text-grey-300 tracking-[0.2em] uppercase mb-2">Restricted Infrastructure</h2>
-                <p className="text-sm text-grey-500 mb-8 leading-relaxed">
+                <p className="text-base text-grey-300 mb-8 leading-relaxed">
                     Access to live intelligence nodes requires Level 5 clearance. Enter your partner passcode to proceed.
                 </p>
 
@@ -56,12 +56,12 @@ export default function PasscodeGate({ children }: { children: React.ReactNode }
                         value={passcode}
                         onChange={(e) => setPasscode(e.target.value)}
                         placeholder="Enter Passcode..."
-                        className={`w-full bg-black/50 border ${error ? 'border-red-500/50 text-red-500' : 'border-grey-700/50 text-primary'} rounded-none px-4 py-3 text-center uppercase tracking-[0.2em] text-sm focus:outline-none focus:border-primary/50 transition-colors`}
+                        className={`w-full bg-black/50 border ${error ? 'border-red-500/50 text-red-500' : 'border-grey-700/50 text-primary'} rounded-none px-4 py-3 text-center uppercase tracking-[0.2em] text-base focus:outline-none focus:border-primary/50 transition-colors`}
                         autoFocus
                     />
                     <button
                         type="submit"
-                        className="w-full bg-grey-900 border border-grey-800 text-grey-400 hover:text-white hover:border-grey-600 px-4 py-3 text-sm uppercase tracking-[0.2em] transition-all"
+                        className="w-full bg-grey-900 border border-grey-800 text-grey-400 hover:text-white hover:border-grey-600 px-4 py-3 text-base uppercase tracking-[0.2em] transition-all"
                     >
                         Authenticate
                     </button>
@@ -70,7 +70,7 @@ export default function PasscodeGate({ children }: { children: React.ReactNode }
                 {error ? (
                     <motion.p
                         initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                        className="text-red-500/80 text-xs uppercase tracking-widest mt-6"
+                        className="text-red-500/80 text-base uppercase tracking-widest mt-6"
                     >
                         Authentication Failed
                     </motion.p>

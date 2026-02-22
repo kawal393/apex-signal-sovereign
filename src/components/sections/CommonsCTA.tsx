@@ -88,7 +88,7 @@ export default function CommonsCTA() {
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       >
         <div className="w-8 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-        <div className="text-primary/30 text-xs">◆</div>
+        <div className="text-primary/30 text-base">◆</div>
       </motion.div>
     </section>
   );

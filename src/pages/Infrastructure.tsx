@@ -59,7 +59,7 @@ const Infrastructure = forwardRef<HTMLDivElement>((_, ref) => {
             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-24"
           >
-            <span className="text-[10px] uppercase tracking-[0.6em] text-grey-500 block mb-4">
+            <span className="text-[10px] uppercase tracking-[0.6em] text-grey-300 block mb-4">
               System Architecture
             </span>
             <h1 className="text-5xl md:text-7xl font-semibold text-foreground tracking-wide mb-6">
@@ -208,7 +208,7 @@ const Infrastructure = forwardRef<HTMLDivElement>((_, ref) => {
                   <h3 className="text-lg font-medium text-foreground mb-1">
                     {phase.phase}
                   </h3>
-                  <p className="text-grey-400 text-sm">
+                  <p className="text-grey-400 text-base">
                     {phase.description}
                   </p>
                 </div>
@@ -227,7 +227,7 @@ const Infrastructure = forwardRef<HTMLDivElement>((_, ref) => {
             transition={{ delay: 0.5 }}
             className="text-center mt-16"
           >
-            <span className="text-[10px] uppercase tracking-[0.4em] text-grey-500">
+            <span className="text-[10px] uppercase tracking-[0.4em] text-grey-300">
               The loop is continuous
             </span>
             <motion.div

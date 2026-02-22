@@ -216,7 +216,7 @@ export default function SystemMap() {
           </motion.h3>
           <motion.p
             variants={itemVariants}
-            className="text-grey-600 text-xs text-center mb-6 max-w-xl mx-auto"
+            className="text-grey-600 text-base text-center mb-6 max-w-xl mx-auto"
           >
             Planned expansion across regulated, capital-intensive, and irreversible decision domains.
           </motion.p>

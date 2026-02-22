@@ -30,13 +30,13 @@ export default function CanonLayer() {
         >
           {/* Header - Simplified animation */}
           <div className="text-center mb-12">
-            <span className="text-[10px] uppercase tracking-[0.6em] text-grey-500 block mb-5">
+            <span className="text-[10px] uppercase tracking-[0.6em] text-grey-300 block mb-5">
               Foundation
             </span>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground tracking-wide leading-tight">
               APEX <span className="text-gradient-gold">Infrastructure</span>
             </h2>
-            <p className="text-grey-500 text-sm tracking-wide mt-4">
+            <p className="text-grey-300 text-base tracking-wide mt-4">
               A Judgment Standard for the AI Age
             </p>
           </div>
@@ -85,7 +85,7 @@ export default function CanonLayer() {
             transition={{ delay: 0.4, duration: 0.8 }}
             className="mt-12 text-center"
           >
-            <p className="text-grey-500 text-sm tracking-wide">
+            <p className="text-grey-300 text-base tracking-wide">
               All verdicts are maintained in the <span className="text-grey-300 font-medium">ATA Ledger</span> — 
               a permanent record of decision authority.
             </p>

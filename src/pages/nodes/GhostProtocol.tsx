@@ -57,7 +57,7 @@ export default function GhostProtocol() {
             <main className="relative z-10 pt-32 pb-24 px-6">
                 <div className="max-w-4xl mx-auto">
                     {/* Header */}
-                    <Link to="/nodes" className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-grey-500 hover:text-grey-300 transition-colors mb-12">
+                    <Link to="/nodes" className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-grey-300 hover:text-grey-300 transition-colors mb-12">
                         <ArrowLeft className="w-4 h-4" />
                         All Nodes
                     </Link>
@@ -69,7 +69,7 @@ export default function GhostProtocol() {
                     >
                         <div className="flex items-center gap-3 mb-4">
                             <span className="status-frozen text-purple-light border-purple-mid/50 bg-purple-900/10">COVERT OPERATION</span>
-                            <span className="text-[10px] uppercase tracking-[0.2em] text-grey-500">Doctrine & Execution</span>
+                            <span className="text-[10px] uppercase tracking-[0.2em] text-grey-300">Doctrine & Execution</span>
                         </div>
                         <h1 className="text-3xl md:text-5xl font-semibold text-foreground tracking-wide mb-6">Internal <span className="text-gradient-purple">Ghost Protocol</span></h1>
 
@@ -90,13 +90,13 @@ export default function GhostProtocol() {
                             className="space-y-6"
                         >
                             <div className="glass-card p-8 border-grey-800/50">
-                                <h3 className="text-xs uppercase tracking-[0.3em] text-grey-400 mb-6 flex items-center gap-2">
+                                <h3 className="text-base uppercase tracking-[0.3em] text-grey-400 mb-6 flex items-center gap-2">
                                     <Terminal className="w-4 h-4" /> Signal Targeting
                                 </h3>
 
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="text-[10px] uppercase tracking-[0.2em] text-grey-500 block mb-2">Target Entity ABN / Name</label>
+                                        <label className="text-[10px] uppercase tracking-[0.2em] text-grey-300 block mb-2">Target Entity ABN / Name</label>
                                         <Input
                                             value={target}
                                             onChange={(e) => setTarget(e.target.value)}
@@ -109,13 +109,13 @@ export default function GhostProtocol() {
                                     <div className="grid grid-cols-2 gap-4 pt-2">
                                         <div className="border border-grey-800 rounded bg-black/40 p-4">
                                             <Cpu className="w-5 h-5 text-grey-600 mb-2" />
-                                            <span className="text-[10px] uppercase tracking-[0.2em] text-grey-500 block">Dependencies</span>
-                                            <span className="text-sm font-medium text-grey-300">MAPPING</span>
+                                            <span className="text-[10px] uppercase tracking-[0.2em] text-grey-300 block">Dependencies</span>
+                                            <span className="text-base font-medium text-grey-300">MAPPING</span>
                                         </div>
                                         <div className="border border-grey-800 rounded bg-black/40 p-4">
                                             <ShieldAlert className="w-5 h-5 text-grey-600 mb-2" />
-                                            <span className="text-[10px] uppercase tracking-[0.2em] text-grey-500 block">Footprint</span>
-                                            <span className="text-sm font-medium text-grey-300">ZERO-TOUCH</span>
+                                            <span className="text-[10px] uppercase tracking-[0.2em] text-grey-300 block">Footprint</span>
+                                            <span className="text-base font-medium text-grey-300">ZERO-TOUCH</span>
                                         </div>
                                     </div>
 
@@ -147,7 +147,7 @@ export default function GhostProtocol() {
 
                             <div
                                 ref={scrollRef}
-                                className="flex-1 overflow-y-auto font-mono text-xs md:text-sm leading-loose space-y-2 pr-2"
+                                className="flex-1 overflow-y-auto font-mono text-base md:text-base leading-loose space-y-2 pr-2"
                                 style={{ scrollbarWidth: 'none' }}
                             >
                                 <div className="text-grey-600 mb-4 opacity-50">

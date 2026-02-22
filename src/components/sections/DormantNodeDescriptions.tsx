@@ -49,12 +49,12 @@ export default function DormantNodeDescriptions() {
         className="mb-10"
       >
         <div className="flex items-center gap-3 mb-4">
-          <CircleDot className="w-4 h-4 text-grey-500" />
-          <h2 className="text-xs uppercase tracking-[0.4em] text-grey-400 font-medium">
+          <CircleDot className="w-4 h-4 text-grey-300" />
+          <h2 className="text-base uppercase tracking-[0.4em] text-grey-400 font-medium">
             Dormant Nodes — What They Will Become
           </h2>
         </div>
-        <p className="text-grey-500 text-sm max-w-2xl leading-relaxed">
+        <p className="text-grey-300 text-base max-w-2xl leading-relaxed">
           Each dormant node represents infrastructure reserved for a domain where operators face
           irreversible decisions under regulatory, capital, or institutional pressure.
           Activation is queued. Early interest is recorded.
@@ -75,8 +75,8 @@ export default function DormantNodeDescriptions() {
               <span className="w-1.5 h-1.5 rounded-full bg-grey-700" />
               <span className="text-[9px] uppercase tracking-[0.2em] text-grey-600">Dormant · Pulse: Reserved</span>
             </div>
-            <h3 className="text-sm font-medium text-grey-300 mb-2">{node.name}</h3>
-            <p className="text-grey-500 text-sm leading-relaxed">{node.description}</p>
+            <h3 className="text-base font-medium text-grey-300 mb-2">{node.name}</h3>
+            <p className="text-grey-300 text-base leading-relaxed">{node.description}</p>
           </motion.div>
         ))}
       </div>

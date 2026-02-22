@@ -135,14 +135,14 @@ const Dashboard = () => {
                 <h1 className="text-3xl md:text-4xl font-extralight text-grey-200 tracking-wide">
                   Intelligence <span className="text-gradient-gold font-medium">Dashboard</span>
                 </h1>
-                <p className="text-sm text-grey-500 mt-1">AI Brain Operations Monitor</p>
+                <p className="text-base text-grey-300 mt-1">AI Brain Operations Monitor</p>
               </div>
             </div>
             <div className="hidden md:block text-right">
               <div className="text-2xl font-mono text-grey-300">
                 {currentTime.toLocaleTimeString('en-US', { hour12: false })}
               </div>
-              <div className="text-xs text-grey-600 uppercase tracking-widest">
+              <div className="text-base text-grey-600 uppercase tracking-widest">
                 System Time
               </div>
             </div>
@@ -161,19 +161,19 @@ const Dashboard = () => {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div>
-                <div className="text-[10px] uppercase tracking-widest text-grey-500 mb-1">Status</div>
+                <div className="text-[10px] uppercase tracking-widest text-grey-300 mb-1">Status</div>
                 <div className="text-xl font-light text-primary capitalize">{status}</div>
               </div>
               <div>
-                <div className="text-[10px] uppercase tracking-widest text-grey-500 mb-1">Patience</div>
+                <div className="text-[10px] uppercase tracking-widest text-grey-300 mb-1">Patience</div>
                 <div className="text-xl font-light text-silver-light">{Math.round(patienceScore * 100)}%</div>
               </div>
               <div>
-                <div className="text-[10px] uppercase tracking-widest text-grey-500 mb-1">Curiosity</div>
+                <div className="text-[10px] uppercase tracking-widest text-grey-300 mb-1">Curiosity</div>
                 <div className="text-xl font-light text-primary">{Math.round(curiosityScore * 100)}%</div>
               </div>
               <div>
-                <div className="text-[10px] uppercase tracking-widest text-grey-500 mb-1">Visits</div>
+                <div className="text-[10px] uppercase tracking-widest text-grey-300 mb-1">Visits</div>
                 <div className="text-xl font-light text-grey-300">{returnCount}</div>
               </div>
             </div>
@@ -199,13 +199,13 @@ const Dashboard = () => {
                 transition={{ delay: 0.3 + i * 0.1 }}
                 className="p-6 rounded-lg bg-grey-900/70 border border-grey-800/50 backdrop-blur-xl"
               >
-                <div className="text-[10px] uppercase tracking-[0.25em] text-grey-500 mb-2">
+                <div className="text-[10px] uppercase tracking-[0.25em] text-grey-300 mb-2">
                   {stat.label}
                 </div>
                 <div className="text-2xl md:text-3xl font-light text-grey-200 mb-1">
                   {stat.value}
                 </div>
-                <div className="text-xs text-grey-600">{stat.sub}</div>
+                <div className="text-base text-grey-600">{stat.sub}</div>
               </motion.div>
             ))}
           </motion.div>
@@ -247,13 +247,13 @@ const Dashboard = () => {
                       </span>
                       <span className="text-[9px] text-grey-600">{formatTimestamp(log.created_at)}</span>
                     </div>
-                    <p className="text-xs text-grey-400">
+                    <p className="text-base text-grey-400">
                       {log.trigger_source} • {log.processing_time_ms ? `${log.processing_time_ms}ms` : 'async'}
                     </p>
                   </motion.div>
                 ))}
                 {(!aiLogs || aiLogs.length === 0) && (
-                  <p className="text-sm text-grey-600 text-center py-8">No AI activity logged yet</p>
+                  <p className="text-base text-grey-600 text-center py-8">No AI activity logged yet</p>
                 )}
               </div>
             </motion.div>
@@ -279,16 +279,16 @@ const Dashboard = () => {
                     className="p-3 rounded-md bg-grey-800/30 border border-grey-800/30"
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-grey-300">{request.organization || 'Anonymous'}</span>
+                      <span className="text-base text-grey-300">{request.organization || 'Anonymous'}</span>
                       <span className={`text-[9px] uppercase tracking-widest px-2 py-0.5 rounded ${
                         request.status === 'pending' ? 'text-primary bg-primary/10' :
                         request.status === 'approved' ? 'text-green-400 bg-green-400/10' :
-                        'text-grey-500 bg-grey-800/50'
+                        'text-grey-300 bg-grey-800/50'
                       }`}>
                         {request.status}
                       </span>
                     </div>
-                    <p className="text-xs text-grey-500 line-clamp-2">{request.intent}</p>
+                    <p className="text-base text-grey-300 line-clamp-2">{request.intent}</p>
                     {request.ai_risk_score && (
                       <div className="mt-2 flex items-center gap-2">
                         <span className="text-[9px] text-grey-600">Risk Score:</span>
@@ -304,7 +304,7 @@ const Dashboard = () => {
                   </motion.div>
                 ))}
                 {(!accessRequests || accessRequests.length === 0) && (
-                  <p className="text-sm text-grey-600 text-center py-8">No requests yet</p>
+                  <p className="text-base text-grey-600 text-center py-8">No requests yet</p>
                 )}
               </div>
             </motion.div>
@@ -337,17 +337,17 @@ const Dashboard = () => {
                     {insight.delivered ? (
                       <span className="text-[8px] text-green-400">✓ Delivered</span>
                     ) : (
-                      <span className="text-[8px] text-grey-500">Pending</span>
+                      <span className="text-[8px] text-grey-300">Pending</span>
                     )}
                   </div>
-                  <p className="text-xs text-grey-300 line-clamp-3">{insight.content}</p>
+                  <p className="text-base text-grey-300 line-clamp-3">{insight.content}</p>
                   <div className="mt-2 text-[9px] text-grey-600">
                     {formatTimestamp(insight.generated_at)}
                   </div>
                 </motion.div>
               ))}
               {(!scheduledInsights || scheduledInsights.length === 0) && (
-                <p className="text-sm text-grey-600 text-center py-8 col-span-3">
+                <p className="text-base text-grey-600 text-center py-8 col-span-3">
                   No scheduled insights yet. The AI brain will generate proactive intelligence.
                 </p>
               )}

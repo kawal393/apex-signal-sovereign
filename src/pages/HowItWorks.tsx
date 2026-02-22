@@ -59,7 +59,7 @@ const HowItWorks = () => {
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-20"
           >
-            <span className="text-[10px] uppercase tracking-[0.6em] text-grey-500 block mb-4">
+            <span className="text-[10px] uppercase tracking-[0.6em] text-grey-300 block mb-4">
               Operating Doctrine
             </span>
             <h1 className="text-4xl md:text-5xl font-semibold text-foreground tracking-wide mb-6">
@@ -107,7 +107,7 @@ const HowItWorks = () => {
               Information, analysis, recommendations, and execution all serve the decision.
               Apex is the decision itself — accountable, recorded, and final.
             </p>
-            <p className="text-grey-500 text-center max-w-2xl mx-auto text-sm italic">
+            <p className="text-grey-300 text-center max-w-2xl mx-auto text-base italic">
               You invoke Apex when other systems can no longer decide.
             </p>
           </motion.div>
@@ -134,7 +134,7 @@ const HowItWorks = () => {
             </div>
             <Link
               to="/request-access"
-              className="text-grey-500 hover:text-primary text-xs tracking-[0.15em] transition-colors duration-300 inline-block"
+              className="text-grey-300 hover:text-primary text-base tracking-[0.15em] transition-colors duration-300 inline-block"
             >
               apex@apex-infrastructure.com
             </Link>

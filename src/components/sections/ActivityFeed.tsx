@@ -117,7 +117,7 @@ export default function ActivityFeed() {
               animate={isLive ? { opacity: [0.5, 1, 0.5], scale: [0.9, 1.1, 0.9] } : {}}
               transition={{ duration: 1.5, repeat: Infinity }}
             />
-            <span className={`text-[10px] uppercase tracking-widest ${isLive ? 'text-primary' : 'text-grey-500'}`}>
+            <span className={`text-[10px] uppercase tracking-widest ${isLive ? 'text-primary' : 'text-grey-300'}`}>
               {isLive ? 'Live' : 'Paused'}
             </span>
           </motion.button>
@@ -133,7 +133,7 @@ export default function ActivityFeed() {
         >
           {/* Header bar */}
           <div className="px-6 py-4 border-b border-grey-800/30 flex items-center justify-between">
-            <span className="text-[10px] uppercase tracking-widest text-grey-500">
+            <span className="text-[10px] uppercase tracking-widest text-grey-300">
               Node Transmissions
             </span>
             <span className="text-[10px] text-grey-600 font-mono">
@@ -166,14 +166,14 @@ export default function ActivityFeed() {
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 mb-1">
-                      <span className="text-sm text-grey-300 font-medium truncate">
+                      <span className="text-base text-grey-300 font-medium truncate">
                         {signal.nodeName}
                       </span>
                       <span className="text-[9px] uppercase tracking-widest text-primary/60 bg-primary/10 px-2 py-0.5 rounded">
                         {signal.signalType}
                       </span>
                     </div>
-                    <p className="text-sm text-grey-500 leading-relaxed">
+                    <p className="text-base text-grey-300 leading-relaxed">
                       {signal.message}
                     </p>
                   </div>
@@ -183,7 +183,7 @@ export default function ActivityFeed() {
                     <span className="text-[10px] text-grey-600 font-mono">
                       {formatTime(signal.timestamp)}
                     </span>
-                    <div className="text-xs text-grey-700 mt-1">
+                    <div className="text-base text-grey-700 mt-1">
                       {Math.round(signal.intensity * 100)}%
                     </div>
                   </div>

@@ -84,7 +84,7 @@ const Ledger = () => {
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-center mb-16"
           >
-            <span className="text-[10px] uppercase tracking-[0.6em] text-grey-500 block mb-4">
+            <span className="text-[10px] uppercase tracking-[0.6em] text-grey-300 block mb-4">
               Authority Memory
             </span>
             <h1 className="text-4xl md:text-5xl font-semibold text-foreground tracking-wide mb-6">
@@ -96,7 +96,7 @@ const Ledger = () => {
 
             {/* Top Banner */}
             <div className="glass-card p-4 max-w-xl mx-auto mb-8 border-primary/20 bg-primary/5 text-center">
-              <p className="text-grey-300 text-sm font-medium">
+              <p className="text-grey-300 text-base font-medium">
                 SEALED entries are citeable. UNSEALED/DEMO entries are format previews.
               </p>
             </div>
@@ -117,7 +117,7 @@ const Ledger = () => {
                 transition={{ duration: 2, repeat: Infinity }}
                 className="w-2 h-2 rounded-full bg-primary"
               />
-              <span className="text-xs uppercase tracking-[0.2em] text-grey-400">
+              <span className="text-base uppercase tracking-[0.2em] text-grey-400">
                 Ledger Pulse: <span className="text-grey-300">{isLoading ? '...' : demoEntries.length} entries active</span>
               </span>
               <span className="text-[10px] uppercase tracking-[0.15em] text-primary/80 px-2 py-0.5 rounded bg-primary/10 border border-primary/20">
@@ -133,10 +133,10 @@ const Ledger = () => {
             transition={{ delay: 0.2, duration: 0.8 }}
             className="glass-card p-8 mb-12"
           >
-            <h2 className="text-xs uppercase tracking-[0.4em] text-grey-400 mb-6">
+            <h2 className="text-base uppercase tracking-[0.4em] text-grey-400 mb-6">
               About the ATA Ledger
             </h2>
-            <div className="space-y-4 text-grey-400 text-sm leading-relaxed">
+            <div className="space-y-4 text-grey-400 text-base leading-relaxed">
               <p>
                 The ATA Ledger maintains a permanent record of all Sealed Verdict Briefs issued by APEX Infrastructure.
               </p>
@@ -144,7 +144,7 @@ const Ledger = () => {
                 Each entry receives a unique ATA-ID upon sealing, creating an immutable reference point for
                 decision authority.
               </p>
-              <p className="text-grey-500">
+              <p className="text-grey-300">
                 Sealed verdicts are citeable in institutional documentation. Unsealed entries shown here
                 are demonstrations only and carry no authority.
               </p>
@@ -158,7 +158,7 @@ const Ledger = () => {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="mb-12"
           >
-            <h2 className="text-xs uppercase tracking-[0.4em] text-grey-500 mb-6">
+            <h2 className="text-base uppercase tracking-[0.4em] text-grey-300 mb-6">
               Demonstration Entries
             </h2>
 
@@ -186,7 +186,7 @@ const Ledger = () => {
                     <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground px-2 py-1 rounded bg-muted border border-border">
                       SANITIZED DEMO — UNSEALED — NOT CITEABLE
                     </span>
-                    <span className={`inline-block px-3 py-1 rounded-md border text-xs font-medium ${outcomeColors[entry.outcome] || 'text-muted-foreground border-border'}`}>
+                    <span className={`inline-block px-3 py-1 rounded-md border text-base font-medium ${outcomeColors[entry.outcome] || 'text-muted-foreground border-border'}`}>
                       {entry.outcome}
                     </span>
                   </div>
@@ -195,20 +195,20 @@ const Ledger = () => {
                   <div className="grid md:grid-cols-3 gap-4 mb-6 pb-4 border-b border-border/30">
                     <div>
                       <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground block mb-1">ATA ID</span>
-                      <span className="text-sm font-mono text-foreground">{entry.id}</span>
+                      <span className="text-base font-mono text-foreground">{entry.id}</span>
                     </div>
                     <div>
                       <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground block mb-1">Domain</span>
-                      <span className="text-sm text-foreground">{entry.domain}</span>
+                      <span className="text-base text-foreground">{entry.domain}</span>
                     </div>
                     <div>
                       <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground block mb-1">Date</span>
-                      <span className="text-sm text-muted-foreground">{entry.timestamp}</span>
+                      <span className="text-base text-muted-foreground">{entry.timestamp}</span>
                     </div>
                   </div>
 
                   {/* Summary */}
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-6">{entry.summary}</p>
+                  <p className="text-base text-muted-foreground leading-relaxed mb-6">{entry.summary}</p>
 
                   {/* 5 Required Elements */}
                   <div className="grid md:grid-cols-2 gap-6">
@@ -217,7 +217,7 @@ const Ledger = () => {
                       {/* 1. Tier */}
                       <div>
                         <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground block mb-1">1. Tier</span>
-                        <span className={`inline-block px-3 py-1 rounded-md border text-sm font-medium ${outcomeColors[entry.elements.tier] || 'text-foreground border-border'}`}>
+                        <span className={`inline-block px-3 py-1 rounded-md border text-base font-medium ${outcomeColors[entry.elements.tier] || 'text-foreground border-border'}`}>
                           {entry.elements.tier}
                         </span>
                       </div>
@@ -233,7 +233,7 @@ const Ledger = () => {
                         <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground block mb-2">3. Why</span>
                         <ul className="space-y-2">
                           {entry.elements.why.map((reason, ri) => (
-                            <li key={ri} className="flex items-start gap-2 text-sm text-muted-foreground">
+                            <li key={ri} className="flex items-start gap-2 text-base text-muted-foreground">
                               <span className="text-primary mt-1">•</span>
                               <span>{reason}</span>
                             </li>
@@ -247,13 +247,13 @@ const Ledger = () => {
                       {/* 4. Next Cheapest Test */}
                       <div>
                         <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground block mb-1">4. Next Cheapest Test</span>
-                        <p className="text-sm text-foreground leading-relaxed">{entry.elements.nextTest}</p>
+                        <p className="text-base text-foreground leading-relaxed">{entry.elements.nextTest}</p>
                       </div>
 
                       {/* 5. Kill Rule */}
                       <div>
                         <span className="text-[9px] uppercase tracking-[0.2em] text-destructive/70 block mb-1">5. Kill Rule</span>
-                        <p className="text-sm text-muted-foreground leading-relaxed">{entry.elements.killRule}</p>
+                        <p className="text-base text-muted-foreground leading-relaxed">{entry.elements.killRule}</p>
                       </div>
                     </div>
                   </div>
@@ -269,18 +269,18 @@ const Ledger = () => {
             transition={{ delay: 0.5, duration: 0.8 }}
             className="glass-card p-6 mb-12"
           >
-            <h2 className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-4">
+            <h2 className="text-base uppercase tracking-[0.4em] text-muted-foreground mb-4">
               How to Cite
             </h2>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+            <p className="text-base text-muted-foreground leading-relaxed mb-4">
               Only <span className="text-foreground font-medium">SEALED</span> entries are citeable in institutional documentation.
             </p>
             <div className="bg-black/50 rounded-md p-4 border border-border/50">
-              <code className="text-xs text-primary font-mono">
+              <code className="text-base text-primary font-mono">
                 APEX Verdict Brief, ATA-[ID], [Date], [Domain]
               </code>
             </div>
-            <p className="text-xs text-muted-foreground mt-4">
+            <p className="text-base text-muted-foreground mt-4">
               Unsealed demonstration entries carry no authority and must not be cited.
             </p>
           </motion.div>
@@ -292,7 +292,7 @@ const Ledger = () => {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="text-center"
           >
-            <p className="text-grey-600 text-xs tracking-wide mb-8">
+            <p className="text-grey-600 text-base tracking-wide mb-8">
               Sealed, citeable entries appear only after payment and ATA-ID issuance.
             </p>
             <Link to="/request-verdict">

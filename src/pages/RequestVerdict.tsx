@@ -98,9 +98,9 @@ const RequestVerdict = () => {
               <motion.div key="form" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}>
                 {/* Header */}
                 <div className="text-center mb-12">
-                  <span className="text-[10px] uppercase tracking-[0.6em] text-grey-500 block mb-4">Verdict Authority</span>
+                  <span className="text-[10px] uppercase tracking-[0.6em] text-grey-300 block mb-4">Verdict Authority</span>
                   <h1 className="text-3xl md:text-4xl font-semibold text-foreground tracking-wide mb-6">Request a Verdict Brief</h1>
-                  <p className="text-grey-400 max-w-lg mx-auto text-sm leading-relaxed">
+                  <p className="text-grey-400 max-w-lg mx-auto text-base leading-relaxed">
                     Verdict Briefs are structured judgment for irreversible decisions.
                     Payment is captured via the secure checkout terminal.
                   </p>
@@ -176,7 +176,7 @@ const RequestVerdict = () => {
                           <FormControl>
                             <Textarea placeholder="What irreversible decision are you facing?" className="bg-black/50 border-grey-700 focus:border-primary min-h-[140px]" {...field} />
                           </FormControl>
-                          <p className="text-grey-600 text-xs mt-2">{field.value.length}/2000 characters</p>
+                          <p className="text-grey-600 text-base mt-2">{field.value.length}/2000 characters</p>
                           <FormMessage />
                         </FormItem>
                       )} />
@@ -184,8 +184,8 @@ const RequestVerdict = () => {
 
                     {/* Contact */}
                     <div className="text-center py-4 border-t border-grey-800/30">
-                      <p className="text-grey-600 text-xs mb-2">Prefer direct contact?</p>
-                      <a href="mailto:apex@apex-infrastructure.com" className="text-primary hover:text-primary/80 text-sm tracking-wide transition-colors">
+                      <p className="text-grey-600 text-base mb-2">Prefer direct contact?</p>
+                      <a href="mailto:apex@apex-infrastructure.com" className="text-primary hover:text-primary/80 text-base tracking-wide transition-colors">
                         apex@apex-infrastructure.com
                       </a>
                     </div>
@@ -196,7 +196,7 @@ const RequestVerdict = () => {
                           <span className="flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" />PROCESSING...</span>
                         ) : "SUBMIT VERDICT REQUEST"}
                       </ApexButton>
-                      <p className="text-grey-600 text-xs text-center">
+                      <p className="text-grey-600 text-base text-center">
                         You will be redirected to the secure checkout terminal.
                       </p>
                     </div>
