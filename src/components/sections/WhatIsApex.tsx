@@ -56,13 +56,12 @@ export default function WhatIsApex() {
             className="text-center space-y-8 mb-16"
           >
             <p className="text-base md:text-lg lg:text-xl text-grey-200 leading-[1.9] max-w-3xl mx-auto">
-              APEX Infrastructure is a multi-domain regulatory intelligence layer built for operators who cannot afford ambiguity.
-              We monitor public enforcement signals across Australian sectors (NDIS, energy/grid, pharmaceuticals, corporate)
-              and convert them into structured Verdict Briefs — clear calls under uncertainty with a validation test and a stop condition.
+              APEX Infrastructure is a closed-loop regulatory intelligence layer that has autonomously tracked Australian enforcement signals since 2022.
+              We convert unstructured data across NDIS, energy grids, and corporate sectors into structured Verdict Briefs — clear calls under uncertainty with a validation test and a stop condition.
             </p>
 
             <p className="text-base md:text-lg text-grey-400 leading-[1.8] max-w-3xl mx-auto">
-              Some nodes are public, some are sealed for partners, and some remain dormant until unlocked.
+              Historically restricted to internal systemic tracking, we have now begun selectively unsealing our 2-year analytical archive.
               The objective is simple: reduce decision risk before it becomes cost.
             </p>
 

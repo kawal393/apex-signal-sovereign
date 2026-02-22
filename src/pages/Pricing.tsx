@@ -54,7 +54,7 @@ const tiers = [
       "Continuous signal monitoring",
       "Priority communication channel",
       "Access to sealed nodes",
-      "Strategic positioning briefs",
+      "Partnership Register: [REDACTED BY NDA]",
     ],
     cta: "Request Access",
     popular: false,
@@ -108,8 +108,8 @@ const Pricing = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + i * 0.12, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className={`glass-card p-8 flex flex-col relative ${tier.popular
-                    ? 'border-primary/40 shadow-[0_0_60px_hsl(42_95%_55%/0.12)]'
-                    : 'border-grey-700/30'
+                  ? 'border-primary/40 shadow-[0_0_60px_hsl(42_95%_55%/0.12)]'
+                  : 'border-grey-700/30'
                   }`}
               >
                 {tier.popular && (

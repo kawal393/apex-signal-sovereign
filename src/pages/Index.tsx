@@ -137,14 +137,13 @@ const Index = () => {
                   </h1>
                 </motion.div>
 
-                {/* 2. RECOGNITION — Declarative anchor */}
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 2, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
                   className="text-base md:text-base text-grey-200 leading-relaxed mb-16 md:mb-20 max-w-xl mx-auto tracking-wide"
                 >
-                  APEX issues written Verdict Briefs that help operators make irreversible decisions under regulatory, institutional, and market pressure.
+                  APEX has monitored AAT enforcement trends and corporate structural decay since 2022. Due to the critical mass of systemic failures observed recently, we are now unsealing selective nodes to the public.
                 </motion.p>
 
                 {/* 3. ACCESS — The single gravitational center */}

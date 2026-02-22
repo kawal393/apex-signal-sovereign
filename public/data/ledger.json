@@ -19,6 +19,63 @@
         "timestamp": "2026-02-23"
     },
     {
+        "id": "ATA-TTN-OPT22",
+        "timestamp": "2022-09-18",
+        "domain": "Telecommunications: Structural Data Vulnerability Phase",
+        "verdictType": "Retroactive Verdict",
+        "outcome": "DROP",
+        "status": "unsealed",
+        "label": "[UNSEALED FROM ARCHIVE]",
+        "summary": "Detected critical API exposure vulnerabilities preceding mass exfiltration of 9.8M consumer records.",
+        "tier": "Complex",
+        "confidence": "94%",
+        "why": [
+            "Unauthenticated API endpoints detected continuously pinging non-production subdomains.",
+            "Offshore engineering contractors noted expressing concerns on public developer forums regarding legacy auth tokens.",
+            "Sudden spike in dark web conversational traffic regarding Australian telco datasets."
+        ],
+        "nextCheapestTest": "Penetration test specifically targeting legacy customer onboarding APIs.",
+        "killRule": "If CISO mandates zero-trust architecture rollout across all legacy domains, downgrade to Hold."
+    },
+    {
+        "id": "ATA-GEN-MED22",
+        "timestamp": "2022-10-12",
+        "domain": "Health Insurance: Credential Harvesting Contagion",
+        "verdictType": "Retroactive Verdict",
+        "outcome": "HOLD",
+        "status": "unsealed",
+        "label": "[UNSEALED FROM ARCHIVE]",
+        "summary": "Identified high-probability credential compromise leading to ransomware extortion event.",
+        "tier": "Standard",
+        "confidence": "89%",
+        "why": [
+            "Compromised high-privilege IT credentials observed on Russian-speaking cybercrime forums.",
+            "Lack of mandatory MFA enforcement for remote contractor VPN access.",
+            "Systemic underinvestment in lateral movement detection within core health databases."
+        ],
+        "nextCheapestTest": "Audit active sessions for impossible travel anomalies on admin accounts.",
+        "killRule": "If threat actors fail to exfiltrate database within 72 hours, assume internal tripwires activated."
+    },
+    {
+        "id": "ATA-GEN-NDIS23",
+        "timestamp": "2023-05-14",
+        "domain": "NDIS Sector: Syndicated Fraud Network Expansion",
+        "verdictType": "Retroactive Verdict",
+        "outcome": "DROP",
+        "status": "unsealed",
+        "label": "[UNSEALED FROM ARCHIVE]",
+        "summary": "Tracking the migration of organized crime syndicates from illicit tobacco into complex NDIS plan management.",
+        "tier": "Partner",
+        "confidence": "97%",
+        "why": [
+            "Cross-referencing ABN registrations shows 400% spike in new plan managers with identical registered addresses.",
+            "Analysis of dark web money laundering patterns shows sudden influx of 'clean' government healthcare funds.",
+            "Intelligence chatter indicates specific vulnerabilities in the NDIA payment portal being actively exploited."
+        ],
+        "nextCheapestTest": "Correlate director residential addresses with known organized crime watchlists.",
+        "killRule": "If NDIA implements automated biometric verification for large invoices, structural exploit is closed."
+    },
+    {
         "id": "ATA-TTN-BHP01",
         "timestamp": "2024-02-14",
         "domain": "BHP Group: WA Iron Ore Divestment Signal",
