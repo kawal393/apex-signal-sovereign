@@ -1,117 +1,86 @@
 
 
-# Monk Mode Final Pass -- All 7 Bugs + Comparison Table
+# Enhancement Pass: Build Fix + UX Upgrades
 
-## What This Plan Covers
+## 1. Fix Build Errors (CRITICAL - Blocks deployment)
 
-Every remaining issue from the prompt, with zero deletions. The headline addition you asked about -- the **comparison grid** showing Apex vs Google vs AI vs Consultants vs Tools in a structured table -- is item 8 below.
+Two TypeScript errors in `supabase/functions/apex-scheduler/index.ts`:
 
----
+**Error 1 (line 61):** `visit_count` does not exist on the `INNER_CIRCLE` threshold type (it has `nodes_viewed_min` instead). Fix: add a type guard so `visit_count` is only accessed when `access_level === 'observer'` using proper narrowing, or cast `target` to `any`.
 
-## 1. Add Comparison Grid to WhyApexGrid
-
-**The missing piece.** A structured table will be added between the "A Different Layer Entirely" section and the "Decision Stack" section in `WhyApexGrid.tsx`.
-
-The table will have 5 rows and 3 columns:
-
-| System | What It Provides | Accountability |
-|--------|-----------------|----------------|
-| Search (Google) | Retrieves information on demand | None -- you interpret |
-| Generic AI (ChatGPT, Gemini) | Generates analysis and options | None -- probabilistic output |
-| Consultants / Advisors | Recommends paths, hedges risk | Limited -- advisory only |
-| Tools / Software | Executes instructions | None -- follows orders |
-| **Apex** | **Issues a verdict with test + kill rule, recorded to the ATA Ledger** | **Full -- accountable, sealed, citeable** |
-
-The Apex row will be visually elevated with gold border and stronger text weight. The table uses the existing dark aesthetic with `glass-card` styling. No CTA buttons -- this is doctrine, not conversion.
-
-**File**: `src/components/sections/WhyApexGrid.tsx` -- new section inserted after the "A Different Layer Entirely" block (after line 87), before the Decision Stack.
+**Error 2 (line 312):** `error` is of type `unknown`. Fix: change `error.message` to `(error as Error).message`.
 
 ---
 
-## 2. Fix AmbientParticles Opacity Flicker
+## 2. "You have returned" stays longer
 
-**Bug**: Line 30 of `AmbientParticles.tsx` computes `opacity: 0.25 + Math.random() * 0.15` inside JSX. This re-randomizes on every render.
-
-**Fix**: Add `opacity` to the pre-computed `particles` array at line 5-13.
-
-**File**: `src/components/effects/AmbientParticles.tsx`
+In `src/components/ritual/EntryRitual.tsx`, the presence phase (which shows "You have returned") currently runs for 8 seconds (`motionConfig.presenceDuration`). Increase this to 12 seconds so returning visitors feel the weight of that acknowledgment longer.
 
 ---
 
-## 3. Fix MobileVoid Particle Re-randomization
+## 3. Make the site 20% less dark
 
-**Bug**: Lines 58-66 of `MobileVoid.tsx` call `Math.random()` inside JSX for size, position, delay, duration. Particles jump on re-render.
+In `src/index.css`, lighten the core background and surface colors:
 
-**Fix**: Create a `mobileParticles` array outside the component with all properties pre-computed, then reference it in JSX.
-
-**File**: `src/components/effects/MobileVoid.tsx`
-
----
-
-## 4. Fix glass-card Overflow Clipping Badges
-
-**Bug**: `.glass-card` uses `overflow-hidden` (line 165 of `index.css`), which clips the "MOST SELECTED" badge on pricing cards and the "Decision Authority" badge on WhyApexGrid (both positioned with `-top-3`).
-
-**Fix**: Change `overflow-hidden` to `overflow-visible` on `.glass-card`.
-
-**File**: `src/index.css` line 165
+- `--background`: `0 0% 0%` becomes `0 0% 6%` (pure black to very dark grey)
+- `--card`: `0 0% 4%` becomes `0 0% 9%`
+- `--popover`: `0 0% 3%` becomes `0 0% 7%`
+- `--secondary`: `0 0% 6%` becomes `0 0% 10%`
+- `--muted`: `0 0% 10%` becomes `0 0% 14%`
+- `--glass-bg`: `0 0% 2% / 0.92` becomes `0 0% 7% / 0.92`
+- `.glass-card` background gradient: from `4%/2%` to `9%/7%`
+- Index page `bg-black` stays as-is (the front page keeps its void aesthetic)
 
 ---
 
-## 5. Rename "Pricing" to "Access Conditions" in Nav and Footer
+## 4. Smoothness improvements
 
-**Bug**: Nav line 12 says `"Pricing"`, footer line 9 says `"Pricing"`. The page itself already says "Access Conditions" but the nav/footer labels are inconsistent.
-
-**Fix**: Change both to `"Access Conditions"`.
-
-**Files**: `src/components/layout/ApexNav.tsx` line 12, `src/components/layout/ApexFooter.tsx` line 9
+- Add `scroll-behavior: smooth` globally (already present -- confirmed)
+- Add `will-change: transform` to `.glass-card` for GPU-accelerated hover transitions
+- Add `-webkit-overflow-scrolling: touch` on body for iOS momentum scrolling
 
 ---
 
-## 6. Fix Pricing Button Contrast
+## 5. Font & alignment: fit on screen (laptop + mobile)
 
-**Bug**: Popular tier CTA uses `text-black font-semibold` on gold background. Black on semi-transparent gold is low contrast.
-
-**Fix**: Change to `text-white font-bold` for guaranteed readability.
-
-**File**: `src/pages/Pricing.tsx` line 141
-
----
-
-## 7. Fix Manifesto Background Dying on Scroll
-
-**Bug**: `src/pages/Manifesto.tsx` line 54: `const voidActive = activeSection === 0`. When user scrolls past section 0, `active` becomes false, SovereignVoid unmounts (line 745-746 of SovereignVoid.tsx returns empty div when `!active`). Background goes dead black.
-
-**Fix**: Always pass `active={true}` to SovereignVoid on the Manifesto page. Remove the `voidActive` variable entirely and hardcode `active={true}`.
-
-**File**: `src/pages/Manifesto.tsx` lines 54, 78
+- Reduce the "You have returned" text from `text-[12rem]` max to `text-[8rem]` max so it fits on laptop screens without overflow
+- Reduce "Arriving" similarly
+- Add `overflow-hidden` to the EntryRitual container to prevent horizontal scroll from oversized text
+- Clamp the location/date line with `text-sm md:text-base` (currently `text-lg md:text-xl`) so it wraps gracefully on mobile
 
 ---
 
-## 8. Add WebGL Error Boundary
+## 6. Site Blueprint / Map page after audio choice (NEW)
 
-**Bug**: `failIfMajorPerformanceCaveat: true` in SovereignVoid means Canvas silently fails on devices without GPU. No fallback.
+After the audio offer phase and before the reveal phase, insert a new **"blueprint"** phase in `EntryRitual.tsx` that shows a visual site map. This helps new visitors understand the system before entering.
 
-**Fix**: Create `src/components/3d/WebGLErrorBoundary.tsx` -- a React class component error boundary that catches Canvas initialization failures and renders a static gradient fallback (matching the existing reduced-motion fallback style). Wrap the Canvas in SovereignVoid with this boundary.
+The blueprint shows:
 
-**Files**: Create `src/components/3d/WebGLErrorBoundary.tsx`, edit `src/components/3d/SovereignVoid.tsx` lines 749-772
+```text
+PORTAL (Entry) --> How It Works (Doctrine) --> Nodes (Scope)
+    |                                             |
+Access Conditions --> Infrastructure --> Ledger (Proof)
+                                          |
+                                     Manifesto (Authority)
+```
+
+Implementation:
+- Add a new `RitualPhase` value: `'blueprint'`
+- Insert it between `'audio_offer'` and `'reveal'`
+- Show a minimal grid of labeled boxes with the page names and one-word descriptions
+- Each box is a subtle glass card with the page name and its micro-label
+- Auto-advance after 6 seconds, or user can click "Enter" to skip
+- On mobile, stack the boxes in a vertical list for readability
 
 ---
 
-## Files Summary
+## Technical Summary
 
-| File | Action | What Changes |
-|------|--------|-------------|
-| `src/components/sections/WhyApexGrid.tsx` | Edit | Add comparison table section between sections 2 and 3 |
-| `src/components/effects/AmbientParticles.tsx` | Edit | Pre-compute opacity in particles array |
-| `src/components/effects/MobileVoid.tsx` | Edit | Pre-compute particle properties into stable array |
-| `src/index.css` | Edit | `overflow-hidden` to `overflow-visible` on `.glass-card` |
-| `src/components/layout/ApexNav.tsx` | Edit | "Pricing" to "Access Conditions" |
-| `src/components/layout/ApexFooter.tsx` | Edit | "Pricing" to "Access Conditions" |
-| `src/pages/Pricing.tsx` | Edit | `text-black` to `text-white font-bold` |
-| `src/pages/Manifesto.tsx` | Edit | Always pass `active={true}` to SovereignVoid |
-| `src/components/3d/WebGLErrorBoundary.tsx` | Create | Error boundary for Canvas failures |
-| `src/components/3d/SovereignVoid.tsx` | Edit | Wrap Canvas with WebGLErrorBoundary |
+| File | Change |
+|------|--------|
+| `supabase/functions/apex-scheduler/index.ts` | Fix 2 TypeScript errors (type guard + error cast) |
+| `src/components/ritual/EntryRitual.tsx` | Increase presence duration to 12s; reduce text sizes for laptop fit; add blueprint phase between audio and reveal |
+| `src/index.css` | Lighten 6 CSS variables by ~20%; add will-change to glass-card; add iOS scroll smoothing |
 
-**Zero deletions. Zero route changes. Zero content removals.**
+Zero deletions. Zero route changes. Zero content removals. All existing phases, animations, and pages preserved.
 
