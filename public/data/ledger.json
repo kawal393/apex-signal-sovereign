@@ -1,5 +1,24 @@
 [
     {
+        "id": "ATA-GEN-NDIS99",
+        "domain": "NDIS Provider: Fraudulent Invoicing Pattern Detected",
+        "verdictType": "Live Violation",
+        "outcome": "DROP",
+        "status": "unsealed",
+        "label": "SYSTEM FLAG",
+        "summary": "Automated cross-referencing confirms provider billing exceeded maximum allowable hours per participant by 314% across multiple core supports.",
+        "tier": "Standard",
+        "confidence": "99%",
+        "why": [
+            "Timesheet overlapping identified across 3 separate geographic zones simultaneously.",
+            "Historical AAT filings indicate previous directorship bans for identical directors.",
+            "Sub-contractor margins mathematically impossible without wage theft or ghost invoicing."
+        ],
+        "nextCheapestTest": "Subpoena participant transport logs against claimed SIL hours.",
+        "killRule": "If provider can prove systemic API failure on NDIS portal submission, downgrade to warning.",
+        "timestamp": "2026-02-23"
+    },
+    {
         "id": "ATA-TTN-BHP01",
         "timestamp": "2024-02-14",
         "domain": "BHP Group: WA Iron Ore Divestment Signal",

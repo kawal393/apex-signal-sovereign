@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
 import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import MobileVoid from "@/components/effects/MobileVoid";
@@ -182,12 +183,11 @@ const RequestVerdict = () => {
                       )} />
                     </div>
 
-                    {/* Contact */}
                     <div className="text-center py-4 border-t border-grey-800/30">
                       <p className="text-grey-600 text-base mb-2">Prefer direct contact?</p>
-                      <a href="mailto:apex@apex-infrastructure.com" className="text-primary hover:text-primary/80 text-base tracking-wide transition-colors">
-                        apex@apex-infrastructure.com
-                      </a>
+                      <Link to="/request-access" className="text-primary hover:text-primary/80 text-base tracking-wide transition-colors">
+                        Request Access
+                      </Link>
                     </div>
 
                     <div className="space-y-4">
