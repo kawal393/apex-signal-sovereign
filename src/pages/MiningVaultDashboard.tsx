@@ -9,16 +9,12 @@ import AmbientParticles from "@/components/effects/AmbientParticles";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 
-const MOCK_TEASER_DATA = [
-    { id: 1, project: "Pilbara Lithium Expansion", severity: "HIGH", issue: "EPA Review extended 180 days due to Native Title overlap.", date: "Today" },
-    { id: 2, project: "Bowen Basin Coal Ext.", severity: "CRITICAL", issue: "Water allocation denied by state regulator.", date: "Yesterday" }
-];
-
 const MiningVaultDashboard = () => {
     const [session, setSession] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [email, setEmail] = useState("");
     const [providerNumber, setProviderNumber] = useState("");
+    const [teaserData, setTeaserData] = useState<any[]>([]);
     const { toast } = useToast();
 
     useEffect(() => {
@@ -29,12 +25,34 @@ const MiningVaultDashboard = () => {
             setLoading(false);
         });
 
+        const fetchConstraints = async () => {
+            const { data, error } = await supabase
+                .from('mining_constraints')
+                .select('*')
+                .order('signal_date', { ascending: false })
+                .limit(5);
+
+            if (data && !error) {
+                setTeaserData(data);
+            } else if (error) {
+                console.error("Failed to fetch mining constraints:", error);
+            }
+        };
+        fetchConstraints();
+
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session);
         });
 
         return () => subscription.unsubscribe();
     }, []);
+
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        return new Intl.RelativeTimeFormat('en', { numeric: 'auto' }).format(
+            Math.ceil((date.getTime() - Date.now()) / (1000 * 60 * 60 * 24)), 'day'
+        );
+    };
 
     const handleRequestAccess = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -93,46 +111,43 @@ const MiningVaultDashboard = () => {
                             <table className="w-full text-left text-sm">
                                 <thead className="border-b border-grey-800 bg-black/50">
                                     <tr>
-                                        <th className="p-4 font-normal text-grey-500 text-[10px] uppercase tracking-wider">Date</th>
-                                        <th className="p-4 font-normal text-grey-500 text-[10px] uppercase tracking-wider">Project</th>
-                                        <th className="p-4 font-normal text-grey-500 text-[10px] uppercase tracking-wider">Severity</th>
-                                        <th className="p-4 font-normal text-grey-500 text-[10px] uppercase tracking-wider">Constraint Issue</th>
+                                        <th className="p-4 font-normal text-grey-500 text-[10px] uppercase tracking-wider w-1/6">Date</th>
+                                        <th className="p-4 font-normal text-grey-500 text-[10px] uppercase tracking-wider w-1/4">Project</th>
+                                        <th className="p-4 font-normal text-grey-500 text-[10px] uppercase tracking-wider w-1/6">Severity</th>
+                                        <th className="p-4 font-normal text-grey-500 text-[10px] uppercase tracking-wider w-5/12">Constraint Issue</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-grey-800/50">
-                                    {MOCK_TEASER_DATA.map((row) => (
-                                        <tr key={row.id} className="hover:bg-white/5 transition-colors">
-                                            <td className="p-4 text-grey-400">{row.date}</td>
-                                            <td className="p-4 text-grey-200 font-medium">{row.project}</td>
-                                            <td className="p-4">
-                                                <span className={`text-[10px] uppercase px-2 py-1 rounded ${row.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400' : 'bg-orange-500/20 text-orange-400'}`}>
-                                                    {row.severity}
-                                                </span>
+                                    {teaserData.map((row, index) => {
+                                        const isRestricted = !session && index >= 2;
+                                        return (
+                                            <tr key={row.id} className={`hover:bg-white/5 transition-colors ${isRestricted ? 'filter blur-sm opacity-50 select-none pointer-events-none' : ''}`}>
+                                                <td className="p-4 text-grey-400 capitalize">{formatDate(row.signal_date)}</td>
+                                                <td className="p-4 text-grey-200 font-medium">{row.project_name}</td>
+                                                <td className="p-4">
+                                                    <span className={`text-[10px] uppercase px-2 py-1 rounded ${row.severity === 'SEVERE' || row.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400' : row.severity === 'HIGH' ? 'bg-orange-500/20 text-orange-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
+                                                        {row.severity}
+                                                    </span>
+                                                </td>
+                                                <td className="p-4 text-grey-400">{row.issue_description}</td>
+                                            </tr>
+                                        );
+                                    })}
+                                    {teaserData.length === 0 && (
+                                        <tr>
+                                            <td colSpan={4} className="p-8 text-center text-grey-500">
+                                                Awaiting Vanguard Uplink...
                                             </td>
-                                            <td className="p-4 text-grey-400">{row.issue}</td>
                                         </tr>
-                                    ))}
-                                    {/* Blurred rows to show the depth of the data */}
-                                    <tr className="filter blur-sm opacity-50 select-none pointer-events-none">
-                                        <td className="p-4 text-grey-400">2 Days Ago</td>
-                                        <td className="p-4 text-grey-200">BHP Olympic Dam</td>
-                                        <td className="p-4 text-yellow-500">MEDIUM</td>
-                                        <td className="p-4 text-grey-400">Water extraction compliance review initiated.</td>
-                                    </tr>
-                                    <tr className="filter blur-md opacity-30 select-none pointer-events-none">
-                                        <td className="p-4 text-grey-400">3 Days Ago</td>
-                                        <td className="p-4 text-grey-200">FMG Iron Bridge</td>
-                                        <td className="p-4 text-red-500">SEVERE</td>
-                                        <td className="p-4 text-grey-400">Aboriginal heritage impact delay.</td>
-                                    </tr>
+                                    )}
                                 </tbody>
                             </table>
 
-                            {!session && (
-                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent flex flex-col items-center justify-end pb-12">
+                            {!session && teaserData.length > 0 && (
+                                <div className="absolute inset-0 top-32 bg-gradient-to-t from-black via-black/90 to-transparent flex flex-col items-center justify-end pb-8">
                                     <Lock className="w-8 h-8 text-primary mb-4" />
                                     <h3 className="text-xl font-medium text-white mb-2">Restricted Intelligence</h3>
-                                    <p className="text-grey-400 text-sm max-w-md text-center">
+                                    <p className="text-grey-400 text-sm max-w-md text-center px-4">
                                         Full real-time constraints, permit tracking, and the historic database are restricted to verified resource operators and allocators.
                                     </p>
                                 </div>
