@@ -129,10 +129,20 @@ export const APEX_NODES: ApexNode[] = [
   {
     id: 'mining-land-vault',
     name: 'Mining & Land Constraint Vault',
-    status: 'dormant',
+    status: 'live',
     domain: 'Resource extraction & land access signals',
-    purpose: 'Monitoring of mining approvals, land access constraints, and resource extraction bottlenecks.',
-    description: 'Dormant Node — Infrastructure Reserved. Capacity allocated for future activation.',
+    purpose: 'Live monitoring of mining approvals, Native Title claims, and extraction bottlenecks.',
+    description: 'Vanguard Node Active. Monitoring real-time constraint shifts across critical resource corridors.',
+    whatYouGet: [
+      'Real-time EPA review status changes',
+      'Native title constraint alerts',
+      'Extraction capacity bottleneck intelligence'
+    ],
+    whoItsFor: [
+      'Resource operators forecasting supply delays',
+      'Capital allocators tracking commodity timeline shifts',
+      'Infrastructure planners managing corridor risk'
+    ]
   },
   {
     id: 'water-rights',

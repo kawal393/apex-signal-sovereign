@@ -10,6 +10,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import AmbientParticles from "@/components/effects/AmbientParticles";
 import { getNodeById } from "@/data/nodes";
 import ExternalNodeModal from "@/components/ExternalNodeModal";
+import MiningVaultDashboard from "./MiningVaultDashboard";
 
 /** Verdict CTA monetization block */
 const VerdictCTABlock = ({ nodeId }: { nodeId: string }) => {
@@ -53,6 +54,11 @@ const NodeDetail = () => {
 
   if (!node) {
     return <Navigate to="/nodes" replace />;
+  }
+
+  // Intercept the Vanguard Test node
+  if (nodeId === 'mining-land-vault') {
+    return <MiningVaultDashboard />;
   }
 
   const isLive = node.status === 'live';
