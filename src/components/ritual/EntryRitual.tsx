@@ -8,7 +8,7 @@ interface EntryRitualProps {
   onComplete: () => void;
 }
 
-type RitualPhase = 'void' | 'stillness' | 'presence' | 'audio_offer' | 'reveal';
+type RitualPhase = 'void' | 'stillness' | 'presence' | 'audio_offer' | 'blueprint' | 'reveal';
 
 // Check for reduced motion preference
 function usePrefersReducedMotion() {
@@ -26,6 +26,17 @@ function usePrefersReducedMotion() {
   return prefersReduced;
 }
 
+// Site blueprint data
+const BLUEPRINT_NODES = [
+  { name: 'Portal', label: 'Entry', path: '/' },
+  { name: 'How It Works', label: 'Doctrine', path: '/how-it-works' },
+  { name: 'Nodes', label: 'Scope', path: '/nodes' },
+  { name: 'Access Conditions', label: 'Terms', path: '/pricing' },
+  { name: 'Infrastructure', label: 'Architecture', path: '/infrastructure' },
+  { name: 'Ledger', label: 'Proof', path: '/ledger' },
+  { name: 'Manifesto', label: 'Authority', path: '/manifesto' },
+];
+
 export default function EntryRitual({ onComplete }: EntryRitualProps) {
   const [phase, setPhase] = useState<RitualPhase>('void');
   const { isStill, stillnessProgress } = useStillness({ requiredStillnessMs: 6500 });
@@ -39,7 +50,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
   const motionConfig = useMemo(() => ({
     duration: prefersReducedMotion ? 0.3 : 3,
     ease: prefersReducedMotion ? "easeOut" : [0.16, 1, 0.3, 1] as const,
-    presenceDuration: prefersReducedMotion ? 3000 : 8000,
+    presenceDuration: prefersReducedMotion ? 3000 : 12000,
   }), [prefersReducedMotion]);
 
   useEffect(() => {
@@ -68,6 +79,14 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
     }
   }, [phase, motionConfig.presenceDuration]);
 
+  // Blueprint auto-advance after 6 seconds
+  useEffect(() => {
+    if (phase === 'blueprint') {
+      const timer = setTimeout(() => setPhase('reveal'), prefersReducedMotion ? 2000 : 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [phase, prefersReducedMotion]);
+
   useEffect(() => {
     if (phase === 'reveal') {
       const timer = setTimeout(onComplete, prefersReducedMotion ? 1000 : 5000);
@@ -80,7 +99,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
       await enableAudio();
       setAudioAccepted(true);
     }
-    setPhase('reveal');
+    setPhase('blueprint');
   }, [enableAudio]);
 
   // Skip ritual entirely
@@ -97,7 +116,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
 
   return (
     <motion.div 
-      className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+      className="fixed inset-0 z-50 bg-black flex items-center justify-center overflow-hidden"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: motionConfig.duration, ease: motionConfig.ease }}
@@ -194,12 +213,12 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
               className="mb-16"
               style={{ willChange: 'transform, opacity' }}
             >
-              <div className="flex flex-wrap items-center justify-center gap-6 text-muted-foreground/50">
-                <span className="text-lg md:text-xl uppercase tracking-[0.6em] font-light">
+              <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-muted-foreground/50">
+                <span className="text-sm md:text-base uppercase tracking-[0.6em] font-light">
                   {presence.city}
                 </span>
-                <span className="w-2 h-2 rounded-full bg-muted-foreground/30" />
-                <span className="text-lg md:text-xl uppercase tracking-[0.4em] tabular-nums font-light">
+                <span className="w-2 h-2 rounded-full bg-muted-foreground/30 hidden md:block" />
+                <span className="text-sm md:text-base uppercase tracking-[0.4em] tabular-nums font-light">
                   {now.toLocaleDateString(undefined, {
                     weekday: 'long',
                     year: 'numeric',
@@ -207,8 +226,8 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
                     day: 'numeric',
                   })}
                 </span>
-                <span className="w-2 h-2 rounded-full bg-muted-foreground/30" />
-                <span className="text-lg md:text-xl uppercase tracking-[0.4em] tabular-nums font-light">
+                <span className="w-2 h-2 rounded-full bg-muted-foreground/30 hidden md:block" />
+                <span className="text-sm md:text-base uppercase tracking-[0.4em] tabular-nums font-light">
                   {now.toLocaleTimeString(undefined, {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -222,7 +241,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
             {isReturningVisitor ? (
               <>
                 <motion.p
-                  className="text-7xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-medium tracking-[0.02em] text-foreground mb-12 leading-[1]"
+                  className="text-5xl md:text-7xl lg:text-[8rem] font-medium tracking-[0.02em] text-foreground mb-12 leading-[1]"
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.8, duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
@@ -259,7 +278,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
             ) : (
               <>
                 <motion.p
-                  className="text-6xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-medium tracking-[0.02em] text-foreground mb-12 leading-[1]"
+                  className="text-5xl md:text-7xl lg:text-[8rem] font-medium tracking-[0.02em] text-foreground mb-12 leading-[1]"
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.8, duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
@@ -325,6 +344,60 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
                 No
               </motion.button>
             </div>
+          </motion.div>
+        )}
+
+        {/* Blueprint Phase - SITE MAP */}
+        {phase === 'blueprint' && (
+          <motion.div
+            key="blueprint"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center px-6 max-w-4xl w-full"
+          >
+            <motion.p
+              className="text-xs md:text-sm tracking-[0.8em] uppercase text-muted-foreground/40 mb-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 1.5 }}
+            >
+              System Blueprint
+            </motion.p>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-10">
+              {BLUEPRINT_NODES.map((node, i) => (
+                <motion.div
+                  key={node.name}
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{
+                    delay: 0.5 + i * 0.12,
+                    duration: 1.2,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  className="relative rounded-md px-4 py-5 md:py-6 border border-border/40 bg-card/60 backdrop-blur-sm hover:border-primary/30 transition-all duration-700 group"
+                >
+                  <p className="text-[10px] md:text-xs tracking-[0.5em] uppercase text-primary/60 mb-2 font-medium">
+                    {node.label}
+                  </p>
+                  <p className="text-sm md:text-base font-medium text-foreground/80 group-hover:text-foreground transition-colors duration-500">
+                    {node.name}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.button
+              onClick={() => setPhase('reveal')}
+              className="text-xs tracking-[0.5em] uppercase text-muted-foreground/30 hover:text-muted-foreground/60 transition-colors duration-700"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.5, duration: 1 }}
+            >
+              Enter →
+            </motion.button>
           </motion.div>
         )}
 

@@ -58,7 +58,7 @@ function calculatePromotionProbability(profile: any): number {
   const curiosityProgress = Math.min(1, (profile.curiosity_score || 0) / target.curiosity_score);
   const timeProgress = Math.min(1, (profile.total_time_seconds || 0) / target.total_time_seconds);
   const visitProgress = profile.access_level === 'observer' 
-    ? Math.min(1, (profile.visit_count || 0) / target.visit_count)
+    ? Math.min(1, (profile.visit_count || 0) / (target as any).visit_count)
     : 1;
   
   return (patienceProgress * 0.3 + curiosityProgress * 0.3 + timeProgress * 0.25 + visitProgress * 0.15);
@@ -309,7 +309,7 @@ Deno.serve(async (req) => {
     console.error('[apex-scheduler] Fatal error:', error);
     return new Response(JSON.stringify({
       success: false,
-      error: error.message,
+      error: (error as Error).message,
     }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
