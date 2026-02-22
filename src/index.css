@@ -39,15 +39,15 @@
   }
 
   .dark, :root {
-    /* === THE ABSOLUTE VOID - Pure sovereign black === */
-    --background: 0 0% 0%;
+    /* === THE SOVEREIGN VOID - Deep dark grey === */
+    --background: 0 0% 6%;
     --foreground: 0 0% 90%;
     
-    /* Obsidian surfaces */
-    --card: 0 0% 4%;
+    /* Obsidian surfaces - lifted */
+    --card: 0 0% 9%;
     --card-foreground: 0 0% 88%;
     
-    --popover: 0 0% 3%;
+    --popover: 0 0% 7%;
     --popover-foreground: 0 0% 88%;
     
     /* === SACRED GOLD - Primary sovereign energy === */
@@ -87,10 +87,10 @@
     --grey-800: 0 0% 10%;
     --grey-900: 0 0% 5%;
     
-    --secondary: 0 0% 6%;
+    --secondary: 0 0% 10%;
     --secondary-foreground: 0 0% 85%;
     
-    --muted: 0 0% 10%;
+    --muted: 0 0% 14%;
     --muted-foreground: 0 0% 50%;
     
     --accent: 42 50% 20%;
@@ -109,7 +109,7 @@
     --status-frozen: 0 0% 30%;
     
     /* Dimensional glass */
-    --glass-bg: 0 0% 2% / 0.92;
+    --glass-bg: 0 0% 7% / 0.92;
     --glass-border: 42 50% 45% / 0.15;
     --glass-glow: 42 95% 55% / 0.2;
     
@@ -156,6 +156,7 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -165,9 +166,10 @@
     @apply relative overflow-visible rounded-md;
     background: linear-gradient(
       165deg,
-      hsl(0 0% 4% / 0.96) 0%,
-      hsl(0 0% 2% / 0.94) 100%
+      hsl(0 0% 9% / 0.96) 0%,
+      hsl(0 0% 7% / 0.94) 100%
     );
+    will-change: transform;
     border: 1px solid hsl(42 50% 40% / 0.12);
     backdrop-filter: blur(40px) saturate(1.5);
     -webkit-backdrop-filter: blur(40px) saturate(1.5);
