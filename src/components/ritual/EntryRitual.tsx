@@ -317,7 +317,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
             <div className="flex items-center justify-center gap-12">
               <motion.button
                 onClick={() => handleAudioChoice(true)}
-                className="text-base tracking-[0.5em] uppercase text-primary/70 hover:text-primary px-10 py-5 border border-primary/20 hover:border-primary/45 transition-all duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)] rounded-sm"
+                className="text-base tracking-[0.5em] uppercase text-primary/70 hover:text-primary px-10 py-5 border border-primary/20 hover:border-primary/45 transition-all duration-2000 ease-out rounded-sm"
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.4, duration: 3.5, ease: [0.16, 1, 0.3, 1] }}
@@ -329,7 +329,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
               
               <motion.button
                 onClick={() => handleAudioChoice(false)}
-                className="text-base tracking-[0.5em] uppercase text-muted-foreground/30 hover:text-muted-foreground/50 px-10 py-5 transition-all duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+                className="text-base tracking-[0.5em] uppercase text-muted-foreground/30 hover:text-muted-foreground/50 px-10 py-5 transition-all duration-2000 ease-out"
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.6, duration: 3.5, ease: [0.16, 1, 0.3, 1] }}

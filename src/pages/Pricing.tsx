@@ -24,6 +24,7 @@ const tiers = [
     ],
     cta: "Request Standard Verdict",
     popular: true,
+    href: "https://buy.stripe.com/14AfZ98ohcL6fUI9kob7y03",
   },
   {
     name: "Complex Invocation Window",
@@ -40,6 +41,7 @@ const tiers = [
     ],
     cta: "Request Complex Verdict",
     popular: false,
+    href: "https://buy.stripe.com/00waEPeMF26s0ZO1RWb7y04",
   },
   {
     name: "Partner / Retainer",
@@ -105,11 +107,10 @@ const Pricing = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + i * 0.12, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className={`glass-card p-8 flex flex-col relative ${
-                  tier.popular 
-                    ? 'border-primary/40 shadow-[0_0_60px_hsl(42_95%_55%/0.12)]' 
+                className={`glass-card p-8 flex flex-col relative ${tier.popular
+                    ? 'border-primary/40 shadow-[0_0_60px_hsl(42_95%_55%/0.12)]'
                     : 'border-grey-700/30'
-                }`}
+                  }`}
               >
                 {tier.popular && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 status-active text-[8px]">
@@ -134,16 +135,29 @@ const Pricing = () => {
                   ))}
                 </ul>
 
-                <Link to={tier.isPartner ? "/request-access" : "/request-verdict"}>
-                  <ApexButton
-                    variant={tier.popular ? "primary" : "outline"}
-                    size="lg"
-                    className={`w-full gap-2 ${tier.popular ? 'text-white font-bold' : ''}`}
-                  >
-                    {tier.cta}
-                    <ArrowRight className="w-4 h-4" />
-                  </ApexButton>
-                </Link>
+                {tier.isPartner ? (
+                  <Link to="/request-access" className="mt-auto block">
+                    <ApexButton
+                      variant={tier.popular ? "primary" : "outline"}
+                      size="lg"
+                      className={`w-full gap-2 ${tier.popular ? 'text-white font-bold' : ''}`}
+                    >
+                      {tier.cta}
+                      <ArrowRight className="w-4 h-4" />
+                    </ApexButton>
+                  </Link>
+                ) : (
+                  <a href={tier.href} target="_blank" rel="noopener noreferrer" className="mt-auto block">
+                    <ApexButton
+                      variant={tier.popular ? "primary" : "outline"}
+                      size="lg"
+                      className={`w-full gap-2 ${tier.popular ? 'text-white font-bold' : ''}`}
+                    >
+                      {tier.cta}
+                      <ArrowRight className="w-4 h-4" />
+                    </ApexButton>
+                  </a>
+                )}
               </motion.div>
             ))}
           </div>
@@ -158,8 +172,8 @@ const Pricing = () => {
             <Shield className="w-6 h-6 text-primary mx-auto mb-4" />
             <h3 className="text-lg font-medium text-foreground mb-3">Confidence Lock Guarantee</h3>
             <p className="text-grey-400 text-sm leading-relaxed mb-4">
-              Every Verdict Brief is guaranteed to contain the 5 required structural elements. 
-              Refunds are issued only for structural incompleteness (missing required elements) 
+              Every Verdict Brief is guaranteed to contain the 5 required structural elements.
+              Refunds are issued only for structural incompleteness (missing required elements)
               or delivery failure. Disagreement with the verdict outcome is not grounds for refund.
             </p>
             <p className="text-grey-600 text-xs">

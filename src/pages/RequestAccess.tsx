@@ -152,7 +152,7 @@ const RequestAccess = () => {
 
                     <div className="text-center py-4 border-t border-grey-800/30">
                       <p className="text-grey-600 text-xs mb-2">Direct contact</p>
-                      <a href="mailto:apex@apex-infrastructure.com" className="text-primary hover:text-primary/80 text-sm tracking-wide transition-colors">apex@apex-infrastructure.com</a>
+                      <Link to="/nodes/ghost-protocol" className="text-primary hover:text-primary/80 text-sm tracking-wide transition-colors">Emergency Protocol</Link>
                     </div>
 
                     <ApexButton type="submit" variant="primary" size="lg" className="w-full" disabled={isProcessing}>

@@ -8,7 +8,8 @@ export interface ApexNode {
   status: NodeStatus;
   purpose: string;
   domain?: string; // Domain focus for display
-  externalUrl?: string;
+  externalUrl?: string; // For NodeDetail view
+  internalComponentRoute?: string; // Path to the actual native component
   description?: string;
   whatYouGet?: string[];
   whoItsFor?: string[];
@@ -22,7 +23,8 @@ export const APEX_NODES: ApexNode[] = [
     status: 'live',
     domain: 'Disability compliance & enforcement signals',
     purpose: 'Real-time provider compliance and pricing signal monitoring for NDIS operators.',
-    externalUrl: 'https://kawal393.github.io/ndis-signal-board/',
+    externalUrl: '/nodes/ndis-watchtower',
+    internalComponentRoute: '/nodes/ndis-watchtower/view',
     whatYouGet: [
       'Provider registration and compliance status signals',
       'Pricing band alerts and market positioning data',
@@ -40,7 +42,8 @@ export const APEX_NODES: ApexNode[] = [
     status: 'live',
     domain: 'Policy, procurement & regulatory language decoding',
     purpose: 'Decode institutional language into operational reality.',
-    externalUrl: 'https://kawal393.github.io/apex-corporate-translator/',
+    externalUrl: '/nodes/corporate-translator',
+    internalComponentRoute: '/nodes/corporate-translator/view',
     whatYouGet: [
       'Plain-language translation of corporate announcements',
       'Hidden signal extraction from public filings',
@@ -58,7 +61,8 @@ export const APEX_NODES: ApexNode[] = [
     status: 'live',
     domain: 'Immutable verdict registry',
     purpose: 'Permanent record of signal events and system state changes.',
-    externalUrl: 'https://kawal393.github.io/ompc-1/',
+    externalUrl: '/nodes/ata-ledger',
+    internalComponentRoute: '/ledger',
     whatYouGet: [
       'Immutable event timeline with timestamp verification',
       'Cross-referenced signal correlation mapping',
@@ -77,7 +81,8 @@ export const APEX_NODES: ApexNode[] = [
     domain: 'Internal operating doctrine',
     purpose: 'Silent monitoring of entities and dependencies without direct engagement.',
     description: 'Disciplined observation, triage, and escalation infrastructure. Process-based verification only. No execution. No representation. No impersonation.',
-    externalUrl: 'https://kawal393.github.io/-APEX-GHOST-PROTOCOL/',
+    externalUrl: '/nodes/ghost-protocol',
+    internalComponentRoute: '/nodes/ghost-protocol/view',
     whatYouGet: [
       'Passive entity monitoring and change detection',
       'Dependency mapping without exposure',
@@ -89,7 +94,7 @@ export const APEX_NODES: ApexNode[] = [
       'Decision-makers requiring situational awareness',
     ],
   },
-  
+
   // ============ SEALED NODES ============
   {
     id: 'grid-constraint',

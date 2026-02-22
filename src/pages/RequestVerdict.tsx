@@ -60,7 +60,6 @@ const RequestVerdict = () => {
           organization: data.organisation || null,
           decision_area: data.decisionArea,
           urgency: data.urgency,
-          budget_range: 'pending-quote',
         });
 
       if (insertError) {
@@ -68,10 +67,15 @@ const RequestVerdict = () => {
         setIsProcessing(false);
         return;
       }
-      setSubmitted(true);
+
+      // Sovereign checkout redirect: 7 Days = Complex ($999), Others = Standard ($249)
+      if (data.urgency === "7") {
+        window.location.href = "https://buy.stripe.com/00waEPeMF26s0ZO1RWb7y04";
+      } else {
+        window.location.href = "https://buy.stripe.com/14AfZ98ohcL6fUI9kob7y03";
+      }
     } catch {
       toast({ title: 'Error', description: 'Something went wrong.', variant: 'destructive' });
-    } finally {
       setIsProcessing(false);
     }
   };
@@ -98,7 +102,7 @@ const RequestVerdict = () => {
                   <h1 className="text-3xl md:text-4xl font-semibold text-foreground tracking-wide mb-6">Request a Verdict Brief</h1>
                   <p className="text-grey-400 max-w-lg mx-auto text-sm leading-relaxed">
                     Verdict Briefs are structured judgment for irreversible decisions.
-                    You receive a quote + timeline before payment.
+                    Payment is captured via the secure checkout terminal.
                   </p>
                 </div>
 
@@ -193,7 +197,7 @@ const RequestVerdict = () => {
                         ) : "SUBMIT VERDICT REQUEST"}
                       </ApexButton>
                       <p className="text-grey-600 text-xs text-center">
-                        You receive a quote + timeline before payment. No upfront commitment.
+                        You will be redirected to the secure checkout terminal.
                       </p>
                     </div>
                   </form>

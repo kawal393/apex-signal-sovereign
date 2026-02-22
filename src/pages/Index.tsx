@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useCallback, useEffect } from "react";
 import { ExternalLink, ArrowRight } from "lucide-react";
@@ -20,6 +20,7 @@ const Index = () => {
   const presence = usePresence();
   const { isAudioEnabled, status, playThresholdTone } = useApexSystem();
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   const handleRitualComplete = useCallback(() => {
     setRitualComplete(true);
@@ -31,12 +32,8 @@ const Index = () => {
   }, [playThresholdTone]);
 
   const handleOpenWatchtower = useCallback(() => {
-    const url = "https://kawal393.github.io/ndis-signal-board/";
-    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-      window.location.href = url;
-    }
-  }, []);
+    navigate("/request-access");
+  }, [navigate]);
 
   // Track scroll for 3D camera
   useEffect(() => {
@@ -145,7 +142,7 @@ const Index = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 2, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-xs md:text-sm text-grey-500 leading-relaxed mb-16 md:mb-20 max-w-xl mx-auto tracking-wide"
+                  className="text-xs md:text-sm text-grey-200 leading-relaxed mb-16 md:mb-20 max-w-xl mx-auto tracking-wide"
                 >
                   APEX issues written Verdict Briefs that help operators make irreversible decisions under regulatory, institutional, and market pressure.
                 </motion.p>
@@ -163,9 +160,9 @@ const Index = () => {
                       whileTap={{ scale: 0.98 }}
                       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <ApexButton 
-                        variant="primary" 
-                        size="lg" 
+                      <ApexButton
+                        variant="primary"
+                        size="lg"
                         className="min-w-[240px] text-sm tracking-[0.5em] px-16 py-7"
                         style={{
                           boxShadow: '0 0 80px hsl(42 95% 55% / 0.25), 0 0 160px hsl(42 95% 55% / 0.1)',
@@ -184,7 +181,7 @@ const Index = () => {
                   transition={{ duration: 1.5, delay: 2.4, ease: [0.16, 1, 0.3, 1] }}
                   className="flex flex-col items-center gap-5"
                 >
-                  <div className="flex items-center gap-6 text-grey-600">
+                  <div className="flex items-center gap-6 text-grey-400">
                     <button
                       onClick={handleOpenWatchtower}
                       className="text-[10px] md:text-xs uppercase tracking-[0.25em] hover:text-grey-400 transition-colors duration-500 flex items-center gap-2"
@@ -193,7 +190,7 @@ const Index = () => {
                       <ExternalLink className="w-3 h-3" />
                     </button>
                     <span className="w-px h-3 bg-grey-700" />
-                    <Link 
+                    <Link
                       to="/request-verdict"
                       className="text-[10px] md:text-xs uppercase tracking-[0.25em] hover:text-grey-400 transition-colors duration-500 flex items-center gap-2"
                     >
@@ -202,30 +199,30 @@ const Index = () => {
                     </Link>
                   </div>
 
-                  <a 
-                    href="mailto:apex@apex-infrastructure.com" 
-                    className="text-grey-700 hover:text-grey-500 text-[10px] tracking-[0.2em] transition-colors duration-500"
+                  <Link
+                    to="/request-access"
+                    className="text-grey-400 hover:text-grey-500 text-[10px] tracking-[0.2em] transition-colors duration-500"
                   >
                     apex@apex-infrastructure.com
-                  </a>
+                  </Link>
                 </motion.div>
               </div>
             </main>
 
             {/* Bottom sigil */}
-            <motion.div 
+            <motion.div
               className="absolute bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 pb-8 z-20"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 3, duration: 2 }}
             >
-              <div 
+              <div
                 className="w-24 h-px"
                 style={{
                   background: 'linear-gradient(90deg, transparent, hsl(42 95% 55% / 0.3), transparent)',
                 }}
               />
-              <motion.span 
+              <motion.span
                 className="text-gold/30 text-sm"
                 animate={{ opacity: [0.2, 0.5, 0.2] }}
                 transition={{ duration: 6, repeat: Infinity }}

@@ -27,16 +27,16 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
         {/* Main footer row */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-8">
           <div className="flex items-center gap-4">
-            <img 
-              src={apexLogo} 
-              alt="APEX" 
+            <img
+              src={apexLogo}
+              alt="APEX"
               className="h-10 w-auto object-contain drop-shadow-[0_0_10px_rgba(212,160,32,0.3)]"
             />
             <span className="text-sm text-muted-foreground">
               Verified Signal Infrastructure
             </span>
           </div>
-          
+
           <div className="flex items-center gap-2 text-xs text-muted-foreground/60">
             <div className="w-1.5 h-1.5 rounded-full bg-primary/50" />
             <span className="uppercase tracking-widest">System Operational</span>
@@ -58,14 +58,12 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
 
         {/* Command Strip */}
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pt-6 mb-6">
-          <a
-            href="https://kawal393.github.io/ndis-signal-board/"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/nodes/ndis-watchtower"
             className="text-grey-500 hover:text-primary text-[10px] uppercase tracking-[0.2em] transition-colors duration-300"
           >
             Live Watchtower
-          </a>
+          </Link>
           <Link
             to="/request-verdict"
             className="px-5 py-2 rounded-md border border-primary/30 text-primary text-[10px] uppercase tracking-[0.2em] hover:bg-primary/10 hover:border-primary/50 transition-all duration-300"
@@ -84,12 +82,12 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
           >
             Request Access
           </Link>
-          <a
-            href="mailto:apex@apex-infrastructure.com"
+          <Link
+            to="/request-access"
             className="text-grey-500 hover:text-grey-300 text-xs tracking-wide transition-colors"
           >
             apex@apex-infrastructure.com
-          </a>
+          </Link>
         </div>
 
         {/* Copyright */}

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import { ApexButton } from "@/components/ui/apex-button";
 
@@ -10,12 +10,10 @@ import { ApexButton } from "@/components/ui/apex-button";
  * Institutional, calm, powerful. No sales language.
  */
 export default function WhatIsApex() {
+  const navigate = useNavigate();
+
   const handleOpenWatchtower = () => {
-    const url = "https://kawal393.github.io/ndis-signal-board/";
-    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-      window.location.href = url;
-    }
+    navigate("/request-access");
   };
 
   return (
@@ -58,13 +56,13 @@ export default function WhatIsApex() {
             className="text-center space-y-8 mb-16"
           >
             <p className="text-base md:text-lg lg:text-xl text-grey-200 leading-[1.9] max-w-3xl mx-auto">
-              APEX Infrastructure is a multi-domain regulatory intelligence layer built for operators who cannot afford ambiguity. 
-              We monitor public enforcement signals across Australian sectors (NDIS, energy/grid, pharmaceuticals, corporate) 
+              APEX Infrastructure is a multi-domain regulatory intelligence layer built for operators who cannot afford ambiguity.
+              We monitor public enforcement signals across Australian sectors (NDIS, energy/grid, pharmaceuticals, corporate)
               and convert them into structured Verdict Briefs — clear calls under uncertainty with a validation test and a stop condition.
             </p>
-            
+
             <p className="text-base md:text-lg text-grey-400 leading-[1.8] max-w-3xl mx-auto">
-              Some nodes are public, some are sealed for partners, and some remain dormant until unlocked. 
+              Some nodes are public, some are sealed for partners, and some remain dormant until unlocked.
               The objective is simple: reduce decision risk before it becomes cost.
             </p>
 
@@ -162,7 +160,7 @@ export default function WhatIsApex() {
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 className="group px-8 py-4 rounded-md bg-primary/10 border border-primary/40 text-primary font-medium tracking-[0.15em] uppercase text-sm flex items-center gap-3 hover:bg-primary/20 hover:border-primary/60 hover:shadow-[0_0_40px_hsl(42_95%_55%/0.2)] transition-all duration-300"
               >
-                View Live NDIS Watchtower
+                Request Node Access
                 <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </motion.button>
 
@@ -173,8 +171,8 @@ export default function WhatIsApex() {
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <ApexButton 
-                    variant="outline" 
+                  <ApexButton
+                    variant="outline"
                     size="lg"
                     className="px-8 py-4 tracking-[0.15em]"
                   >
@@ -185,8 +183,8 @@ export default function WhatIsApex() {
             </div>
 
             {/* Tertiary Link */}
-            <Link 
-              to="/ledger" 
+            <Link
+              to="/ledger"
               className="inline-flex items-center gap-2 text-grey-400 hover:text-grey-200 text-sm tracking-wide transition-colors duration-300 group"
             >
               See ATA Ledger

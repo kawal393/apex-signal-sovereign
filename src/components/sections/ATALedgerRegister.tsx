@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ApexButton } from "@/components/ui/apex-button";
+import { useState, useEffect } from "react";
 
 /**
  * ATA Ledger Register Section
@@ -24,123 +25,7 @@ interface LedgerEntry {
   nextCheapestTest: string;
   killRule: string;
 }
-
-const DEMO_ENTRIES: LedgerEntry[] = [
-  {
-    id: "ATA-DEMO-001",
-    timestamp: "2025-02-XX",
-    domain: "NDIS Provider Compliance",
-    verdictType: "Conditional Verdict",
-    outcome: "HOLD",
-    status: 'unsealed',
-    label: "DEMO (UNSEALED)",
-    summary: "Provider expansion into regional territory assessed against current regulatory state and enforcement patterns.",
-    tier: "Standard",
-    confidence: "78%",
-    why: [
-      "Enforcement patterns show rising audit frequency in target region",
-      "Provider registration backlog signals 4–6 month delays",
-      "Pricing band compression limits margin on expansion",
-    ],
-    nextCheapestTest: "Submit Expression of Interest to test registration queue response time",
-    killRule: "If audit frequency exceeds 2x national average in target region, abort expansion",
-  },
-  {
-    id: "ATA-DEMO-002",
-    timestamp: "2025-02-XX",
-    domain: "Energy Grid Connection",
-    verdictType: "Conditional Verdict",
-    outcome: "ADVANCE",
-    status: 'unsealed',
-    label: "RETROACTIVE (Public-data)",
-    summary: "Large load connection queue position evaluated against grid constraint forecasts and REZ bottleneck signals.",
-    tier: "Complex",
-    confidence: "85%",
-    why: [
-      "Connection queue position is inside 12-month approval window",
-      "REZ bottleneck at target substation is easing per AEMO data",
-      "Grid constraint forecast shows capacity uplift in Q3",
-    ],
-    nextCheapestTest: "File formal connection enquiry to confirm queue position and timeline",
-    killRule: "If AEMO revises constraint forecast upward by >15%, pause and reassess",
-  },
-  {
-    id: "ATA-DEMO-003",
-    timestamp: "2025-02-XX",
-    domain: "Corporate Restructure",
-    verdictType: "Conditional Verdict",
-    outcome: "PARTNER-ONLY",
-    status: 'unsealed',
-    label: "DEMO (UNSEALED)",
-    summary: "Institutional partnership risk matrix assessed against counterparty dependency signals.",
-    tier: "Partner",
-    confidence: "62%",
-    why: [
-      "Counterparty dependency ratio exceeds safe threshold",
-      "Director tenure signals instability in governance layer",
-      "Public filing language shows hedging increase quarter-on-quarter",
-    ],
-    nextCheapestTest: "Request counterparty's latest audited financials and compare to public filings",
-    killRule: "If counterparty loses key directorship or primary contract, exit immediately",
-  },
-  {
-    id: "ATA-DEMO-004",
-    timestamp: "2025-03-XX",
-    domain: "Mining & Tenement Risk",
-    verdictType: "Conditional Verdict",
-    outcome: "HOLD",
-    status: 'unsealed',
-    label: "RETROACTIVE (Public-data)",
-    summary: "Tenement renewal risk assessed against state regulatory posture and native title overlay mapping.",
-    tier: "Standard",
-    confidence: "71%",
-    why: [
-      "State regulator flagged tenement cluster for priority compliance review",
-      "Native title determination pending over 40% of target area",
-      "Commodity price cycle does not support capex at current forward curve",
-    ],
-    nextCheapestTest: "Lodge pre-emptive compliance audit with state regulator to test response posture",
-    killRule: "If native title determination excludes target zone, abandon tenement strategy",
-  },
-  {
-    id: "ATA-DEMO-005",
-    timestamp: "2025-03-XX",
-    domain: "Water Rights Allocation",
-    verdictType: "Conditional Verdict",
-    outcome: "ADVANCE",
-    status: 'unsealed',
-    label: "DEMO (UNSEALED)",
-    summary: "Water entitlement trade assessed against allocation forecast, carryover rules, and basin plan triggers.",
-    tier: "Complex",
-    confidence: "80%",
-    why: [
-      "Allocation forecast exceeds 80% for target water year",
-      "Carryover rules permit multi-year banking in target zone",
-      "Basin plan trigger thresholds unlikely to activate under current inflow",
-    ],
-    nextCheapestTest: "Secure indicative quote from water broker to confirm market depth at target volume",
-    killRule: "If allocation announcement drops below 60%, exit position immediately",
-  },
-  {
-    id: "ATA-DEMO-006",
-    timestamp: "2025-04-XX",
-    domain: "Carbon & Safeguard Mechanism",
-    verdictType: "Conditional Verdict",
-    outcome: "DROP",
-    status: 'unsealed',
-    label: "RETROACTIVE (Public-data)",
-    summary: "ACCU generation project viability assessed against safeguard mechanism baseline decline and method credibility.",
-    tier: "Standard",
-    confidence: "88%",
-    why: [
-      "Safeguard baseline decline rate exceeds project emission reduction capacity",
-      "Method under review by Clean Energy Regulator with integrity concerns flagged",
-      "ACCU spot price insufficient to cover project operating costs at current yield",
-    ],
-    nextCheapestTest: "No test warranted — fundamentals are structurally adverse",
-    killRule: "Already triggered: method integrity review alone is sufficient to exit",
-  },
-];
+// Dynamic loading will occur in component mount
 
 const outcomeColors: Record<string, string> = {
   ADVANCE: "text-emerald-400 border-emerald-400/30",
@@ -150,6 +35,22 @@ const outcomeColors: Record<string, string> = {
 };
 
 export default function ATALedgerRegister() {
+  const [demoEntries, setDemoEntries] = useState<LedgerEntry[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/data/ledger.json')
+      .then(res => res.json())
+      .then(data => {
+        setDemoEntries(data);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to load ledger data:", err);
+        setIsLoading(false);
+      });
+  }, []);
+
   return (
     <section className="relative py-28 md:py-36 border-b border-border/5">
       <div className="container mx-auto px-6 relative z-10">
@@ -167,7 +68,7 @@ export default function ATALedgerRegister() {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground tracking-wide mb-6">
             ATA <span className="text-gradient-gold font-normal">Ledger</span>
           </h2>
-          
+
           {/* Ledger Pulse indicator */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -182,7 +83,7 @@ export default function ATALedgerRegister() {
               className="w-2 h-2 rounded-full bg-primary"
             />
             <span className="text-xs uppercase tracking-[0.2em] text-grey-400">
-              Ledger Pulse: <span className="text-grey-300">{DEMO_ENTRIES.length} entries active</span>
+              Ledger Pulse: <span className="text-grey-300">{isLoading ? '...' : demoEntries.length} entries active</span>
             </span>
             <span className="text-[10px] uppercase tracking-[0.15em] text-amber-400/80 px-2 py-0.5 rounded bg-amber-400/10 border border-amber-400/20">
               UNSEALED / DEMONSTRATION
@@ -203,7 +104,7 @@ export default function ATALedgerRegister() {
 
         {/* Ledger Entries — Full 5-element Verdict Cards */}
         <div className="max-w-4xl mx-auto space-y-6">
-          {DEMO_ENTRIES.map((entry, i) => (
+          {!isLoading && demoEntries.map((entry, i) => (
             <motion.div
               key={entry.id}
               initial={{ opacity: 0, y: 20 }}

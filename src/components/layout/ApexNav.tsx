@@ -8,7 +8,6 @@ import apexLogo from "@/assets/apex-logo.png";
 const navItems = [
   { label: "Portal", href: "/commons", micro: "Entry" },
   { label: "How It Works", href: "/how-it-works", micro: "Doctrine" },
-  { label: "Nodes", href: "/nodes", micro: "Scope" },
   { label: "Access Conditions", href: "/pricing", micro: "Access" },
   { label: "Infrastructure", href: "/infrastructure", micro: "" },
   { label: "Ledger", href: "/ledger", micro: "Proof" },
@@ -51,14 +50,14 @@ const ApexNav = forwardRef<HTMLElement>((_, ref) => {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* SOVEREIGN LOGO */}
           <Link to="/" className="flex items-center gap-4 group">
-            <motion.div 
+            <motion.div
               className="relative"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              <motion.img 
-                src={apexLogo} 
-                alt="APEX" 
+              <motion.img
+                src={apexLogo}
+                alt="APEX"
                 className="h-12 w-auto object-contain logo-sovereign relative z-10"
                 animate={{
                   filter: [
@@ -89,8 +88,8 @@ const ApexNav = forwardRef<HTMLElement>((_, ref) => {
                     to={item.href}
                     className={cn(
                       "text-[10px] uppercase tracking-[0.2em] transition-all duration-500 relative group flex flex-col items-center gap-0.5",
-                      location.pathname === item.href 
-                        ? "text-primary" 
+                      location.pathname === item.href
+                        ? "text-primary"
                         : "text-grey-400 hover:text-grey-200"
                     )}
                   >
@@ -138,13 +137,13 @@ const ApexNav = forwardRef<HTMLElement>((_, ref) => {
 
           {/* Gate indicator */}
           {isGate && (
-            <motion.div 
+            <motion.div
               className="flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-grey-500"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1 }}
             >
-              <motion.span 
+              <motion.span
                 className="text-primary"
                 animate={{ opacity: [0.3, 1, 0.3] }}
                 transition={{ duration: 3, repeat: Infinity }}
@@ -181,8 +180,8 @@ const ApexNav = forwardRef<HTMLElement>((_, ref) => {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(
                       "text-2xl md:text-3xl font-medium tracking-[0.15em] transition-all duration-500",
-                      location.pathname === item.href 
-                        ? "text-primary" 
+                      location.pathname === item.href
+                        ? "text-primary"
                         : "text-foreground/80 hover:text-foreground"
                     )}
                   >
@@ -199,7 +198,7 @@ const ApexNav = forwardRef<HTMLElement>((_, ref) => {
                 className="absolute bottom-12 left-0 right-0 text-center"
               >
                 <div className="flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.3em] text-grey-600">
-                  <motion.span 
+                  <motion.span
                     className="text-primary"
                     animate={{ opacity: [0.3, 1, 0.3] }}
                     transition={{ duration: 3, repeat: Infinity }}

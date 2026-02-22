@@ -7,6 +7,7 @@ import MobileVoid from "@/components/effects/MobileVoid";
 import { ApexButton } from "@/components/ui/apex-button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import AmbientParticles from "@/components/effects/AmbientParticles";
+import { useState, useEffect } from "react";
 
 interface VerdictElement {
   tier: string;
@@ -26,129 +27,7 @@ interface LedgerEntry {
   summary: string;
   elements: VerdictElement;
 }
-
-const DEMO_ENTRIES: LedgerEntry[] = [
-  {
-    id: "ATA-DEMO-001",
-    timestamp: "2025-02-XX",
-    domain: "NDIS Provider Compliance",
-    verdictType: "Conditional Verdict",
-    outcome: "HOLD",
-    status: 'unsealed',
-    summary: "Provider expansion into regional territory assessed against current regulatory state and enforcement patterns.",
-    elements: {
-      tier: "Standard",
-      confidence: "78%",
-      why: [
-        "Enforcement patterns show rising audit frequency in target region",
-        "Provider registration backlog signals 4–6 month delays",
-        "Pricing band compression limits margin on expansion",
-      ],
-      nextTest: "Submit Expression of Interest to test registration queue response time",
-      killRule: "If audit frequency exceeds 2x national average in target region, abort expansion",
-    },
-  },
-  {
-    id: "ATA-DEMO-002",
-    timestamp: "2025-02-XX",
-    domain: "Energy Grid Connection",
-    verdictType: "Conditional Verdict",
-    outcome: "ADVANCE",
-    status: 'unsealed',
-    summary: "Large load connection queue position evaluated against grid constraint forecasts and REZ bottleneck signals.",
-    elements: {
-      tier: "Complex",
-      confidence: "85%",
-      why: [
-        "Connection queue position is inside 12-month approval window",
-        "REZ bottleneck at target substation is easing per AEMO data",
-        "Grid constraint forecast shows capacity uplift in Q3",
-      ],
-      nextTest: "File formal connection enquiry to confirm queue position and timeline",
-      killRule: "If AEMO revises constraint forecast upward by >15%, pause and reassess",
-    },
-  },
-  {
-    id: "ATA-DEMO-003",
-    timestamp: "2025-02-XX",
-    domain: "Corporate Restructure",
-    verdictType: "Conditional Verdict",
-    outcome: "PARTNER-ONLY",
-    status: 'unsealed',
-    summary: "Institutional partnership risk matrix assessed against counterparty dependency signals.",
-    elements: {
-      tier: "Partner",
-      confidence: "62%",
-      why: [
-        "Counterparty dependency ratio exceeds safe threshold",
-        "Director tenure signals instability in governance layer",
-        "Public filing language shows hedging increase quarter-on-quarter",
-      ],
-      nextTest: "Request counterparty's latest audited financials and compare to public filings",
-      killRule: "If counterparty loses key directorship or primary contract, exit immediately",
-    },
-  },
-  {
-    id: "ATA-DEMO-004",
-    timestamp: "2025-03-XX",
-    domain: "Mining & Tenement Risk",
-    verdictType: "Conditional Verdict",
-    outcome: "HOLD",
-    status: 'unsealed',
-    summary: "Tenement renewal risk assessed against state regulatory posture and native title overlay mapping.",
-    elements: {
-      tier: "Standard",
-      confidence: "71%",
-      why: [
-        "State regulator flagged tenement cluster for priority compliance review",
-        "Native title determination pending over 40% of target area",
-        "Commodity price cycle does not support capex at current forward curve",
-      ],
-      nextTest: "Lodge pre-emptive compliance audit with state regulator to test response posture",
-      killRule: "If native title determination excludes target zone, abandon tenement strategy",
-    },
-  },
-  {
-    id: "ATA-DEMO-005",
-    timestamp: "2025-03-XX",
-    domain: "Water Rights Allocation",
-    verdictType: "Conditional Verdict",
-    outcome: "ADVANCE",
-    status: 'unsealed',
-    summary: "Water entitlement trade assessed against allocation forecast, carryover rules, and basin plan triggers.",
-    elements: {
-      tier: "Complex",
-      confidence: "80%",
-      why: [
-        "Allocation forecast exceeds 80% for target water year",
-        "Carryover rules permit multi-year banking in target zone",
-        "Basin plan trigger thresholds unlikely to activate under current inflow",
-      ],
-      nextTest: "Secure indicative quote from water broker to confirm market depth at target volume",
-      killRule: "If allocation announcement drops below 60%, exit position immediately",
-    },
-  },
-  {
-    id: "ATA-DEMO-006",
-    timestamp: "2025-04-XX",
-    domain: "Carbon & Safeguard Mechanism",
-    verdictType: "Conditional Verdict",
-    outcome: "DROP",
-    status: 'unsealed',
-    summary: "ACCU generation project viability assessed against safeguard mechanism baseline decline and method credibility.",
-    elements: {
-      tier: "Standard",
-      confidence: "88%",
-      why: [
-        "Safeguard baseline decline rate exceeds project emission reduction capacity",
-        "Method under review by Clean Energy Regulator with integrity concerns flagged",
-        "ACCU spot price insufficient to cover project operating costs at current yield",
-      ],
-      nextTest: "No test warranted — fundamentals are structurally adverse",
-      killRule: "Already triggered: method integrity review alone is sufficient to exit",
-    },
-  },
-];
+// Dynamic loading will occur in component mount
 
 const outcomeColors: Record<string, string> = {
   ADVANCE: "text-emerald-400 border-emerald-400/30 bg-emerald-400/5",
@@ -159,6 +38,32 @@ const outcomeColors: Record<string, string> = {
 
 const Ledger = () => {
   const isMobile = useIsMobile();
+  const [demoEntries, setDemoEntries] = useState<LedgerEntry[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/data/ledger.json')
+      .then(res => res.json())
+      .then(data => {
+        // Map the flat ledger entry from ATALedgerRegister to match Ledger.tsx elements format
+        const mappedEntries = data.map((entry: any) => ({
+          ...entry,
+          elements: {
+            tier: entry.tier,
+            confidence: entry.confidence,
+            why: entry.why,
+            nextTest: entry.nextCheapestTest,
+            killRule: entry.killRule,
+          }
+        }));
+        setDemoEntries(mappedEntries);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to load ledger data:", err);
+        setIsLoading(false);
+      });
+  }, []);
 
   return (
     <div className="relative min-h-screen bg-black">
@@ -213,7 +118,7 @@ const Ledger = () => {
                 className="w-2 h-2 rounded-full bg-primary"
               />
               <span className="text-xs uppercase tracking-[0.2em] text-grey-400">
-                Ledger Pulse: <span className="text-grey-300">{DEMO_ENTRIES.length} entries active</span>
+                Ledger Pulse: <span className="text-grey-300">{isLoading ? '...' : demoEntries.length} entries active</span>
               </span>
               <span className="text-[10px] uppercase tracking-[0.15em] text-primary/80 px-2 py-0.5 rounded bg-primary/10 border border-primary/20">
                 UNSEALED / DEMONSTRATION
@@ -236,11 +141,11 @@ const Ledger = () => {
                 The ATA Ledger maintains a permanent record of all Sealed Verdict Briefs issued by APEX Infrastructure.
               </p>
               <p>
-                Each entry receives a unique ATA-ID upon sealing, creating an immutable reference point for 
+                Each entry receives a unique ATA-ID upon sealing, creating an immutable reference point for
                 decision authority.
               </p>
               <p className="text-grey-500">
-                Sealed verdicts are citeable in institutional documentation. Unsealed entries shown here 
+                Sealed verdicts are citeable in institutional documentation. Unsealed entries shown here
                 are demonstrations only and carry no authority.
               </p>
             </div>
@@ -268,7 +173,7 @@ const Ledger = () => {
 
             {/* Entries with full 5-element structure */}
             <div className="space-y-6">
-              {DEMO_ENTRIES.map((entry, i) => (
+              {!isLoading && demoEntries.map((entry, i) => (
                 <motion.div
                   key={entry.id}
                   initial={{ opacity: 0, y: 20 }}

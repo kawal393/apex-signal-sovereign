@@ -1,0 +1,97 @@
+[
+    {
+        "id": "ATA-TTN-BHP01",
+        "timestamp": "2024-02-14",
+        "domain": "BHP Group: WA Iron Ore Divestment Signal",
+        "verdictType": "Retroactive Verdict",
+        "outcome": "HOLD",
+        "status": "unsealed",
+        "label": "TITAN RECORD",
+        "summary": "Assessing probability of structural spin-off of legacy WA iron ore assets amidst rising ESG capital pressure and yield curve inversion.",
+        "tier": "Complex",
+        "confidence": "82%",
+        "why": [
+            "Executive compensation metrics shifted from volume targets to margin/ESG scoring in Q4 filings.",
+            "Satellite imagery indicates 14% reduction in exploratory drilling capex outside core brownfield sites.",
+            "Subtle regulatory capture signals in Canberra pointing toward increased heritage site compliance costs."
+        ],
+        "nextCheapestTest": "Monitor next dividend announcement; if payout ratio drops below 60% without new M&A, capital hoarding is confirmed.",
+        "killRule": "If iron ore spot stays >$115/t for 90 days, cash flow prevents immediate restructuring pressure. Abort prediction."
+    },
+    {
+        "id": "ATA-TTN-TLS04",
+        "timestamp": "2024-03-01",
+        "domain": "Telstra: InfraCo Independence Acceleration",
+        "verdictType": "Retroactive Verdict",
+        "outcome": "ADVANCE",
+        "status": "unsealed",
+        "label": "TITAN RECORD",
+        "summary": "Analyzing the inevitable decoupling of InfraCo from the retail arm to unlock dark fiber valuation premiums.",
+        "tier": "Partner",
+        "confidence": "91%",
+        "why": [
+            "Internal transfer pricing between Retail and InfraCo was explicitly hardened in the latest half-year annexure.",
+            "Recent C-suite hires at InfraCo possess aggressive M&A and structural unbundling backgrounds.",
+            "NBN policy paralysis forces private infrastructure owners to aggressively monetize legacy copper/fiber conduits."
+        ],
+        "nextCheapestTest": "Track sovereign wealth fund (Future Fund/AusSuper) shadow-bidding on European telecom infrastructure as a proxy.",
+        "killRule": "If ACCC signals intention to regulate dark fiber pricing, valuation premium collapses. Hold."
+    },
+    {
+        "id": "ATA-TTN-MQG09",
+        "timestamp": "2024-03-22",
+        "domain": "Macquarie Group: Green Energy Asset Rotation",
+        "verdictType": "Retroactive Verdict",
+        "outcome": "PARTNER-ONLY",
+        "status": "unsealed",
+        "label": "TITAN RECORD",
+        "summary": "Detecting early rotation out of mature European offshore wind into high-risk/high-yield Australian REZ storage.",
+        "tier": "Complex",
+        "confidence": "76%",
+        "why": [
+            "Macquarie Asset Management quietly exited two mid-tier European wind consortia within the last 60 days.",
+            "AEMO constraint reports show escalating curtailment risks, making dispatchable storage the only viable alpha generator.",
+            "Lobbying footprint in NSW Parliament shifted entirely from transmission to battery firming capacity."
+        ],
+        "nextCheapestTest": "Await next capacity auction; if Macquarie bids negative pricing to secure dispatch rights, rotation is confirmed.",
+        "killRule": "If grid transmission upgrades are delayed beyond 2027, the storage arbitrage window closes. Unwind immediately."
+    },
+    {
+        "id": "ATA-TTN-CSL12",
+        "timestamp": "2024-04-05",
+        "domain": "CSL Limited: Plasma Yield Decay",
+        "verdictType": "Retroactive Verdict",
+        "outcome": "HOLD",
+        "status": "unsealed",
+        "label": "TITAN RECORD",
+        "summary": "Evaluating margin compression in core blood plasma therapies against the rise of synthetic FcRn inhibitors.",
+        "tier": "Standard",
+        "confidence": "88%",
+        "why": [
+            "Competitor argenx's Vyvgart is rapidly cannibalizing the lucrative CIDP indication from traditional Ig therapies.",
+            "Collection volumes have normalized post-COVID, but donor compensation costs remain structurally elevated.",
+            "R&D capital allocation has quietly pivoted heavily toward gene therapy (Hemgenix) to offset immunoglobulin decay."
+        ],
+        "nextCheapestTest": "Monitor Q3 US Medicare reimbursement narratives regarding synthetic vs traditional plasma treatments.",
+        "killRule": "If FDA restricts label expansion for synthetic inhibitors due to infection risks, CSL regains moat."
+    },
+    {
+        "id": "ATA-TTN-CBA03",
+        "timestamp": "2024-04-30",
+        "domain": "CBA: Mortgage Cliff Institutional Contagion",
+        "verdictType": "Retroactive Verdict",
+        "outcome": "DROP",
+        "status": "unsealed",
+        "label": "TITAN RECORD",
+        "summary": "Assessing tail-risk of fixed-rate mortgage roll-offs transitioning directly into non-performing loans.",
+        "tier": "Complex",
+        "confidence": "95%",
+        "why": [
+            "Provisions for bad debts were subtly increased by 14% in the institutional banking division, not retail.",
+            "Direct observations of CBA aggressively discounting commercial property valuations to force early developer refinancing.",
+            "Deposit war peak has passed; net interest margin (NIM) compression is shifting from liability cost to asset quality."
+        ],
+        "nextCheapestTest": "No test required. Institutional contagion is already priced into the Tier 1 capital buffers.",
+        "killRule": "If the RBA cuts the cash rate by >50bps before Q4, the default wave is structurally deferred."
+    }
+]

@@ -13,7 +13,9 @@ import Manifesto from "./pages/Manifesto";
 import Dashboard from "./pages/Dashboard";
 import Nodes from "./pages/Nodes";
 import NodeDetail from "./pages/NodeDetail";
-import NodeFrame from "./pages/NodeFrame";
+import NDISWatchtower from "./pages/nodes/NDISWatchtower";
+import CorporateTranslator from "./pages/nodes/CorporateTranslator";
+import GhostProtocol from "./pages/nodes/GhostProtocol";
 import Infrastructure from "./pages/Infrastructure";
 import RequestAccess from "./pages/RequestAccess";
 import Disclaimers from "./pages/Disclaimers";
@@ -28,6 +30,7 @@ import NotFound from "./pages/NotFound";
 import StatusOrb from "./components/ui/StatusOrb";
 import SovereignInterface from "./components/oracle/SovereignInterface";
 import ReturnToPortal from "./components/ReturnToPortal";
+import PasscodeGate from "./components/auth/PasscodeGate";
 
 const queryClient = new QueryClient();
 
@@ -102,9 +105,11 @@ const App = () => (
               <Route path="/commons" element={<Commons />} />
               <Route path="/manifesto" element={<Manifesto />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/nodes" element={<Nodes />} />
-              <Route path="/nodes/:nodeId" element={<NodeDetail />} />
-              <Route path="/node-frame/:id" element={<NodeFrame />} />
+              <Route path="/nodes" element={<PasscodeGate><Nodes /></PasscodeGate>} />
+              <Route path="/nodes/:nodeId" element={<PasscodeGate><NodeDetail /></PasscodeGate>} />
+              <Route path="/nodes/ndis-watchtower/view" element={<PasscodeGate><NDISWatchtower /></PasscodeGate>} />
+              <Route path="/nodes/corporate-translator/view" element={<PasscodeGate><CorporateTranslator /></PasscodeGate>} />
+              <Route path="/nodes/ghost-protocol/view" element={<PasscodeGate><GhostProtocol /></PasscodeGate>} />
               <Route path="/infrastructure" element={<Infrastructure />} />
               <Route path="/request-access" element={<RequestAccess />} />
               <Route path="/disclaimers" element={<Disclaimers />} />
