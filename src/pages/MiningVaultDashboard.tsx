@@ -22,6 +22,8 @@ const MiningVaultDashboard = () => {
     const { toast } = useToast();
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+
         supabase.auth.getSession().then(({ data: { session } }) => {
             setSession(session);
             setLoading(false);
