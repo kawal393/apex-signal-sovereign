@@ -79,13 +79,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
     }
   }, [phase, motionConfig.presenceDuration]);
 
-  // Blueprint auto-advance after 6 seconds
-  useEffect(() => {
-    if (phase === 'blueprint') {
-      const timer = setTimeout(() => setPhase('reveal'), prefersReducedMotion ? 2000 : 6000);
-      return () => clearTimeout(timer);
-    }
-  }, [phase, prefersReducedMotion]);
+  // Blueprint: NO auto-advance — user must click "Enter" to proceed
 
   useEffect(() => {
     if (phase === 'reveal') {
@@ -391,12 +385,14 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
 
             <motion.button
               onClick={() => setPhase('reveal')}
-              className="text-xs tracking-[0.5em] uppercase text-muted-foreground/30 hover:text-muted-foreground/60 transition-colors duration-700"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.5, duration: 1 }}
+              className="text-sm tracking-[0.5em] uppercase text-primary/70 hover:text-primary px-8 py-4 border border-primary/25 hover:border-primary/50 rounded-sm transition-all duration-700"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.8, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ scale: 1.04, y: -3 }}
+              whileTap={{ scale: 0.96 }}
             >
-              Enter →
+              Enter the System →
             </motion.button>
           </motion.div>
         )}
