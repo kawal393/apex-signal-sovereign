@@ -27,9 +27,9 @@ const MiningVaultDashboard = () => {
 
         const fetchConstraints = async () => {
             const { data, error } = await supabase
-                .from('mining_constraints')
+                .from('node_signals' as any)
                 .select('*')
-                .order('signal_date', { ascending: false })
+                .order('created_at', { ascending: false })
                 .limit(5);
 
             if (data && !error) {

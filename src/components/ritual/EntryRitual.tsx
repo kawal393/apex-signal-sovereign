@@ -207,7 +207,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
               className="mb-16"
               style={{ willChange: 'transform, opacity' }}
             >
-              <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-muted-foreground/50">
+              <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-muted-foreground/70">
                 <span className="text-base md:text-base uppercase tracking-[0.6em] font-light">
                   {presence.city}
                 </span>
@@ -282,7 +282,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
                 </motion.p>
 
                 <motion.p
-                  className="text-2xl md:text-3xl lg:text-4xl uppercase tracking-[0.8em] text-foreground/80 font-normal"
+                  className="text-2xl md:text-3xl lg:text-4xl uppercase tracking-[0.8em] text-foreground/70 font-normal"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.5, duration: 2, ease: [0.16, 1, 0.3, 1] }}
@@ -306,7 +306,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
             className="text-center"
           >
             <motion.p
-              className="text-lg md:text-xl tracking-[0.6em] uppercase text-muted-foreground/40 mb-16"
+              className="text-lg md:text-xl tracking-[0.6em] uppercase text-muted-foreground/60 mb-16"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 4, ease: [0.16, 1, 0.3, 1] }}
@@ -352,7 +352,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
             className="text-center px-6 max-w-4xl w-full"
           >
             <motion.p
-              className="text-base md:text-base tracking-[0.8em] uppercase text-muted-foreground/40 mb-10"
+              className="text-base md:text-lg tracking-[0.8em] uppercase text-muted-foreground/60 mb-10"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 1.5 }}
@@ -373,10 +373,10 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
                   }}
                   className="relative rounded-md px-4 py-5 md:py-6 border border-border/40 bg-card/60 backdrop-blur-sm hover:border-primary/30 transition-all duration-700 group"
                 >
-                  <p className="text-[10px] md:text-base tracking-[0.5em] uppercase text-primary/60 mb-2 font-medium">
+                  <p className="text-[10px] md:text-sm tracking-[0.5em] uppercase text-primary/70 mb-2 font-medium">
                     {node.label}
                   </p>
-                  <p className="text-base md:text-base font-medium text-foreground/80 group-hover:text-foreground transition-colors duration-500">
+                  <p className="text-sm md:text-base font-medium text-foreground/90 group-hover:text-foreground transition-colors duration-500">
                     {node.name}
                   </p>
                 </motion.div>
