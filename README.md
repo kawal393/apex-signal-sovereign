@@ -1,73 +1,170 @@
-# Welcome to your Lovable project
+# APEX INFRASTRUCTURE - The Empire
 
-## Project info
+**The global standard for regulatory compliance intelligence.**
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+---
 
-## How can I edit this code?
+## 🚀 Quick Start
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### Run the Website
+```bash
+cd /Users/anika/Desktop/apex-signal-sovereign
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Run Automation
+```bash
+# Full cycle
+python3 automation/automation_loop.py
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+# Or use the runner
+chmod +x run_automation.sh
+./run_automation.sh status
+./run_automation.sh scout
+./run_automation.sh outreach
+./run_automation.sh cycle
+```
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 📁 Project Structure
 
-## What technologies are used for this project?
+```
+apex-signal-sovereign/
+├── src/
+│   ├── pages/              # Frontend pages
+│   │   ├── Index.tsx      # Landing page
+│   │   ├── Infrastructure.tsx  # NDIS Infrastructure
+│   │   ├── RequestVerdict.tsx   # Order verdict
+│   │   ├── RequestAccess.tsx    # Access request
+│   │   ├── Pricing.tsx     # Pricing page
+│   │   └── ...
+│   ├── components/         # UI components
+│   ├── lib/               # Utilities
+│   └── integrations/      # Supabase client
+├── automation/            # Backend automation
+│   ├── automation_loop.py  # Full cycle runner
+│   ├── brain/            # AI brain (Gemini)
+│   ├── scout/            # Data collection
+│   │   └── ndis/        # NDIS scraper
+│   ├── prospector/       # Research & enrichment
+│   ├── outreach/         # Email automation
+│   ├── verdict/         # Verdict generator
+│   ├── approval/        # Master approval gate
+│   └── core/            # Database
+├── supabase/
+│   └── functions/       # Edge functions
+│       ├── apex-verdict/
+│       ├── apex-oracle/
+│       ├── apex-scheduler/
+│       └── apex-classifier/
+└── public/
+    └── data/
+        └── ledger.json   # Sample ledger data
+```
 
-This project is built with:
+---
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🎯 Products
 
-## How can I deploy this project?
+### 1. Standard Verdict ($249)
+- 5-page PDF risk assessment
+- 48-hour delivery
+- Risk tier: GREEN/YELLOW/ORANGE/RED
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+### 2. Complex Verdict ($999)
+- 15-page comprehensive analysis
+- 24-hour delivery
+- Consultation call included
 
-## Can I connect a custom domain to my Lovable project?
+### 3. Quarterly Retainer ($10K/quarter)
+- Monthly verdicts
+- Priority support
+- Strategic calls
 
-Yes, you can!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🔧 Automation Commands
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+```bash
+# Scout - collect NDIS data
+python3 automation/scout/ndis/ndis_scout.py
+
+# Prospector - enrich with research
+python3 automation/scout/prospector/prospector.py
+
+# Outreach - send emails
+python3 automation/outreach/outreach.py
+
+# Verdict - generate ATA Ledger entry
+python3 automation/verdict/verdict_generator.py
+
+# Full cycle
+python3 automation/automation_loop.py
+
+# Check status
+python3 automation/apex_agent.py status
+```
+
+---
+
+## 🌐 Deployment
+
+### Vercel (Frontend)
+1. Go to https://vercel.com
+2. Import `kawal393/apex-signal-sovereign`
+3. Set env vars:
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_PUBLISHABLE_KEY`
+4. Deploy
+
+### Domain: apex-infrastructure.com
+After Vercel deployment:
+1. Go to Vercel → Settings → Domains
+2. Add `apex-infrastructure.com`
+3. Update DNS at registrar
+
+### Supabase (Backend)
+```bash
+# Deploy edge functions
+supabase functions deploy apex-verdict
+supabase functions deploy apex-oracle
+supabase functions deploy apex-scheduler
+supabase functions deploy apex-classifier
+```
+
+---
+
+## 🔐 The Seven Rules
+
+1. NEVER COMPROMISE SOVEREIGNTY
+2. AI IS EMPLOYEE, NOT PARTNER
+3. PRECISION OVER SPEED
+4. ONE ECOSYSTEM, FOUR EXPRESSIONS
+5. COMPOUND OVER TIME
+6. MASTER'S VOICE IS FINAL
+7. NEVER HALLUCINATE
+
+---
+
+## 📊 Revenue Targets
+
+| Year | Target |
+|------|--------|
+| 1 | $150K |
+| 2 | $600K |
+| 3 | $2M |
+| 5 | $28M |
+| 10 | $1T |
+
+---
+
+## 🔗 Links
+
+- **Website**: apex-infrastructure.com (when deployed)
+- **GitHub**: github.com/kawal393/apex-signal-sovereign
+- **Email**: apexinfrastructure369@gmail.com
+
+---
+
+*APEX INFRASTRUCTURE - The Global Standard*
