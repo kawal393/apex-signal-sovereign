@@ -77,22 +77,22 @@
     --crimson-deep: 355 75% 50%;
     --crimson-blood: 350 70% 40%;
     
-    /* === NEUTRAL GREY SCALE - BOOSTED +10% FOR READABILITY === */
-    --grey-100: 0 0% 97%;
-    --grey-200: 0 0% 92%;
-    --grey-300: 0 0% 88%;
-    --grey-400: 0 0% 78%;
-    --grey-500: 0 0% 65%;
-    --grey-600: 0 0% 55%;
-    --grey-700: 0 0% 32%;
-    --grey-800: 0 0% 18%;
-    --grey-900: 0 0% 8%;
+    /* === NEUTRAL GREY SCALE - BOOSTED +20% FOR MAX READABILITY === */
+    --grey-100: 0 0% 98%;
+    --grey-200: 0 0% 94%;
+    --grey-300: 0 0% 90%;
+    --grey-400: 0 0% 82%;
+    --grey-500: 0 0% 70%;
+    --grey-600: 0 0% 60%;
+    --grey-700: 0 0% 36%;
+    --grey-800: 0 0% 20%;
+    --grey-900: 0 0% 10%;
     
     --secondary: 0 0% 10%;
     --secondary-foreground: 0 0% 90%;
     
     --muted: 0 0% 14%;
-    --muted-foreground: 0 0% 70%;
+    --muted-foreground: 0 0% 76%;
     
     --accent: 42 50% 20%;
     --accent-foreground: 0 0% 92%;
