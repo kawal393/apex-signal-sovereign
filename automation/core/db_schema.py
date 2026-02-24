@@ -5,7 +5,7 @@ All nodes write to this single source of truth.
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path(__file__).parent.parent / "core" / "db" / "master.db"
+DB_PATH = Path(__file__).parent / "db" / "master.db"
 
 def init_db():
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
