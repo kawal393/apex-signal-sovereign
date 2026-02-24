@@ -82,12 +82,12 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
           >
             Request Access
           </Link>
-          <Link
-            to="/request-access"
-            className="text-grey-300 hover:text-grey-300 text-base tracking-wide transition-colors"
+          <a
+            href="mailto:apexinfrastructure369@gmail.com"
+            className="text-grey-300 hover:text-primary text-base tracking-wide transition-colors"
           >
-            apex@apex-infrastructure.com
-          </Link>
+            apexinfrastructure369@gmail.com
+          </a>
         </div>
 
         {/* Copyright */}

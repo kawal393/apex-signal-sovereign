@@ -1,5 +1,62 @@
 [
     {
+        "id": "ATA-GEN-QANTAS25",
+        "timestamp": "2025-11-08",
+        "domain": "Qantas Airways: Post-Remediation Brand Trust Decay",
+        "verdictType": "Structural Verdict",
+        "outcome": "HOLD",
+        "status": "unsealed",
+        "label": "UNSEALED / DEMONSTRATION",
+        "summary": "Despite $120M customer remediation program and leadership overhaul, structural trust deficit persists in corporate travel segment with 18% contract non-renewal rate.",
+        "tier": "Standard",
+        "confidence": "87%",
+        "why": [
+            "Corporate travel managers cite unresolved ghost-flight scheduling patterns in internal procurement reviews.",
+            "Net Promoter Score recovery has plateaued at -12 in the high-yield corporate segment despite retail recovery.",
+            "Competitor Virgin Australia has captured 23% of lapsed Qantas corporate accounts with aggressive SLA guarantees."
+        ],
+        "nextCheapestTest": "Survey top-50 corporate travel managers on contract renewal intent for FY26.",
+        "killRule": "If Qantas launches binding on-time performance guarantees with financial penalties, trust recovery accelerates. Upgrade to ADVANCE."
+    },
+    {
+        "id": "ATA-GEN-LITHIUM25",
+        "timestamp": "2025-12-02",
+        "domain": "Pilbara Minerals: Lithium Spot Price Capitulation Risk",
+        "verdictType": "Structural Verdict",
+        "outcome": "DROP",
+        "status": "unsealed",
+        "label": "UNSEALED / DEMONSTRATION",
+        "summary": "Spodumene spot price collapse below $800/t has triggered margin compression across all WA lithium juniors. Pilbara's cost structure is under direct threat.",
+        "tier": "Complex",
+        "confidence": "93%",
+        "why": [
+            "Chinese converter inventory levels have reached 14-week highs, signaling demand destruction in cathode production.",
+            "Pilbara's BMX auction clearing prices declined 31% over three consecutive auctions.",
+            "Capital expenditure on Calix mid-stream partnership cannot be justified below $900/t spodumene without government subsidy."
+        ],
+        "nextCheapestTest": "Monitor next BMX auction clearing price. If below $750/t, capitulation is confirmed.",
+        "killRule": "If Chinese EV sales exceed 12M units in 2026H1, restocking cycle begins. Abort DROP, upgrade to HOLD."
+    },
+    {
+        "id": "ATA-GEN-NDIS26",
+        "timestamp": "2026-01-15",
+        "domain": "NDIS Provider: Participant Plan Underspend Exploitation",
+        "verdictType": "Live Violation",
+        "outcome": "DROP",
+        "status": "unsealed",
+        "label": "SYSTEM FLAG",
+        "summary": "Pattern detected where provider systematically claims capacity building hours against participants with cognitive impairments who cannot verify service delivery.",
+        "tier": "Standard",
+        "confidence": "96%",
+        "why": [
+            "Service delivery records show identical 4-hour blocks claimed across 12 participants on the same dates.",
+            "No corresponding progress notes or outcome measurements filed with the NDIA quality commission.",
+            "Provider's ABN was registered 47 days before first NDIS claim — consistent with purpose-built fraud vehicles."
+        ],
+        "nextCheapestTest": "Cross-reference participant GPS data from assistive technology devices against claimed in-home service hours.",
+        "killRule": "If provider produces verified third-party supervision logs with participant signatures, downgrade to HOLD."
+    },
+    {
         "id": "ATA-GEN-NDIS99",
         "domain": "NDIS Provider: Fraudulent Invoicing Pattern Detected",
         "verdictType": "Live Violation",
