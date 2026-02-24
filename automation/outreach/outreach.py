@@ -25,7 +25,7 @@ class Outreach:
     """
     
     MASTER_NAME = "Kawaljeet Singh"
-    MASTER_EMAIL = "kawaljeet.singh3008@gmail.com"
+    MASTER_EMAIL = "apexinfrastructure369@gmail.com"
     COMPANY_NAME = "APEX Infrastructure"
     WEBSITE = "apex-infrastructure.com"
     

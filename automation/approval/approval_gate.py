@@ -43,7 +43,7 @@ class ApprovalGate:
     - Tool renewals <$50/month
     """
     
-    MASTER_EMAIL = "kawaljeet.singh3008@gmail.com"
+    MASTER_EMAIL = "apexinfrastructure369@gmail.com"
     
     def __init__(self):
         self.conn = sqlite3.connect(DB_PATH)
