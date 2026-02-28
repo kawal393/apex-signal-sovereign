@@ -3,9 +3,8 @@
 
 import { useRef, useMemo, useState, useEffect, forwardRef, memo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Points, PointMaterial, useTexture, Trail } from '@react-three/drei';
+import { Points, PointMaterial, Trail } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
-import apexLogo from '@/assets/apex-logo.png';
 import WebGLErrorBoundary from './WebGLErrorBoundary';
 import { BlendFunction } from 'postprocessing';
 import * as THREE from 'three';
@@ -552,14 +551,27 @@ const SovereignCore = memo(forwardRef<THREE.Group>(
   }
 ));
 
-// 3D Logo with glow
+// 3D Logo with glow — uses public path for WebGL compatibility
 const LogoPlane = memo(forwardRef<THREE.Group>(
   function LogoPlane(_, _ref) {
     const ref = useRef<THREE.Group>(null);
-    const texture = useTexture(apexLogo);
+    const [texture, setTexture] = useState<THREE.Texture | null>(null);
     const timeRef = useRef(0);
-    
-    texture.premultiplyAlpha = false;
+
+    useEffect(() => {
+      const loader = new THREE.TextureLoader();
+      loader.load(
+        '/apex-logo.png',
+        (tex) => {
+          tex.premultiplyAlpha = false;
+          setTexture(tex);
+        },
+        undefined,
+        () => {
+          // Silently fail — logo just won't render in 3D
+        }
+      );
+    }, []);
     
     useFrame((_, delta) => {
       if (!ref.current) return;
@@ -578,10 +590,12 @@ const LogoPlane = memo(forwardRef<THREE.Group>(
           <planeGeometry args={[12, 12]} />
           <meshBasicMaterial color="#e8b84a" transparent opacity={0.05} depthWrite={false} blending={THREE.AdditiveBlending} />
         </mesh>
-        <mesh renderOrder={3}>
-          <planeGeometry args={[7.5, 7.5]} />
-          <meshBasicMaterial map={texture} transparent depthWrite={false} opacity={0.88} />
-        </mesh>
+        {texture && (
+          <mesh renderOrder={3}>
+            <planeGeometry args={[7.5, 7.5]} />
+            <meshBasicMaterial map={texture} transparent depthWrite={false} opacity={0.88} />
+          </mesh>
+        )}
       </group>
     );
   }

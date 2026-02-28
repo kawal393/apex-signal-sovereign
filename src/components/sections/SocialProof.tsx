@@ -14,7 +14,7 @@ const sectors = [
 
 const stats = [
   { value: 547, label: "Verdicts Issued", icon: FileCheck, suffix: "" },
-  { value: 500, label: "Partner Organizations", icon: Users, suffix: "+" },
+  { value: 200, label: "Partner Organizations", icon: Users, suffix: "+" },
   { value: 98.7, label: "Compliance Rate", icon: Shield, suffix: "%" },
   { value: 14, label: "Avg Response (Days)", icon: Clock, prefix: "<" },
 ];
@@ -115,7 +115,7 @@ const SocialProof = () => {
             Authority Markers
           </span>
           <h2 className="text-3xl md:text-4xl font-semibold text-foreground tracking-wide mb-4">
-            Trusted by 500+ Organizations
+            Trusted by 200+ Organizations
           </h2>
           <p className="text-base text-muted-foreground max-w-xl mx-auto">
             Across regulated, capital-intensive, and irreversible domains

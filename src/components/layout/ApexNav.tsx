@@ -12,7 +12,7 @@ const navItems = [
   { label: "Infrastructure", href: "/infrastructure", micro: "" },
   { label: "Ledger", href: "/ledger", micro: "Proof" },
   { label: "Manifesto", href: "/manifesto", micro: "Authority" },
-  { label: "Partner", href: "/partner", micro: "Dashboard" },
+  { label: "Become a Partner", href: "/partner", micro: "Earn 50%", highlight: true },
 ];
 
 const ApexNav = forwardRef<HTMLElement>((_, ref) => {
@@ -90,8 +90,13 @@ const ApexNav = forwardRef<HTMLElement>((_, ref) => {
                       "text-[10px] uppercase tracking-[0.2em] transition-all duration-500 relative group flex flex-col items-center gap-0.5",
                       location.pathname === item.href
                         ? "text-primary"
-                        : "text-grey-400 hover:text-grey-200"
+                        : (item as any).highlight
+                          ? "text-primary/90 hover:text-primary font-semibold"
+                          : "text-grey-400 hover:text-grey-200"
                     )}
+                    style={(item as any).highlight ? {
+                      textShadow: '0 0 12px hsl(42 95% 55% / 0.4)',
+                    } : undefined}
                   >
                     {item.micro && (
                       <span className="text-[7px] tracking-[0.15em] text-grey-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -182,7 +187,9 @@ const ApexNav = forwardRef<HTMLElement>((_, ref) => {
                       "text-2xl md:text-3xl font-medium tracking-[0.15em] transition-all duration-500",
                       location.pathname === item.href
                         ? "text-primary"
-                        : "text-foreground/80 hover:text-foreground"
+                        : (item as any).highlight
+                          ? "text-primary/90 font-bold"
+                          : "text-foreground/80 hover:text-foreground"
                     )}
                   >
                     {item.label}

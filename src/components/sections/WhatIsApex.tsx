@@ -182,13 +182,24 @@ export default function WhatIsApex() {
             </div>
 
             {/* Tertiary Link */}
-            <Link
-              to="/ledger"
-              className="inline-flex items-center gap-2 text-grey-400 hover:text-grey-200 text-base tracking-wide transition-colors duration-300 group"
-            >
-              See ATA Ledger
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            <div className="flex items-center gap-6">
+              <Link
+                to="/ledger"
+                className="inline-flex items-center gap-2 text-grey-400 hover:text-grey-200 text-base tracking-wide transition-colors duration-300 group"
+              >
+                See ATA Ledger
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <span className="w-px h-4 bg-grey-700" />
+              <Link
+                to="/partner"
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 text-base tracking-wide transition-colors duration-300 group font-medium"
+                style={{ textShadow: '0 0 12px hsl(42 95% 55% / 0.3)' }}
+              >
+                Become a Partner — Earn 50%
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
 
             {/* Authority Line */}
             <motion.p
