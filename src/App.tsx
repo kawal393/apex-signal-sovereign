@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ApexSystemProvider, useApexSystem } from "@/contexts/ApexSystemContext";
 import { OracleProvider, useOracle } from "@/contexts/OracleContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import Index from "./pages/Index";
@@ -32,6 +33,9 @@ import Vera from "./pages/Vera";
 import SovereignInterface from "./components/oracle/SovereignInterface";
 import ReturnToPortal from "./components/ReturnToPortal";
 import PasscodeGate from "./components/auth/PasscodeGate";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import Auth from "./pages/Auth";
+import PartnerDashboard from "./pages/PartnerDashboard";
 
 const queryClient = new QueryClient();
 
@@ -42,30 +46,16 @@ function GlobalUI() {
 
   return (
     <>
-      {/* StatusOrb - persistent tier indicator */}
       <StatusOrb />
-
-      {/* Return to Portal - persistent nav control */}
       <ReturnToPortal />
-
-      {/* Sovereign Interface - Global Oracle */}
-      <SovereignInterface
-        isOpen={isOpen}
-        onClose={closeOracle}
-        visitorId={visitorId}
-        accessLevel={status}
-      />
-
-      {/* Oracle Trigger Button - Fixed position */}
+      <SovereignInterface isOpen={isOpen} onClose={closeOracle} visitorId={visitorId} accessLevel={status} />
       <motion.button
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 2, duration: 0.8 }}
         onClick={openOracle}
         className="fixed bottom-8 right-8 z-40 w-14 h-14 rounded-full bg-black/90 border border-primary/30 flex items-center justify-center hover:border-primary/60 hover:bg-primary/10 transition-all duration-500 group"
-        style={{
-          boxShadow: '0 0 40px hsl(42 95% 55% / 0.15)',
-        }}
+        style={{ boxShadow: '0 0 40px hsl(42 95% 55% / 0.15)' }}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         aria-label="Open Oracle (Press O)"
@@ -77,8 +67,6 @@ function GlobalUI() {
           transition={{ duration: 2, repeat: Infinity }}
         />
       </motion.button>
-
-      {/* Keyboard hint tooltip */}
       <motion.div
         className="fixed bottom-[100px] right-8 z-30 pointer-events-none"
         initial={{ opacity: 0 }}
@@ -95,41 +83,44 @@ function GlobalUI() {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ApexSystemProvider>
-      <OracleProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/commons" element={<Commons />} />
-              <Route path="/manifesto" element={<Manifesto />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/nodes" element={<PasscodeGate><Nodes /></PasscodeGate>} />
-              <Route path="/nodes/:nodeId" element={<PasscodeGate><NodeDetail /></PasscodeGate>} />
-              <Route path="/nodes/ndis-watchtower/view" element={<PasscodeGate><NDISWatchtower /></PasscodeGate>} />
-              <Route path="/nodes/corporate-translator/view" element={<PasscodeGate><CorporateTranslator /></PasscodeGate>} />
-              <Route path="/nodes/ghost-protocol/view" element={<PasscodeGate><GhostProtocol /></PasscodeGate>} />
-              <Route path="/infrastructure" element={<Infrastructure />} />
-              <Route path="/request-access" element={<RequestAccess />} />
-              <Route path="/disclaimers" element={<Disclaimers />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/protocol" element={<Protocol />} />
-              <Route path="/ledger" element={<Ledger />} />
-              <Route path="/request-verdict" element={<RequestVerdict />} />
-              <Route path="/how-it-works" element={<HowItWorks />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/vera" element={<Vera />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            {/* Global UI components */}
-            <GlobalUI />
-          </BrowserRouter>
-        </TooltipProvider>
-      </OracleProvider>
-    </ApexSystemProvider>
+    <AuthProvider>
+      <ApexSystemProvider>
+        <OracleProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/commons" element={<Commons />} />
+                <Route path="/manifesto" element={<Manifesto />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/nodes" element={<PasscodeGate><Nodes /></PasscodeGate>} />
+                <Route path="/nodes/:nodeId" element={<PasscodeGate><NodeDetail /></PasscodeGate>} />
+                <Route path="/nodes/ndis-watchtower/view" element={<PasscodeGate><NDISWatchtower /></PasscodeGate>} />
+                <Route path="/nodes/corporate-translator/view" element={<PasscodeGate><CorporateTranslator /></PasscodeGate>} />
+                <Route path="/nodes/ghost-protocol/view" element={<PasscodeGate><GhostProtocol /></PasscodeGate>} />
+                <Route path="/infrastructure" element={<Infrastructure />} />
+                <Route path="/request-access" element={<RequestAccess />} />
+                <Route path="/disclaimers" element={<Disclaimers />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/protocol" element={<Protocol />} />
+                <Route path="/ledger" element={<Ledger />} />
+                <Route path="/request-verdict" element={<RequestVerdict />} />
+                <Route path="/how-it-works" element={<HowItWorks />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/vera" element={<Vera />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/partner" element={<ProtectedRoute><PartnerDashboard /></ProtectedRoute>} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <GlobalUI />
+            </BrowserRouter>
+          </TooltipProvider>
+        </OracleProvider>
+      </ApexSystemProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
