@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { ApexButton } from "@/components/ui/apex-button";
 
 export default function CommonsCTA() {
@@ -53,16 +54,18 @@ export default function CommonsCTA() {
             whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <ApexButton 
-              variant="primary" 
-              size="lg"
-              className="min-w-[200px] tracking-[0.25em]"
-              style={{
-                boxShadow: '0 0 50px hsl(42 90% 55% / 0.2), 0 0 100px hsl(42 90% 55% / 0.08)',
-              }}
-            >
-              Enter as Observer
-            </ApexButton>
+            <Link to="/commons">
+              <ApexButton 
+                variant="primary" 
+                size="lg"
+                className="min-w-[200px] tracking-[0.25em]"
+                style={{
+                  boxShadow: '0 0 50px hsl(42 90% 55% / 0.2), 0 0 100px hsl(42 90% 55% / 0.08)',
+                }}
+              >
+                Enter as Observer
+              </ApexButton>
+            </Link>
           </motion.div>
           
           <motion.div
@@ -70,13 +73,15 @@ export default function CommonsCTA() {
             whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <ApexButton 
-              variant="outline" 
-              size="lg"
-              className="min-w-[200px] tracking-[0.2em]"
-            >
-              Request APEX Access
-            </ApexButton>
+            <Link to="/partner">
+              <ApexButton 
+                variant="outline" 
+                size="lg"
+                className="min-w-[200px] tracking-[0.2em] border-primary/50 text-primary hover:bg-primary/10"
+              >
+                Become a Partner
+              </ApexButton>
+            </Link>
           </motion.div>
         </div>
       </motion.div>
