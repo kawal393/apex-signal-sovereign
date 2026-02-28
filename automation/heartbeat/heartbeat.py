@@ -1,19 +1,9 @@
 """
-APEX Heartbeat - 60-Minute Pulse
+APEX Heartbeat - 15-Minute Pulse
 Runs the full automation cycle: scout → process → execute.
 """
-import logging
-import sqlite3
-import time
-from pathlib import Path
-from datetime import datetime
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger("APEX_HEARTBEAT")
-
-DB_PATH = Path(__file__).parent.parent / "core" / "db" / "master.db"
-
-CYCLE_MINUTES = 60  # Configurable heartbeat interval
+CYCLE_MINUTES = 15  # 15-minute heartbeat for fast compounding
 
 class Heartbeat:
     def __init__(self):

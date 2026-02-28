@@ -28,6 +28,7 @@ import HowItWorks from "./pages/HowItWorks";
 import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 import StatusOrb from "./components/ui/StatusOrb";
+import Vera from "./pages/Vera";
 import SovereignInterface from "./components/oracle/SovereignInterface";
 import ReturnToPortal from "./components/ReturnToPortal";
 import PasscodeGate from "./components/auth/PasscodeGate";
@@ -120,6 +121,7 @@ const App = () => (
               <Route path="/request-verdict" element={<RequestVerdict />} />
               <Route path="/how-it-works" element={<HowItWorks />} />
               <Route path="/pricing" element={<Pricing />} />
+              <Route path="/vera" element={<Vera />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             {/* Global UI components */}

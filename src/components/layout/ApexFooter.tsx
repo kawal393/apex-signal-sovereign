@@ -99,7 +99,10 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
           {/* Copyright */}
           <div className="text-center mt-4">
             <p className="text-[10px] text-muted-foreground/50 tracking-widest">
-              © {new Date().getFullYear()} APEX INFRASTRUCTURE
+              © {new Date().getFullYear()} Apex Intelligence Empire
+            </p>
+            <p className="text-[10px] text-muted-foreground/30 tracking-widest mt-1">
+              ABN: 71 672 237 795
             </p>
           </div>
         </div>

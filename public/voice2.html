@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎤 APEX VOICE</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #000;
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container { max-width: 500px; width: 100%; text-align: center; }
+        h1 { color: #8b5cf6; font-size: 2.5rem; margin-bottom: 10px; text-shadow: 0 0 30px rgba(139, 92, 246, 0.5); }
+        
+        .mic-btn {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            border: none;
+            border-radius: 50%;
+            width: 160px;
+            height: 160px;
+            font-size: 4rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.5);
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mic-btn:hover { transform: scale(1.08); }
+        .mic-btn.recording {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+        
+        .status { 
+            padding: 20px; 
+            background: #111; 
+            border-radius: 12px; 
+            color: #888;
+            border: 2px solid #333;
+            font-size: 1.1rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .status.listening { 
+            color: #10b981; 
+            border-color: #10b981; 
+            background: #0a1f1a;
+        }
+        
+        .hint {
+            margin-top: 20px;
+            color: #555;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎤 SPEAK</h1>
+        
+        <button class="mic-btn" id="micBtn">🎤</button>
+        
+        <div class="status" id="status">👑 Click and speak...</div>
+        
+        <p class="hint">Say: "website", "learn", "status", "security"</p>
+    </div>
+    
+    <script>
+        const micBtn = document.getElementById('micBtn');
+        const status = document.getElementById('status');
+        
+        let isListening = false;
+        let recognition = null;
+        
+        // Check browser support
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        
+        if (!SpeechRecognition) {
+            status.innerHTML = '⚠️ Voice not supported. Use buttons.';
+            micBtn.style.display = 'none';
+        }
+        
+        function initRecognition() {
+            if (recognition) {
+                recognition.abort();
+                recognition = null;
+            }
+            
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+            recognition.maxAlternatives = 3;
+            
+            return recognition;
+        }
+        
+        function handleStart() {
+            if (isListening) {
+                try { recognition.stop(); } catch(e) {}
+                return;
+            }
+            
+            isListening = true;
+            micBtn.classList.add('recording');
+            status.classList.add('listening');
+            status.innerHTML = '🎤 Listening... Speak now!';
+            
+            try {
+                const recognizer = initRecognition();
+                
+                recognizer.onstart = function() {
+                    isListening = true;
+                    micBtn.classList.add('recording');
+                    status.classList.add('listening');
+                    status.innerHTML = '🎤 Listening... Speak now!';
+                };
+                
+                recognizer.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript.toLowerCase();
+                    status.innerHTML = '🎤 Heard: "' + transcript + '"';
+                    
+                    setTimeout(() => {
+                        if (transcript.includes('web') || transcript.includes('site')) {
+                            window.open('http://localhost:8083', '_blank');
+                            status.innerHTML = '🌐 Opening website...';
+                        }
+                        else if (transcript.includes('learn') || transcript.includes('knowledge')) {
+                            status.innerHTML = '📚 Learning mode activated!';
+                        }
+                        else if (transcript.includes('status') || transcript.includes('check')) {
+                            status.innerHTML = '📊 System: SECURE<br>Knowledge: COMPOUNDING';
+                        }
+                        else if (transcript.includes('security') || transcript.includes('protect')) {
+                            status.innerHTML = '🛡️ Security: IMPENETRABLE<br>All walls: ACTIVE';
+                        }
+                        else {
+                            status.innerHTML = '⚠️ Try: website, learn, status, security';
+                        }
+                    }, 1000);
+                };
+                
+                recognizer.onend = function() {
+                    isListening = false;
+                    micBtn.classList.remove('recording');
+                    status.classList.remove('listening');
+                };
+                
+                recognizer.onerror = function(event) {
+                    isListening = false;
+                    micBtn.classList.remove('recording');
+                    status.classList.remove('listening');
+                    
+                    if (event.error === 'no-speech') {
+                        status.innerHTML = '👑 No speech. Try again.';
+                    } else if (event.error === 'not-allowed') {
+                        status.innerHTML = '⚠️ Mic blocked. Check browser settings.';
+                    } else {
+                        status.innerHTML = '⚠️ Error: ' + event.error;
+                    }
+                    
+                    // Auto retry once for certain errors
+                    if (event.error === 'aborted' || event.error === 'no-speech') {
+                        setTimeout(() => {
+                            if (!isListening && status.innerHTML.includes('Try again')) {
+                                handleStart();
+                            }
+                        }, 500);
+                    }
+                };
+                
+                recognizer.start();
+                
+            } catch(e) {
+                isListening = false;
+                micBtn.classList.remove('recording');
+                status.classList.remove('listening');
+                status.innerHTML = '⚠️ Error. Click again.';
+            }
+        }
+        
+        // Click handler
+        micBtn.onclick = handleStart;
+        
+        // Keyboard shortcut - Spacebar
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+                handleStart();
+            }
+        });
+    </script>
+</body>
+</html>

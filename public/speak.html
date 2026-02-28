@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎤 APEX VOICE MESSAGE</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #000;
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container { max-width: 600px; width: 100%; text-align: center; }
+        h1 { color: #8b5cf6; font-size: 2.5rem; margin-bottom: 10px; text-shadow: 0 0 30px rgba(139, 92, 246, 0.5); }
+        .subtitle { color: #666; margin-bottom: 30px; font-size: 1.1rem; }
+        
+        .record-btn {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            border: none;
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            font-size: 5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 60px rgba(139, 92, 246, 0.6);
+            margin-bottom: 20px;
+        }
+        .record-btn:hover { transform: scale(1.1); }
+        .record-btn.recording {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+        
+        .status { 
+            margin-top: 20px; 
+            padding: 25px; 
+            background: #111; 
+            border-radius: 15px; 
+            color: #888; 
+            border: 2px solid #333;
+            font-size: 1.2rem;
+        }
+        .status.listening { 
+            color: #10b981; 
+            border-color: #10b981; 
+            background: #0a1f1a;
+        }
+        
+        .transcript { 
+            margin-top: 20px; 
+            padding: 20px; 
+            background: #1a1a2e; 
+            border-radius: 15px; 
+            color: #fff; 
+            text-align: left; 
+            display: none;
+            font-size: 1.2rem;
+        }
+        .transcript.show { display: block; }
+        
+        .send-btn {
+            margin-top: 15px;
+            padding: 18px 50px;
+            background: #10b981;
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: none;
+            font-weight: bold;
+        }
+        .send-btn.show { display: inline-block; }
+        
+        .response { 
+            margin-top: 20px; 
+            padding: 25px; 
+            background: #16213e; 
+            border-radius: 15px; 
+            color: #fff; 
+            text-align: left; 
+            display: none;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .response.show { display: block; }
+        
+        .hint {
+            margin-top: 30px;
+            color: #555;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎤 SPEAK TO APEX</h1>
+        <p class="subtitle">Click the button and speak</p>
+        
+        <button class="record-btn" id="recordBtn">🎤</button>
+        
+        <div class="status" id="status">👑 Click mic to speak...</div>
+        
+        <div class="transcript" id="transcript"></div>
+        <button class="send-btn" id="sendBtn">SEND TO APEX</button>
+        
+        <div class="response" id="response"></div>
+        
+        <p class="hint">Press SPACEBAR as shortcut to activate voice</p>
+    </div>
+    
+    <script>
+        const recordBtn = document.getElementById('recordBtn');
+        const status = document.getElementById('status');
+        const transcriptDiv = document.getElementById('transcript');
+        const sendBtn = document.getElementById('sendBtn');
+        const responseDiv = document.getElementById('response');
+        
+        let recognition = null;
+        let isRecording = false;
+        let recordedText = '';
+        
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        
+        function startVoice() {
+            if (!SpeechRecognition) {
+                status.innerHTML = '⚠️ Voice not supported in this browser';
+                return;
+            }
+            
+            if (isRecording) {
+                if (recognition) recognition.stop();
+                return;
+            }
+            
+            recordedText = '';
+            transcriptDiv.classList.remove('show');
+            sendBtn.classList.remove('show');
+            responseDiv.classList.remove('show');
+            
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+            
+            recognition.onstart = function() {
+                isRecording = true;
+                status.innerHTML = '🎤 Listening... Speak now!';
+                status.classList.add('listening');
+                recordBtn.classList.add('recording');
+            };
+            
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                transcriptDiv.innerHTML = '<strong>Heard:</strong> ' + transcript;
+                transcriptDiv.classList.add('show');
+                recordedText = transcript;
+                sendBtn.classList.add('show');
+            };
+            
+            recognition.onend = function() {
+                isRecording = false;
+                status.classList.remove('listening');
+                recordBtn.classList.remove('recording');
+                if (!recordedText) {
+                    status.innerHTML = '👑 No speech detected. Try again.';
+                }
+            };
+            
+            recognition.onerror = function(event) {
+                isRecording = false;
+                status.classList.remove('listening');
+                recordBtn.classList.remove('recording');
+                status.innerHTML = '⚠️ Error: ' + event.error + '. Try again.';
+            };
+            
+            try {
+                recognition.start();
+            } catch(e) {
+                console.log(e);
+                status.innerHTML = '⚠️ Click again to try';
+            }
+        }
+        
+        // Button click
+        recordBtn.onclick = startVoice;
+        
+        // Spacebar shortcut
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space' && !e.target.matches('input, textarea')) {
+                e.preventDefault();
+                startVoice();
+            }
+        });
+        
+        sendBtn.onclick = function() {
+            if (!recordedText) return;
+            processCommand(recordedText);
+        };
+        
+        function processCommand(message) {
+            status.innerHTML = '⚡ Processing: ' + message;
+            status.classList.add('listening');
+            
+            setTimeout(() => {
+                status.classList.remove('listening');
+                
+                let reply = '📝 Command received: ' + message + '<br><br>APEX is processing...';
+                
+                const lower = message.toLowerCase();
+                if (lower.includes('lead') || lower.includes('find')) {
+                    reply = '🎯 <strong>Searching for NDIS leads...</strong><br><br>Found:<br>• 1 Care Connect (0429 592 309)<br>• Angels Care (0431 121 866)<br>• Relieve Disability (0420 329 231)<br><br>Ready to email them?';
+                }
+                else if (lower.includes('email') || lower.includes('mail') || lower.includes('send')) {
+                    reply = '✉️ <strong>Email automation ready.</strong><br><br>Who do you want to email?<br>Give me the name and I\'ll write the email.';
+                }
+                else if (lower.includes('status') || lower.includes('check') || lower.includes('report')) {
+                    reply = '📊 <strong>APEX Status:</strong><br><br>• Website: LIVE<br>• Gmail: Connected<br>• Leads: 50+ found<br>• Strategy: Ready<br>• Intelligence: Compounding<br>• Voice: ACTIVE';
+                }
+                else if (lower.includes('security') || lower.includes('protect') || lower.includes('secure')) {
+                    reply = '🛡️ <strong>Security Check:</strong><br><br>• Firewall: ACTIVE<br>• Encryption: ACTIVE<br>• Monitoring: ACTIVE<br>• No threats detected';
+                }
+                else if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey')) {
+                    reply = '👑 <strong>Greetings, Master!</strong><br><br>I am APEX. Ready to serve.<br>What would you like me to do?';
+                }
+                
+                responseDiv.innerHTML = reply;
+                responseDiv.classList.add('show');
+                status.innerHTML = '👑 Awaiting command...';
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

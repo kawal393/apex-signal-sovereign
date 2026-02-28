@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>APEX COMMAND</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { 
+            background: #000; 
+            min-height: 100vh; 
+            font-family: -apple-system, sans-serif;
+            padding: 20px;
+            touch-action: manipulation;
+        }
+        h1 { color: #8b5cf6; text-align: center; font-size: 2rem; margin-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .btn {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.1s;
+            -webkit-user-select: none;
+        }
+        .btn:active { transform: scale(0.95); border-color: #8b5cf6; }
+        .btn .icon { font-size: 3rem; display: block; margin-bottom: 10px; }
+        .btn .label { color: #fff; font-size: 1.3rem; font-weight: bold; }
+        .full { grid-column: 1 / -1; }
+        .status {
+            margin-top: 20px;
+            padding: 20px;
+            background: #111;
+            border-radius: 15px;
+            text-align: center;
+            color: #888;
+            font-size: 1.1rem;
+            border: 1px solid #333;
+        }
+        .pulse { animation: p 1s infinite; color: #10b981; border-color: #10b981; }
+        @keyframes p { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    </style>
+</head>
+<body>
+    <h1>⚡ APEX COMMAND</h1>
+    <div class="grid">
+        <div class="btn" onclick="cmd('website')"><span class="icon">🌐</span><span class="label">Website</span></div>
+        <div class="btn" onclick="cmd('learn')"><span class="icon">📚</span><span class="label">Learn</span></div>
+        <div class="btn" onclick="cmd('automate')"><span class="icon">⚡</span><span class="label">Automate</span></div>
+        <div class="btn" onclick="cmd('status')"><span class="icon">📊</span><span class="label">Status</span></div>
+        <div class="btn full" onclick="cmd('security')"><span class="icon">🛡️</span><span class="label">SECURITY</span></div>
+    </div>
+    <div class="status" id="s">👑 Ready</div>
+    <script>
+    const status = {
+        website: '🌐 Opening APEX Website...',
+        learn: '📚 Knowledge Engine Active',
+        automate: '⚡ Heartbeat Running',
+        status: '📊 Empire Status: SECURE',
+        security: '🛡️ All 6 Walls Active'
+    };
+    function cmd(c) {
+        const s = document.getElementById('s');
+        s.classList.add('pulse');
+        s.innerHTML = status[c] || '⚡ Executing...';
+        setTimeout(() => s.classList.remove('pulse'), 2000);
+        
+        if(c === 'website') {
+            window.open('http://localhost:8083', '_blank');
+        }
+    }
+    </script>
+</body>
+</html>

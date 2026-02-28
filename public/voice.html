@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎤 APEX VOICE COMMAND</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #000;
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container { max-width: 600px; width: 100%; }
+        h1 {
+            color: #8b5cf6;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+        }
+        .subtitle { color: #666; text-align: center; margin-bottom: 40px; }
+        .commands { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .command-btn {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 30px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .command-btn:hover {
+            border-color: #8b5cf6;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+        .command-btn .icon { font-size: 3rem; margin-bottom: 10px; }
+        .command-btn .label { color: #fff; font-size: 1.1rem; font-weight: 600; }
+        .command-btn .desc { color: #666; font-size: 0.85rem; margin-top: 5px; }
+        .full-width { grid-column: 1 / -1; }
+        .status {
+            margin-top: 30px;
+            padding: 20px;
+            background: #111;
+            border-radius: 10px;
+            text-align: center;
+            color: #666;
+            border: 1px solid #333;
+        }
+        .status.listening {
+            color: #10b981;
+            border-color: #10b981;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .mic-btn {
+            display: block;
+            margin: 20px auto;
+            background: #8b5cf6;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        .mic-btn:hover { background: #7c3aed; }
+        .mic-btn.listening { background: #10b981; animation: pulse 1s infinite; }
+        @media (max-width: 500px) { .commands { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎤 APEX VOICE</h1>
+        <p class="subtitle">Click buttons or speak</p>
+        
+        <button class="mic-btn" id="micBtn">🎤</button>
+        <p style="text-align:center; color:#666; margin-bottom:20px;">Click to speak</p>
+        
+        <div class="commands">
+            <div class="command-btn" onclick="runCommand('website')">
+                <div class="icon">🌐</div>
+                <div class="label">Website</div>
+                <div class="desc">Open apex site</div>
+            </div>
+            
+            <div class="command-btn" onclick="runCommand('learn')">
+                <div class="icon">📚</div>
+                <div class="label">Learn</div>
+                <div class="desc">Gain wisdom</div>
+            </div>
+            
+            <div class="command-btn" onclick="runCommand('automation')">
+                <div class="icon">⚡</div>
+                <div class="label">Automation</div>
+                <div class="desc">Run heartbeat</div>
+            </div>
+            
+            <div class="command-btn" onclick="runCommand('status')">
+                <div class="icon">📊</div>
+                <div class="label">Status</div>
+                <div class="desc">Check empire</div>
+            </div>
+            
+            <div class="command-btn full-width" onclick="runCommand('security')">
+                <div class="icon">🛡️</div>
+                <div class="label">SECURITY CHECK</div>
+                <div class="desc">Full system scan</div>
+            </div>
+        </div>
+        
+        <div class="status" id="status">
+            👑 Waiting for command...
+        </div>
+    </div>
+    
+    <script>
+        const status = document.getElementById('status');
+        const micBtn = document.getElementById('micBtn');
+        
+        function runCommand(cmd) {
+            status.classList.add('active');
+            status.innerHTML = '⚡ Executing: ' + cmd.toUpperCase() + '...';
+            
+            if (cmd === 'website') {
+                window.open('http://localhost:8083', '_blank');
+                status.innerHTML = '🌐 Website opening!';
+            }
+            else if (cmd === 'learn') {
+                status.innerHTML = '📚 Learning new wisdom!';
+            }
+            else if (cmd === 'automation') {
+                status.innerHTML = '⚡ Running automation!';
+            }
+            else if (cmd === 'status') {
+                status.innerHTML = '📊 System: SECURE<br>Knowledge: COMPOUNDING<br>Empire: GROWING';
+            }
+            else if (cmd === 'security') {
+                status.innerHTML = '🛡️ FORTRESS: IMPENETRABLE<br>All walls: ACTIVE<br>No threats detected';
+            }
+            
+            setTimeout(() => {
+                status.classList.remove('active');
+            }, 3000);
+        }
+        
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        
+        if (SpeechRecognition) {
+            let recognition;
+            let isListening = false;
+            let retryCount = 0;
+            const maxRetries = 3;
+            
+            function startRecognition() {
+                if (isListening) return;
+                
+                try {
+                    recognition = new SpeechRecognition();
+                    recognition.continuous = false;
+                    recognition.interimResults = true;
+                    recognition.lang = 'en-US';
+                    recognition.maxAlternatives = 3;
+                    
+                    recognition.onstart = function() {
+                        isListening = true;
+                        retryCount = 0;
+                        status.classList.add('listening');
+                        status.innerHTML = '🎤 Listening... Speak now!';
+                        micBtn.classList.add('listening');
+                    };
+                    
+                    recognition.onresult = function(event) {
+                        const results = event.results;
+                        const transcript = results[0][0].transcript.toLowerCase();
+                        status.innerHTML = '🎤 Heard: "' + transcript + '"';
+                        
+                        if (transcript.includes('website') || transcript.includes('web') || transcript.includes('open')) {
+                            setTimeout(() => runCommand('website'), 500);
+                        }
+                        else if (transcript.includes('learn') || transcript.includes('knowledge') || transcript.includes('study')) {
+                            setTimeout(() => runCommand('learn'), 500);
+                        }
+                        else if (transcript.includes('auto') || transcript.includes('automation') || transcript.includes('heartbeat')) {
+                            setTimeout(() => runCommand('automation'), 500);
+                        }
+                        else if (transcript.includes('status') || transcript.includes('check') || transcript.includes('report')) {
+                            setTimeout(() => runCommand('status'), 500);
+                        }
+                        else if (transcript.includes('security') || transcript.includes('protect') || transcript.includes('secure')) {
+                            setTimeout(() => runCommand('security'), 500);
+                        }
+                        else {
+                            setTimeout(() => {
+                                status.innerHTML = '⚠️ Say: website, learn, automation, status, or security';
+                            }, 1000);
+                        }
+                    };
+                    
+                    recognition.onend = function() {
+                        isListening = false;
+                        status.classList.remove('listening');
+                        micBtn.classList.remove('listening');
+                    };
+                    
+                    recognition.onerror = function(event) {
+                        isListening = false;
+                        status.classList.remove('listening');
+                        micBtn.classList.remove('listening');
+                        
+                        if (event.error === 'no-speech') {
+                            status.innerHTML = '🎤 No speech detected. Try again.';
+                        } else if (event.error === 'not-allowed') {
+                            status.innerHTML = '⚠️ Mic permission denied. Allow in browser settings.';
+                        } else if (event.error === 'aborted') {
+                            status.innerHTML = '👑 Waiting for command...';
+                        } else {
+                            status.innerHTML = '⚠️ Error: ' + event.error + '. Try again.';
+                        }
+                    };
+                    
+                    recognition.start();
+                } catch(e) {
+                    console.log('Recognition error:', e);
+                    if (retryCount < maxRetries) {
+                        retryCount++;
+                        setTimeout(startRecognition, 200);
+                    } else {
+                        status.innerHTML = '⚠️ Mic busy. Close other apps using mic.';
+                    }
+                }
+            }
+            
+            micBtn.onclick = startRecognition;
+        } else {
+            status.innerHTML = '⚠️ Voice not supported. Use buttons.';
+            micBtn.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
