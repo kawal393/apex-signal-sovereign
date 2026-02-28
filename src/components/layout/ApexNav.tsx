@@ -12,7 +12,7 @@ const navItems = [
   { label: "Infrastructure", href: "/infrastructure", micro: "" },
   { label: "Ledger", href: "/ledger", micro: "Proof" },
   { label: "Manifesto", href: "/manifesto", micro: "Authority" },
-  { label: "Request Access", href: "/request-access", micro: "" },
+  { label: "Partner", href: "/partner", micro: "Dashboard" },
 ];
 
 const ApexNav = forwardRef<HTMLElement>((_, ref) => {
