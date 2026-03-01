@@ -7,11 +7,11 @@ import apexLogo from "@/assets/apex-logo.png";
 
 const navItems = [
   { label: "Portal", href: "/commons", micro: "Entry" },
+  { label: "NDIS Watchtower", href: "/ndis-watchtower", micro: "Live" },
+  { label: "Mining Watchtower", href: "/mining-watchtower", micro: "Live" },
   { label: "How It Works", href: "/how-it-works", micro: "Doctrine" },
   { label: "Access Conditions", href: "/pricing", micro: "Access" },
-  { label: "Infrastructure", href: "/infrastructure", micro: "" },
   { label: "Ledger", href: "/ledger", micro: "Proof" },
-  { label: "Manifesto", href: "/manifesto", micro: "Authority" },
   { label: "Become a Partner", href: "/partner", micro: "Earn 50%", highlight: true },
 ];
 

@@ -16,6 +16,7 @@ import Dashboard from "./pages/Dashboard";
 import Nodes from "./pages/Nodes";
 import NodeDetail from "./pages/NodeDetail";
 import NDISWatchtower from "./pages/nodes/NDISWatchtower";
+import MiningWatchtower from "./pages/nodes/MiningWatchtower";
 import CorporateTranslator from "./pages/nodes/CorporateTranslator";
 import GhostProtocol from "./pages/nodes/GhostProtocol";
 import Infrastructure from "./pages/Infrastructure";
@@ -102,6 +103,8 @@ const App = () => (
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/nodes" element={<PasscodeGate><Nodes /></PasscodeGate>} />
                   <Route path="/nodes/:nodeId" element={<PasscodeGate><NodeDetail /></PasscodeGate>} />
+                  <Route path="/ndis-watchtower" element={<NDISWatchtower />} />
+                  <Route path="/mining-watchtower" element={<MiningWatchtower />} />
                   <Route path="/nodes/ndis-watchtower/view" element={<PasscodeGate><NDISWatchtower /></PasscodeGate>} />
                   <Route path="/nodes/corporate-translator/view" element={<PasscodeGate><CorporateTranslator /></PasscodeGate>} />
                   <Route path="/nodes/ghost-protocol/view" element={<PasscodeGate><GhostProtocol /></PasscodeGate>} />
