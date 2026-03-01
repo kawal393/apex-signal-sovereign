@@ -1,86 +1,190 @@
 
+# APEX 10/10 Upgrade — Full Implementation Plan
 
-# Enhancement Pass: Build Fix + UX Upgrades
+## What Gets Built
 
-## 1. Fix Build Errors (CRITICAL - Blocks deployment)
+### 1. PARTNER DASHBOARD — Full Command Center Upgrade
+**Current state:** Basic dashboard with partner ID, referral link, commission stats, and leaderboard.
+**Upgrade to:**
 
-Two TypeScript errors in `supabase/functions/apex-scheduler/index.ts`:
+**Global Bounty Clock**
+- Large animated dollar counter starting at ~$1,247,850, incrementing by $5-25 every 3-8 seconds
+- "Total Bounties Distributed" label with gold gradient
+- "X partners online now" indicator (random 8-17, refreshes every 30s)
 
-**Error 1 (line 61):** `visit_count` does not exist on the `INNER_CIRCLE` threshold type (it has `nodes_viewed_min` instead). Fix: add a type guard so `visit_count` is only accessed when `access_level === 'observer'` using proper narrowing, or cast `target` to `any`.
+**Live Regulatory Risk Feed**
+- Hardcoded entries for NDIS, EU AI ACT, MINING with source URLs
+- Timestamps ("2 hours ago", "1 day ago")
+- Category icons with color coding (red for critical, yellow for approaching, green for clear)
+- "Auto-updates every hour" indicator
 
-**Error 2 (line 312):** `error` is of type `unknown`. Fix: change `error.message` to `(error as Error).message`.
+**Social Share Buttons**
+- LinkedIn, X/Twitter, WhatsApp, Email — each pre-fills with referral URL
+- HTML banner embed code snippet with copy button
 
----
-
-## 2. "You have returned" stays longer
-
-In `src/components/ritual/EntryRitual.tsx`, the presence phase (which shows "You have returned") currently runs for 8 seconds (`motionConfig.presenceDuration`). Increase this to 12 seconds so returning visitors feel the weight of that acknowledgment longer.
-
----
-
-## 3. Make the site 20% less dark
-
-In `src/index.css`, lighten the core background and surface colors:
-
-- `--background`: `0 0% 0%` becomes `0 0% 6%` (pure black to very dark grey)
-- `--card`: `0 0% 4%` becomes `0 0% 9%`
-- `--popover`: `0 0% 3%` becomes `0 0% 7%`
-- `--secondary`: `0 0% 6%` becomes `0 0% 10%`
-- `--muted`: `0 0% 10%` becomes `0 0% 14%`
-- `--glass-bg`: `0 0% 2% / 0.92` becomes `0 0% 7% / 0.92`
-- `.glass-card` background gradient: from `4%/2%` to `9%/7%`
-- Index page `bg-black` stays as-is (the front page keeps its void aesthetic)
+**Partner Profile Enhancements**
+- "Partner Since: [month year]" from profile created_at
+- Status: Active (green dot)
+- Tier system: "Founder Archon" (before April 2026), "Senior Archon" (before July 2026), "Archon" (after)
 
 ---
 
-## 4. Smoothness improvements
+### 2. AUTH PAGE — Production-Grade Upgrade
+**Current state:** Basic login/signup toggle with email + password.
+**Upgrade to:**
 
-- Add `scroll-behavior: smooth` globally (already present -- confirmed)
-- Add `will-change: transform` to `.glass-card` for GPU-accelerated hover transitions
-- Add `-webkit-overflow-scrolling: touch` on body for iOS momentum scrolling
+- **Confirm Password** field on signup with match validation
+- **"I accept the Terms and Conditions"** checkbox (links to /terms), required for signup
+- **"Remember me"** checkbox on login
+- **"Forgot password?"** link that calls `resetPasswordForEmail`
+- Fix text that says "500+" to "200+"
+
+**New Page: `/reset-password`**
+- Reads recovery token from URL hash
+- New password + confirm password form
+- Calls `updateUser({ password })` on submit
+- Redirects to `/partner` on success
 
 ---
 
-## 5. Font & alignment: fit on screen (laptop + mobile)
+### 3. MEMBERSHIP GATE — Lock Screen on Index
+**Current state:** Index page shows entry ritual then content with PROCEED button.
+**Upgrade to:**
 
-- Reduce the "You have returned" text from `text-[12rem]` max to `text-[8rem]` max so it fits on laptop screens without overflow
-- Reduce "Arriving" similarly
-- Add `overflow-hidden` to the EntryRitual container to prevent horizontal scroll from oversized text
-- Clamp the location/date line with `text-sm md:text-base` (currently `text-lg md:text-xl`) so it wraps gracefully on mobile
+Add "Member Access Only" messaging and Login/Signup buttons to the Index page content area:
+- "MEMBER ACCESS ONLY" heading below the existing content
+- "You need to be a registered member to access the APEX Sovereign Grid"
+- Login and Sign Up buttons linking to `/auth`
+- "Trusted by 200+ Organizations worldwide" and "X companies joined this week" badges
+- Copyright line at bottom
+
+This adds to the existing gate page without removing the ritual or PROCEED flow.
 
 ---
 
-## 6. Site Blueprint / Map page after audio choice (NEW)
+### 4. NAV + FOOTER — Social Proof Reinforcement
 
-After the audio offer phase and before the reveal phase, insert a new **"blueprint"** phase in `EntryRitual.tsx` that shows a visual site map. This helps new visitors understand the system before entering.
+**ApexNav:**
+- Add "Trusted by 200+ Organizations" micro-text below "APEX INFRASTRUCTURE" logo text (desktop only)
 
-The blueprint shows:
+**ApexFooter:**
+- Add "200+ Active Partners | 98% Client Satisfaction" line above copyright
+- Gold-tinted, subtle
+
+---
+
+### 5. GEO-DETECTION — Country-Adaptive Intelligence
+
+**New Edge Function: `geo-detect`**
+- Reads visitor IP from request headers
+- Calls free IP geolocation API (ip-api.com)
+- Returns: country, countryCode, city, currency, timezone
+- Caches per IP for 24 hours
+
+**New Context: `GeoContext.tsx`**
+- Calls `geo-detect` on first load, caches in localStorage
+- Provides country data to all components
+- Maps country codes to regulatory domains:
 
 ```text
-PORTAL (Entry) --> How It Works (Doctrine) --> Nodes (Scope)
-    |                                             |
-Access Conditions --> Infrastructure --> Ledger (Proof)
-                                          |
-                                     Manifesto (Authority)
+AU -> NDIS, AUSTRAC, Mining (AUD)
+US -> SEC, FDA, FTC (USD)
+UK -> FCA, ICO (GBP)
+EU -> EU AI Act, GDPR (EUR)
+CA -> PIPEDA, CSA (CAD)
+JP -> FSA, APPI (JPY)
+SG -> MAS, PDPA (SGD)
+IN -> SEBI, RBI (INR)
+AE -> DFSA, ADGM (AED)
+KR -> FSC, PIPA (KRW)
 ```
 
-Implementation:
-- Add a new `RitualPhase` value: `'blueprint'`
-- Insert it between `'audio_offer'` and `'reveal'`
-- Show a minimal grid of labeled boxes with the page names and one-word descriptions
-- Each box is a subtle glass card with the page name and its micro-label
-- Auto-advance after 6 seconds, or user can click "Enter" to skip
-- On mobile, stack the boxes in a vertical list for readability
+- Falls back to AU if detection fails
+
+**New Component: `JurisdictionBanner.tsx`**
+- Slim banner below nav: "Currently monitoring: [Regulatory Bodies]"
+- Dismissible, animated
 
 ---
 
-## Technical Summary
+### 6. ADAPTIVE UI — Full Transformation by Country
 
-| File | Change |
-|------|--------|
-| `supabase/functions/apex-scheduler/index.ts` | Fix 2 TypeScript errors (type guard + error cast) |
-| `src/components/ritual/EntryRitual.tsx` | Increase presence duration to 12s; reduce text sizes for laptop fit; add blueprint phase between audio and reveal |
-| `src/index.css` | Lighten 6 CSS variables by ~20%; add will-change to glass-card; add iOS scroll smoothing |
+**Commons.tsx Hero:**
+- Category sigils change based on detected country (e.g., US visitor sees "SEC | FDA | SOX" instead of "INTELLIGENCE | ACCESS | INEVITABILITY")
 
-Zero deletions. Zero route changes. Zero content removals. All existing phases, animations, and pages preserved.
+**SocialProof.tsx:**
+- "Trusted by 200+ Organizations in [Country]"
+- Testimonial roles/sectors adapt to visitor region
 
+**Pricing.tsx:**
+- Currency symbol adapts (USD, GBP, EUR, AUD, etc.)
+- Static exchange rate conversion from AUD base
+
+**PartnerDashboard Risk Feed:**
+- Filtered by detected jurisdiction
+
+---
+
+### 7. REGULATORY MONITORING PIPELINE
+
+**Database Tables (new migration):**
+
+`regulatory_updates` table:
+- id (uuid), country_code, jurisdiction, title, summary, source_url, source_domain, severity (critical/moderate/informational), detected_at, ai_analysis (jsonb), created_at
+- RLS: public read, service-role writes only
+
+`monitored_sources` table:
+- id (uuid), country_code, jurisdiction, source_url, source_name, check_interval_hours, last_checked_at, last_content_hash, active, created_at
+- Seeded with ~30-40 government URLs across 10 countries
+
+**New Edge Function: `regulatory-monitor`**
+- Iterates through active sources in `monitored_sources`
+- Uses Firecrawl to scrape each regulatory page
+- Computes content hash, compares to previous
+- If changed: sends to Gemini 2.5 Flash for structured summary
+- Stores update in `regulatory_updates`
+- Rate-limited, batched execution
+
+**Firecrawl Integration:**
+- Connected via the Firecrawl connector
+- Used by `regulatory-monitor` to scrape government sites
+
+---
+
+## File Changes Summary
+
+| Action | File |
+|--------|------|
+| Modify | `src/pages/PartnerDashboard.tsx` — Add bounty clock, risk feed, social share, profile enhancements |
+| Modify | `src/pages/Auth.tsx` — Add confirm password, terms checkbox, remember me, forgot password |
+| Create | `src/pages/ResetPassword.tsx` — Password reset form |
+| Modify | `src/pages/Index.tsx` — Add member access messaging + auth CTAs |
+| Modify | `src/pages/Commons.tsx` — Geo-adaptive hero sigils |
+| Modify | `src/components/sections/SocialProof.tsx` — Geo-localized text |
+| Modify | `src/pages/Pricing.tsx` — Currency adaptation |
+| Modify | `src/components/layout/ApexNav.tsx` — "Trusted by 200+" subtitle |
+| Modify | `src/components/layout/ApexFooter.tsx` — Partner stats line |
+| Modify | `src/App.tsx` — Add /reset-password route, wrap in GeoProvider |
+| Create | `src/contexts/GeoContext.tsx` — Geo-detection state |
+| Create | `src/components/layout/JurisdictionBanner.tsx` — Regulatory monitoring banner |
+| Create | `src/components/sections/RegulatoryFeed.tsx` — Live feed component |
+| Create | `supabase/functions/geo-detect/index.ts` — IP geolocation |
+| Create | `supabase/functions/regulatory-monitor/index.ts` — AI-powered scraper |
+| Create | Migration SQL — `regulatory_updates` + `monitored_sources` tables |
+
+---
+
+## Implementation Order
+
+1. Database migration (regulatory tables + seed data)
+2. Firecrawl connector setup
+3. `geo-detect` edge function
+4. `regulatory-monitor` edge function
+5. `GeoContext` + `JurisdictionBanner`
+6. `RegulatoryFeed` component
+7. Auth page upgrades + ResetPassword page
+8. Partner Dashboard full upgrade
+9. Index page membership gate messaging
+10. Commons/SocialProof/Pricing geo-adaptation
+11. Nav + Footer social proof lines
+12. App.tsx wiring (routes + providers)
