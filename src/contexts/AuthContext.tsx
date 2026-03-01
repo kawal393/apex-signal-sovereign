@@ -24,15 +24,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<{ partner_id: string; display_name: string; created_at: string } | null>(null);
+  const [profile, setProfile] = useState<{ partner_id: string; display_name: string; created_at: string; passcode: string } | null>(null);
 
   const fetchProfile = async (userId: string) => {
     const { data } = await supabase
       .from("profiles")
-      .select("partner_id, display_name, created_at")
+      .select("partner_id, display_name, created_at, passcode")
       .eq("user_id", userId)
       .single();
-    if (data) setProfile(data);
+    if (data) setProfile(data as any);
   };
 
   useEffect(() => {

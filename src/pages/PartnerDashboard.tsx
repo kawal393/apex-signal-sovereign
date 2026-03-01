@@ -223,6 +223,12 @@ const PartnerDashboard = () => {
               {profile?.partner_id || "APEX-······"}
             </div>
             <p className="text-sm text-muted-foreground mt-3">This is your unique identifier in the APEX network.</p>
+            {(profile as any)?.passcode && (
+              <div className="mt-4 p-3 bg-background/60 border border-primary/20 rounded-md">
+                <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground block mb-1">Your Restricted Access Passcode</span>
+                <span className="text-xl font-mono font-bold text-primary tracking-[0.4em]">{(profile as any).passcode}</span>
+              </div>
+            )}
           </div>
         </motion.div>
 

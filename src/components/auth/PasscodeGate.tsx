@@ -2,26 +2,35 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function PasscodeGate({ children }: { children: React.ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [passcode, setPasscode] = useState("");
     const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         const auth = sessionStorage.getItem("apex_auth");
-        // Also check local storage if they want persistent auth
         if (auth === "true" || localStorage.getItem("apex_auth_persistent") === "true") {
             setIsAuthenticated(true);
         }
     }, []);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (passcode === "199131") {
+        setLoading(true);
+        
+        // Validate passcode against profiles table
+        const { data } = await supabase
+            .from("profiles")
+            .select("id")
+            .eq("passcode", passcode)
+            .limit(1);
+
+        if (data && data.length > 0) {
             sessionStorage.setItem("apex_auth", "true");
-            // Optional: Save to local storage for convenience
             localStorage.setItem("apex_auth_persistent", "true");
             setIsAuthenticated(true);
         } else {
@@ -29,6 +38,7 @@ export default function PasscodeGate({ children }: { children: React.ReactNode }
             setTimeout(() => setError(false), 2000);
             setPasscode("");
         }
+        setLoading(false);
     };
 
     if (isAuthenticated) {
@@ -61,9 +71,10 @@ export default function PasscodeGate({ children }: { children: React.ReactNode }
                     />
                     <button
                         type="submit"
-                        className="w-full bg-grey-900 border border-grey-800 text-grey-400 hover:text-white hover:border-grey-600 px-4 py-3 text-base uppercase tracking-[0.2em] transition-all"
+                        disabled={loading}
+                        className="w-full bg-grey-900 border border-grey-800 text-grey-400 hover:text-white hover:border-grey-600 px-4 py-3 text-base uppercase tracking-[0.2em] transition-all disabled:opacity-50"
                     >
-                        Authenticate
+                        {loading ? "Verifying..." : "Authenticate"}
                     </button>
                 </form>
 
