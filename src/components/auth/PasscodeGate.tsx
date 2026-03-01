@@ -19,7 +19,7 @@ export default function PasscodeGate({ children }: { children: React.ReactNode }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (passcode === "APEX-O5-SIG" || passcode === "SOVEREIGN-99") {
+        if (passcode === "199131") {
             sessionStorage.setItem("apex_auth", "true");
             // Optional: Save to local storage for convenience
             localStorage.setItem("apex_auth_persistent", "true");
