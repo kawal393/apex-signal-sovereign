@@ -205,6 +205,54 @@ const Index = () => {
                     apex@apex-infrastructure.com
                   </Link>
                 </motion.div>
+
+                {/* Member Access Gate */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.5, delay: 3, ease: [0.16, 1, 0.3, 1] }}
+                  className="mt-20 pt-16 border-t border-grey-800/30"
+                >
+                  <h3 className="text-[10px] uppercase tracking-[0.6em] text-grey-400 mb-4">
+                    Member Access Only
+                  </h3>
+                  <p className="text-base text-grey-500 mb-8 max-w-sm mx-auto">
+                    You need to be a registered member to access the APEX Sovereign Grid
+                  </p>
+                  <div className="flex items-center justify-center gap-4 mb-8">
+                    <Link
+                      to="/auth"
+                      className="px-8 py-3 bg-primary/10 border border-primary/40 rounded-md text-primary text-[10px] uppercase tracking-[0.3em] hover:bg-primary/20 hover:border-primary/60 transition-all duration-500"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/auth"
+                      className="px-8 py-3 bg-primary/20 border border-primary/50 rounded-md text-primary text-[10px] uppercase tracking-[0.3em] hover:bg-primary/30 transition-all duration-500 font-medium"
+                      style={{ boxShadow: '0 0 30px hsl(42 95% 55% / 0.1)' }}
+                    >
+                      Sign Up
+                    </Link>
+                  </div>
+                  <div className="flex flex-col items-center gap-3">
+                    <span className="text-[9px] uppercase tracking-[0.3em] text-grey-600">
+                      Trusted by 200+ Organizations worldwide
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <motion.span
+                        className="w-1.5 h-1.5 rounded-full bg-green-400/60"
+                        animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.8, 0.4] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                      <span className="text-[9px] text-grey-600">
+                        {Math.floor(Math.random() * 8) + 12} companies joined this week
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-[8px] text-grey-700 mt-8 tracking-[0.15em]">
+                    © 2026 APEX INTELLIGENCE EMPIRE
+                  </p>
+                </motion.div>
               </div>
             </main>
 

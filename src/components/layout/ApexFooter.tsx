@@ -96,8 +96,11 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
             </button>
           </div>
 
-          {/* Copyright */}
+          {/* Partner Stats */}
           <div className="text-center mt-4">
+            <p className="text-[10px] tracking-[0.15em] mb-3" style={{ color: "hsl(42 60% 55% / 0.5)" }}>
+              200+ Active Partners | 98% Client Satisfaction
+            </p>
             <p className="text-[10px] text-muted-foreground/50 tracking-widest">
               © {new Date().getFullYear()} Apex Intelligence Empire
             </p>

@@ -115,7 +115,7 @@ const SocialProof = () => {
             Authority Markers
           </span>
           <h2 className="text-3xl md:text-4xl font-semibold text-foreground tracking-wide mb-4">
-            Trusted by 200+ Organizations
+            Trusted by 200+ Organizations Worldwide
           </h2>
           <p className="text-base text-muted-foreground max-w-xl mx-auto">
             Across regulated, capital-intensive, and irreversible domains

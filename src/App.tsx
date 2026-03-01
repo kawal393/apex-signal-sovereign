@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ApexSystemProvider, useApexSystem } from "@/contexts/ApexSystemContext";
 import { OracleProvider, useOracle } from "@/contexts/OracleContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { GeoProvider } from "@/contexts/GeoContext";
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import Index from "./pages/Index";
@@ -35,7 +36,9 @@ import ReturnToPortal from "./components/ReturnToPortal";
 import PasscodeGate from "./components/auth/PasscodeGate";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import PartnerDashboard from "./pages/PartnerDashboard";
+import JurisdictionBanner from "./components/layout/JurisdictionBanner";
 
 const queryClient = new QueryClient();
 
@@ -84,42 +87,46 @@ function GlobalUI() {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
-      <ApexSystemProvider>
-        <OracleProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/commons" element={<Commons />} />
-                <Route path="/manifesto" element={<Manifesto />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/nodes" element={<PasscodeGate><Nodes /></PasscodeGate>} />
-                <Route path="/nodes/:nodeId" element={<PasscodeGate><NodeDetail /></PasscodeGate>} />
-                <Route path="/nodes/ndis-watchtower/view" element={<PasscodeGate><NDISWatchtower /></PasscodeGate>} />
-                <Route path="/nodes/corporate-translator/view" element={<PasscodeGate><CorporateTranslator /></PasscodeGate>} />
-                <Route path="/nodes/ghost-protocol/view" element={<PasscodeGate><GhostProtocol /></PasscodeGate>} />
-                <Route path="/infrastructure" element={<Infrastructure />} />
-                <Route path="/request-access" element={<RequestAccess />} />
-                <Route path="/disclaimers" element={<Disclaimers />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/protocol" element={<Protocol />} />
-                <Route path="/ledger" element={<Ledger />} />
-                <Route path="/request-verdict" element={<RequestVerdict />} />
-                <Route path="/how-it-works" element={<HowItWorks />} />
-                <Route path="/pricing" element={<Pricing />} />
-                <Route path="/vera" element={<Vera />} />
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/partner" element={<ProtectedRoute><PartnerDashboard /></ProtectedRoute>} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-              <GlobalUI />
-            </BrowserRouter>
-          </TooltipProvider>
-        </OracleProvider>
-      </ApexSystemProvider>
+      <GeoProvider>
+        <ApexSystemProvider>
+          <OracleProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <JurisdictionBanner />
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/commons" element={<Commons />} />
+                  <Route path="/manifesto" element={<Manifesto />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/nodes" element={<PasscodeGate><Nodes /></PasscodeGate>} />
+                  <Route path="/nodes/:nodeId" element={<PasscodeGate><NodeDetail /></PasscodeGate>} />
+                  <Route path="/nodes/ndis-watchtower/view" element={<PasscodeGate><NDISWatchtower /></PasscodeGate>} />
+                  <Route path="/nodes/corporate-translator/view" element={<PasscodeGate><CorporateTranslator /></PasscodeGate>} />
+                  <Route path="/nodes/ghost-protocol/view" element={<PasscodeGate><GhostProtocol /></PasscodeGate>} />
+                  <Route path="/infrastructure" element={<Infrastructure />} />
+                  <Route path="/request-access" element={<RequestAccess />} />
+                  <Route path="/disclaimers" element={<Disclaimers />} />
+                  <Route path="/terms" element={<Terms />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/protocol" element={<Protocol />} />
+                  <Route path="/ledger" element={<Ledger />} />
+                  <Route path="/request-verdict" element={<RequestVerdict />} />
+                  <Route path="/how-it-works" element={<HowItWorks />} />
+                  <Route path="/pricing" element={<Pricing />} />
+                  <Route path="/vera" element={<Vera />} />
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/reset-password" element={<ResetPassword />} />
+                  <Route path="/partner" element={<ProtectedRoute><PartnerDashboard /></ProtectedRoute>} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+                <GlobalUI />
+              </BrowserRouter>
+            </TooltipProvider>
+          </OracleProvider>
+        </ApexSystemProvider>
+      </GeoProvider>
     </AuthProvider>
   </QueryClientProvider>
 );

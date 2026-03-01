@@ -21,6 +21,7 @@ import { useApexSystem } from "@/contexts/ApexSystemContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useVisitorClassification } from "@/hooks/useVisitorClassification";
 import { useToast } from "@/hooks/use-toast";
+import { useGeo } from "@/contexts/GeoContext";
 import { SkeletonSection } from "@/components/ui/skeleton-card";
 import apexLogo from "@/assets/apex-logo.png";
 import { advancedAudioPresence } from "@/lib/audioPresenceAdvanced";
@@ -29,6 +30,7 @@ const Commons = () => {
   const presence = usePresence();
   const { isAudioEnabled, status, playThresholdTone, visitorId } = useApexSystem();
   const isMobile = useIsMobile();
+  const geo = useGeo();
   const [scrollDepth, setScrollDepth] = useState(0);
   const [currentTime, setCurrentTime] = useState(new Date());
   const heroActive = scrollDepth < 0.18;
@@ -244,33 +246,33 @@ const Commons = () => {
               className="flex flex-wrap items-center justify-center gap-8 md:gap-12 mt-20"
               style={{ willChange: 'transform, opacity' }}
             >
-              {[
-                { label: "INTELLIGENCE", sigil: "◆", color: "silver" },
-                { label: "ACCESS", sigil: "◈", color: "grey" },
-                { label: "INEVITABILITY", sigil: "◇", color: "purple" },
-              ].map((item, i) => (
-                <motion.div
-                  key={item.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 2.2 + i * 0.3, duration: 2, ease: [0.16, 1, 0.3, 1] }}
-                  whileHover={{ y: -6, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }}
-                  className={`group px-8 py-5 text-base md:text-base uppercase tracking-[0.5em] font-medium flex items-center gap-5 
-                    ${item.color === 'silver' ? 'text-foreground border-silver-mid/40' : 
-                      item.color === 'grey' ? 'text-foreground/90 border-grey-500/40' : 
-                      'text-foreground/90 border-purple-mid/40'} 
-                    border rounded-lg bg-black/95 backdrop-blur-xl cursor-default transition-all duration-700`}
-                  style={{ willChange: 'transform' }}
-                >
-                  <span className={`${item.color === 'silver' ? 'text-primary' : 
-                    item.color === 'grey' ? 'text-foreground/70' : 
-                    'text-purple-light'} text-lg`}
+              {geo.jurisdiction.primary.map((label, i) => {
+                const sigils = ["◆", "◈", "◇"];
+                const colors = ["silver", "grey", "purple"];
+                return (
+                  <motion.div
+                    key={label}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 2.2 + i * 0.3, duration: 2, ease: [0.16, 1, 0.3, 1] }}
+                    whileHover={{ y: -6, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }}
+                    className={`group px-8 py-5 text-base md:text-base uppercase tracking-[0.5em] font-medium flex items-center gap-5 
+                      ${colors[i % 3] === 'silver' ? 'text-foreground border-silver-mid/40' : 
+                        colors[i % 3] === 'grey' ? 'text-foreground/90 border-grey-500/40' : 
+                        'text-foreground/90 border-purple-mid/40'} 
+                      border rounded-lg bg-black/95 backdrop-blur-xl cursor-default transition-all duration-700`}
+                    style={{ willChange: 'transform' }}
                   >
-                    {item.sigil}
-                  </span>
-                  {item.label}
-                </motion.div>
-              ))}
+                    <span className={`${colors[i % 3] === 'silver' ? 'text-primary' : 
+                      colors[i % 3] === 'grey' ? 'text-foreground/70' : 
+                      'text-purple-light'} text-lg`}
+                    >
+                      {sigils[i % 3]}
+                    </span>
+                    {label}
+                  </motion.div>
+                );
+              })}
             </motion.div>
 
             {/* Scroll indicator */}
