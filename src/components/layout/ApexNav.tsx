@@ -69,9 +69,14 @@ const ApexNav = forwardRef<HTMLElement>((_, ref) => {
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               />
             </motion.div>
-            <span className="text-base font-medium text-grey-300 tracking-[0.15em] hidden sm:block">
-              APEX INFRASTRUCTURE
-            </span>
+            <div className="hidden sm:block">
+              <span className="text-base font-medium text-grey-300 tracking-[0.15em] block">
+                APEX INFRASTRUCTURE
+              </span>
+              <span className="text-[8px] uppercase tracking-[0.2em] text-muted-foreground/50 block">
+                Trusted by 200+ Organizations
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Nav Links - Hidden on Gate, shown elsewhere */}

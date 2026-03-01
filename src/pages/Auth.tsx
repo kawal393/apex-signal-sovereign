@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -12,7 +12,10 @@ const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -22,6 +25,22 @@ const Auth = () => {
     navigate("/partner", { replace: true });
     return null;
   }
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      toast({ title: "Email Required", description: "Enter your email address first.", variant: "destructive" });
+      return;
+    }
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (error) throw error;
+      toast({ title: "Reset Email Sent", description: "Check your inbox for password reset instructions." });
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,6 +53,16 @@ const Auth = () => {
         toast({ title: "Access Granted", description: "Welcome back, Partner." });
         navigate("/partner");
       } else {
+        if (password !== confirmPassword) {
+          toast({ title: "Error", description: "Passwords do not match.", variant: "destructive" });
+          setLoading(false);
+          return;
+        }
+        if (!acceptTerms) {
+          toast({ title: "Terms Required", description: "You must accept the Terms and Conditions.", variant: "destructive" });
+          setLoading(false);
+          return;
+        }
         const { error } = await supabase.auth.signUp({
           email,
           password,
@@ -76,7 +105,7 @@ const Auth = () => {
               {isLogin ? "PARTNER ACCESS" : "BECOME A PARTNER"}
             </h1>
             <p className="text-sm text-muted-foreground tracking-wide">
-              {isLogin ? "Enter your credentials to access the Partner Dashboard" : "Join 500+ organizations in the APEX network"}
+              {isLogin ? "Enter your credentials to access the Partner Dashboard" : "Join 200+ organizations in the APEX network"}
             </p>
           </div>
 
@@ -119,6 +148,69 @@ const Auth = () => {
                 />
               </div>
 
+              {/* Confirm Password - Signup only */}
+              {!isLogin && (
+                <div>
+                  <label className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground block mb-2">Confirm Password</label>
+                  <input
+                    type="password"
+                    required
+                    minLength={6}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full bg-background/60 border border-border/40 rounded-md px-4 py-3 text-foreground text-sm focus:border-primary/50 focus:outline-none transition-colors"
+                    placeholder="••••••••"
+                  />
+                  {confirmPassword && password !== confirmPassword && (
+                    <p className="text-[10px] text-destructive mt-1">Passwords do not match</p>
+                  )}
+                </div>
+              )}
+
+              {/* Login extras */}
+              {isLogin && (
+                <div className="flex items-center justify-between">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                      className="w-3.5 h-3.5 rounded border-border/40 accent-primary"
+                    />
+                    <span className="text-[10px] text-muted-foreground tracking-wide">Remember me</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={handleForgotPassword}
+                    className="text-[10px] text-primary/70 hover:text-primary tracking-wide transition-colors"
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+              )}
+
+              {/* Terms checkbox - Signup only */}
+              {!isLogin && (
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={acceptTerms}
+                    onChange={(e) => setAcceptTerms(e.target.checked)}
+                    className="w-3.5 h-3.5 rounded border-border/40 accent-primary mt-0.5"
+                  />
+                  <span className="text-[10px] text-muted-foreground tracking-wide leading-relaxed">
+                    I accept the{" "}
+                    <Link to="/terms" className="text-primary/70 hover:text-primary underline" target="_blank">
+                      Terms and Conditions
+                    </Link>{" "}
+                    and{" "}
+                    <Link to="/privacy" className="text-primary/70 hover:text-primary underline" target="_blank">
+                      Privacy Policy
+                    </Link>
+                  </span>
+                </label>
+              )}
+
               <motion.button
                 type="submit"
                 disabled={loading}
@@ -142,7 +234,7 @@ const Auth = () => {
           {/* Toggle */}
           <div className="text-center mt-6">
             <button
-              onClick={() => setIsLogin(!isLogin)}
+              onClick={() => { setIsLogin(!isLogin); setConfirmPassword(""); setAcceptTerms(false); }}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors tracking-wide"
             >
               {isLogin ? "No account? Become a Partner →" : "Already a partner? Sign in →"}

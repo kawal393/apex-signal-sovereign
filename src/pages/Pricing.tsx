@@ -7,6 +7,7 @@ import MobileVoid from "@/components/effects/MobileVoid";
 import { ApexButton } from "@/components/ui/apex-button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import AmbientParticles from "@/components/effects/AmbientParticles";
+import { useGeo, convertPrice } from "@/contexts/GeoContext";
 
 const tiers = [
   {
@@ -64,6 +65,9 @@ const tiers = [
 
 const Pricing = () => {
   const isMobile = useIsMobile();
+  const geo = useGeo();
+
+  const getPrice = (audPrice: number) => convertPrice(audPrice, geo);
 
   return (
     <div className="relative min-h-screen bg-black">
@@ -123,7 +127,9 @@ const Pricing = () => {
 
                 <div className="mb-6">
                   <span className="text-grey-400 text-base block mb-1">{tier.delivery}</span>
-                  <span className="text-2xl font-medium text-foreground/80">{tier.price}</span>
+                  <span className="text-2xl font-medium text-foreground/80">
+                    {tier.price === "By Invitation" ? tier.price : getPrice(tier.price === "$249" ? 249 : 999)}
+                  </span>
                 </div>
 
                 <ul className="space-y-3 mb-8 flex-1">
