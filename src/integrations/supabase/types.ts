@@ -154,6 +154,45 @@ export type Database = {
           },
         ]
       }
+      monitored_sources: {
+        Row: {
+          active: boolean
+          check_interval_hours: number
+          country_code: string
+          created_at: string
+          id: string
+          jurisdiction: string
+          last_checked_at: string | null
+          last_content_hash: string | null
+          source_name: string
+          source_url: string
+        }
+        Insert: {
+          active?: boolean
+          check_interval_hours?: number
+          country_code: string
+          created_at?: string
+          id?: string
+          jurisdiction: string
+          last_checked_at?: string | null
+          last_content_hash?: string | null
+          source_name: string
+          source_url: string
+        }
+        Update: {
+          active?: boolean
+          check_interval_hours?: number
+          country_code?: string
+          created_at?: string
+          id?: string
+          jurisdiction?: string
+          last_checked_at?: string | null
+          last_content_hash?: string | null
+          source_name?: string
+          source_url?: string
+        }
+        Relationships: []
+      }
       node_signals: {
         Row: {
           created_at: string
@@ -276,6 +315,54 @@ export type Database = {
           partner_user_id?: string
           referred_email?: string
           status?: string
+        }
+        Relationships: []
+      }
+      regulatory_updates: {
+        Row: {
+          ai_analysis: Json | null
+          content_hash: string | null
+          country_code: string
+          created_at: string
+          detected_at: string
+          id: string
+          jurisdiction: string
+          raw_content: string | null
+          severity: string
+          source_domain: string
+          source_url: string
+          summary: string
+          title: string
+        }
+        Insert: {
+          ai_analysis?: Json | null
+          content_hash?: string | null
+          country_code: string
+          created_at?: string
+          detected_at?: string
+          id?: string
+          jurisdiction: string
+          raw_content?: string | null
+          severity?: string
+          source_domain: string
+          source_url: string
+          summary: string
+          title: string
+        }
+        Update: {
+          ai_analysis?: Json | null
+          content_hash?: string | null
+          country_code?: string
+          created_at?: string
+          detected_at?: string
+          id?: string
+          jurisdiction?: string
+          raw_content?: string | null
+          severity?: string
+          source_domain?: string
+          source_url?: string
+          summary?: string
+          title?: string
         }
         Relationships: []
       }
