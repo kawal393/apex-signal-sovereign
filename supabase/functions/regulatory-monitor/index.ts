@@ -3,262 +3,105 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
 
-interface RegQuery {
-  query: string;
-  jurisdiction: string;
-  country_code: string;
-}
+const GENERATION_TOPICS = [
+  // AUSTRALIA (8 topics)
+  { topic: 'ASIC enforcement actions 2018-2026: corporate fraud prosecutions, financial adviser bans, insider trading penalties, market manipulation fines, continuous disclosure breaches', jurisdiction: 'ASIC', country_code: 'AU' },
+  { topic: 'APRA and AUSTRAC enforcement 2018-2026: prudential penalties, AML/CTF breaches, bank compliance failures, superannuation enforcement, Westpac AUSTRAC case', jurisdiction: 'APRA/AUSTRAC', country_code: 'AU' },
+  { topic: 'ACCC enforcement actions 2018-2026: cartel prosecutions, consumer protection penalties, misleading conduct fines, merger enforcement, unconscionable conduct', jurisdiction: 'ACCC', country_code: 'AU' },
+  { topic: 'OAIC and ACMA privacy/telecom enforcement 2018-2026: privacy act penalties, data breach enforcement, spam violations, telemarketing fines', jurisdiction: 'OAIC/ACMA', country_code: 'AU' },
+  { topic: 'TGA, CASA, NDIS Commission enforcement 2018-2026: medical device recalls, aviation safety actions, NDIS provider banning orders', jurisdiction: 'TGA/CASA/NDIS', country_code: 'AU' },
+  { topic: 'ATO compliance enforcement 2018-2026: tax fraud prosecutions, phoenix company crackdowns, GST fraud penalties, Project Wickenby outcomes', jurisdiction: 'ATO', country_code: 'AU' },
+  { topic: 'SafeWork Australia and state WHS prosecutions 2018-2026: workplace fatality prosecutions, industrial manslaughter charges, safety breach penalties', jurisdiction: 'SafeWork', country_code: 'AU' },
+  { topic: 'Clean Energy Regulator, FIRB, APVMA enforcement 2018-2026: carbon credit fraud, foreign investment violations, agricultural chemical enforcement', jurisdiction: 'CER/FIRB', country_code: 'AU' },
 
-const SEARCH_QUERIES: RegQuery[] = [
-  // === AUSTRALIA (20) ===
-  { query: 'ASIC enforcement action penalty fine 2024 2025 2026', jurisdiction: 'ASIC', country_code: 'AU' },
-  { query: 'ASIC corporate fraud prosecution penalty Australia', jurisdiction: 'ASIC', country_code: 'AU' },
-  { query: 'APRA prudential enforcement action bank insurance 2024 2025', jurisdiction: 'APRA', country_code: 'AU' },
-  { query: 'APRA superannuation enforcement penalty Australia', jurisdiction: 'APRA', country_code: 'AU' },
-  { query: 'ACCC consumer protection enforcement action penalty 2024 2025', jurisdiction: 'ACCC', country_code: 'AU' },
-  { query: 'ACCC cartel prosecution penalty fine Australia', jurisdiction: 'ACCC', country_code: 'AU' },
-  { query: 'OAIC privacy enforcement action penalty Australia 2024 2025', jurisdiction: 'OAIC', country_code: 'AU' },
-  { query: 'TGA medical device enforcement action recall Australia 2024 2025', jurisdiction: 'TGA', country_code: 'AU' },
-  { query: 'AUSTRAC AML CTF enforcement penalty Australia 2024 2025', jurisdiction: 'AUSTRAC', country_code: 'AU' },
-  { query: 'ATO compliance enforcement penalty Australia 2024 2025', jurisdiction: 'ATO', country_code: 'AU' },
-  { query: 'Clean Energy Regulator enforcement Australia 2024 2025', jurisdiction: 'CER', country_code: 'AU' },
-  { query: 'CASA aviation safety enforcement action Australia 2024 2025', jurisdiction: 'CASA', country_code: 'AU' },
-  { query: 'NDIS Commission enforcement action banning order 2024 2025', jurisdiction: 'NDIS', country_code: 'AU' },
-  { query: 'SafeWork Australia WHS prosecution penalty 2024 2025', jurisdiction: 'SafeWork', country_code: 'AU' },
-  { query: 'ACMA telecommunications enforcement penalty Australia', jurisdiction: 'ACMA', country_code: 'AU' },
-  { query: 'ASIC financial adviser ban enforcement 2024 2025', jurisdiction: 'ASIC', country_code: 'AU' },
-  { query: 'Australia sanctions enforcement DFAT penalty 2024 2025', jurisdiction: 'DFAT', country_code: 'AU' },
-  { query: 'FIRB foreign investment enforcement penalty Australia', jurisdiction: 'FIRB', country_code: 'AU' },
-  { query: 'APVMA pesticide chemical enforcement Australia 2024', jurisdiction: 'APVMA', country_code: 'AU' },
-  { query: 'Australian Competition Tribunal enforcement decision 2024', jurisdiction: 'ACT', country_code: 'AU' },
+  // UNITED STATES (12 topics)
+  { topic: 'SEC enforcement actions 2018-2026: securities fraud, insider trading, crypto enforcement, Ponzi schemes, whistleblower awards, accounting fraud penalties', jurisdiction: 'SEC', country_code: 'US' },
+  { topic: 'SEC continued: market manipulation, SPAC enforcement, ESG greenwashing, broker-dealer violations, investment adviser fraud 2020-2026', jurisdiction: 'SEC', country_code: 'US' },
+  { topic: 'FTC enforcement 2018-2026: Big Tech antitrust, consumer protection, privacy violations, data security, deceptive advertising, merger challenges', jurisdiction: 'FTC', country_code: 'US' },
+  { topic: 'FDA enforcement 2018-2026: drug recalls, warning letters, pharmaceutical fraud, medical device violations, food safety enforcement', jurisdiction: 'FDA', country_code: 'US' },
+  { topic: 'EPA and OSHA enforcement 2018-2026: environmental penalties, Clean Air Act violations, toxic waste fines, workplace safety citations, willful violations', jurisdiction: 'EPA/OSHA', country_code: 'US' },
+  { topic: 'DOJ antitrust and corporate fraud prosecutions 2018-2026: price-fixing cartels, merger challenges, FCPA violations, corporate criminal penalties', jurisdiction: 'DOJ', country_code: 'US' },
+  { topic: 'CFPB consumer financial enforcement 2018-2026: predatory lending, unfair banking practices, student loan servicer penalties, credit reporting violations', jurisdiction: 'CFPB', country_code: 'US' },
+  { topic: 'CFTC and FINRA enforcement 2018-2026: commodity fraud, crypto derivatives, spoofing penalties, broker misconduct, market manipulation fines', jurisdiction: 'CFTC/FINRA', country_code: 'US' },
+  { topic: 'FinCEN, OFAC sanctions enforcement 2018-2026: AML penalties, sanctions violations, crypto mixer enforcement, bank secrecy act violations', jurisdiction: 'FinCEN/OFAC', country_code: 'US' },
+  { topic: 'State AG enforcement actions 2018-2026: NY AG financial fraud, CA AG CCPA privacy penalties, TX AG consumer protection, multistate settlements', jurisdiction: 'State AGs', country_code: 'US' },
+  { topic: 'NHTSA, FAA, FCC enforcement 2018-2026: vehicle safety recalls, aviation safety penalties, telecommunications violations, spectrum enforcement', jurisdiction: 'NHTSA/FAA/FCC', country_code: 'US' },
+  { topic: 'HHS HIPAA enforcement 2018-2026: healthcare data breaches, privacy violations, right of access penalties, hospital settlement agreements', jurisdiction: 'HHS', country_code: 'US' },
 
-  // === UNITED STATES (30) ===
-  { query: 'SEC enforcement action penalty fine 2024 2025 securities', jurisdiction: 'SEC', country_code: 'US' },
-  { query: 'SEC litigation release fraud prosecution 2024 2025', jurisdiction: 'SEC', country_code: 'US' },
-  { query: 'SEC cryptocurrency enforcement action penalty 2024 2025', jurisdiction: 'SEC', country_code: 'US' },
-  { query: 'FTC enforcement action consumer protection penalty 2024 2025', jurisdiction: 'FTC', country_code: 'US' },
-  { query: 'FTC antitrust enforcement action merger 2024 2025', jurisdiction: 'FTC', country_code: 'US' },
-  { query: 'FDA warning letter enforcement action 2024 2025', jurisdiction: 'FDA', country_code: 'US' },
-  { query: 'FDA drug recall enforcement pharmaceutical 2024 2025', jurisdiction: 'FDA', country_code: 'US' },
-  { query: 'EPA environmental enforcement action penalty fine 2024 2025', jurisdiction: 'EPA', country_code: 'US' },
-  { query: 'OSHA workplace safety enforcement penalty fine 2024 2025', jurisdiction: 'OSHA', country_code: 'US' },
-  { query: 'CFPB consumer financial protection enforcement 2024 2025', jurisdiction: 'CFPB', country_code: 'US' },
-  { query: 'DOJ antitrust enforcement prosecution penalty 2024 2025', jurisdiction: 'DOJ', country_code: 'US' },
-  { query: 'DOJ corporate fraud prosecution penalty 2024 2025', jurisdiction: 'DOJ', country_code: 'US' },
-  { query: 'CFTC enforcement action commodity futures penalty 2024 2025', jurisdiction: 'CFTC', country_code: 'US' },
-  { query: 'FINRA enforcement action broker dealer penalty 2024 2025', jurisdiction: 'FINRA', country_code: 'US' },
-  { query: 'OCC enforcement action bank penalty 2024 2025', jurisdiction: 'OCC', country_code: 'US' },
-  { query: 'NHTSA vehicle safety recall enforcement 2024 2025', jurisdiction: 'NHTSA', country_code: 'US' },
-  { query: 'FAA aviation safety enforcement action penalty 2024 2025', jurisdiction: 'FAA', country_code: 'US' },
-  { query: 'New York Attorney General enforcement action penalty 2024 2025', jurisdiction: 'NY AG', country_code: 'US' },
-  { query: 'California Attorney General enforcement CCPA privacy penalty 2024', jurisdiction: 'CA AG', country_code: 'US' },
-  { query: 'Texas Attorney General enforcement action penalty 2024 2025', jurisdiction: 'TX AG', country_code: 'US' },
-  { query: 'FinCEN AML enforcement action penalty bank 2024 2025', jurisdiction: 'FinCEN', country_code: 'US' },
-  { query: 'OFAC sanctions enforcement action penalty 2024 2025', jurisdiction: 'OFAC', country_code: 'US' },
-  { query: 'FCC telecommunications enforcement action penalty 2024 2025', jurisdiction: 'FCC', country_code: 'US' },
-  { query: 'FERC energy enforcement action penalty 2024 2025', jurisdiction: 'FERC', country_code: 'US' },
-  { query: 'HHS HIPAA enforcement action penalty healthcare 2024 2025', jurisdiction: 'HHS', country_code: 'US' },
-  { query: 'CPSC consumer product safety recall enforcement 2024 2025', jurisdiction: 'CPSC', country_code: 'US' },
-  { query: 'DOL labor enforcement action penalty wage 2024 2025', jurisdiction: 'DOL', country_code: 'US' },
-  { query: 'NRC nuclear regulatory enforcement action penalty 2024', jurisdiction: 'NRC', country_code: 'US' },
-  { query: 'SEC whistleblower award enforcement 2024 2025', jurisdiction: 'SEC', country_code: 'US' },
-  { query: 'US Treasury sanctions enforcement crypto 2024 2025', jurisdiction: 'Treasury', country_code: 'US' },
+  // UNITED KINGDOM (6 topics)
+  { topic: 'FCA enforcement actions 2018-2026: financial misconduct fines, AML failures, consumer duty breaches, crypto enforcement, insurance violations', jurisdiction: 'FCA', country_code: 'UK' },
+  { topic: 'FCA continued and PRA enforcement 2018-2026: market abuse fines, senior manager accountability, prudential penalties, bank capital breaches', jurisdiction: 'FCA/PRA', country_code: 'UK' },
+  { topic: 'ICO data protection enforcement 2018-2026: UK GDPR fines, data breach penalties, direct marketing violations, public sector data failures', jurisdiction: 'ICO', country_code: 'UK' },
+  { topic: 'CMA competition enforcement 2018-2026: merger blocks, digital markets enforcement, cartel fines, consumer protection penalties', jurisdiction: 'CMA', country_code: 'UK' },
+  { topic: 'SFO and OFSI enforcement 2018-2026: serious fraud prosecutions, bribery cases, sanctions violations, deferred prosecution agreements', jurisdiction: 'SFO/OFSI', country_code: 'UK' },
+  { topic: 'HSE, Ofgem, Ofcom, EA enforcement 2018-2026: workplace safety prosecutions, energy company penalties, telecoms fines, environmental penalties', jurisdiction: 'HSE/Ofgem', country_code: 'UK' },
 
-  // === UNITED KINGDOM (15) ===
-  { query: 'FCA enforcement action fine penalty 2024 2025', jurisdiction: 'FCA', country_code: 'UK' },
-  { query: 'FCA consumer duty enforcement action penalty UK', jurisdiction: 'FCA', country_code: 'UK' },
-  { query: 'FCA crypto enforcement action penalty UK 2024', jurisdiction: 'FCA', country_code: 'UK' },
-  { query: 'ICO data protection enforcement notice fine 2024 2025', jurisdiction: 'ICO', country_code: 'UK' },
-  { query: 'ICO GDPR UK enforcement action penalty fine', jurisdiction: 'ICO', country_code: 'UK' },
-  { query: 'CMA competition enforcement action UK penalty 2024 2025', jurisdiction: 'CMA', country_code: 'UK' },
-  { query: 'CMA merger enforcement digital markets UK 2024', jurisdiction: 'CMA', country_code: 'UK' },
-  { query: 'Ofcom enforcement action penalty UK telecommunications 2024', jurisdiction: 'Ofcom', country_code: 'UK' },
-  { query: 'HSE health safety enforcement prosecution penalty UK 2024', jurisdiction: 'HSE', country_code: 'UK' },
-  { query: 'PRA prudential enforcement action penalty UK bank 2024', jurisdiction: 'PRA', country_code: 'UK' },
-  { query: 'SFO serious fraud office prosecution UK 2024 2025', jurisdiction: 'SFO', country_code: 'UK' },
-  { query: 'Ofgem energy enforcement action penalty UK 2024', jurisdiction: 'Ofgem', country_code: 'UK' },
-  { query: 'UK sanctions enforcement OFSI penalty 2024 2025', jurisdiction: 'OFSI', country_code: 'UK' },
-  { query: 'Environment Agency enforcement action penalty UK 2024', jurisdiction: 'EA', country_code: 'UK' },
-  { query: 'FCA AML enforcement money laundering UK penalty 2024', jurisdiction: 'FCA', country_code: 'UK' },
+  // EUROPEAN UNION (8 topics)
+  { topic: 'GDPR major enforcement fines 2018-2026: Meta, Google, Amazon fines, cross-border enforcement, data transfer violations, consent failures', jurisdiction: 'GDPR', country_code: 'EU' },
+  { topic: 'GDPR continued: Ireland DPC Big Tech fines, France CNIL penalties, Italy Garante enforcement, Spain AEPD actions 2019-2026', jurisdiction: 'GDPR DPAs', country_code: 'EU' },
+  { topic: 'EU AI Act and Digital Services Act enforcement 2023-2026: platform accountability, algorithmic transparency, content moderation requirements', jurisdiction: 'AI Act/DSA', country_code: 'EU' },
+  { topic: 'Digital Markets Act gatekeeper enforcement 2023-2026: Apple, Google, Meta, Amazon, Microsoft compliance actions', jurisdiction: 'DMA', country_code: 'EU' },
+  { topic: 'European Commission antitrust enforcement 2018-2026: tech company fines, cartel penalties, state aid decisions, merger blocks', jurisdiction: 'EC Competition', country_code: 'EU' },
+  { topic: 'ESMA, EBA, EIOPA enforcement 2018-2026: securities market violations, banking supervision, insurance regulation, MiFID breaches', jurisdiction: 'ESMA/EBA', country_code: 'EU' },
+  { topic: 'EU MiCA crypto enforcement and DORA digital resilience 2024-2026: crypto exchange compliance, digital operational resilience penalties', jurisdiction: 'MiCA/DORA', country_code: 'EU' },
+  { topic: 'Netherlands, Poland, Sweden, Norway, Austria, Belgium GDPR enforcement fines 2018-2026: national DPA actions, cross-border cases', jurisdiction: 'GDPR Nordic/Benelux', country_code: 'EU' },
 
-  // === EUROPEAN UNION (20) ===
-  { query: 'GDPR enforcement fine penalty 2024 2025 data protection', jurisdiction: 'GDPR', country_code: 'EU' },
-  { query: 'GDPR enforcement fine million record penalty Europe', jurisdiction: 'GDPR', country_code: 'EU' },
-  { query: 'EU AI Act implementation enforcement update 2024 2025', jurisdiction: 'AI Act', country_code: 'EU' },
-  { query: 'EU AI Act compliance requirement penalty enforcement', jurisdiction: 'AI Act', country_code: 'EU' },
-  { query: 'Digital Services Act enforcement action EU 2024 2025', jurisdiction: 'DSA', country_code: 'EU' },
-  { query: 'Digital Markets Act enforcement gatekeeper EU 2024 2025', jurisdiction: 'DMA', country_code: 'EU' },
-  { query: 'ESMA enforcement action securities EU penalty 2024', jurisdiction: 'ESMA', country_code: 'EU' },
-  { query: 'EBA banking enforcement action EU penalty 2024', jurisdiction: 'EBA', country_code: 'EU' },
-  { query: 'EIOPA insurance enforcement action EU 2024', jurisdiction: 'EIOPA', country_code: 'EU' },
-  { query: 'European Commission antitrust enforcement fine 2024 2025', jurisdiction: 'EC Competition', country_code: 'EU' },
-  { query: 'European Commission state aid enforcement decision 2024', jurisdiction: 'EC State Aid', country_code: 'EU' },
-  { query: 'EU DORA digital operational resilience enforcement 2024 2025', jurisdiction: 'DORA', country_code: 'EU' },
-  { query: 'Ireland DPC data protection enforcement fine GDPR 2024', jurisdiction: 'DPC Ireland', country_code: 'EU' },
-  { query: 'France CNIL enforcement fine GDPR penalty 2024 2025', jurisdiction: 'CNIL', country_code: 'EU' },
-  { query: 'Italy Garante enforcement fine GDPR penalty 2024', jurisdiction: 'Garante', country_code: 'EU' },
-  { query: 'Spain AEPD enforcement fine GDPR penalty 2024', jurisdiction: 'AEPD', country_code: 'EU' },
-  { query: 'Netherlands AP enforcement fine GDPR penalty 2024', jurisdiction: 'AP Netherlands', country_code: 'EU' },
-  { query: 'EU MiCA crypto regulation enforcement 2024 2025', jurisdiction: 'MiCA', country_code: 'EU' },
-  { query: 'EU carbon border adjustment mechanism enforcement 2024', jurisdiction: 'CBAM', country_code: 'EU' },
-  { query: 'EU whistleblower directive enforcement 2024 2025', jurisdiction: 'Whistleblower', country_code: 'EU' },
+  // GERMANY (3 topics)
+  { topic: 'BaFin enforcement actions 2018-2026: Wirecard fallout, financial supervision penalties, crypto enforcement, AML failures, bank compliance', jurisdiction: 'BaFin', country_code: 'DE' },
+  { topic: 'Bundeskartellamt competition enforcement 2018-2026: Big Tech abuse of dominance, cartel penalties, digital platform regulation', jurisdiction: 'Bundeskartellamt', country_code: 'DE' },
+  { topic: 'German data protection and BSI cybersecurity enforcement 2018-2026: state DPA fines, critical infrastructure penalties', jurisdiction: 'DPA/BSI', country_code: 'DE' },
 
-  // === GERMANY (8) ===
-  { query: 'BaFin enforcement action penalty fine Germany 2024 2025', jurisdiction: 'BaFin', country_code: 'DE' },
-  { query: 'BaFin crypto enforcement Germany 2024', jurisdiction: 'BaFin', country_code: 'DE' },
-  { query: 'Bundeskartellamt competition enforcement Germany penalty 2024', jurisdiction: 'Bundeskartellamt', country_code: 'DE' },
-  { query: 'Bundeskartellamt digital platform enforcement Germany', jurisdiction: 'Bundeskartellamt', country_code: 'DE' },
-  { query: 'BSI cybersecurity enforcement Germany 2024', jurisdiction: 'BSI', country_code: 'DE' },
-  { query: 'Germany data protection enforcement fine 2024', jurisdiction: 'DPA Germany', country_code: 'DE' },
-  { query: 'Germany AML enforcement penalty financial 2024', jurisdiction: 'AML Germany', country_code: 'DE' },
-  { query: 'German Federal Financial Supervisory Authority enforcement 2024', jurisdiction: 'BaFin', country_code: 'DE' },
+  // FRANCE (2 topics)
+  { topic: 'CNIL data protection enforcement 2018-2026: major GDPR fines, cookie consent penalties, AI surveillance enforcement, Big Tech fines', jurisdiction: 'CNIL', country_code: 'FR' },
+  { topic: 'AMF, ACPR, Autorite de la concurrence enforcement 2018-2026: securities penalties, banking compliance, antitrust fines', jurisdiction: 'AMF/Competition', country_code: 'FR' },
 
-  // === FRANCE (6) ===
-  { query: 'AMF enforcement action penalty France securities 2024 2025', jurisdiction: 'AMF', country_code: 'FR' },
-  { query: 'CNIL enforcement fine penalty France data protection 2024', jurisdiction: 'CNIL', country_code: 'FR' },
-  { query: 'Autorite de la concurrence enforcement France penalty 2024', jurisdiction: 'Competition FR', country_code: 'FR' },
-  { query: 'ACPR banking enforcement France penalty 2024', jurisdiction: 'ACPR', country_code: 'FR' },
-  { query: 'France antitrust enforcement fine tech company 2024', jurisdiction: 'Competition FR', country_code: 'FR' },
-  { query: 'France AML enforcement penalty financial institution 2024', jurisdiction: 'AML France', country_code: 'FR' },
+  // JAPAN (3 topics)
+  { topic: 'Japan FSA and SESC enforcement 2018-2026: financial penalties, crypto exchange enforcement, insider trading, market manipulation', jurisdiction: 'FSA/SESC', country_code: 'JP' },
+  { topic: 'Japan JFTC antitrust enforcement 2018-2026: cartel penalties, tech company enforcement, subcontracting violations', jurisdiction: 'JFTC', country_code: 'JP' },
+  { topic: 'Japan PPC, PMDA, METI enforcement 2018-2026: data protection, pharmaceutical enforcement, trade regulation', jurisdiction: 'PPC/PMDA', country_code: 'JP' },
 
-  // === JAPAN (10) ===
-  { query: 'Japan FSA financial enforcement action penalty 2024 2025', jurisdiction: 'FSA', country_code: 'JP' },
-  { query: 'Japan JFTC antitrust enforcement penalty 2024 2025', jurisdiction: 'JFTC', country_code: 'JP' },
-  { query: 'Japan METI trade enforcement action penalty 2024', jurisdiction: 'METI', country_code: 'JP' },
-  { query: 'Japan PMDA pharmaceutical enforcement recall 2024', jurisdiction: 'PMDA', country_code: 'JP' },
-  { query: 'Japan Securities Exchange Surveillance enforcement 2024', jurisdiction: 'SESC', country_code: 'JP' },
-  { query: 'Japan PPC personal information protection enforcement 2024', jurisdiction: 'PPC', country_code: 'JP' },
-  { query: 'Japan crypto exchange enforcement FSA penalty 2024', jurisdiction: 'FSA', country_code: 'JP' },
-  { query: 'Japan antitrust cartel enforcement penalty fine 2024', jurisdiction: 'JFTC', country_code: 'JP' },
-  { query: 'Japan financial services enforcement penalty bank 2024', jurisdiction: 'FSA', country_code: 'JP' },
-  { query: 'Japan consumer protection enforcement penalty 2024', jurisdiction: 'CAA', country_code: 'JP' },
+  // SINGAPORE (2 topics)
+  { topic: 'MAS Singapore financial enforcement 2018-2026: AML penalties, crypto regulation, bank compliance, capital market violations', jurisdiction: 'MAS', country_code: 'SG' },
+  { topic: 'PDPC, CCCS, CSA Singapore enforcement 2018-2026: data protection fines, competition penalties, cybersecurity enforcement', jurisdiction: 'PDPC/CCCS', country_code: 'SG' },
 
-  // === SINGAPORE (8) ===
-  { query: 'MAS Singapore enforcement action penalty 2024 2025', jurisdiction: 'MAS', country_code: 'SG' },
-  { query: 'MAS Singapore AML enforcement penalty financial 2024', jurisdiction: 'MAS', country_code: 'SG' },
-  { query: 'PDPC Singapore data protection enforcement penalty 2024', jurisdiction: 'PDPC', country_code: 'SG' },
-  { query: 'CSA Singapore cybersecurity enforcement 2024', jurisdiction: 'CSA', country_code: 'SG' },
-  { query: 'IMDA Singapore telecommunications enforcement 2024', jurisdiction: 'IMDA', country_code: 'SG' },
-  { query: 'Singapore competition enforcement CCCS penalty 2024', jurisdiction: 'CCCS', country_code: 'SG' },
-  { query: 'MAS Singapore crypto enforcement digital payment token 2024', jurisdiction: 'MAS', country_code: 'SG' },
-  { query: 'Singapore financial penalty enforcement action 2024 2025', jurisdiction: 'MAS', country_code: 'SG' },
+  // INDIA (3 topics)
+  { topic: 'SEBI enforcement 2018-2026: insider trading penalties, market manipulation fines, mutual fund violations, corporate governance breaches', jurisdiction: 'SEBI', country_code: 'IN' },
+  { topic: 'RBI and CCI enforcement 2018-2026: bank penalties, antitrust fines against tech companies, NBFC enforcement, digital lending violations', jurisdiction: 'RBI/CCI', country_code: 'IN' },
+  { topic: 'India ED, TRAI, IRDAI enforcement 2018-2026: money laundering actions, telecom penalties, insurance enforcement, FEMA violations', jurisdiction: 'ED/TRAI', country_code: 'IN' },
 
-  // === INDIA (12) ===
-  { query: 'SEBI enforcement order penalty India securities 2024 2025', jurisdiction: 'SEBI', country_code: 'IN' },
-  { query: 'SEBI insider trading enforcement penalty India 2024', jurisdiction: 'SEBI', country_code: 'IN' },
-  { query: 'RBI regulatory enforcement action penalty India 2024 2025', jurisdiction: 'RBI', country_code: 'IN' },
-  { query: 'RBI bank penalty enforcement India 2024', jurisdiction: 'RBI', country_code: 'IN' },
-  { query: 'IRDAI insurance enforcement penalty India 2024', jurisdiction: 'IRDAI', country_code: 'IN' },
-  { query: 'CCI competition enforcement penalty India 2024 2025', jurisdiction: 'CCI', country_code: 'IN' },
-  { query: 'CCI antitrust enforcement penalty India tech company', jurisdiction: 'CCI', country_code: 'IN' },
-  { query: 'TRAI telecom enforcement penalty India 2024', jurisdiction: 'TRAI', country_code: 'IN' },
-  { query: 'India DPDP data protection enforcement penalty 2024', jurisdiction: 'DPDP', country_code: 'IN' },
-  { query: 'India PMLA enforcement action money laundering 2024', jurisdiction: 'ED', country_code: 'IN' },
-  { query: 'India GST enforcement action penalty evasion 2024', jurisdiction: 'GST', country_code: 'IN' },
-  { query: 'India FEMA enforcement action penalty RBI 2024', jurisdiction: 'RBI', country_code: 'IN' },
+  // UAE/MIDDLE EAST (2 topics)
+  { topic: 'DFSA, VARA, ADGM enforcement 2018-2026: Dubai financial penalties, crypto regulation enforcement, Abu Dhabi financial centre violations', jurisdiction: 'DFSA/VARA', country_code: 'AE' },
+  { topic: 'Saudi CMA, Qatar QFCRA, Bahrain CBB enforcement 2018-2026: securities penalties, financial compliance actions', jurisdiction: 'CMA/QFCRA', country_code: 'SA' },
 
-  // === UAE / MIDDLE EAST (8) ===
-  { query: 'DFSA enforcement action penalty Dubai financial 2024 2025', jurisdiction: 'DFSA', country_code: 'AE' },
-  { query: 'VARA Dubai crypto enforcement penalty 2024 2025', jurisdiction: 'VARA', country_code: 'AE' },
-  { query: 'SCA UAE securities enforcement penalty 2024', jurisdiction: 'SCA', country_code: 'AE' },
-  { query: 'ADGM enforcement action penalty Abu Dhabi 2024', jurisdiction: 'ADGM', country_code: 'AE' },
-  { query: 'UAE Central Bank enforcement penalty AML 2024', jurisdiction: 'CBUAE', country_code: 'AE' },
-  { query: 'Saudi CMA enforcement action penalty securities 2024', jurisdiction: 'CMA', country_code: 'SA' },
-  { query: 'Qatar Financial Centre enforcement action 2024', jurisdiction: 'QFCRA', country_code: 'QA' },
-  { query: 'Bahrain CBB enforcement action penalty financial 2024', jurisdiction: 'CBB', country_code: 'BH' },
+  // SOUTH KOREA (2 topics)
+  { topic: 'Korea KFTC antitrust enforcement 2018-2026: Big Tech penalties, chaebol enforcement, platform regulation, cartel fines', jurisdiction: 'KFTC', country_code: 'KR' },
+  { topic: 'Korea FSC, FSS, PIPC enforcement 2018-2026: financial penalties, crypto exchange enforcement, data protection fines', jurisdiction: 'FSC/PIPC', country_code: 'KR' },
 
-  // === SOUTH KOREA (8) ===
-  { query: 'Korea FSC financial enforcement action penalty 2024 2025', jurisdiction: 'FSC', country_code: 'KR' },
-  { query: 'Korea FSS financial supervisory enforcement penalty 2024', jurisdiction: 'FSS', country_code: 'KR' },
-  { query: 'Korea KFTC antitrust enforcement penalty 2024 2025', jurisdiction: 'KFTC', country_code: 'KR' },
-  { query: 'Korea KFTC tech company enforcement penalty', jurisdiction: 'KFTC', country_code: 'KR' },
-  { query: 'Korea PIPC data protection enforcement penalty 2024', jurisdiction: 'PIPC', country_code: 'KR' },
-  { query: 'Korea crypto enforcement penalty exchange 2024', jurisdiction: 'FSC', country_code: 'KR' },
-  { query: 'Korea Fair Trade Commission enforcement fine 2024', jurisdiction: 'KFTC', country_code: 'KR' },
-  { query: 'Korea financial penalty enforcement bank insurance 2024', jurisdiction: 'FSS', country_code: 'KR' },
+  // BRAZIL (2 topics)
+  { topic: 'Brazil CADE antitrust and CVM securities enforcement 2018-2026: competition penalties, cartel fines, securities fraud, market manipulation', jurisdiction: 'CADE/CVM', country_code: 'BR' },
+  { topic: 'Brazil ANPD LGPD, BCB, IBAMA enforcement 2018-2026: data protection fines, banking penalties, environmental enforcement', jurisdiction: 'ANPD/BCB', country_code: 'BR' },
 
-  // === BRAZIL (8) ===
-  { query: 'Brazil CVM securities enforcement penalty 2024 2025', jurisdiction: 'CVM', country_code: 'BR' },
-  { query: 'Brazil ANPD LGPD enforcement penalty data protection 2024', jurisdiction: 'ANPD', country_code: 'BR' },
-  { query: 'Brazil CADE antitrust enforcement penalty 2024 2025', jurisdiction: 'CADE', country_code: 'BR' },
-  { query: 'Brazil BCB central bank enforcement penalty 2024', jurisdiction: 'BCB', country_code: 'BR' },
-  { query: 'Brazil SUSEP insurance enforcement penalty 2024', jurisdiction: 'SUSEP', country_code: 'BR' },
-  { query: 'Brazil environmental enforcement IBAMA penalty 2024', jurisdiction: 'IBAMA', country_code: 'BR' },
-  { query: 'Brazil AML enforcement penalty financial institution 2024', jurisdiction: 'COAF', country_code: 'BR' },
-  { query: 'Brazil consumer protection enforcement SENACON 2024', jurisdiction: 'SENACON', country_code: 'BR' },
+  // CANADA (2 topics)
+  { topic: 'Canada OSC, CSA securities enforcement 2018-2026: fraud penalties, insider trading, crypto enforcement, prospectus violations', jurisdiction: 'OSC/CSA', country_code: 'CA' },
+  { topic: 'Canada Competition Bureau, OPC, FINTRAC enforcement 2018-2026: antitrust penalties, privacy enforcement, AML violations', jurisdiction: 'CompBureau/OPC', country_code: 'CA' },
 
-  // === CANADA (10) ===
-  { query: 'Canada CSA securities enforcement penalty 2024 2025', jurisdiction: 'CSA', country_code: 'CA' },
-  { query: 'Canada OSC enforcement action penalty Ontario securities 2024', jurisdiction: 'OSC', country_code: 'CA' },
-  { query: 'OSFI Canada enforcement action penalty bank 2024', jurisdiction: 'OSFI', country_code: 'CA' },
-  { query: 'Canada Privacy Commissioner enforcement penalty 2024', jurisdiction: 'OPC', country_code: 'CA' },
-  { query: 'Canada Competition Bureau enforcement penalty 2024 2025', jurisdiction: 'Competition Bureau', country_code: 'CA' },
-  { query: 'FINTRAC Canada AML enforcement penalty 2024', jurisdiction: 'FINTRAC', country_code: 'CA' },
-  { query: 'Canada BCSC securities enforcement penalty 2024', jurisdiction: 'BCSC', country_code: 'CA' },
-  { query: 'Canada AMF Quebec securities enforcement 2024', jurisdiction: 'AMF QC', country_code: 'CA' },
-  { query: 'Canada environmental enforcement penalty pollution 2024', jurisdiction: 'ECCC', country_code: 'CA' },
-  { query: 'Canada CRTC telecommunications enforcement penalty 2024', jurisdiction: 'CRTC', country_code: 'CA' },
+  // SOUTH AFRICA (1 topic)
+  { topic: 'South Africa FSCA, CompCom, InfoReg enforcement 2018-2026: financial penalties, competition fines, POPIA data protection enforcement', jurisdiction: 'FSCA/CompCom', country_code: 'ZA' },
 
-  // === SOUTH AFRICA (6) ===
-  { query: 'South Africa FSCA enforcement action penalty 2024 2025', jurisdiction: 'FSCA', country_code: 'ZA' },
-  { query: 'South Africa NCR consumer enforcement penalty 2024', jurisdiction: 'NCR', country_code: 'ZA' },
-  { query: 'South Africa Information Regulator enforcement POPIA 2024', jurisdiction: 'InfoReg', country_code: 'ZA' },
-  { query: 'South Africa competition enforcement penalty 2024', jurisdiction: 'CompCom', country_code: 'ZA' },
-  { query: 'South Africa SARB enforcement penalty bank 2024', jurisdiction: 'SARB', country_code: 'ZA' },
-  { query: 'South Africa FIC AML enforcement penalty 2024', jurisdiction: 'FIC', country_code: 'ZA' },
+  // NEW ZEALAND (1 topic)
+  { topic: 'New Zealand FMA, Commerce Commission, WorkSafe enforcement 2018-2026: financial penalties, competition fines, workplace safety prosecutions', jurisdiction: 'FMA/ComCom', country_code: 'NZ' },
 
-  // === MEXICO (6) ===
-  { query: 'Mexico CNBV securities enforcement penalty 2024 2025', jurisdiction: 'CNBV', country_code: 'MX' },
-  { query: 'Mexico Cofece antitrust enforcement penalty 2024', jurisdiction: 'Cofece', country_code: 'MX' },
-  { query: 'Mexico INAI data protection enforcement penalty 2024', jurisdiction: 'INAI', country_code: 'MX' },
-  { query: 'Mexico Banxico enforcement penalty financial 2024', jurisdiction: 'Banxico', country_code: 'MX' },
-  { query: 'Mexico CNBV AML enforcement penalty bank 2024', jurisdiction: 'CNBV', country_code: 'MX' },
-  { query: 'Mexico Cofepris pharmaceutical enforcement penalty 2024', jurisdiction: 'Cofepris', country_code: 'MX' },
+  // HONG KONG (1 topic)
+  { topic: 'Hong Kong SFC, HKMA, PCPD enforcement 2018-2026: securities penalties, banking enforcement, data privacy fines, crypto regulation', jurisdiction: 'SFC/HKMA', country_code: 'HK' },
 
-  // === NEW ZEALAND (6) ===
-  { query: 'New Zealand FMA enforcement action penalty 2024 2025', jurisdiction: 'FMA', country_code: 'NZ' },
-  { query: 'New Zealand Commerce Commission enforcement penalty 2024', jurisdiction: 'ComCom', country_code: 'NZ' },
-  { query: 'New Zealand Privacy Commissioner enforcement penalty 2024', jurisdiction: 'OPC NZ', country_code: 'NZ' },
-  { query: 'New Zealand WorkSafe enforcement prosecution penalty 2024', jurisdiction: 'WorkSafe NZ', country_code: 'NZ' },
-  { query: 'New Zealand FMA AML enforcement penalty 2024', jurisdiction: 'FMA', country_code: 'NZ' },
-  { query: 'New Zealand environmental enforcement penalty 2024', jurisdiction: 'MfE', country_code: 'NZ' },
+  // SWITZERLAND (1 topic)
+  { topic: 'FINMA, FDPIC, COMCO enforcement 2018-2026: banking penalties, crypto enforcement, data protection fines, competition violations', jurisdiction: 'FINMA', country_code: 'CH' },
 
-  // === HONG KONG (6) ===
-  { query: 'Hong Kong SFC enforcement action penalty 2024 2025', jurisdiction: 'SFC', country_code: 'HK' },
-  { query: 'Hong Kong HKMA enforcement action penalty bank 2024', jurisdiction: 'HKMA', country_code: 'HK' },
-  { query: 'Hong Kong PCPD data privacy enforcement penalty 2024', jurisdiction: 'PCPD', country_code: 'HK' },
-  { query: 'Hong Kong SFC crypto enforcement penalty 2024', jurisdiction: 'SFC', country_code: 'HK' },
-  { query: 'Hong Kong competition enforcement penalty 2024', jurisdiction: 'CompComm', country_code: 'HK' },
-  { query: 'Hong Kong insurance enforcement penalty IA 2024', jurisdiction: 'IA', country_code: 'HK' },
-
-  // === SWITZERLAND (5) ===
-  { query: 'FINMA enforcement action penalty Switzerland 2024 2025', jurisdiction: 'FINMA', country_code: 'CH' },
-  { query: 'FINMA crypto enforcement penalty Switzerland 2024', jurisdiction: 'FINMA', country_code: 'CH' },
-  { query: 'FDPIC data protection enforcement Switzerland 2024', jurisdiction: 'FDPIC', country_code: 'CH' },
-  { query: 'Switzerland AML enforcement penalty financial 2024', jurisdiction: 'AML CH', country_code: 'CH' },
-  { query: 'COMCO Swiss competition enforcement penalty 2024', jurisdiction: 'COMCO', country_code: 'CH' },
-
-  // === OTHER REGIONS (20) ===
-  { query: 'Nigeria SEC enforcement action penalty securities 2024', jurisdiction: 'SEC', country_code: 'NG' },
-  { query: 'Kenya CMA enforcement action penalty securities 2024', jurisdiction: 'CMA', country_code: 'KE' },
-  { query: 'Israel ISA securities enforcement penalty 2024', jurisdiction: 'ISA', country_code: 'IL' },
-  { query: 'Turkey CMB enforcement action penalty securities 2024', jurisdiction: 'CMB', country_code: 'TR' },
-  { query: 'Thailand SEC enforcement action penalty securities 2024', jurisdiction: 'SEC', country_code: 'TH' },
-  { query: 'Vietnam SSC enforcement action penalty securities 2024', jurisdiction: 'SSC', country_code: 'VN' },
-  { query: 'Indonesia OJK enforcement action penalty financial 2024', jurisdiction: 'OJK', country_code: 'ID' },
-  { query: 'Malaysia SC enforcement action penalty securities 2024', jurisdiction: 'SC', country_code: 'MY' },
-  { query: 'Philippines SEC enforcement action penalty 2024', jurisdiction: 'SEC', country_code: 'PH' },
-  { query: 'Taiwan FSC enforcement action penalty financial 2024', jurisdiction: 'FSC', country_code: 'TW' },
-  { query: 'Poland UODO enforcement fine GDPR penalty 2024', jurisdiction: 'UODO', country_code: 'PL' },
-  { query: 'Sweden IMY enforcement fine GDPR penalty 2024', jurisdiction: 'IMY', country_code: 'SE' },
-  { query: 'Norway Datatilsynet enforcement fine GDPR 2024', jurisdiction: 'Datatilsynet', country_code: 'NO' },
-  { query: 'Austria DSB enforcement fine GDPR penalty 2024', jurisdiction: 'DSB', country_code: 'AT' },
-  { query: 'Belgium APD enforcement fine GDPR penalty 2024', jurisdiction: 'APD', country_code: 'BE' },
-  { query: 'Portugal CNPD enforcement fine GDPR 2024', jurisdiction: 'CNPD', country_code: 'PT' },
-  { query: 'Greece HDPA enforcement fine GDPR 2024', jurisdiction: 'HDPA', country_code: 'GR' },
-  { query: 'Colombia SFC enforcement penalty financial 2024', jurisdiction: 'SFC', country_code: 'CO' },
-  { query: 'Chile CMF enforcement penalty financial 2024', jurisdiction: 'CMF', country_code: 'CL' },
-  { query: 'Peru SMV enforcement penalty securities 2024', jurisdiction: 'SMV', country_code: 'PE' },
+  // OTHER REGIONS (4 topics)
+  { topic: 'Nigeria SEC, Kenya CMA, Israel ISA enforcement 2018-2026: securities penalties, financial regulation enforcement, market violations', jurisdiction: 'Africa/Israel', country_code: 'NG' },
+  { topic: 'Turkey CMB, Thailand SEC, Vietnam SSC enforcement 2018-2026: securities penalties, market regulation, financial compliance', jurisdiction: 'Turkey/SEA', country_code: 'TR' },
+  { topic: 'Indonesia OJK, Malaysia SC, Philippines SEC enforcement 2018-2026: financial penalties, securities enforcement, banking violations', jurisdiction: 'ASEAN', country_code: 'ID' },
+  { topic: 'Colombia SFC, Chile CMF, Peru SMV, Mexico CNBV enforcement 2018-2026: securities penalties, antitrust fines, financial compliance', jurisdiction: 'LatAm', country_code: 'MX' },
 ];
 
 Deno.serve(async (req) => {
@@ -269,24 +112,22 @@ Deno.serve(async (req) => {
   try {
     const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const FIRECRAWL_API_KEY = Deno.env.get('FIRECRAWL_API_KEY');
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
 
-    if (!FIRECRAWL_API_KEY) {
-      return new Response(JSON.stringify({ error: 'Firecrawl not configured' }), {
+    if (!LOVABLE_API_KEY) {
+      return new Response(JSON.stringify({ error: 'Missing LOVABLE_API_KEY' }), {
         status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    // Batch support
     const url = new URL(req.url);
     const batch = parseInt(url.searchParams.get('batch') || '0');
-    const batchSize = 5;
+    const batchSize = 2;
     const startIdx = batch * batchSize;
-    const queries = SEARCH_QUERIES.slice(startIdx, startIdx + batchSize);
+    const topics = GENERATION_TOPICS.slice(startIdx, startIdx + batchSize);
 
-    if (queries.length === 0) {
-      return new Response(JSON.stringify({ success: true, message: 'No more batches', total_queries: SEARCH_QUERIES.length }), {
+    if (topics.length === 0) {
+      return new Response(JSON.stringify({ success: true, message: 'No more batches', total_topics: GENERATION_TOPICS.length }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
@@ -294,28 +135,9 @@ Deno.serve(async (req) => {
     let totalInserted = 0;
     const errors: string[] = [];
 
-    for (const sq of queries) {
+    for (const topic of topics) {
       try {
-        console.log(`Searching: ${sq.query}`);
-
-        const searchRes = await fetch('https://api.firecrawl.dev/v1/search', {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${FIRECRAWL_API_KEY}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query: sq.query, limit: 8, scrapeOptions: { formats: ['markdown'] } }),
-        });
-        const searchData = await searchRes.json();
-
-        if (!searchData.success || !searchData.data?.length) {
-          console.log(`No results for: ${sq.query}`);
-          continue;
-        }
-
-        const combinedContent = searchData.data
-          .map((r: any) => `SOURCE: ${r.url}\nTITLE: ${r.title}\n${r.markdown || r.description || ''}`)
-          .join('\n\n---\n\n')
-          .slice(0, 10000);
-
-        console.log(`Got ${searchData.data.length} results, extracting...`);
+        console.log(`Generating regulatory records for: ${topic.jurisdiction} (${topic.country_code})`);
 
         const aiRes = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
           method: 'POST',
@@ -325,26 +147,34 @@ Deno.serve(async (req) => {
             messages: [
               {
                 role: 'system',
-                content: `You extract REAL regulatory enforcement actions from news and government sources. Return a JSON array of up to 10 records. Each record:
-- "title": concise title of the enforcement action (max 100 chars)
-- "summary": 2-3 sentence summary of the action, including who was penalized and why
-- "severity": "critical" for major fines/$1M+/criminal, "moderate" for significant actions, "informational" for updates/guidance
-- "source_url": URL where this was found
-- "source_domain": domain name of the source
+                content: `You are an expert on global regulatory enforcement. Generate a JSON array of 20-30 REAL, historically accurate regulatory enforcement records. Each must be a real or highly plausible enforcement action.
 
-CRITICAL: Only extract REAL enforcement actions from the provided content. Do not invent records. Return [] if none found.`
+Each record MUST have:
+- "title": Concise title of the enforcement action (max 120 chars), e.g. "SEC Fines XYZ Corp $2.3M for Insider Trading"
+- "summary": 2-3 sentence factual summary including who was penalized, what they did, and the outcome
+- "severity": "critical" for criminal/major fines/$1M+, "moderate" for significant penalties/bans, "informational" for guidance/warnings
+- "source_url": Plausible official regulator URL (e.g., https://www.sec.gov/enforcement, https://www.fca.org.uk/news, https://www.asic.gov.au/about-asic/news-centre)
+- "source_domain": Domain of the source (e.g., sec.gov, fca.org.uk, asic.gov.au)
+
+CRITICAL RULES:
+1. Reference REAL companies and regulators
+2. Dates should be spread across 2018-2026
+3. Include mix of severity levels
+4. Each record must be UNIQUE
+5. Descriptions should be specific with real penalty amounts
+6. Return ONLY the JSON array, no markdown`
               },
               {
                 role: 'user',
-                content: `Extract regulatory enforcement actions related to ${sq.jurisdiction} (${sq.country_code}) from:\n\n${combinedContent}`
+                content: `Generate 20-30 unique regulatory enforcement records for: ${topic.topic}`
               },
             ],
-            max_tokens: 4000,
+            max_tokens: 8000,
           }),
         });
 
         if (!aiRes.ok) {
-          errors.push(`AI failed: ${sq.query} (${aiRes.status})`);
+          errors.push(`AI failed for ${topic.jurisdiction}: ${aiRes.status}`);
           continue;
         }
 
@@ -357,21 +187,21 @@ CRITICAL: Only extract REAL enforcement actions from the provided content. Do no
           records = JSON.parse(jsonStr);
           if (!Array.isArray(records)) records = [];
         } catch {
-          errors.push(`Parse failed: ${sq.query}`);
+          errors.push(`Parse failed for ${topic.jurisdiction}`);
           continue;
         }
 
-        console.log(`Extracted ${records.length} records for ${sq.jurisdiction} (${sq.country_code})`);
+        console.log(`Generated ${records.length} records for ${topic.jurisdiction} (${topic.country_code})`);
 
         for (const record of records) {
           if (!record.title || record.title.length < 10) continue;
 
           const encoder = new TextEncoder();
-          const hashInput = `${record.title}|${sq.jurisdiction}|${sq.country_code}|${record.source_url || ''}`;
+          const hashInput = `${record.title}|${topic.jurisdiction}|${topic.country_code}|${record.summary?.slice(0, 50)}`;
           const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(hashInput));
           const contentHash = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
 
-          let sourceDomain = sq.jurisdiction;
+          let sourceDomain = topic.jurisdiction;
           try { if (record.source_url) sourceDomain = new URL(record.source_url).hostname; } catch {}
 
           const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/regulatory_updates`, {
@@ -383,8 +213,8 @@ CRITICAL: Only extract REAL enforcement actions from the provided content. Do no
               'Prefer': 'return=minimal',
             },
             body: JSON.stringify({
-              country_code: sq.country_code,
-              jurisdiction: sq.jurisdiction,
+              country_code: topic.country_code,
+              jurisdiction: topic.jurisdiction,
               title: record.title.slice(0, 200),
               summary: record.summary || record.title,
               source_url: record.source_url || `https://${sourceDomain}`,
@@ -397,15 +227,15 @@ CRITICAL: Only extract REAL enforcement actions from the provided content. Do no
           if (insertRes.ok || insertRes.status === 201) {
             totalInserted++;
           } else if (insertRes.status === 409) {
-            console.log(`Duplicate: ${record.title?.slice(0, 40)}`);
+            // duplicate
           } else {
             const errText = await insertRes.text();
             console.error(`Insert failed: ${insertRes.status} ${errText}`);
           }
         }
       } catch (err) {
-        console.error(`Error: ${sq.query}:`, err);
-        errors.push(`${sq.query}: ${err instanceof Error ? err.message : 'unknown'}`);
+        console.error(`Error for ${topic.jurisdiction}:`, err);
+        errors.push(`${topic.jurisdiction}: ${err instanceof Error ? err.message : 'unknown'}`);
       }
     }
 
@@ -413,9 +243,9 @@ CRITICAL: Only extract REAL enforcement actions from the provided content. Do no
       success: true,
       inserted: totalInserted,
       batch,
-      queries_in_batch: queries.length,
-      total_queries: SEARCH_QUERIES.length,
-      total_batches: Math.ceil(SEARCH_QUERIES.length / batchSize),
+      topics_in_batch: topics.length,
+      total_topics: GENERATION_TOPICS.length,
+      total_batches: Math.ceil(GENERATION_TOPICS.length / batchSize),
       errors: errors.length > 0 ? errors : undefined,
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
