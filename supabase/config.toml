@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.regulatory-monitor]
 verify_jwt = false
+
+[functions.mining-scraper]
+verify_jwt = false

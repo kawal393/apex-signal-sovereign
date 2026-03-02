@@ -154,6 +154,57 @@ export type Database = {
           },
         ]
       }
+      mining_signals: {
+        Row: {
+          action: string
+          company: string
+          content_hash: string | null
+          created_at: string
+          date: string | null
+          description: string | null
+          id: string
+          mine: string | null
+          penalty: string | null
+          risk: string
+          source: string
+          source_url: string | null
+          state: string
+          status: string | null
+        }
+        Insert: {
+          action: string
+          company: string
+          content_hash?: string | null
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          id?: string
+          mine?: string | null
+          penalty?: string | null
+          risk?: string
+          source: string
+          source_url?: string | null
+          state: string
+          status?: string | null
+        }
+        Update: {
+          action?: string
+          company?: string
+          content_hash?: string | null
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          id?: string
+          mine?: string | null
+          penalty?: string | null
+          risk?: string
+          source?: string
+          source_url?: string | null
+          state?: string
+          status?: string | null
+        }
+        Relationships: []
+      }
       monitored_sources: {
         Row: {
           active: boolean
