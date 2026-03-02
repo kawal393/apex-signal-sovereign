@@ -84,7 +84,7 @@ const Index = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 2 }}
               >
-                <span className="text-[8px] uppercase tracking-[0.3em] text-gold/40">
+                <span className="text-[10px] uppercase tracking-[0.3em] text-gold/50">
                   {status === 'acknowledged' ? 'Acknowledged' : 'Considered'}
                 </span>
               </motion.div>
@@ -103,7 +103,7 @@ const Index = () => {
                   animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0.8, 0.4] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
-                <span className="text-[8px] uppercase tracking-[0.2em] text-grey-300">
+                <span className="text-[10px] uppercase tracking-[0.2em] text-grey-400">
                   Presence active
                 </span>
               </motion.div>
@@ -206,27 +206,27 @@ const Index = () => {
                   transition={{ duration: 1.5, delay: 2.4, ease: [0.16, 1, 0.3, 1] }}
                   className="flex flex-col items-center gap-5"
                 >
-                  <div className="flex items-center gap-6 text-grey-400">
+                  <div className="flex items-center gap-6 text-grey-300">
                     <button
                       onClick={handleOpenWatchtower}
-                      className="text-[10px] md:text-base uppercase tracking-[0.25em] hover:text-grey-400 transition-colors duration-500 flex items-center gap-2"
+                      className="text-xs md:text-sm uppercase tracking-[0.25em] hover:text-primary transition-colors duration-500 flex items-center gap-2"
                     >
                       Live Signal
-                      <ExternalLink className="w-3 h-3" />
+                      <ExternalLink className="w-3.5 h-3.5" />
                     </button>
-                    <span className="w-px h-3 bg-grey-700" />
+                    <span className="w-px h-4 bg-grey-600" />
                     <Link
                       to="/request-verdict"
-                      className="text-[10px] md:text-base uppercase tracking-[0.25em] hover:text-grey-400 transition-colors duration-500 flex items-center gap-2"
+                      className="text-xs md:text-sm uppercase tracking-[0.25em] hover:text-primary transition-colors duration-500 flex items-center gap-2"
                     >
                       Request Verdict
-                      <ArrowRight className="w-3 h-3" />
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
 
                   <Link
                     to="/request-access"
-                    className="text-grey-400 hover:text-grey-300 text-[10px] tracking-[0.2em] transition-colors duration-500"
+                    className="text-grey-300 hover:text-primary text-xs tracking-[0.2em] transition-colors duration-500"
                   >
                     apex@apex-infrastructure.com
                   </Link>
@@ -239,29 +239,29 @@ const Index = () => {
                   transition={{ duration: 1.5, delay: 3, ease: [0.16, 1, 0.3, 1] }}
                   className="mt-20 pt-16 border-t border-grey-800/30"
                 >
-                  <h3 className="text-[10px] uppercase tracking-[0.6em] text-grey-400 mb-4">
+                  <h3 className="text-xs uppercase tracking-[0.5em] text-grey-300 mb-4">
                     Member Access Only
                   </h3>
-                  <p className="text-base text-grey-500 mb-8 max-w-sm mx-auto">
+                  <p className="text-sm text-grey-400 mb-8 max-w-sm mx-auto leading-relaxed">
                     You need to be a registered member to access the APEX Sovereign Grid
                   </p>
                   <div className="flex items-center justify-center gap-4 mb-8">
                     <Link
                       to="/auth"
-                      className="px-8 py-3 bg-primary/10 border border-primary/40 rounded-md text-primary text-[10px] uppercase tracking-[0.3em] hover:bg-primary/20 hover:border-primary/60 transition-all duration-500"
+                      className="px-8 py-3 bg-primary/10 border border-primary/40 rounded-md text-primary text-xs uppercase tracking-[0.3em] hover:bg-primary/20 hover:border-primary/60 transition-all duration-500"
                     >
                       Login
                     </Link>
                     <Link
                       to="/auth"
-                      className="px-8 py-3 bg-primary/20 border border-primary/50 rounded-md text-primary text-[10px] uppercase tracking-[0.3em] hover:bg-primary/30 transition-all duration-500 font-medium"
+                      className="px-8 py-3 bg-primary/20 border border-primary/50 rounded-md text-primary text-xs uppercase tracking-[0.3em] hover:bg-primary/30 transition-all duration-500 font-medium"
                       style={{ boxShadow: '0 0 30px hsl(42 95% 55% / 0.1)' }}
                     >
                       Sign Up
                     </Link>
                   </div>
                   <div className="flex flex-col items-center gap-3">
-                    <span className="text-[9px] uppercase tracking-[0.3em] text-grey-600">
+                    <span className="text-[10px] uppercase tracking-[0.3em] text-grey-500">
                       Trusted by 200+ Organizations worldwide
                     </span>
                     <div className="flex items-center gap-2">
@@ -270,12 +270,12 @@ const Index = () => {
                         animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.8, 0.4] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       />
-                      <span className="text-[9px] text-grey-600">
+                      <span className="text-[10px] text-grey-500">
                         {Math.floor(Math.random() * 8) + 12} companies joined this week
                       </span>
                     </div>
                   </div>
-                  <p className="text-[8px] text-grey-700 mt-8 tracking-[0.15em]">
+                  <p className="text-[10px] text-grey-600 mt-8 tracking-[0.15em]">
                     © 2026 APEX INTELLIGENCE EMPIRE
                   </p>
                 </motion.div>
