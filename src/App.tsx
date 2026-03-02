@@ -17,8 +17,7 @@ import Nodes from "./pages/Nodes";
 import NodeDetail from "./pages/NodeDetail";
 import NDISWatchtower from "./pages/nodes/NDISWatchtower";
 import MiningWatchtower from "./pages/nodes/MiningWatchtower";
-import CorporateTranslator from "./pages/nodes/CorporateTranslator";
-import GhostProtocol from "./pages/nodes/GhostProtocol";
+// GhostProtocol and CorporateTranslator imports removed — dormant nodes
 import Infrastructure from "./pages/Infrastructure";
 import RequestAccess from "./pages/RequestAccess";
 import Disclaimers from "./pages/Disclaimers";
@@ -107,8 +106,7 @@ const App = () => (
                   <Route path="/ndis-watchtower" element={<NDISWatchtower />} />
                   <Route path="/mining-watchtower" element={<MiningWatchtower />} />
                   <Route path="/nodes/ndis-watchtower/view" element={<PasscodeGate><NDISWatchtower /></PasscodeGate>} />
-                  <Route path="/nodes/corporate-translator/view" element={<PasscodeGate><CorporateTranslator /></PasscodeGate>} />
-                  <Route path="/nodes/ghost-protocol/view" element={<PasscodeGate><GhostProtocol /></PasscodeGate>} />
+                  {/* Corporate Translator and Ghost Protocol are dormant — routes removed */}
                   <Route path="/infrastructure" element={<Infrastructure />} />
                   <Route path="/request-access" element={<RequestAccess />} />
                   <Route path="/disclaimers" element={<Disclaimers />} />

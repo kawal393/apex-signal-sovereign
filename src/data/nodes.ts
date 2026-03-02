@@ -39,21 +39,10 @@ export const APEX_NODES: ApexNode[] = [
   {
     id: 'corporate-translator',
     name: 'APEX Corporate Translator',
-    status: 'live',
+    status: 'dormant',
     domain: 'Policy, procurement & regulatory language decoding',
     purpose: 'Decode institutional language into operational reality.',
-    externalUrl: '/nodes/corporate-translator',
-    internalComponentRoute: '/nodes/corporate-translator/view',
-    whatYouGet: [
-      'Plain-language translation of corporate announcements',
-      'Hidden signal extraction from public filings',
-      'Institutional intent mapping and dependency analysis',
-    ],
-    whoItsFor: [
-      'Operators dealing with institutional counterparties',
-      'Stakeholders requiring clarity on corporate positioning',
-      'Decision-makers evaluating partnership or exit timing',
-    ],
+    description: 'Dormant Node — Infrastructure Reserved. Capacity allocated for future activation.',
   },
   {
     id: 'ata-ledger',
@@ -77,22 +66,10 @@ export const APEX_NODES: ApexNode[] = [
   {
     id: 'ghost-protocol',
     name: 'APEX Ghost Protocol',
-    status: 'live',
+    status: 'dormant',
     domain: 'Internal operating doctrine',
     purpose: 'Silent monitoring of entities and dependencies without direct engagement.',
-    description: 'Disciplined observation, triage, and escalation infrastructure. Process-based verification only. No execution. No representation. No impersonation.',
-    externalUrl: '/nodes/ghost-protocol',
-    internalComponentRoute: '/nodes/ghost-protocol/view',
-    whatYouGet: [
-      'Passive entity monitoring and change detection',
-      'Dependency mapping without exposure',
-      'Early warning signals on counterparty risk',
-    ],
-    whoItsFor: [
-      'Operators monitoring competitors or counterparties',
-      'Stakeholders tracking regulatory body movements',
-      'Decision-makers requiring situational awareness',
-    ],
+    description: 'Dormant Node — Infrastructure Reserved. Capacity allocated for future activation.',
   },
 
   // ============ SEALED NODES ============
