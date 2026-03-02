@@ -152,13 +152,15 @@ Rules:
               content_hash: contentHash,
           };
 
+          console.log(`Inserting: ${record.company} (${reg.state})`);
+
           const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/mining_signals`, {
             method: 'POST',
             headers: {
               'apikey': SUPABASE_SERVICE_ROLE_KEY,
               'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
               'Content-Type': 'application/json',
-              'Prefer': 'return=minimal, resolution=ignore-duplicates',
+              'Prefer': 'return=minimal',
             },
             body: JSON.stringify(payload),
           });
@@ -167,7 +169,12 @@ Rules:
             totalInserted++;
           } else {
             const errText = await insertRes.text();
-            console.error(`Insert failed for ${record.company}: ${insertRes.status} ${errText}`);
+            // 409 = duplicate content_hash, which is fine
+            if (insertRes.status === 409) {
+              console.log(`Duplicate skipped: ${record.company}`);
+            } else {
+              console.error(`Insert failed for ${record.company}: ${insertRes.status} ${errText}`);
+            }
           }
         }
 
