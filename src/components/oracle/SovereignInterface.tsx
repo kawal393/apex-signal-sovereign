@@ -4,6 +4,7 @@ import { X, Send, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ReactMarkdown from 'react-markdown';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -121,6 +122,35 @@ const SovereignInterface = forwardRef<HTMLDivElement, SovereignInterfaceProps>(
             } catch {
               // Incomplete JSON, will be handled in next chunk
             }
+          }
+        }
+        // Persist conversation to database
+        if (assistantContent && visitorId && sessionId) {
+          const allMessages = [...messages, userMsg, { role: 'assistant' as const, content: assistantContent }];
+          try {
+            const { data: existing } = await supabase
+              .from('oracle_conversations')
+              .select('id')
+              .eq('session_id', sessionId)
+              .maybeSingle();
+
+            if (existing) {
+              await supabase
+                .from('oracle_conversations')
+                .update({ messages: allMessages as any })
+                .eq('session_id', sessionId);
+            } else {
+              await supabase
+                .from('oracle_conversations')
+                .insert({
+                  session_id: sessionId,
+                  visitor_id: visitorId,
+                  messages: allMessages as any,
+                  status: 'active',
+                });
+            }
+          } catch (dbErr) {
+            console.warn('Failed to persist conversation:', dbErr);
           }
         }
       } catch (error) {

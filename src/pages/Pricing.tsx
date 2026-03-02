@@ -9,10 +9,20 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import AmbientParticles from "@/components/effects/AmbientParticles";
 import { useGeo, convertPrice } from "@/contexts/GeoContext";
 
+// Map currency codes to Stripe currency parameter
+const CURRENCY_TO_STRIPE: Record<string, string> = {
+  AUD: "aud", USD: "usd", GBP: "gbp", EUR: "eur", CAD: "cad", JPY: "jpy",
+  SGD: "sgd", INR: "inr", AED: "aed", KRW: "krw", NZD: "nzd", CHF: "chf",
+  SEK: "sek", NOK: "nok", DKK: "dkk", PLN: "pln", CZK: "czk", BRL: "brl",
+  MXN: "mxn", ZAR: "zar", HKD: "hkd", TWD: "twd", THB: "thb", MYR: "myr",
+  SAR: "sar", ILS: "ils", TRY: "try",
+};
+
 const tiers = [
   {
     name: "Standard Invocation Window",
     price: "$249",
+    audAmount: 249,
     delivery: "Sealed within 72 hours",
     description: "Structured judgment for a single decision domain.",
     features: [
@@ -25,11 +35,12 @@ const tiers = [
     ],
     cta: "Request Standard Verdict",
     popular: true,
-    href: "https://buy.stripe.com/14AfZ98ohcL6fUI9kob7y03",
+    baseHref: "https://buy.stripe.com/14AfZ98ohcL6fUI9kob7y03",
   },
   {
     name: "Complex Invocation Window",
     price: "$999",
+    audAmount: 999,
     delivery: "Sealed within 5–10 business days",
     description: "Multi-factor analysis across overlapping domains or counterparties.",
     features: [
@@ -42,11 +53,12 @@ const tiers = [
     ],
     cta: "Request Complex Verdict",
     popular: false,
-    href: "https://buy.stripe.com/00waEPeMF26s0ZO1RWb7y04",
+    baseHref: "https://buy.stripe.com/00waEPeMF26s0ZO1RWb7y04",
   },
   {
     name: "Partner / Retainer",
     price: "By Invitation",
+    audAmount: 0,
     delivery: "Continuous",
     description: "Sealed access, continuous monitoring, and citeable verdicts.",
     features: [
@@ -128,7 +140,7 @@ const Pricing = () => {
                 <div className="mb-6">
                   <span className="text-grey-400 text-base block mb-1">{tier.delivery}</span>
                   <span className="text-2xl font-medium text-foreground/80">
-                    {tier.price === "By Invitation" ? tier.price : getPrice(tier.price === "$249" ? 249 : 999)}
+                    {tier.price === "By Invitation" ? tier.price : getPrice(tier.audAmount)}
                   </span>
                 </div>
 
@@ -153,7 +165,12 @@ const Pricing = () => {
                     </ApexButton>
                   </Link>
                 ) : (
-                  <a href={tier.href} target="_blank" rel="noopener noreferrer" className="mt-auto block">
+                  <a
+                    href={`${tier.baseHref}${CURRENCY_TO_STRIPE[geo.jurisdiction.currency] ? `&currency=${CURRENCY_TO_STRIPE[geo.jurisdiction.currency]}` : ''}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-auto block"
+                  >
                     <ApexButton
                       variant={tier.popular ? "primary" : "outline"}
                       size="lg"

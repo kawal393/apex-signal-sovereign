@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://apex-signal-sovereign.lovable.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://apex-signal-sovereign.lovable.app/commons</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://apex-signal-sovereign.lovable.app/ndis-watchtower</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://apex-signal-sovereign.lovable.app/mining-watchtower</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://apex-signal-sovereign.lovable.app/pricing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://apex-signal-sovereign.lovable.app/request-verdict</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://apex-signal-sovereign.lovable.app/how-it-works</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://apex-signal-sovereign.lovable.app/manifesto</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://apex-signal-sovereign.lovable.app/infrastructure</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://apex-signal-sovereign.lovable.app/ledger</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://apex-signal-sovereign.lovable.app/disclaimers</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://apex-signal-sovereign.lovable.app/terms</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://apex-signal-sovereign.lovable.app/privacy</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+</urlset>
