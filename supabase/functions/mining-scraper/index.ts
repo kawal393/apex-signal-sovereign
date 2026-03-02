@@ -8,23 +8,19 @@ interface MiningRecord {
   mine: string;
   action: string;
   risk: string;
-  state: string;
-  source: string;
   description: string;
   date: string;
   penalty: string;
+  state: string;
   source_url: string;
 }
 
-const REGULATOR_URLS: { url: string; state: string; source: string }[] = [
-  { url: 'https://www.rshq.qld.gov.au/safety-notices', state: 'QLD', source: 'RSHQ Queensland' },
-  { url: 'https://www.resourcesregulator.nsw.gov.au/safety-and-health/enforcement-activity', state: 'NSW', source: 'NSW Resources Regulator' },
-  { url: 'https://www.dmirs.wa.gov.au/content/mines-safety-enforcement', state: 'WA', source: 'DMIRS Western Australia' },
-  { url: 'https://earthresources.vic.gov.au/legislation-and-regulations/compliance-and-enforcement', state: 'VIC', source: 'Earth Resources VIC' },
-  { url: 'https://www.energymining.sa.gov.au/industry/mining-and-quarrying/safety-and-health', state: 'SA', source: 'DEM South Australia' },
-  { url: 'https://worksafe.tas.gov.au/topics/industries/mining-and-quarrying', state: 'TAS', source: 'WorkSafe Tasmania' },
-  { url: 'https://worksafe.nt.gov.au/safety-and-prevention/mining', state: 'NT', source: 'NT WorkSafe' },
-  { url: 'https://www.safeworkaustralia.gov.au/mining', state: 'National', source: 'Safe Work Australia' },
+const SEARCH_QUERIES = [
+  { query: 'Australia mining prosecution penalty fine 2024 2025 2026', state: 'National' },
+  { query: 'Queensland mining safety prosecution penalty RSHQ', state: 'QLD' },
+  { query: 'NSW mining prosecution resources regulator penalty', state: 'NSW' },
+  { query: 'Western Australia mining prosecution DMIRS penalty', state: 'WA' },
+  { query: 'Australia mining company prohibition notice safety breach', state: 'National' },
 ];
 
 Deno.serve(async (req) => {
@@ -38,14 +34,8 @@ Deno.serve(async (req) => {
     const FIRECRAWL_API_KEY = Deno.env.get('FIRECRAWL_API_KEY');
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
 
-    if (!FIRECRAWL_API_KEY) {
-      return new Response(JSON.stringify({ error: 'Firecrawl not configured' }), {
-        status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
-
-    if (!LOVABLE_API_KEY) {
-      return new Response(JSON.stringify({ error: 'Lovable AI not configured' }), {
+    if (!FIRECRAWL_API_KEY || !LOVABLE_API_KEY) {
+      return new Response(JSON.stringify({ error: 'Missing required API keys' }), {
         status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
@@ -53,30 +43,36 @@ Deno.serve(async (req) => {
     let totalInserted = 0;
     const errors: string[] = [];
 
-    for (const reg of REGULATOR_URLS) {
+    for (const sq of SEARCH_QUERIES) {
       try {
-        console.log(`Scraping ${reg.source}: ${reg.url}`);
+        console.log(`Searching: ${sq.query}`);
 
-        // Scrape with Firecrawl
-        const scrapeRes = await fetch('https://api.firecrawl.dev/v1/scrape', {
+        // Search with Firecrawl
+        const searchRes = await fetch('https://api.firecrawl.dev/v1/search', {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${FIRECRAWL_API_KEY}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url: reg.url, formats: ['markdown'], onlyMainContent: true }),
+          body: JSON.stringify({
+            query: sq.query,
+            limit: 5,
+            scrapeOptions: { formats: ['markdown'] },
+          }),
         });
-        const scrapeData = await scrapeRes.json();
+        const searchData = await searchRes.json();
 
-        if (!scrapeData.success) {
-          errors.push(`${reg.source}: scrape failed`);
+        if (!searchData.success || !searchData.data?.length) {
+          console.log(`No search results for: ${sq.query}`);
           continue;
         }
 
-        const content = scrapeData.data?.markdown || scrapeData.markdown || '';
-        if (content.length < 100) {
-          errors.push(`${reg.source}: insufficient content`);
-          continue;
-        }
+        // Combine all search result content
+        const combinedContent = searchData.data
+          .map((r: any) => `SOURCE: ${r.url}\nTITLE: ${r.title}\n${r.markdown || r.description || ''}`)
+          .join('\n\n---\n\n')
+          .slice(0, 8000);
 
-        // Extract structured data with Gemini
+        console.log(`Got ${searchData.data.length} search results, extracting records...`);
+
+        // Extract with AI
         const aiRes = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${LOVABLE_API_KEY}`, 'Content-Type': 'application/json' },
@@ -85,24 +81,22 @@ Deno.serve(async (req) => {
             messages: [
               {
                 role: 'system',
-                content: `You extract mining enforcement records from regulatory website content. Return a JSON array of records. Each record must have:
-- "company": company or operator name
-- "mine": mine site name (or "N/A")
-- "action": type of enforcement (e.g., "Prohibition Notice", "Prosecution", "Penalty", "Safety Alert", "Directive", "Improvement Notice")
-- "risk": "HIGH", "MEDIUM", or "LOW"
-- "description": brief summary (1-2 sentences)
-- "date": date string if found (e.g., "2024-01-15") or "Unknown"
-- "penalty": dollar amount if applicable or "N/A"
+                content: `You extract REAL Australian mining enforcement records from news and government sources. Return a JSON array. Each record:
+- "company": REAL company name (e.g., "BHP", "Glencore", "Anglo American", "Peabody Energy"). NEVER use placeholder or generic names.
+- "mine": specific mine site name if mentioned, otherwise "Not specified"
+- "action": enforcement type (e.g., "Prosecution", "Penalty", "Prohibition Notice", "Safety Breach", "Fine", "Enforceable Undertaking")
+- "risk": "HIGH" for fatalities/prosecutions/$100k+ fines, "MEDIUM" for smaller fines/notices, "LOW" for improvement notices
+- "description": 1-2 sentence summary of the actual incident
+- "date": actual date (YYYY-MM-DD format) or "Unknown"
+- "penalty": actual dollar amount (e.g., "$450,000") or "N/A"
+- "state": Australian state (QLD, NSW, WA, VIC, SA, TAS, NT, or National)
+- "source_url": URL where this was found
 
-Rules:
-- Extract REAL company names and mine sites only
-- If content has no enforcement records, return empty array []
-- Risk: HIGH for fatalities/serious injuries/prosecutions, MEDIUM for prohibition notices/fines, LOW for improvement notices/alerts
-- Return ONLY the JSON array, no other text`
+CRITICAL: Only extract REAL enforcement actions with REAL company names from the provided content. Do not invent records. Return [] if no real records found.`
               },
               {
                 role: 'user',
-                content: `Extract mining enforcement records from this ${reg.source} (${reg.state}) page:\n\n${content.slice(0, 6000)}`
+                content: `Extract mining enforcement records from these Australian sources:\n\n${combinedContent}`
               },
             ],
             max_tokens: 4000,
@@ -110,49 +104,35 @@ Rules:
         });
 
         if (!aiRes.ok) {
-          errors.push(`${reg.source}: AI extraction failed (${aiRes.status})`);
+          errors.push(`AI failed for query: ${sq.query} (${aiRes.status})`);
           continue;
         }
 
         const aiData = await aiRes.json();
         const rawContent = aiData.choices?.[0]?.message?.content || '[]';
 
-        // Parse JSON from AI response (handle markdown code blocks)
         let records: MiningRecord[] = [];
         try {
           const jsonStr = rawContent.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
           records = JSON.parse(jsonStr);
           if (!Array.isArray(records)) records = [];
         } catch {
-          errors.push(`${reg.source}: failed to parse AI response`);
+          errors.push(`Parse failed for: ${sq.query}`);
           continue;
         }
 
-        // Insert records with dedup
+        console.log(`Extracted ${records.length} records from search: ${sq.query}`);
+
         for (const record of records) {
-          if (!record.company || record.company === 'N/A') continue;
+          if (!record.company || record.company === 'N/A' || record.company.toLowerCase().includes('sample')) continue;
 
           const encoder = new TextEncoder();
-          const hashInput = `${record.company}|${record.mine}|${record.action}|${record.date}|${reg.state}`;
+          const hashInput = `${record.company}|${record.mine}|${record.action}|${record.date}|${record.state}`;
           const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(hashInput));
           const hashArray = Array.from(new Uint8Array(hashBuffer));
           const contentHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
-          const payload = {
-              company: record.company,
-              mine: record.mine || 'N/A',
-              action: record.action || 'Enforcement Action',
-              risk: ['HIGH', 'MEDIUM', 'LOW'].includes(record.risk) ? record.risk : 'MEDIUM',
-              state: reg.state,
-              source: reg.source,
-              description: record.description || '',
-              date: record.date || 'Unknown',
-              penalty: record.penalty || 'N/A',
-              source_url: reg.url,
-              content_hash: contentHash,
-          };
-
-          console.log(`Inserting: ${record.company} (${reg.state})`);
+          const state = ['QLD', 'NSW', 'WA', 'VIC', 'SA', 'TAS', 'NT', 'National'].includes(record.state) ? record.state : sq.state;
 
           const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/mining_signals`, {
             method: 'POST',
@@ -162,33 +142,41 @@ Rules:
               'Content-Type': 'application/json',
               'Prefer': 'return=minimal',
             },
-            body: JSON.stringify(payload),
+            body: JSON.stringify({
+              company: record.company,
+              mine: record.mine || 'Not specified',
+              action: record.action || 'Enforcement Action',
+              risk: ['HIGH', 'MEDIUM', 'LOW'].includes(record.risk) ? record.risk : 'MEDIUM',
+              state,
+              source: `Search: ${state}`,
+              description: record.description || '',
+              date: record.date || 'Unknown',
+              penalty: record.penalty || 'N/A',
+              source_url: record.source_url || '',
+              content_hash: contentHash,
+            }),
           });
 
           if (insertRes.ok || insertRes.status === 201) {
             totalInserted++;
+            console.log(`Inserted: ${record.company} (${state})`);
+          } else if (insertRes.status === 409) {
+            console.log(`Duplicate: ${record.company}`);
           } else {
             const errText = await insertRes.text();
-            // 409 = duplicate content_hash, which is fine
-            if (insertRes.status === 409) {
-              console.log(`Duplicate skipped: ${record.company}`);
-            } else {
-              console.error(`Insert failed for ${record.company}: ${insertRes.status} ${errText}`);
-            }
+            console.error(`Insert failed: ${record.company}: ${insertRes.status} ${errText}`);
           }
         }
-
-        console.log(`${reg.source}: extracted ${records.length} records`);
       } catch (err) {
-        console.error(`Error processing ${reg.source}:`, err);
-        errors.push(`${reg.source}: ${err instanceof Error ? err.message : 'unknown error'}`);
+        console.error(`Error for query ${sq.query}:`, err);
+        errors.push(`${sq.query}: ${err instanceof Error ? err.message : 'unknown'}`);
       }
     }
 
     return new Response(JSON.stringify({
       success: true,
       inserted: totalInserted,
-      sources_processed: REGULATOR_URLS.length,
+      queries_processed: SEARCH_QUERIES.length,
       errors: errors.length > 0 ? errors : undefined,
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
