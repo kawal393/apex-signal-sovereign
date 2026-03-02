@@ -146,28 +146,54 @@ const Index = () => {
                   APEX has monitored AAT enforcement trends and corporate structural decay since 2022. Due to the critical mass of systemic failures observed recently, we are now unsealing selective nodes to the public.
                 </motion.p>
 
-                {/* 3. ACCESS — The single gravitational center */}
+                {/* 3. ACCESS — Primary actions */}
                 <motion.div
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1.8, delay: 1.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex flex-col items-center gap-16 mb-14"
+                  className="flex flex-col items-center gap-6 mb-14"
                 >
+                  {/* HERO CTA — Become a Partner */}
+                  <Link to="/partner">
+                    <motion.div
+                      whileHover={{ scale: 1.06, y: -8 }}
+                      whileTap={{ scale: 0.97 }}
+                      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                      className="relative"
+                    >
+                      {/* Animated glow ring */}
+                      <motion.div
+                        className="absolute -inset-1 rounded-xl opacity-60 blur-md"
+                        style={{ background: 'linear-gradient(135deg, hsl(42 95% 55%), hsl(42 80% 40%), hsl(42 95% 55%))' }}
+                        animate={{ opacity: [0.4, 0.7, 0.4], scale: [0.98, 1.02, 0.98] }}
+                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                      />
+                      <ApexButton
+                        variant="primary"
+                        size="lg"
+                        className="relative min-w-[300px] text-base tracking-[0.4em] px-16 py-7 font-bold"
+                        style={{
+                          boxShadow: '0 0 80px hsl(42 95% 55% / 0.35), 0 0 160px hsl(42 95% 55% / 0.15)',
+                        }}
+                      >
+                        BECOME A PARTNER — EARN 50%
+                      </ApexButton>
+                    </motion.div>
+                  </Link>
+
+                  {/* Secondary — Proceed */}
                   <Link to="/commons" onClick={handleProceed}>
                     <motion.div
-                      whileHover={{ scale: 1.05, y: -6 }}
+                      whileHover={{ scale: 1.03, y: -3 }}
                       whileTap={{ scale: 0.98 }}
                       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     >
                       <ApexButton
-                        variant="primary"
+                        variant="outline"
                         size="lg"
-                        className="min-w-[240px] text-base tracking-[0.5em] px-16 py-7"
-                        style={{
-                          boxShadow: '0 0 80px hsl(42 95% 55% / 0.25), 0 0 160px hsl(42 95% 55% / 0.1)',
-                        }}
+                        className="min-w-[240px] text-sm tracking-[0.4em] px-12 py-5 border-primary/40 text-primary/80 hover:bg-primary/10"
                       >
-                        PROCEED
+                        PROCEED AS OBSERVER
                       </ApexButton>
                     </motion.div>
                   </Link>
