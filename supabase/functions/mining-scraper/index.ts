@@ -16,11 +16,43 @@ interface MiningRecord {
 }
 
 const SEARCH_QUERIES = [
-  { query: 'Australia mining prosecution penalty fine 2024 2025 2026', state: 'National' },
-  { query: 'Queensland mining safety prosecution penalty RSHQ', state: 'QLD' },
-  { query: 'NSW mining prosecution resources regulator penalty', state: 'NSW' },
-  { query: 'Western Australia mining prosecution DMIRS penalty', state: 'WA' },
-  { query: 'Australia mining company prohibition notice safety breach', state: 'National' },
+  // Queensland
+  { query: 'Queensland mining prosecution penalty fine RSHQ 2024 2025 2026', state: 'QLD' },
+  { query: 'Queensland coal mine safety breach prosecution Resources Safety Health', state: 'QLD' },
+  { query: 'QLD mine worker death prosecution penalty Resources Safety', state: 'QLD' },
+  { query: 'Queensland mining company enforceable undertaking safety regulator', state: 'QLD' },
+  // NSW
+  { query: 'NSW mining prosecution Resources Regulator penalty fine 2024 2025', state: 'NSW' },
+  { query: 'New South Wales mine safety breach prosecution penalty', state: 'NSW' },
+  { query: 'NSW coal mine prosecution fine Resources Regulator enforcement', state: 'NSW' },
+  { query: 'NSW mining company prohibition notice safety directive', state: 'NSW' },
+  // Western Australia
+  { query: 'Western Australia mining prosecution DMIRS penalty fine 2024 2025', state: 'WA' },
+  { query: 'WA mine safety prosecution Department Mines Industry Regulation', state: 'WA' },
+  { query: 'Western Australia mining fatality prosecution penalty enforcement', state: 'WA' },
+  { query: 'WA mining company safety improvement prohibition notice DMIRS', state: 'WA' },
+  // Victoria
+  { query: 'Victoria mining prosecution penalty WorkSafe Earth Resources Regulation', state: 'VIC' },
+  { query: 'Victorian mine safety breach prosecution fine enforcement', state: 'VIC' },
+  // South Australia
+  { query: 'South Australia mining prosecution penalty DEM SafeWork SA', state: 'SA' },
+  { query: 'SA mine safety breach prosecution fine enforcement action', state: 'SA' },
+  // Tasmania
+  { query: 'Tasmania mining prosecution penalty WorkSafe mines enforcement', state: 'TAS' },
+  // Northern Territory
+  { query: 'Northern Territory mining prosecution penalty NT WorkSafe mines', state: 'NT' },
+  // National / cross-state
+  { query: 'Australia mining company prosecution penalty fine enforcement 2024', state: 'National' },
+  { query: 'Australia mining safety fatality prosecution court penalty 2025', state: 'National' },
+  { query: 'Australian mining regulator enforcement action prohibition notice 2023 2024', state: 'National' },
+  { query: 'BHP Rio Tinto Glencore mining prosecution Australia penalty', state: 'National' },
+  { query: 'Australia gold mine prosecution safety breach penalty fine', state: 'National' },
+  { query: 'Australia iron ore mine prosecution safety enforcement penalty', state: 'National' },
+  // Historical depth
+  { query: 'Australia mining prosecution penalty 2020 2021 2022 enforcement', state: 'National' },
+  { query: 'Australian mine disaster prosecution penalty court fine history', state: 'National' },
+  { query: 'Australia coal mine explosion prosecution penalty Grosvenor Pike River', state: 'National' },
+  { query: 'Australia mining company AUSTRAC penalty compliance enforcement', state: 'National' },
 ];
 
 Deno.serve(async (req) => {
@@ -40,14 +72,26 @@ Deno.serve(async (req) => {
       });
     }
 
+    // Allow selecting a batch via query param
+    const url = new URL(req.url);
+    const batch = parseInt(url.searchParams.get('batch') || '0');
+    const batchSize = 5;
+    const startIdx = batch * batchSize;
+    const queries = SEARCH_QUERIES.slice(startIdx, startIdx + batchSize);
+
+    if (queries.length === 0) {
+      return new Response(JSON.stringify({ success: true, message: 'No more batches', total_queries: SEARCH_QUERIES.length }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     let totalInserted = 0;
     const errors: string[] = [];
 
-    for (const sq of SEARCH_QUERIES) {
+    for (const sq of queries) {
       try {
         console.log(`Searching: ${sq.query}`);
 
-        // Search with Firecrawl
         const searchRes = await fetch('https://api.firecrawl.dev/v1/search', {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${FIRECRAWL_API_KEY}`, 'Content-Type': 'application/json' },
@@ -64,7 +108,6 @@ Deno.serve(async (req) => {
           continue;
         }
 
-        // Combine all search result content
         const combinedContent = searchData.data
           .map((r: any) => `SOURCE: ${r.url}\nTITLE: ${r.title}\n${r.markdown || r.description || ''}`)
           .join('\n\n---\n\n')
@@ -72,7 +115,6 @@ Deno.serve(async (req) => {
 
         console.log(`Got ${searchData.data.length} search results, extracting records...`);
 
-        // Extract with AI
         const aiRes = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${LOVABLE_API_KEY}`, 'Content-Type': 'application/json' },
@@ -176,7 +218,10 @@ CRITICAL: Only extract REAL enforcement actions with REAL company names from the
     return new Response(JSON.stringify({
       success: true,
       inserted: totalInserted,
-      queries_processed: SEARCH_QUERIES.length,
+      batch,
+      queries_in_batch: queries.length,
+      total_queries: SEARCH_QUERIES.length,
+      total_batches: Math.ceil(SEARCH_QUERIES.length / batchSize),
       errors: errors.length > 0 ? errors : undefined,
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
