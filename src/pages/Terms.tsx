@@ -3,9 +3,11 @@ import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import MobileVoid from "@/components/effects/MobileVoid";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useJurisdictionDisclaimer } from "@/hooks/useJurisdictionDisclaimer";
 
 const Terms = () => {
   const isMobile = useIsMobile();
+  const { termsGoverningLaw, countryName } = useJurisdictionDisclaimer();
 
   return (
     <div className="relative min-h-screen bg-black">
@@ -40,44 +42,35 @@ const Terms = () => {
           >
             <section>
               <h2 className="text-lg font-medium text-foreground mb-3">Acceptance</h2>
-              <p>
-                By accessing APEX Infrastructure, you accept these terms. If you do not agree, do not use the service.
-              </p>
+              <p>By accessing APEX Infrastructure, you accept these terms. If you do not agree, do not use the service.</p>
             </section>
 
             <section>
               <h2 className="text-lg font-medium text-foreground mb-3">Service Description</h2>
-              <p>
-                APEX provides opinion-based operational risk assessments delivered as Verdict Briefs. These are analytical products, not professional advice requiring licensure.
-              </p>
+              <p>APEX provides opinion-based operational risk assessments delivered as Verdict Briefs. These are analytical products, not professional advice requiring licensure.</p>
             </section>
 
             <section>
               <h2 className="text-lg font-medium text-foreground mb-3">Payment</h2>
-              <p>
-                Upon request acceptance, an invoice is issued. Payment is required before delivery. All fees are non-refundable once work has commenced.
-              </p>
+              <p>Upon request acceptance, an invoice is issued. Payment is required before delivery. All fees are non-refundable once work has commenced.</p>
             </section>
 
             <section>
               <h2 className="text-lg font-medium text-foreground mb-3">Intellectual Property</h2>
-              <p>
-                Delivered Verdict Briefs become client property upon payment. APEX retains rights to methodologies, frameworks, and internal processes.
-              </p>
+              <p>Delivered Verdict Briefs become client property upon payment. APEX retains rights to methodologies, frameworks, and internal processes.</p>
             </section>
 
             <section>
               <h2 className="text-lg font-medium text-foreground mb-3">Limitation of Liability</h2>
-              <p>
-                APEX liability is limited to the fee paid for the specific deliverable in question. We are not liable for decisions made or outcomes resulting from use of our assessments.
-              </p>
+              <p>APEX liability is limited to the fee paid for the specific deliverable in question. We are not liable for decisions made or outcomes resulting from use of our assessments.</p>
             </section>
 
-            <section>
-              <h2 className="text-lg font-medium text-foreground mb-3">Governing Law</h2>
-              <p>
-                These terms are governed by the laws of Australia. Any disputes shall be resolved in Australian courts.
-              </p>
+            <section className="border-t border-primary/20 pt-8">
+              <h2 className="text-lg font-medium text-foreground mb-1">Governing Law & Dispute Resolution</h2>
+              <span className="text-[9px] uppercase tracking-[0.2em] text-primary/60 block mb-3">
+                Adapted for: {countryName}
+              </span>
+              <p>{termsGoverningLaw}</p>
             </section>
           </motion.div>
         </div>

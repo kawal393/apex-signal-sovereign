@@ -3,9 +3,11 @@ import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import MobileVoid from "@/components/effects/MobileVoid";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useJurisdictionDisclaimer } from "@/hooks/useJurisdictionDisclaimer";
 
 const Privacy = () => {
   const isMobile = useIsMobile();
+  const { privacyAddendum, countryName } = useJurisdictionDisclaimer();
 
   return (
     <div className="relative min-h-screen bg-black">
@@ -40,37 +42,47 @@ const Privacy = () => {
           >
             <section>
               <h2 className="text-lg font-medium text-foreground mb-3">Information Collection</h2>
-              <p>
-                We collect information you provide directly (name, email, request details) and basic analytics data (page views, session duration). We do not sell personal data.
-              </p>
+              <p>We collect information you provide directly (name, email, request details) and basic analytics data (page views, session duration). We do not sell personal data.</p>
             </section>
 
             <section>
               <h2 className="text-lg font-medium text-foreground mb-3">Use of Information</h2>
-              <p>
-                Information is used to process requests, deliver services, and improve system operations. Analytics inform interface improvements.
-              </p>
+              <p>Information is used to process requests, deliver services, and improve system operations. Analytics inform interface improvements.</p>
+            </section>
+
+            <section>
+              <h2 className="text-lg font-medium text-foreground mb-3">AI Data Processing</h2>
+              <p>APEX uses artificial intelligence to analyse submitted data and generate assessments. AI processing is performed on secure infrastructure. AI-generated outputs are clearly identified. We retain AI processing logs for quality assurance and system improvement.</p>
             </section>
 
             <section>
               <h2 className="text-lg font-medium text-foreground mb-3">Data Retention</h2>
-              <p>
-                Request data is retained for the duration of the engagement plus a reasonable period for record-keeping. You may request deletion of your data at any time.
-              </p>
+              <p>Request data is retained for the duration of the engagement plus a reasonable period for record-keeping. You may request deletion of your data at any time.</p>
             </section>
 
             <section>
               <h2 className="text-lg font-medium text-foreground mb-3">Third Parties</h2>
-              <p>
-                We may use third-party services for hosting, analytics, and payment processing. These parties are bound by their own privacy policies.
-              </p>
+              <p>We may use third-party services for hosting, analytics, and payment processing. These parties are bound by their own privacy policies.</p>
             </section>
 
             <section>
+              <h2 className="text-lg font-medium text-foreground mb-3">Data Storage</h2>
+              <p>Your data is primarily stored and processed in Australia. International data transfers are protected by appropriate safeguards.</p>
+            </section>
+
+            {privacyAddendum && (
+              <section className="border-t border-primary/20 pt-8">
+                <h2 className="text-lg font-medium text-foreground mb-1">Your Jurisdiction-Specific Rights</h2>
+                <span className="text-[9px] uppercase tracking-[0.2em] text-primary/60 block mb-3">
+                  Detected: {countryName}
+                </span>
+                <p>{privacyAddendum}</p>
+              </section>
+            )}
+
+            <section>
               <h2 className="text-lg font-medium text-foreground mb-3">Contact</h2>
-              <p>
-                For privacy inquiries, submit a request through the standard access gate.
-              </p>
+              <p>For privacy inquiries, submit a request through the standard access gate.</p>
             </section>
           </motion.div>
         </div>

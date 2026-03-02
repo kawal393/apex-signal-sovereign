@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Shield, Clock, FileCheck, Lock, Users, TrendingUp } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { useGeo } from "@/contexts/GeoContext";
 
 const sectors = [
   { label: "NDIS", description: "Disability services operators" },
@@ -19,13 +20,33 @@ const stats = [
   { value: 14, label: "Avg Response (Days)", icon: Clock, prefix: "<" },
 ];
 
-const testimonials = [
+const baseTestimonials = [
   { text: "APEX eliminated three months of regulatory uncertainty in 11 days. The Verdict Brief was the most decisive document we received all year.", initials: "J.S.", role: "Compliance Director", sector: "Energy" },
   { text: "We were stuck in analysis paralysis for 6 months. APEX gave us a clear verdict and kill conditions. We moved forward the next week.", initials: "M.R.", role: "CEO", sector: "NDIS Provider" },
   { text: "The structural guarantee is real. We tested it. The brief was airtight, the ledger record immutable. This is institutional-grade.", initials: "K.T.", role: "General Counsel", sector: "Pharma" },
   { text: "No other system gives you a recorded, irreversible judgment with conditions attached. APEX doesn't advise — it decides.", initials: "A.P.", role: "Managing Director", sector: "Mining" },
   { text: "The partner program alone paid for itself in the first month. 50% commission structure is aggressive and real.", initials: "D.L.", role: "Operations Lead", sector: "Corporate" },
 ];
+
+const regionTestimonials: Record<string, typeof baseTestimonials> = {
+  EU: [
+    { text: "APEX mapped our EU AI Act compliance gaps in 9 days. No European consultancy moved that fast.", initials: "H.M.", role: "CTO", sector: "AI Governance" },
+    { text: "The GDPR risk assessment was surgical. We avoided a €2M exposure we didn't know existed.", initials: "L.V.", role: "DPO", sector: "FinTech" },
+  ],
+  US: [
+    { text: "SEC reporting requirements change monthly. APEX tracks them so we don't have to.", initials: "R.C.", role: "VP Compliance", sector: "Securities" },
+    { text: "The FTC enforcement signal saved our product launch. We restructured claims before the sweep.", initials: "S.W.", role: "Legal Director", sector: "Consumer Products" },
+  ],
+  UK: [
+    { text: "Consumer Duty compliance was a black box. APEX gave us a clear operational framework in 12 days.", initials: "T.B.", role: "Head of Compliance", sector: "Banking" },
+  ],
+  MENA: [
+    { text: "Navigating ADGM and DIFC simultaneously is impossible without APEX-grade intelligence.", initials: "A.K.", role: "Managing Partner", sector: "Investment" },
+  ],
+  ASEAN: [
+    { text: "Cross-border compliance across ASEAN is a maze. APEX mapped every regulatory tripwire.", initials: "W.C.", role: "Regional Director", sector: "Supply Chain" },
+  ],
+};
 
 // Abstract geometric logos (blurred)
 const abstractLogos = [
@@ -69,16 +90,20 @@ function AnimatedCounter({ target, suffix = "", prefix = "" }: { target: number;
 }
 
 const SocialProof = () => {
+  const geo = useGeo();
+  const testimonials = useMemo(() => {
+    const regional = regionTestimonials[geo.regionCode] || [];
+    return [...regional, ...baseTestimonials];
+  }, [geo.regionCode]);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [joinCount] = useState(() => Math.floor(Math.random() * 15) + 38); // 38-52
+  const [joinCount] = useState(() => Math.floor(Math.random() * 15) + 38);
 
-  // Auto-advance testimonials
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [testimonials.length]);
 
   return (
     <section className="relative py-32 border-b border-border/10">
