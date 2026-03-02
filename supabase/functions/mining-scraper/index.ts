@@ -138,15 +138,7 @@ Rules:
           const hashArray = Array.from(new Uint8Array(hashBuffer));
           const contentHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
-          const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/mining_signals`, {
-            method: 'POST',
-            headers: {
-              'apikey': SUPABASE_SERVICE_ROLE_KEY,
-              'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
-              'Content-Type': 'application/json',
-              'Prefer': 'return=minimal,resolution=ignore-duplicates',
-            },
-            body: JSON.stringify({
+          const payload = {
               company: record.company,
               mine: record.mine || 'N/A',
               action: record.action || 'Enforcement Action',
@@ -158,10 +150,25 @@ Rules:
               penalty: record.penalty || 'N/A',
               source_url: reg.url,
               content_hash: contentHash,
-            }),
+          };
+
+          const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/mining_signals`, {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_SERVICE_ROLE_KEY,
+              'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal, resolution=ignore-duplicates',
+            },
+            body: JSON.stringify(payload),
           });
 
-          if (insertRes.ok) totalInserted++;
+          if (insertRes.ok || insertRes.status === 201) {
+            totalInserted++;
+          } else {
+            const errText = await insertRes.text();
+            console.error(`Insert failed for ${record.company}: ${insertRes.status} ${errText}`);
+          }
         }
 
         console.log(`${reg.source}: extracted ${records.length} records`);
