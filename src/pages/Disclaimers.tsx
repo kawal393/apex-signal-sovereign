@@ -3,6 +3,7 @@ import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import MobileVoid from "@/components/effects/MobileVoid";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useJurisdictionDisclaimer } from "@/hooks/useJurisdictionDisclaimer";
 
 const disclaimers = [
   {
@@ -33,6 +34,7 @@ const disclaimers = [
 
 const Disclaimers = () => {
   const isMobile = useIsMobile();
+  const { disclaimerAddendum, countryName } = useJurisdictionDisclaimer();
 
   return (
     <div className="relative min-h-screen bg-black">
@@ -79,6 +81,25 @@ const Disclaimers = () => {
                 </p>
               </motion.div>
             ))}
+
+            {disclaimerAddendum && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.8 }}
+                className="glass-card p-6 border-primary/20"
+              >
+                <h2 className="text-lg font-medium text-foreground mb-1">
+                  Jurisdiction-Specific Notice
+                </h2>
+                <span className="text-[9px] uppercase tracking-[0.2em] text-primary/60 block mb-3">
+                  Detected: {countryName}
+                </span>
+                <p className="text-grey-400 leading-relaxed">
+                  {disclaimerAddendum}
+                </p>
+              </motion.div>
+            )}
           </div>
         </div>
       </main>
