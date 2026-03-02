@@ -22,14 +22,10 @@ export default function PasscodeGate({ children }: { children: React.ReactNode }
         e.preventDefault();
         setLoading(true);
         
-        // Validate passcode against profiles table
-        const { data } = await supabase
-            .from("profiles")
-            .select("id")
-            .eq("passcode", passcode)
-            .limit(1);
+        // Validate against master passcode
+        const MASTER_PASSCODE = "199131";
 
-        if (data && data.length > 0) {
+        if (passcode === MASTER_PASSCODE) {
             sessionStorage.setItem("apex_auth", "true");
             localStorage.setItem("apex_auth_persistent", "true");
             setIsAuthenticated(true);
