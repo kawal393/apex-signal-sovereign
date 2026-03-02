@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Database, Loader2, AlertTriangle, Lock } from "lucide-react";
+import { ArrowLeft, Database, Loader2, AlertTriangle, Lock, Eye, EyeOff, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
@@ -10,15 +10,22 @@ import WatchtowerFilters from "@/components/watchtower/WatchtowerFilters";
 import WatchtowerStats from "@/components/watchtower/WatchtowerStats";
 import RiskBadge from "@/components/watchtower/RiskBadge";
 import { useMiningData, useFilteredMining } from "@/hooks/useWatchtowerData";
+import { useAuth } from "@/contexts/AuthContext";
+
+const PREVIEW_LIMIT = 4;
 
 export default function MiningWatchtower() {
   const { data, meta, loading, error } = useMiningData();
+  const { user } = useAuth();
   const [search, setSearch] = useState("");
   const [stateFilter, setStateFilter] = useState("");
   const [riskFilter, setRiskFilter] = useState("");
   const [sourceFilter, setSourceFilter] = useState("");
 
   const filtered = useFilteredMining(data, search, stateFilter, riskFilter, sourceFilter);
+  const isUnlocked = !!user;
+  const visibleData = isUnlocked ? filtered : filtered.slice(0, PREVIEW_LIMIT);
+  const hiddenCount = isUnlocked ? 0 : Math.max(0, filtered.length - PREVIEW_LIMIT);
 
   const uniqueStates = useMemo(() => [...new Set(data.map(s => s.state))].sort(), [data]);
   const uniqueRisks = useMemo(() => [...new Set(data.map(s => s.risk))].sort(), [data]);
@@ -127,7 +134,7 @@ export default function MiningWatchtower() {
                     </tr>
                   </thead>
                   <tbody className="text-sm">
-                    {filtered.map((s, i) => (
+                    {visibleData.map((s, i) => (
                       <tr key={s.id || i} className="border-b border-border/10 hover:bg-muted/10 transition-colors">
                         <td className="p-5 text-foreground font-medium max-w-[200px] truncate">{s.company}</td>
                         <td className="p-5 text-muted-foreground max-w-[180px] truncate">{s.mine}</td>
@@ -141,6 +148,61 @@ export default function MiningWatchtower() {
                   </tbody>
                 </table>
               </div>
+
+              {/* Membership Gate Overlay */}
+              {!isUnlocked && hiddenCount > 0 && (
+                <div className="relative">
+                  {/* Blurred preview rows */}
+                  <div className="overflow-hidden max-h-[160px] relative">
+                    <table className="w-full text-left border-collapse blur-[6px] select-none pointer-events-none opacity-50">
+                      <tbody className="text-sm">
+                        {filtered.slice(PREVIEW_LIMIT, PREVIEW_LIMIT + 3).map((s, i) => (
+                          <tr key={i} className="border-b border-border/10">
+                            <td className="p-5 text-foreground font-medium">{s.company}</td>
+                            <td className="p-5 text-muted-foreground">{s.mine}</td>
+                            <td className="p-5 text-muted-foreground">{s.action}</td>
+                            <td className="p-5"><RiskBadge risk={s.risk} /></td>
+                            <td className="p-5 text-muted-foreground">{s.state}</td>
+                            <td className="p-5 text-muted-foreground text-xs">{s.source}</td>
+                            <td className="p-5 text-muted-foreground font-mono text-xs">{s.date}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background" />
+                  </div>
+
+                  {/* CTA */}
+                  <div className="flex flex-col items-center justify-center py-12 px-6 text-center">
+                    <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mb-6">
+                      <Shield className="w-7 h-7 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-foreground mb-2">
+                      {hiddenCount} More Signals Behind the Gate
+                    </h3>
+                    <p className="text-muted-foreground text-sm max-w-md mb-6">
+                      Full enforcement intelligence — every prosecution, every penalty, every state — 
+                      is reserved for registered APEX members only.
+                    </p>
+                    <div className="flex items-center gap-4">
+                      <Link to="/auth">
+                        <ApexButton variant="primary" size="lg" className="gap-2">
+                          <Lock className="w-4 h-4" /> Unlock Full Access
+                        </ApexButton>
+                      </Link>
+                      <Link to="/auth">
+                        <ApexButton variant="outline" size="lg" className="gap-2">
+                          <Eye className="w-4 h-4" /> Login
+                        </ApexButton>
+                      </Link>
+                    </div>
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground mt-4">
+                      Free registration • Instant access • No credit card
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {filtered.length === 0 && (
                 <div className="text-center py-16 text-muted-foreground">No signals match your filters.</div>
               )}
