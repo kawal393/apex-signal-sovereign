@@ -51,6 +51,7 @@ const RequestVerdict = () => {
   const onSubmit = async (data: FormData) => {
     setIsProcessing(true);
     try {
+      // Save the request to the database
       const { error: insertError } = await supabase
         .from('access_requests')
         .insert({
@@ -69,12 +70,20 @@ const RequestVerdict = () => {
         return;
       }
 
-      // Sovereign checkout redirect: 7 Days = Complex ($999), Others = Standard ($249)
-      if (data.urgency === "7") {
-        window.location.href = "https://buy.stripe.com/00waEPeMF26s0ZO1RWb7y04";
-      } else {
-        window.location.href = "https://buy.stripe.com/14AfZ98ohcL6fUI9kob7y03";
+      // Create Stripe checkout session: 7 days = Complex, others = Standard
+      const tier = data.urgency === "7" ? "complex" : "standard";
+
+      const { data: checkoutData, error: checkoutError } = await supabase.functions.invoke("create-checkout", {
+        body: { tier, email: data.email, name: data.name },
+      });
+
+      if (checkoutError || !checkoutData?.url) {
+        toast({ title: 'Checkout failed', description: 'Please try again.', variant: 'destructive' });
+        setIsProcessing(false);
+        return;
       }
+
+      window.location.href = checkoutData.url;
     } catch {
       toast({ title: 'Error', description: 'Something went wrong.', variant: 'destructive' });
       setIsProcessing(false);

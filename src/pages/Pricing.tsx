@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Shield } from "lucide-react";
+import { ArrowRight, Check, Shield, Loader2 } from "lucide-react";
+import { useState } from "react";
 import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import MobileVoid from "@/components/effects/MobileVoid";
@@ -8,15 +9,8 @@ import { ApexButton } from "@/components/ui/apex-button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import AmbientParticles from "@/components/effects/AmbientParticles";
 import { useGeo, convertPrice } from "@/contexts/GeoContext";
-
-// Map currency codes to Stripe currency parameter
-const CURRENCY_TO_STRIPE: Record<string, string> = {
-  AUD: "aud", USD: "usd", GBP: "gbp", EUR: "eur", CAD: "cad", JPY: "jpy",
-  SGD: "sgd", INR: "inr", AED: "aed", KRW: "krw", NZD: "nzd", CHF: "chf",
-  SEK: "sek", NOK: "nok", DKK: "dkk", PLN: "pln", CZK: "czk", BRL: "brl",
-  MXN: "mxn", ZAR: "zar", HKD: "hkd", TWD: "twd", THB: "thb", MYR: "myr",
-  SAR: "sar", ILS: "ils", TRY: "try",
-};
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const tiers = [
   {
@@ -35,7 +29,7 @@ const tiers = [
     ],
     cta: "Request Standard Verdict",
     popular: true,
-    baseHref: "https://buy.stripe.com/14AfZ98ohcL6fUI9kob7y03",
+    tier: "standard",
   },
   {
     name: "Complex Invocation Window",
@@ -53,7 +47,7 @@ const tiers = [
     ],
     cta: "Request Complex Verdict",
     popular: false,
-    baseHref: "https://buy.stripe.com/00waEPeMF26s0ZO1RWb7y04",
+    tier: "complex",
   },
   {
     name: "Partner / Retainer",
@@ -72,14 +66,37 @@ const tiers = [
     cta: "Request Access",
     popular: false,
     isPartner: true,
+    tier: "partner",
   },
 ];
 
 const Pricing = () => {
   const isMobile = useIsMobile();
   const geo = useGeo();
+  const { toast } = useToast();
+  const [loadingTier, setLoadingTier] = useState<string | null>(null);
 
   const getPrice = (audPrice: number) => convertPrice(audPrice, geo);
+
+  const handleCheckout = async (tier: string) => {
+    setLoadingTier(tier);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: { tier },
+      });
+
+      if (error || !data?.url) {
+        toast({ title: "Checkout failed", description: "Please try again.", variant: "destructive" });
+        setLoadingTier(null);
+        return;
+      }
+
+      window.location.href = data.url;
+    } catch {
+      toast({ title: "Error", description: "Something went wrong.", variant: "destructive" });
+      setLoadingTier(null);
+    }
+  };
 
   return (
     <div className="relative min-h-screen bg-black">
@@ -165,21 +182,19 @@ const Pricing = () => {
                     </ApexButton>
                   </Link>
                 ) : (
-                  <a
-                    href={`${tier.baseHref}${CURRENCY_TO_STRIPE[geo.jurisdiction.currency] ? `&currency=${CURRENCY_TO_STRIPE[geo.jurisdiction.currency]}` : ''}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-auto block"
+                  <ApexButton
+                    variant={tier.popular ? "primary" : "outline"}
+                    size="lg"
+                    className={`w-full gap-2 mt-auto ${tier.popular ? 'text-white font-bold' : ''}`}
+                    onClick={() => handleCheckout(tier.tier)}
+                    disabled={loadingTier === tier.tier}
                   >
-                    <ApexButton
-                      variant={tier.popular ? "primary" : "outline"}
-                      size="lg"
-                      className={`w-full gap-2 ${tier.popular ? 'text-white font-bold' : ''}`}
-                    >
-                      {tier.cta}
-                      <ArrowRight className="w-4 h-4" />
-                    </ApexButton>
-                  </a>
+                    {loadingTier === tier.tier ? (
+                      <span className="flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" />Processing...</span>
+                    ) : (
+                      <>{tier.cta}<ArrowRight className="w-4 h-4" /></>
+                    )}
+                  </ApexButton>
                 )}
               </motion.div>
             ))}
