@@ -329,7 +329,7 @@ export default function EntryRitual({ onComplete }: EntryRitualProps) {
               
               <motion.button
                 onClick={() => handleAudioChoice(false)}
-                className="text-base tracking-[0.5em] uppercase text-muted-foreground/30 hover:text-muted-foreground/50 px-10 py-5 transition-all duration-2000 ease-out"
+                className="text-base tracking-[0.3em] uppercase text-muted-foreground/30 hover:text-muted-foreground/50 px-10 py-5 transition-all duration-2000 ease-out"
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.6, duration: 3.5, ease: [0.16, 1, 0.3, 1] }}
