@@ -216,7 +216,7 @@ const EnergyTendrils = memo(function EnergyTendrils({ count = 3 }: { count?: num
     timeRef.current += delta * 0.4;
     const t = timeRef.current;
     refs.current.forEach((mesh, i) => {
-      if (!mesh) return;
+      if (!mesh || !tendrils[i]) return;
       const tendril = tendrils[i];
       mesh.rotation.z = tendril.angle + t * tendril.speed;
       mesh.scale.x = 1 + Math.sin(t * 0.3 + tendril.phase) * 0.15;
