@@ -279,7 +279,7 @@ const Index = () => {
                         transition={{ duration: 2, repeat: Infinity }}
                       />
                       <span className="text-[10px] text-grey-500">
-                        {Math.floor(Math.random() * 8) + 12} companies joined this week
+                        15 companies joined this week
                       </span>
                     </div>
                   </div>

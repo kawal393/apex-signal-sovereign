@@ -633,14 +633,24 @@ function CursorTracker({ cursorState }: { cursorState: CursorState }) {
       cursorState.velocity.set(0, 0, 0);
     };
     
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('mouseleave', handleMouseLeave);
     
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseleave', handleMouseLeave);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, [camera, size, raycaster, plane, cursorState]);
+
+  // Frame-rate-independent smooth cursor interpolation
+  useFrame((_, delta) => {
+    const smoothing = 1 - Math.pow(0.001, delta);
+    smoothPos.current.lerp(targetPosRef.current, smoothing);
+    cursorState.velocity.subVectors(smoothPos.current, lastPos.current);
+    lastPos.current.copy(smoothPos.current);
+    cursorState.position.copy(smoothPos.current);
+  });
   
   return null;
 }
