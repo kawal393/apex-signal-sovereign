@@ -214,7 +214,7 @@ export default function SovereignLatticePanel() {
             </Label>
             <div className="flex flex-wrap gap-2">
               <Badge variant="outline" className="bg-primary/5 border-primary/30">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2" />
+                <span className="w-1.5 h-1.5 rounded-full bg-primary mr-2" />
                 Apex Bounty
               </Badge>
               <Badge variant="secondary" className="bg-secondary/50">
