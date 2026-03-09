@@ -766,7 +766,7 @@ export default function SovereignVoid({
       <WebGLErrorBoundary className={className}>
         <Canvas
           camera={{ position: [0, 0, 24], fov: 48 }}
-          dpr={[1, 1]}
+          dpr={[1, Math.min(window.devicePixelRatio, 1.5)]}
           gl={{
             antialias: false,
             alpha: true,
@@ -774,10 +774,19 @@ export default function SovereignVoid({
             stencil: false,
             depth: false,
             preserveDrawingBuffer: false,
-            failIfMajorPerformanceCaveat: true,
+            failIfMajorPerformanceCaveat: false,
           }}
           frameloop="always"
-          performance={{ min: 0.5 }}
+          performance={{ min: 0.3 }}
+          onCreated={({ gl }) => {
+            const canvas = gl.domElement;
+            canvas.addEventListener('webglcontextlost', (e) => {
+              e.preventDefault();
+            });
+            canvas.addEventListener('webglcontextrestored', () => {
+              gl.clear();
+            });
+          }}
           style={{ willChange: 'transform' }}
         >
           <color attach="background" args={['#000000']} />
