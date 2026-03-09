@@ -35,15 +35,23 @@ const Index = () => {
     navigate("/request-access");
   }, [navigate]);
 
-  // Track scroll for 3D camera
+  // Track scroll for 3D camera — throttled via rAF
   useEffect(() => {
+    let rafId = 0;
     const handleScroll = () => {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const depth = maxScroll > 0 ? window.scrollY / maxScroll : 0;
-      setScrollDepth(depth);
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const depth = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+        setScrollDepth(depth);
+        rafId = 0;
+      });
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
