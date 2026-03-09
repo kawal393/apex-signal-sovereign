@@ -216,7 +216,7 @@ const EnergyTendrils = memo(function EnergyTendrils({ count = 3 }: { count?: num
     timeRef.current += delta * 0.4;
     const t = timeRef.current;
     refs.current.forEach((mesh, i) => {
-      if (!mesh) return;
+      if (!mesh || !tendrils[i]) return;
       const tendril = tendrils[i];
       mesh.rotation.z = tendril.angle + t * tendril.speed;
       mesh.scale.x = 1 + Math.sin(t * 0.3 + tendril.phase) * 0.15;
@@ -766,7 +766,7 @@ export default function SovereignVoid({
       <WebGLErrorBoundary className={className}>
         <Canvas
           camera={{ position: [0, 0, 24], fov: 48 }}
-          dpr={[1, 1]}
+          dpr={[1, Math.min(window.devicePixelRatio, 1.5)]}
           gl={{
             antialias: false,
             alpha: true,
@@ -774,10 +774,19 @@ export default function SovereignVoid({
             stencil: false,
             depth: false,
             preserveDrawingBuffer: false,
-            failIfMajorPerformanceCaveat: true,
+            failIfMajorPerformanceCaveat: false,
           }}
           frameloop="always"
-          performance={{ min: 0.5 }}
+          performance={{ min: 0.3 }}
+          onCreated={({ gl }) => {
+            const canvas = gl.domElement;
+            canvas.addEventListener('webglcontextlost', (e) => {
+              e.preventDefault();
+            });
+            canvas.addEventListener('webglcontextrestored', () => {
+              gl.clear();
+            });
+          }}
           style={{ willChange: 'transform' }}
         >
           <color attach="background" args={['#000000']} />
