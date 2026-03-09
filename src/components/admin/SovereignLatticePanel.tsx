@@ -258,11 +258,11 @@ export default function SovereignLatticePanel() {
           </div>
 
           {/* API Key Notice */}
-          <div className="p-3 rounded-lg bg-amber-500/5 border border-amber-500/20">
+          <div className="p-3 rounded-lg bg-primary/5 border border-primary/20">
             <div className="flex items-start gap-2">
-              <Key className="w-4 h-4 text-amber-500 mt-0.5" />
+              <Key className="w-4 h-4 text-primary mt-0.5" />
               <div className="text-xs">
-                <p className="font-medium text-amber-500">API Key Configuration</p>
+                <p className="font-medium text-primary">API Key Configuration</p>
                 <p className="text-muted-foreground mt-1">
                   The APEX_LATTICE_KEY has been configured via environment secrets. 
                   Generate this key from Apex Bounty to enable cross-platform communication.
