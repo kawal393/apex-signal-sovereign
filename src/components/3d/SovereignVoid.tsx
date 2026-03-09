@@ -609,7 +609,10 @@ function CursorTracker({ cursorState }: { cursorState: CursorState }) {
   const lastPos = useRef(new THREE.Vector3());
   const smoothPos = useRef(new THREE.Vector3());
   
+  const targetPosRef = useRef(new THREE.Vector3());
+
   useEffect(() => {
+    let rafId = 0;
     const handleMouseMove = (event: MouseEvent) => {
       const x = (event.clientX / size.width) * 2 - 1;
       const y = -(event.clientY / size.height) * 2 + 1;
@@ -620,14 +623,7 @@ function CursorTracker({ cursorState }: { cursorState: CursorState }) {
       raycaster.ray.intersectPlane(plane, intersection);
       
       if (intersection) {
-        const targetPos = new THREE.Vector3(intersection.x * 1.6, intersection.y * 1.6, 5);
-        
-        // Ultra smooth interpolation
-        smoothPos.current.lerp(targetPos, 0.12);
-        
-        cursorState.velocity.subVectors(smoothPos.current, lastPos.current);
-        lastPos.current.copy(smoothPos.current);
-        cursorState.position.copy(smoothPos.current);
+        targetPosRef.current.set(intersection.x * 1.6, intersection.y * 1.6, 5);
       }
       cursorState.active = true;
     };
@@ -637,14 +633,24 @@ function CursorTracker({ cursorState }: { cursorState: CursorState }) {
       cursorState.velocity.set(0, 0, 0);
     };
     
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('mouseleave', handleMouseLeave);
     
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseleave', handleMouseLeave);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, [camera, size, raycaster, plane, cursorState]);
+
+  // Frame-rate-independent smooth cursor interpolation
+  useFrame((_, delta) => {
+    const smoothing = 1 - Math.pow(0.001, delta);
+    smoothPos.current.lerp(targetPosRef.current, smoothing);
+    cursorState.velocity.subVectors(smoothPos.current, lastPos.current);
+    lastPos.current.copy(smoothPos.current);
+    cursorState.position.copy(smoothPos.current);
+  });
   
   return null;
 }
