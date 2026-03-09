@@ -6,6 +6,7 @@ import ApexNav from "@/components/layout/ApexNav";
 import { supabase } from "@/integrations/supabase/client";
 import apexLogo from "@/assets/apex-logo.png";
 import { useApexSystem } from "@/contexts/ApexSystemContext";
+import SovereignLatticePanel from "@/components/admin/SovereignLatticePanel";
 
 const Dashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
