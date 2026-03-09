@@ -28,6 +28,7 @@ import Ledger from "./pages/Ledger";
 import RequestVerdict from "./pages/RequestVerdict";
 import HowItWorks from "./pages/HowItWorks";
 import Pricing from "./pages/Pricing";
+import ThankYou from "./pages/ThankYou";
 import NotFound from "./pages/NotFound";
 import StatusOrb from "./components/ui/StatusOrb";
 import Vera from "./pages/Vera";
