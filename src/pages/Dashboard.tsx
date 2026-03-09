@@ -360,15 +360,23 @@ const Dashboard = () => {
             </div>
           </motion.div>
 
-          {/* Sovereign Lattice Network Panel */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="mt-8"
-          >
-            <SovereignLatticePanel />
-          </motion.div>
+          {/* Sovereign Lattice Network */}
+          <div className="mt-8 grid lg:grid-cols-2 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.8 }}
+            >
+              <LatticeStatusWidget />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.9 }}
+            >
+              <SovereignLatticePanel />
+            </motion.div>
+          </div>
         </div>
       </main>
 
