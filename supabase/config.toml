@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.mining-scraper]
 verify_jwt = false
+
+[functions.sovereign-lattice]
+verify_jwt = false
