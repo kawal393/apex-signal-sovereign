@@ -127,8 +127,8 @@ export default function SovereignLatticePanel() {
   const getStatusIcon = () => {
     switch (connectionStatus) {
       case "connected": return <CheckCircle className="w-4 h-4 text-primary" />;
-      case "disconnected": return <XCircle className="w-4 h-4 text-amber-500" />;
-      case "error": return <XCircle className="w-4 h-4 text-red-500" />;
+      case "disconnected": return <XCircle className="w-4 h-4 text-secondary-foreground" />;
+      case "error": return <XCircle className="w-4 h-4 text-destructive" />;
       default: return <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />;
     }
   };
