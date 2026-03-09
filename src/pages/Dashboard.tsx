@@ -6,6 +6,7 @@ import ApexNav from "@/components/layout/ApexNav";
 import { supabase } from "@/integrations/supabase/client";
 import apexLogo from "@/assets/apex-logo.png";
 import { useApexSystem } from "@/contexts/ApexSystemContext";
+import SovereignLatticePanel from "@/components/admin/SovereignLatticePanel";
 
 const Dashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -335,7 +336,7 @@ const Dashboard = () => {
                       {insight.insight_type.replace('_', ' ')}
                     </span>
                     {insight.delivered ? (
-                      <span className="text-[8px] text-green-400">✓ Delivered</span>
+                      <span className="text-[8px] text-primary">✓ Delivered</span>
                     ) : (
                       <span className="text-[8px] text-grey-300">Pending</span>
                     )}
@@ -352,6 +353,16 @@ const Dashboard = () => {
                 </p>
               )}
             </div>
+          </motion.div>
+
+          {/* Sovereign Lattice Network Panel */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.8 }}
+            className="mt-8"
+          >
+            <SovereignLatticePanel />
           </motion.div>
         </div>
       </main>
