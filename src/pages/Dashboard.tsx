@@ -141,12 +141,15 @@ const Dashboard = () => {
                 <p className="text-base text-grey-300 mt-1">AI Brain Operations Monitor</p>
               </div>
             </div>
-            <div className="hidden md:block text-right">
-              <div className="text-2xl font-mono text-grey-300">
-                {currentTime.toLocaleTimeString('en-US', { hour12: false })}
-              </div>
-              <div className="text-base text-grey-600 uppercase tracking-widest">
-                System Time
+            <div className="hidden md:flex items-center gap-4 text-right">
+              <TriVerifiedBadge />
+              <div>
+                <div className="text-2xl font-mono text-grey-300">
+                  {currentTime.toLocaleTimeString('en-US', { hour12: false })}
+                </div>
+                <div className="text-base text-grey-600 uppercase tracking-widest">
+                  System Time
+                </div>
               </div>
             </div>
           </motion.div>
