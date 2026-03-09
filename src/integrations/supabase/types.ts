@@ -336,6 +336,62 @@ export type Database = {
           },
         ]
       }
+      orders: {
+        Row: {
+          access_request_id: string | null
+          amount_cents: number
+          created_at: string
+          currency: string
+          email: string
+          id: string
+          metadata: Json | null
+          name: string | null
+          referral_partner_id: string | null
+          status: string
+          stripe_payment_intent_id: string | null
+          stripe_session_id: string | null
+          tier: string
+        }
+        Insert: {
+          access_request_id?: string | null
+          amount_cents?: number
+          created_at?: string
+          currency?: string
+          email: string
+          id?: string
+          metadata?: Json | null
+          name?: string | null
+          referral_partner_id?: string | null
+          status?: string
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          tier: string
+        }
+        Update: {
+          access_request_id?: string | null
+          amount_cents?: number
+          created_at?: string
+          currency?: string
+          email?: string
+          id?: string
+          metadata?: Json | null
+          name?: string | null
+          referral_partner_id?: string | null
+          status?: string
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          tier?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_access_request_id_fkey"
+            columns: ["access_request_id"]
+            isOneToOne: false
+            referencedRelation: "access_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
