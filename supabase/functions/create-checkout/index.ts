@@ -18,7 +18,7 @@ serve(async (req) => {
   }
 
   try {
-    const { tier, email, name } = await req.json();
+    const { tier, email, name, referral_partner_id } = await req.json();
 
     const priceId = PRICE_MAP[tier];
     if (!priceId) {
@@ -50,6 +50,7 @@ serve(async (req) => {
       metadata: {
         tier,
         customer_name: name || "",
+        referral_partner_id: referral_partner_id || "",
       },
     });
 

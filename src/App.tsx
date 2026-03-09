@@ -28,6 +28,7 @@ import Ledger from "./pages/Ledger";
 import RequestVerdict from "./pages/RequestVerdict";
 import HowItWorks from "./pages/HowItWorks";
 import Pricing from "./pages/Pricing";
+import ThankYou from "./pages/ThankYou";
 import NotFound from "./pages/NotFound";
 import StatusOrb from "./components/ui/StatusOrb";
 import Vera from "./pages/Vera";
@@ -117,6 +118,7 @@ const App = () => (
                   <Route path="/request-verdict" element={<RequestVerdict />} />
                   <Route path="/how-it-works" element={<HowItWorks />} />
                   <Route path="/pricing" element={<Pricing />} />
+                  <Route path="/thank-you" element={<ThankYou />} />
                   <Route path="/vera" element={<Vera />} />
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/reset-password" element={<ResetPassword />} />
