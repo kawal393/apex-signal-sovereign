@@ -154,6 +154,27 @@ export type Database = {
           },
         ]
       }
+      lattice_config: {
+        Row: {
+          created_at: string
+          id: string
+          key: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          key: string
+          value: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          key?: string
+          value?: string
+        }
+        Relationships: []
+      }
       mining_signals: {
         Row: {
           action: string
