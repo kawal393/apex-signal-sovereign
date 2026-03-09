@@ -609,7 +609,10 @@ function CursorTracker({ cursorState }: { cursorState: CursorState }) {
   const lastPos = useRef(new THREE.Vector3());
   const smoothPos = useRef(new THREE.Vector3());
   
+  const targetPosRef = useRef(new THREE.Vector3());
+
   useEffect(() => {
+    let rafId = 0;
     const handleMouseMove = (event: MouseEvent) => {
       const x = (event.clientX / size.width) * 2 - 1;
       const y = -(event.clientY / size.height) * 2 + 1;
@@ -620,14 +623,7 @@ function CursorTracker({ cursorState }: { cursorState: CursorState }) {
       raycaster.ray.intersectPlane(plane, intersection);
       
       if (intersection) {
-        const targetPos = new THREE.Vector3(intersection.x * 1.6, intersection.y * 1.6, 5);
-        
-        // Ultra smooth interpolation
-        smoothPos.current.lerp(targetPos, 0.12);
-        
-        cursorState.velocity.subVectors(smoothPos.current, lastPos.current);
-        lastPos.current.copy(smoothPos.current);
-        cursorState.position.copy(smoothPos.current);
+        targetPosRef.current.set(intersection.x * 1.6, intersection.y * 1.6, 5);
       }
       cursorState.active = true;
     };
