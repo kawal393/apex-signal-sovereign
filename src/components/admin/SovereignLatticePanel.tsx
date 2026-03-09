@@ -117,16 +117,16 @@ export default function SovereignLatticePanel() {
 
   const getStatusColor = () => {
     switch (connectionStatus) {
-      case "connected": return "bg-emerald-500";
-      case "disconnected": return "bg-amber-500";
-      case "error": return "bg-red-500";
+      case "connected": return "bg-primary";
+      case "disconnected": return "bg-secondary";
+      case "error": return "bg-destructive";
       default: return "bg-muted";
     }
   };
 
   const getStatusIcon = () => {
     switch (connectionStatus) {
-      case "connected": return <CheckCircle className="w-4 h-4 text-emerald-500" />;
+      case "connected": return <CheckCircle className="w-4 h-4 text-primary" />;
       case "disconnected": return <XCircle className="w-4 h-4 text-amber-500" />;
       case "error": return <XCircle className="w-4 h-4 text-red-500" />;
       default: return <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />;
