@@ -18,7 +18,7 @@ serve(async (req) => {
   }
 
   try {
-    const { tier, email, name } = await req.json();
+    const { tier, email, name, referral_partner_id } = await req.json();
 
     const priceId = PRICE_MAP[tier];
     if (!priceId) {
