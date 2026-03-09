@@ -7,6 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import apexLogo from "@/assets/apex-logo.png";
 import { useApexSystem } from "@/contexts/ApexSystemContext";
 import SovereignLatticePanel from "@/components/admin/SovereignLatticePanel";
+import LatticeStatusWidget from "@/components/lattice/LatticeStatusWidget";
+import TriVerifiedBadge from "@/components/lattice/TriVerifiedBadge";
 
 const Dashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -139,12 +141,15 @@ const Dashboard = () => {
                 <p className="text-base text-grey-300 mt-1">AI Brain Operations Monitor</p>
               </div>
             </div>
-            <div className="hidden md:block text-right">
-              <div className="text-2xl font-mono text-grey-300">
-                {currentTime.toLocaleTimeString('en-US', { hour12: false })}
-              </div>
-              <div className="text-base text-grey-600 uppercase tracking-widest">
-                System Time
+            <div className="hidden md:flex items-center gap-4 text-right">
+              <TriVerifiedBadge />
+              <div>
+                <div className="text-2xl font-mono text-grey-300">
+                  {currentTime.toLocaleTimeString('en-US', { hour12: false })}
+                </div>
+                <div className="text-base text-grey-600 uppercase tracking-widest">
+                  System Time
+                </div>
               </div>
             </div>
           </motion.div>
@@ -355,15 +360,23 @@ const Dashboard = () => {
             </div>
           </motion.div>
 
-          {/* Sovereign Lattice Network Panel */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="mt-8"
-          >
-            <SovereignLatticePanel />
-          </motion.div>
+          {/* Sovereign Lattice Network */}
+          <div className="mt-8 grid lg:grid-cols-2 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.8 }}
+            >
+              <LatticeStatusWidget />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.9 }}
+            >
+              <SovereignLatticePanel />
+            </motion.div>
+          </div>
         </div>
       </main>
 
