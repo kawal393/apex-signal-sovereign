@@ -50,6 +50,7 @@ serve(async (req) => {
       metadata: {
         tier,
         customer_name: name || "",
+        referral_partner_id: referral_partner_id || "",
       },
     });
 

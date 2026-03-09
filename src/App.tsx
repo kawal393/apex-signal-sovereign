@@ -118,6 +118,7 @@ const App = () => (
                   <Route path="/request-verdict" element={<RequestVerdict />} />
                   <Route path="/how-it-works" element={<HowItWorks />} />
                   <Route path="/pricing" element={<Pricing />} />
+                  <Route path="/thank-you" element={<ThankYou />} />
                   <Route path="/vera" element={<Vera />} />
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/reset-password" element={<ResetPassword />} />
