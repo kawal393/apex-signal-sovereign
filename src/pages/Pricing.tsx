@@ -81,8 +81,12 @@ const Pricing = () => {
   const handleCheckout = async (tier: string) => {
     setLoadingTier(tier);
     try {
+      // Extract referral partner ID from URL if present
+      const urlParams = new URLSearchParams(window.location.search);
+      const referralPartnerId = urlParams.get("ref") || undefined;
+
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { tier },
+        body: { tier, referral_partner_id: referralPartnerId },
       });
 
       if (error || !data?.url) {

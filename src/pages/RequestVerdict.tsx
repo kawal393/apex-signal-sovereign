@@ -72,9 +72,11 @@ const RequestVerdict = () => {
 
       // Create Stripe checkout session: 7 days = Complex, others = Standard
       const tier = data.urgency === "7" ? "complex" : "standard";
+      const urlParams = new URLSearchParams(window.location.search);
+      const referralPartnerId = urlParams.get("ref") || undefined;
 
       const { data: checkoutData, error: checkoutError } = await supabase.functions.invoke("create-checkout", {
-        body: { tier, email: data.email, name: data.name },
+        body: { tier, email: data.email, name: data.name, referral_partner_id: referralPartnerId },
       });
 
       if (checkoutError || !checkoutData?.url) {
