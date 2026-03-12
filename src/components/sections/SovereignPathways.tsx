@@ -22,7 +22,7 @@ const pathways = [
     label: "MINING INTEGRITY",
     subtitle: "Graticular Verification",
     icon: Pickaxe,
-    description: "Sovereign mineral gap verification for Victorian critical mineral compliance.",
+    description: "Graticular Gap Verification securing Exploration Licences under Victorian critical mineral expenditure rules.",
     href: "/mining-watchtower",
     deadline: "ACTIVE MONITORING",
     color: "text-gold-bright",
