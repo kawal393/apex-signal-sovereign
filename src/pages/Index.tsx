@@ -125,53 +125,61 @@ const Index = () => {
             </span>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
-              {industries.map((industry, i) => (
-                <motion.div
-                  key={industry.id}
-                  initial={{ opacity: 0, y: 25 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 + i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <Link to={industry.href}>
-                    <motion.div
-                      whileHover={{ y: -4, scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                      className={`relative p-7 md:p-8 rounded-lg border ${industry.borderColor} bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-500 group cursor-pointer`}
-                      style={{ boxShadow: `0 0 60px ${industry.glowColor}` }}
-                    >
-                      {/* Deadline badge */}
-                      <div className="absolute top-4 right-4">
-                        <span className="text-[9px] uppercase tracking-[0.2em] text-grey-500 bg-black/60 px-2.5 py-1 rounded border border-border/20">
-                          {industry.deadline}
+              {industries.map((industry, i) => {
+                const cardContent = (
+                  <motion.div
+                    whileHover={{ y: -4, scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    className={`relative p-7 md:p-8 rounded-lg border ${industry.borderColor} bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-500 group cursor-pointer ${industry.comingSoon ? 'opacity-70 hover:opacity-90' : ''}`}
+                    style={{ boxShadow: `0 0 60px ${industry.glowColor}` }}
+                  >
+                    <div className="absolute top-4 right-4">
+                      <span className={`text-[9px] uppercase tracking-[0.2em] px-2.5 py-1 rounded border ${industry.comingSoon ? 'text-primary bg-primary/10 border-primary/30' : 'text-grey-500 bg-black/60 border-border/20'}`}>
+                        {industry.deadline}
+                      </span>
+                    </div>
+
+                    <div className="flex items-start gap-4 md:gap-5">
+                      <div className={`p-3 rounded-lg border ${industry.borderColor} bg-black/40`}>
+                        <industry.icon className={`w-6 h-6 ${industry.color}`} />
+                      </div>
+                      <div className="flex-1">
+                        <h2 className={`text-lg font-semibold ${industry.color} tracking-wide mb-1`}>
+                          {industry.label}
+                        </h2>
+                        <span className="text-[10px] uppercase tracking-[0.3em] text-grey-500 block mb-3">
+                          {industry.subtitle}
                         </span>
+                        <p className="text-sm text-grey-400 leading-relaxed">
+                          {industry.description}
+                        </p>
                       </div>
+                    </div>
 
-                      <div className="flex items-start gap-4 md:gap-5">
-                        <div className={`p-3 rounded-lg border ${industry.borderColor} bg-black/40`}>
-                          <industry.icon className={`w-6 h-6 ${industry.color}`} />
-                        </div>
-                        <div className="flex-1">
-                          <h2 className={`text-lg font-semibold ${industry.color} tracking-wide mb-1`}>
-                            {industry.label}
-                          </h2>
-                          <span className="text-[10px] uppercase tracking-[0.3em] text-grey-500 block mb-3">
-                            {industry.subtitle}
-                          </span>
-                          <p className="text-sm text-grey-400 leading-relaxed">
-                            {industry.description}
-                          </p>
-                        </div>
-                      </div>
+                    <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <ArrowRight className={`w-4 h-4 ${industry.color}`} />
+                    </div>
+                  </motion.div>
+                );
 
-                      {/* Hover arrow */}
-                      <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <ArrowRight className={`w-4 h-4 ${industry.color}`} />
+                return (
+                  <motion.div
+                    key={industry.id}
+                    initial={{ opacity: 0, y: 25 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 + i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    {industry.comingSoon ? (
+                      <div onClick={() => toast({ title: `${industry.label} — Coming Soon`, description: "This module is under development. Contact apexinfrastructure369@gmail.com for early access." })}>
+                        {cardContent}
                       </div>
-                    </motion.div>
-                  </Link>
-                </motion.div>
-              ))}
+                    ) : (
+                      <Link to={industry.href}>{cardContent}</Link>
+                    )}
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
 
