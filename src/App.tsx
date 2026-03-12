@@ -24,6 +24,7 @@ import Disclaimers from "./pages/Disclaimers";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Protocol from "./pages/Protocol";
+import Verify from "./pages/Verify";
 import Ledger from "./pages/Ledger";
 import RequestVerdict from "./pages/RequestVerdict";
 import HowItWorks from "./pages/HowItWorks";
