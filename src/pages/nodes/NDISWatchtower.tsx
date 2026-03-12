@@ -73,10 +73,15 @@ export default function NDISWatchtower() {
             </p>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2, duration: 0.8 }} className="flex-shrink-0">
+          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2, duration: 0.8 }} className="flex-shrink-0 flex flex-col gap-3">
+            <Link to="/compliance-ledger">
+              <ApexButton variant="primary" size="lg" className="gap-2 w-full">
+                <Database className="w-4 h-4" /> Audit-Ready Ledger
+              </ApexButton>
+            </Link>
             <Link to="/request-verdict">
-              <ApexButton variant="primary" size="lg" className="gap-2">
-                <Lock className="w-4 h-4" /> Check Your NDIS Compliance
+              <ApexButton variant="outline" size="lg" className="gap-2 w-full">
+                <Lock className="w-4 h-4" /> Check Your Compliance
               </ApexButton>
             </Link>
           </motion.div>
