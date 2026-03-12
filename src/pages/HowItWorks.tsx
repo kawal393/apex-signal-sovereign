@@ -132,12 +132,12 @@ const HowItWorks = () => {
                 </ApexButton>
               </Link>
             </div>
-            <Link
-              to="/request-access"
+            <a
+              href="mailto:apexinfrastructure369@gmail.com"
               className="text-grey-300 hover:text-primary text-base tracking-[0.15em] transition-colors duration-300 inline-block"
             >
-              apex@apex-infrastructure.com
-            </Link>
+              apexinfrastructure369@gmail.com
+            </a>
           </motion.div>
         </div>
       </main>

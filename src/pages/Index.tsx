@@ -1,16 +1,15 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useCallback, useEffect } from "react";
-import { ExternalLink, ArrowRight } from "lucide-react";
-import { ApexButton } from "@/components/ui/apex-button";
 import EntryRitual from "@/components/ritual/EntryRitual";
 import SovereignVoid from "@/components/3d/SovereignVoid";
 import MobileVoid from "@/components/effects/MobileVoid";
+import ApexNav from "@/components/layout/ApexNav";
+import SovereignPathways from "@/components/sections/SovereignPathways";
 import { useRotatingStatement } from "@/hooks/useRotatingStatement";
 import { usePresence } from "@/hooks/usePresence";
 import { useApexSystem } from "@/contexts/ApexSystemContext";
 import { useIsMobile } from "@/hooks/use-mobile";
-
 
 const Index = () => {
   const [ritualComplete, setRitualComplete] = useState(false);
@@ -18,22 +17,13 @@ const Index = () => {
   const [scrollDepth, setScrollDepth] = useState(0);
   const statement = useRotatingStatement();
   const presence = usePresence();
-  const { isAudioEnabled, status, playThresholdTone } = useApexSystem();
+  const { isAudioEnabled, status } = useApexSystem();
   const isMobile = useIsMobile();
-  const navigate = useNavigate();
 
   const handleRitualComplete = useCallback(() => {
     setRitualComplete(true);
     setTimeout(() => setContentVisible(true), 300);
   }, []);
-
-  const handleProceed = useCallback(() => {
-    playThresholdTone();
-  }, [playThresholdTone]);
-
-  const handleOpenWatchtower = useCallback(() => {
-    navigate("/request-access");
-  }, [navigate]);
 
   // Track scroll for 3D camera — throttled via rAF
   useEffect(() => {
@@ -63,7 +53,7 @@ const Index = () => {
         )}
       </AnimatePresence>
 
-      {/* 3D/2D VOID - Progressive degradation for mobile */}
+      {/* 3D/2D VOID */}
       {contentVisible && (
         isMobile ? (
           <MobileVoid />
@@ -76,13 +66,15 @@ const Index = () => {
       <AnimatePresence>
         {contentVisible && (
           <>
+            {/* Navigation */}
+            <ApexNav />
+
             {/* Atmospheric vignette */}
             <div className="absolute inset-0 pointer-events-none z-10">
               <div className="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-black via-black/80 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 h-[600px] bg-gradient-to-t from-black via-black/95 to-transparent" />
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_10%,black/70_55%,black_100%)]" />
             </div>
-
 
             {/* Status indicator */}
             {status !== 'observer' && (
@@ -117,11 +109,11 @@ const Index = () => {
               </motion.div>
             )}
 
-            {/* Main Content - Bottom */}
+            {/* Main Content */}
             <main className="relative z-20 flex min-h-screen flex-col items-center justify-end px-6 pb-28 md:pb-36">
               <div className="max-w-4xl mx-auto text-center">
 
-                {/* 1. EXISTENCE — Rotating Statement (first thing seen) */}
+                {/* Statement */}
                 <motion.div
                   initial={{ opacity: 0, y: 60 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -153,142 +145,73 @@ const Index = () => {
                 >
                   APEX has monitored AAT enforcement trends and corporate structural decay since 2022. Due to the critical mass of systemic failures observed recently, we are now unsealing selective nodes to the public.
                 </motion.p>
-
-                {/* 3. ACCESS — Primary actions */}
-                <motion.div
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.8, delay: 1.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex flex-col items-center gap-6 mb-14"
-                >
-                  {/* HERO CTA — Become a Partner */}
-                  <Link to="/partner">
-                    <motion.div
-                      whileHover={{ scale: 1.06, y: -8 }}
-                      whileTap={{ scale: 0.97 }}
-                      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                      className="relative"
-                    >
-                      {/* Animated glow ring */}
-                      <motion.div
-                        className="absolute -inset-1 rounded-xl opacity-60 blur-md"
-                        style={{ background: 'linear-gradient(135deg, hsl(42 95% 55%), hsl(42 80% 40%), hsl(42 95% 55%))' }}
-                        animate={{ opacity: [0.4, 0.7, 0.4], scale: [0.98, 1.02, 0.98] }}
-                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                      />
-                      <ApexButton
-                        variant="primary"
-                        size="lg"
-                        className="relative min-w-[300px] text-base tracking-[0.4em] px-16 py-7 font-bold"
-                        style={{
-                          boxShadow: '0 0 80px hsl(42 95% 55% / 0.35), 0 0 160px hsl(42 95% 55% / 0.15)',
-                        }}
-                      >
-                        BECOME A PARTNER — EARN 50%
-                      </ApexButton>
-                    </motion.div>
-                  </Link>
-
-                  {/* Secondary — Proceed */}
-                  <Link to="/commons" onClick={handleProceed}>
-                    <motion.div
-                      whileHover={{ scale: 1.03, y: -3 }}
-                      whileTap={{ scale: 0.98 }}
-                      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <ApexButton
-                        variant="outline"
-                        size="lg"
-                        className="min-w-[240px] text-sm tracking-[0.4em] px-12 py-5 border-primary/40 text-primary/80 hover:bg-primary/10"
-                      >
-                        PROCEED AS OBSERVER
-                      </ApexButton>
-                    </motion.div>
-                  </Link>
-                </motion.div>
-
-                {/* 4. ACTION — Secondary paths, deliberately subdued */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 1.5, delay: 2.4, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex flex-col items-center gap-5"
-                >
-                  <div className="flex items-center gap-6 text-grey-300">
-                    <button
-                      onClick={handleOpenWatchtower}
-                      className="text-xs md:text-sm uppercase tracking-[0.25em] hover:text-primary transition-colors duration-500 flex items-center gap-2"
-                    >
-                      Live Signal
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </button>
-                    <span className="w-px h-4 bg-grey-600" />
-                    <Link
-                      to="/request-verdict"
-                      className="text-xs md:text-sm uppercase tracking-[0.25em] hover:text-primary transition-colors duration-500 flex items-center gap-2"
-                    >
-                      Request Verdict
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-
-                  <Link
-                    to="/request-access"
-                    className="text-grey-300 hover:text-primary text-xs tracking-[0.2em] transition-colors duration-500"
-                  >
-                    apex@apex-infrastructure.com
-                  </Link>
-                </motion.div>
-
-                {/* Member Access Gate */}
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.5, delay: 3, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-20 pt-16 border-t border-grey-800/30"
-                >
-                  <h3 className="text-xs uppercase tracking-[0.5em] text-grey-300 mb-4">
-                    Member Access Only
-                  </h3>
-                  <p className="text-sm text-grey-400 mb-8 max-w-sm mx-auto leading-relaxed">
-                    You need to be a registered member to access the APEX Sovereign Grid
-                  </p>
-                  <div className="flex items-center justify-center gap-4 mb-8">
-                    <Link
-                      to="/auth"
-                      className="px-8 py-3 bg-primary/10 border border-primary/40 rounded-md text-primary text-xs uppercase tracking-[0.3em] hover:bg-primary/20 hover:border-primary/60 transition-all duration-500"
-                    >
-                      Login
-                    </Link>
-                    <Link
-                      to="/auth"
-                      className="px-8 py-3 bg-primary/20 border border-primary/50 rounded-md text-primary text-xs uppercase tracking-[0.3em] hover:bg-primary/30 transition-all duration-500 font-medium"
-                      style={{ boxShadow: '0 0 30px hsl(42 95% 55% / 0.1)' }}
-                    >
-                      Sign Up
-                    </Link>
-                  </div>
-                  <div className="flex flex-col items-center gap-3">
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-grey-500">
-                      Trusted by 200+ Organizations worldwide
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <motion.span
-                        className="w-1.5 h-1.5 rounded-full bg-green-400/60"
-                        animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.8, 0.4] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      />
-                      <span className="text-[10px] text-grey-500">
-                        15 companies joined this week
-                      </span>
-                    </div>
-                  </div>
-                  <p className="text-[10px] text-grey-600 mt-8 tracking-[0.15em]">
-                    © 2026 APEX INTELLIGENCE EMPIRE
-                  </p>
-                </motion.div>
               </div>
             </main>
+
+            {/* Industry Selector — Choose Your Domain */}
+            <div className="relative z-20">
+              <SovereignPathways />
+            </div>
+
+            {/* Member Access Gate */}
+            <div className="relative z-20 px-6 pb-24">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-4xl mx-auto text-center pt-16 border-t border-grey-800/30"
+              >
+                <h3 className="text-xs uppercase tracking-[0.5em] text-grey-300 mb-4">
+                  Member Access Only
+                </h3>
+                <p className="text-sm text-grey-400 mb-8 max-w-sm mx-auto leading-relaxed">
+                  You need to be a registered member to access the APEX Sovereign Grid
+                </p>
+                <div className="flex items-center justify-center gap-4 mb-8">
+                  <Link
+                    to="/auth"
+                    className="px-8 py-3 bg-primary/10 border border-primary/40 rounded-md text-primary text-xs uppercase tracking-[0.3em] hover:bg-primary/20 hover:border-primary/60 transition-all duration-500"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/auth"
+                    className="px-8 py-3 bg-primary/20 border border-primary/50 rounded-md text-primary text-xs uppercase tracking-[0.3em] hover:bg-primary/30 transition-all duration-500 font-medium"
+                    style={{ boxShadow: '0 0 30px hsl(42 95% 55% / 0.1)' }}
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-grey-500">
+                    Trusted by 200+ Organizations worldwide
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <motion.span
+                      className="w-1.5 h-1.5 rounded-full bg-green-400/60"
+                      animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.8, 0.4] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                    <span className="text-[10px] text-grey-500">
+                      15 companies joined this week
+                    </span>
+                  </div>
+                </div>
+
+                {/* Contact */}
+                <a
+                  href="mailto:apexinfrastructure369@gmail.com"
+                  className="text-grey-300 hover:text-primary text-xs tracking-[0.2em] transition-colors duration-500 mt-8 inline-block"
+                >
+                  apexinfrastructure369@gmail.com
+                </a>
+
+                <p className="text-[10px] text-grey-600 mt-8 tracking-[0.15em]">
+                  © 2026 APEX INTELLIGENCE EMPIRE
+                </p>
+              </motion.div>
+            </div>
 
             {/* Bottom sigil */}
             <motion.div

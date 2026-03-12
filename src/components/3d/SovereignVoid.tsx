@@ -270,7 +270,7 @@ const ParticleTrails = memo(forwardRef<THREE.Group, { count?: number }>(
       const t = timeRef.current;
       
       particlesRef.current.forEach((particle, i) => {
-        if (!particle) return;
+        if (!particle || !orbits[i]) return;
         const orbit = orbits[i];
         const angle = t * orbit.speed + orbit.phase;
         
