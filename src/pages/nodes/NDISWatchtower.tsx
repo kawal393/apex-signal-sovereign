@@ -80,7 +80,7 @@ export default function NDISWatchtower() {
               </ApexButton>
             </Link>
             <Link to="/request-verdict">
-              <ApexButton variant="secondary" size="lg" className="gap-2 w-full">
+              <ApexButton variant="outline" size="lg" className="gap-2 w-full">
                 <Lock className="w-4 h-4" /> Check Your Compliance
               </ApexButton>
             </Link>
