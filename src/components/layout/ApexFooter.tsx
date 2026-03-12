@@ -65,7 +65,7 @@ const ApexFooter = forwardRef<HTMLElement>((_, ref) => {
           {/* Command Strip */}
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pt-6 mb-6">
             <Link
-              to="/nodes/ndis-watchtower"
+              to="/ndis-watchtower"
               className="text-grey-300 hover:text-primary text-[10px] uppercase tracking-[0.2em] transition-colors duration-300"
             >
               Live Watchtower
