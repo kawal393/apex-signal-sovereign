@@ -355,6 +355,8 @@ const Commons = () => {
       
       {/* Footer */}
       <ApexFooter />
+        </>
+      )}
     </div>
   );
 };
