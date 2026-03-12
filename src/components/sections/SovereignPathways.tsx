@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Shield, Pickaxe, HeartPulse, Brain, ArrowRight, Globe } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 const pathways = [
   {
@@ -14,6 +15,7 @@ const pathways = [
     color: "text-purple-light",
     borderColor: "border-purple-mid/30",
     glowColor: "hsl(280 60% 72% / 0.15)",
+    comingSoon: false,
   },
   {
     id: "mining",
@@ -26,6 +28,7 @@ const pathways = [
     color: "text-gold-bright",
     borderColor: "border-primary/30",
     glowColor: "hsl(42 95% 55% / 0.15)",
+    comingSoon: false,
   },
   {
     id: "ai-act",
@@ -34,10 +37,11 @@ const pathways = [
     icon: Brain,
     description: "ZK-SNARK compliance verification with multi-party sovereign attestation.",
     href: "/protocol",
-    deadline: "AUG 2026 ENFORCEMENT",
+    deadline: "COMING SOON",
     color: "text-sky-400",
     borderColor: "border-sky-500/30",
     glowColor: "hsl(200 90% 55% / 0.15)",
+    comingSoon: true,
   },
   {
     id: "pharma",
@@ -46,10 +50,11 @@ const pathways = [
     icon: Shield,
     description: "Regulatory signal monitoring for pharmaceutical compliance deadlines.",
     href: "/protocol",
-    deadline: "MAR 2026 DEADLINE",
+    deadline: "COMING SOON",
     color: "text-crimson-bright",
     borderColor: "border-crimson-deep/30",
     glowColor: "hsl(0 80% 60% / 0.15)",
+    comingSoon: true,
   },
 ];
 
@@ -79,56 +84,62 @@ const SovereignPathways = () => {
 
         {/* Pathway Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-          {pathways.map((pathway, i) => (
-            <motion.div
-              key={pathway.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <Link to={pathway.href}>
-                <motion.div
-                  whileHover={{ y: -4, scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  className={`relative p-8 rounded-lg border ${pathway.borderColor} bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-500 group cursor-pointer`}
-                  style={{ boxShadow: `0 0 60px ${pathway.glowColor}` }}
-                >
-                  {/* Deadline badge */}
-                  <div className="absolute top-4 right-4">
-                    <span className="text-[9px] uppercase tracking-[0.2em] text-grey-500 bg-black/60 px-2.5 py-1 rounded border border-border/20">
-                      {pathway.deadline}
+          {pathways.map((pathway, i) => {
+            const cardContent = (
+              <motion.div
+                whileHover={{ y: -4, scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className={`relative p-8 rounded-lg border ${pathway.borderColor} bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-500 group cursor-pointer ${pathway.comingSoon ? 'opacity-70 hover:opacity-90' : ''}`}
+                style={{ boxShadow: `0 0 60px ${pathway.glowColor}` }}
+              >
+                <div className="absolute top-4 right-4">
+                  <span className={`text-[9px] uppercase tracking-[0.2em] px-2.5 py-1 rounded border ${pathway.comingSoon ? 'text-primary bg-primary/10 border-primary/30' : 'text-grey-500 bg-black/60 border-border/20'}`}>
+                    {pathway.deadline}
+                  </span>
+                </div>
+
+                <div className="flex items-start gap-5">
+                  <div className={`p-3 rounded-lg border ${pathway.borderColor} bg-black/40`}>
+                    <pathway.icon className={`w-6 h-6 ${pathway.color}`} />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className={`text-lg font-semibold ${pathway.color} tracking-wide mb-1`}>
+                      {pathway.label}
+                    </h3>
+                    <span className="text-[10px] uppercase tracking-[0.3em] text-grey-500 block mb-3">
+                      {pathway.subtitle}
                     </span>
+                    <p className="text-sm text-grey-400 leading-relaxed">
+                      {pathway.description}
+                    </p>
                   </div>
+                </div>
 
-                  <div className="flex items-start gap-5">
-                    <div className={`p-3 rounded-lg border ${pathway.borderColor} bg-black/40`}>
-                      <pathway.icon className={`w-6 h-6 ${pathway.color}`} />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className={`text-lg font-semibold ${pathway.color} tracking-wide mb-1`}>
-                        {pathway.label}
-                      </h3>
-                      <span className="text-[10px] uppercase tracking-[0.3em] text-grey-500 block mb-3">
-                        {pathway.subtitle}
-                      </span>
-                      <p className="text-sm text-grey-400 leading-relaxed">
-                        {pathway.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Hover arrow */}
-                  <motion.div
-                    className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  >
-                    <ArrowRight className={`w-4 h-4 ${pathway.color}`} />
-                  </motion.div>
+                <motion.div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <ArrowRight className={`w-4 h-4 ${pathway.color}`} />
                 </motion.div>
-              </Link>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+
+            return (
+              <motion.div
+                key={pathway.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {pathway.comingSoon ? (
+                  <div onClick={() => toast({ title: `${pathway.label} — Coming Soon`, description: "This module is under development. Contact apexinfrastructure369@gmail.com for early access." })}>
+                    {cardContent}
+                  </div>
+                ) : (
+                  <Link to={pathway.href}>{cardContent}</Link>
+                )}
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Full System CTA */}
