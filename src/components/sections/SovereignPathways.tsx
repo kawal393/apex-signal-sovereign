@@ -35,7 +35,7 @@ const pathways = [
     label: "EU AI ACT",
     subtitle: "Digital Gallows Protocol",
     icon: Brain,
-    description: "ZK-SNARK compliance verification with multi-party sovereign attestation.",
+    description: "Protocol LDSL — compliance without IP loss. ZK-SNARK verification for August 2026 EU AI Act fines.",
     href: "/protocol",
     deadline: "COMING SOON",
     color: "text-sky-400",
