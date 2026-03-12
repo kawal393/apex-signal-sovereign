@@ -10,6 +10,7 @@ import TheConstellation from "@/components/sections/TheConstellation";
 import SystemMap from "@/components/sections/SystemMap";
 import FeaturedNodes from "@/components/sections/FeaturedNodes";
 import ATALedgerRegister from "@/components/sections/ATALedgerRegister";
+import SovereignPathways from "@/components/sections/SovereignPathways";
 import AccessRequest from "@/components/sections/AccessRequest";
 import AccessTiers from "@/components/sections/AccessTiers";
 import ConditionalVerdicts from "@/components/sections/ConditionalVerdicts";
@@ -296,6 +297,9 @@ const Commons = () => {
         
         {/* What is Apex Infrastructure - Deep explanation + CTAs */}
         <WhatIsApex />
+
+        {/* SOVEREIGN PATHWAYS — Choose Your Domain */}
+        <SovereignPathways />
         
         {/* Social Proof - Authority Markers */}
         <SocialProof />

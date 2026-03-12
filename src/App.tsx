@@ -24,6 +24,7 @@ import Disclaimers from "./pages/Disclaimers";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Protocol from "./pages/Protocol";
+import Verify from "./pages/Verify";
 import Ledger from "./pages/Ledger";
 import RequestVerdict from "./pages/RequestVerdict";
 import HowItWorks from "./pages/HowItWorks";
@@ -114,6 +115,7 @@ const App = () => (
                   <Route path="/terms" element={<Terms />} />
                   <Route path="/privacy" element={<Privacy />} />
                   <Route path="/protocol" element={<Protocol />} />
+                  <Route path="/verify" element={<Verify />} />
                   <Route path="/ledger" element={<Ledger />} />
                   <Route path="/request-verdict" element={<RequestVerdict />} />
                   <Route path="/how-it-works" element={<HowItWorks />} />
