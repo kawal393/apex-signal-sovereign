@@ -40,6 +40,8 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import PartnerDashboard from "./pages/PartnerDashboard";
+import ComplianceLedger from "./pages/ComplianceLedger";
+import AuditView from "./pages/AuditView";
 import JurisdictionBanner from "./components/layout/JurisdictionBanner";
 import GeoConsentBanner from "./components/layout/GeoConsentBanner";
 
@@ -125,6 +127,8 @@ const App = () => (
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/reset-password" element={<ResetPassword />} />
                   <Route path="/partner" element={<ProtectedRoute><PartnerDashboard /></ProtectedRoute>} />
+                  <Route path="/compliance-ledger" element={<ProtectedRoute><ComplianceLedger /></ProtectedRoute>} />
+                  <Route path="/audit/:token" element={<AuditView />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 <GlobalUI />
