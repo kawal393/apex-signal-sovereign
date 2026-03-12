@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Shield, Pickaxe, HeartPulse, Brain, ArrowRight, Globe } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 const pathways = [
   {
@@ -14,6 +15,7 @@ const pathways = [
     color: "text-purple-light",
     borderColor: "border-purple-mid/30",
     glowColor: "hsl(280 60% 72% / 0.15)",
+    comingSoon: false,
   },
   {
     id: "mining",
@@ -26,6 +28,7 @@ const pathways = [
     color: "text-gold-bright",
     borderColor: "border-primary/30",
     glowColor: "hsl(42 95% 55% / 0.15)",
+    comingSoon: false,
   },
   {
     id: "ai-act",
@@ -34,10 +37,11 @@ const pathways = [
     icon: Brain,
     description: "ZK-SNARK compliance verification with multi-party sovereign attestation.",
     href: "/protocol",
-    deadline: "AUG 2026 ENFORCEMENT",
+    deadline: "COMING SOON",
     color: "text-sky-400",
     borderColor: "border-sky-500/30",
     glowColor: "hsl(200 90% 55% / 0.15)",
+    comingSoon: true,
   },
   {
     id: "pharma",
@@ -46,10 +50,11 @@ const pathways = [
     icon: Shield,
     description: "Regulatory signal monitoring for pharmaceutical compliance deadlines.",
     href: "/protocol",
-    deadline: "MAR 2026 DEADLINE",
+    deadline: "COMING SOON",
     color: "text-crimson-bright",
     borderColor: "border-crimson-deep/30",
     glowColor: "hsl(0 80% 60% / 0.15)",
+    comingSoon: true,
   },
 ];
 
