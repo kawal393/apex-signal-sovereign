@@ -29,6 +29,8 @@ import apexLogo from "@/assets/apex-logo.png";
 import { advancedAudioPresence } from "@/lib/audioPresenceAdvanced";
 
 const Commons = () => {
+  const [ritualComplete, setRitualComplete] = useState(false);
+  const [contentVisible, setContentVisible] = useState(false);
   const presence = usePresence();
   const { isAudioEnabled, status, playThresholdTone, visitorId } = useApexSystem();
   const isMobile = useIsMobile();
@@ -37,6 +39,11 @@ const Commons = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const heroActive = scrollDepth < 0.18;
   const { toast } = useToast();
+
+  const handleRitualComplete = useCallback(() => {
+    setRitualComplete(true);
+    setTimeout(() => setContentVisible(true), 300);
+  }, []);
 
   // AI-powered visitor classification
   const handleLevelChange = useCallback((newLevel: string, previousLevel: string) => {
