@@ -209,6 +209,37 @@ const Index = () => {
             </Link>
           </motion.div>
 
+          {/* Strategic Synergy Table */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.8 }}
+            className="mb-20"
+          >
+            <span className="block text-center text-[10px] uppercase tracking-[0.6em] text-grey-400 mb-8">
+              Why They Buy
+            </span>
+            <div className="border border-border/20 rounded-lg overflow-hidden bg-card/30 backdrop-blur-sm">
+              <div className="grid grid-cols-3 text-[9px] uppercase tracking-[0.3em] text-grey-500 border-b border-border/20 px-6 py-3">
+                <span>Vertical</span>
+                <span>The Pain</span>
+                <span>APEX Solution</span>
+              </div>
+              {[
+                { vertical: "NDIS", pain: "July 2026 Registration/Audit fear", solution: "Audit-Ready Ledger — saves 30% admin", color: "text-purple-light" },
+                { vertical: "Mining", pain: "Victorian Expenditure/Gap Rules", solution: "Graticular Gap Verification — secures ELs", color: "text-gold-bright" },
+                { vertical: "Pharma", pain: "TGA Generic Deadline pressure", solution: "ZK-Compliance Docket — fast-track entry", color: "text-crimson-bright" },
+                { vertical: "AI", pain: "August 2026 EU AI Act fines", solution: "Protocol LDSL — compliance without IP loss", color: "text-sky-400" },
+              ].map((row, i) => (
+                <div key={i} className="grid grid-cols-3 text-sm px-6 py-4 border-b border-border/10 last:border-0 hover:bg-card/50 transition-colors">
+                  <span className={`font-semibold ${row.color} tracking-wide`}>{row.vertical}</span>
+                  <span className="text-grey-400">{row.pain}</span>
+                  <span className="text-grey-300">{row.solution}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
           {/* Member Access */}
           <motion.div
             initial={{ opacity: 0 }}

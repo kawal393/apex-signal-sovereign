@@ -73,7 +73,7 @@ const ApexNav = forwardRef<HTMLElement>((_, ref) => {
                 APEX INFRASTRUCTURE
               </span>
               <span className="text-[8px] uppercase tracking-[0.2em] text-muted-foreground/50 block">
-                Trusted by 200+ Organizations
+                Global Standards Body — PSI Protocol
               </span>
             </div>
           </Link>

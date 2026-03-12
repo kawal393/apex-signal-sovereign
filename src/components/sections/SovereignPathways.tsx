@@ -48,7 +48,7 @@ const pathways = [
     label: "PHARMA SNIPER",
     subtitle: "TGA Compliance Layer",
     icon: Shield,
-    description: "Regulatory signal monitoring for pharmaceutical compliance deadlines.",
+    description: "ZK-Compliance Docket for fast-track TGA generic entry. Regulatory signal monitoring for pharmaceutical deadlines.",
     href: "/protocol",
     deadline: "COMING SOON",
     color: "text-crimson-bright",
