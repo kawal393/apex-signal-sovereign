@@ -464,7 +464,7 @@ const EnergyRings = memo(function EnergyRings() {
     timeRef.current += delta * 0.4;
     const t = timeRef.current;
     rings.current.forEach((ring, i) => {
-      if (!ring) return;
+      if (!ring || !ringConfigs[i]) return;
       const config = ringConfigs[i];
       ring.rotation.x = Math.sin(t * config.speed + config.phase) * 0.25;
       ring.rotation.y = t * config.speed * 0.8;
