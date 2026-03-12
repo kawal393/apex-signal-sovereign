@@ -1,242 +1,241 @@
-import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useCallback, useEffect } from "react";
-import EntryRitual from "@/components/ritual/EntryRitual";
-import SovereignVoid from "@/components/3d/SovereignVoid";
-import MobileVoid from "@/components/effects/MobileVoid";
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { ArrowRight, Globe, HeartPulse, Pickaxe, Brain, Shield } from "lucide-react";
 import ApexNav from "@/components/layout/ApexNav";
-import SovereignPathways from "@/components/sections/SovereignPathways";
-import { useRotatingStatement } from "@/hooks/useRotatingStatement";
-import { usePresence } from "@/hooks/usePresence";
-import { useApexSystem } from "@/contexts/ApexSystemContext";
+import ApexFooter from "@/components/layout/ApexFooter";
+import MobileVoid from "@/components/effects/MobileVoid";
+import AmbientParticles from "@/components/effects/AmbientParticles";
 import { useIsMobile } from "@/hooks/use-mobile";
+import apexLogo from "@/assets/apex-logo.png";
+
+const industries = [
+  {
+    id: "ndis",
+    label: "NDIS INTEGRITY",
+    subtitle: "Sovereign Care Protocol",
+    icon: HeartPulse,
+    description: "Participant-controlled compliance ledger mapped to NDIS Practice Standards.",
+    href: "/ndis-watchtower",
+    deadline: "JUL 2026 REGISTRATION",
+    color: "text-purple-light",
+    borderColor: "border-purple-mid/30",
+    glowColor: "hsl(280 60% 72% / 0.12)",
+  },
+  {
+    id: "mining",
+    label: "MINING INTEGRITY",
+    subtitle: "Graticular Verification",
+    icon: Pickaxe,
+    description: "Sovereign mineral gap verification for Victorian critical mineral compliance.",
+    href: "/mining-watchtower",
+    deadline: "ACTIVE MONITORING",
+    color: "text-gold-bright",
+    borderColor: "border-primary/30",
+    glowColor: "hsl(42 95% 55% / 0.12)",
+  },
+  {
+    id: "ai-act",
+    label: "EU AI ACT",
+    subtitle: "Digital Gallows Protocol",
+    icon: Brain,
+    description: "ZK-SNARK compliance verification with multi-party sovereign attestation.",
+    href: "/protocol",
+    deadline: "AUG 2026 ENFORCEMENT",
+    color: "text-sky-400",
+    borderColor: "border-sky-500/30",
+    glowColor: "hsl(200 90% 55% / 0.12)",
+  },
+  {
+    id: "pharma",
+    label: "PHARMA SNIPER",
+    subtitle: "TGA Compliance Layer",
+    icon: Shield,
+    description: "Regulatory signal monitoring for pharmaceutical compliance deadlines.",
+    href: "/protocol",
+    deadline: "MAR 2026 DEADLINE",
+    color: "text-crimson-bright",
+    borderColor: "border-crimson-deep/30",
+    glowColor: "hsl(0 80% 60% / 0.12)",
+  },
+];
 
 const Index = () => {
-  const [ritualComplete, setRitualComplete] = useState(false);
-  const [contentVisible, setContentVisible] = useState(false);
-  const [scrollDepth, setScrollDepth] = useState(0);
-  const statement = useRotatingStatement();
-  const presence = usePresence();
-  const { isAudioEnabled, status } = useApexSystem();
   const isMobile = useIsMobile();
-
-  const handleRitualComplete = useCallback(() => {
-    setRitualComplete(true);
-    setTimeout(() => setContentVisible(true), 300);
-  }, []);
-
-  // Track scroll for 3D camera — throttled via rAF
-  useEffect(() => {
-    let rafId = 0;
-    const handleScroll = () => {
-      if (rafId) return;
-      rafId = requestAnimationFrame(() => {
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        const depth = maxScroll > 0 ? window.scrollY / maxScroll : 0;
-        setScrollDepth(depth);
-        rafId = 0;
-      });
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (rafId) cancelAnimationFrame(rafId);
-    };
-  }, []);
+  const navigate = useNavigate();
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-black">
-      {/* Entry Ritual */}
-      <AnimatePresence>
-        {!ritualComplete && (
-          <EntryRitual onComplete={handleRitualComplete} />
-        )}
-      </AnimatePresence>
+    <div className="relative min-h-screen bg-black">
+      {isMobile && <MobileVoid />}
+      <AmbientParticles />
 
-      {/* 3D/2D VOID */}
-      {contentVisible && (
-        isMobile ? (
-          <MobileVoid />
-        ) : (
-          <SovereignVoid scrollDepth={scrollDepth} className="z-0" />
-        )
-      )}
+      {/* Dark atmospheric base */}
+      <div className="fixed inset-0 pointer-events-none z-[1]">
+        <div className="absolute inset-0 bg-black/80" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(42_50%_20%/0.06)_0%,transparent_60%)]" />
+      </div>
 
-      {/* Content */}
-      <AnimatePresence>
-        {contentVisible && (
-          <>
-            {/* Navigation */}
-            <ApexNav />
+      <ApexNav />
 
-            {/* Atmospheric vignette */}
-            <div className="absolute inset-0 pointer-events-none z-10">
-              <div className="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-black via-black/80 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 h-[600px] bg-gradient-to-t from-black via-black/95 to-transparent" />
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_10%,black/70_55%,black_100%)]" />
-            </div>
+      <main className="relative z-10 pt-28 md:pt-36 pb-16 px-6">
+        <div className="max-w-5xl mx-auto">
 
-            {/* Status indicator */}
-            {status !== 'observer' && (
-              <motion.div
-                className="absolute top-6 right-6 z-30"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2 }}
-              >
-                <span className="text-[10px] uppercase tracking-[0.3em] text-gold/50">
-                  {status === 'acknowledged' ? 'Acknowledged' : 'Considered'}
-                </span>
-              </motion.div>
-            )}
+          {/* Logo + Title */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-6"
+          >
+            <img
+              src={apexLogo}
+              alt="APEX"
+              className="h-16 md:h-20 w-auto mx-auto mb-6 drop-shadow-[0_0_30px_rgba(212,160,32,0.3)]"
+            />
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-semibold text-foreground tracking-wide mb-4">
+              Proof of Sovereign <span className="text-gradient-gold">Integrity</span>
+            </h1>
+            <p className="text-grey-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+              Global compliance infrastructure for irreversible decisions.
+              Choose your domain or explore the full system.
+            </p>
+          </motion.div>
 
-            {/* Audio indicator */}
-            {isAudioEnabled && (
-              <motion.div
-                className="absolute top-6 left-6 z-30 flex items-center gap-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2 }}
-              >
+          {/* Divider */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.4, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            className="h-px max-w-xs mx-auto mb-16"
+            style={{ background: 'linear-gradient(90deg, transparent, hsl(42 95% 55% / 0.4), transparent)' }}
+          />
+
+          {/* THE CHOICE — Industry Cards */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 1 }}
+          >
+            <span className="block text-center text-[10px] uppercase tracking-[0.6em] text-grey-400 mb-8">
+              Select Your Domain
+            </span>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
+              {industries.map((industry, i) => (
                 <motion.div
-                  className="w-1.5 h-1.5 rounded-full bg-gold/60"
-                  animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0.8, 0.4] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-                <span className="text-[10px] uppercase tracking-[0.2em] text-grey-400">
-                  Presence active
-                </span>
-              </motion.div>
-            )}
-
-            {/* Main Content */}
-            <main className="relative z-20 flex min-h-screen flex-col items-center justify-end px-6 pb-28 md:pb-36">
-              <div className="max-w-4xl mx-auto text-center">
-
-                {/* Statement */}
-                <motion.div
-                  initial={{ opacity: 0, y: 60 }}
+                  key={industry.id}
+                  initial={{ opacity: 0, y: 25 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 2.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ delay: 0.5 + i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <h1 className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-extralight text-grey-100 leading-[1.6] tracking-[0.02em] mb-8">
-                    {statement.primary}
-                    {statement.secondary && (
-                      <>
-                        <br />
-                        <motion.span
-                          initial={{ opacity: 0, filter: 'blur(20px)' }}
-                          animate={{ opacity: 1, filter: 'blur(0px)' }}
-                          transition={{ duration: 2, delay: 1.8 }}
-                          className="font-medium text-gradient-gold"
-                        >
-                          {statement.secondary}
-                        </motion.span>
-                      </>
-                    )}
-                  </h1>
+                  <Link to={industry.href}>
+                    <motion.div
+                      whileHover={{ y: -4, scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      className={`relative p-7 md:p-8 rounded-lg border ${industry.borderColor} bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-500 group cursor-pointer`}
+                      style={{ boxShadow: `0 0 60px ${industry.glowColor}` }}
+                    >
+                      {/* Deadline badge */}
+                      <div className="absolute top-4 right-4">
+                        <span className="text-[9px] uppercase tracking-[0.2em] text-grey-500 bg-black/60 px-2.5 py-1 rounded border border-border/20">
+                          {industry.deadline}
+                        </span>
+                      </div>
+
+                      <div className="flex items-start gap-4 md:gap-5">
+                        <div className={`p-3 rounded-lg border ${industry.borderColor} bg-black/40`}>
+                          <industry.icon className={`w-6 h-6 ${industry.color}`} />
+                        </div>
+                        <div className="flex-1">
+                          <h2 className={`text-lg font-semibold ${industry.color} tracking-wide mb-1`}>
+                            {industry.label}
+                          </h2>
+                          <span className="text-[10px] uppercase tracking-[0.3em] text-grey-500 block mb-3">
+                            {industry.subtitle}
+                          </span>
+                          <p className="text-sm text-grey-400 leading-relaxed">
+                            {industry.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Hover arrow */}
+                      <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <ArrowRight className={`w-4 h-4 ${industry.color}`} />
+                      </div>
+                    </motion.div>
+                  </Link>
                 </motion.div>
-
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 2, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-base md:text-base text-grey-200 leading-relaxed mb-16 md:mb-20 max-w-xl mx-auto tracking-wide"
-                >
-                  APEX has monitored AAT enforcement trends and corporate structural decay since 2022. Due to the critical mass of systemic failures observed recently, we are now unsealing selective nodes to the public.
-                </motion.p>
-              </div>
-            </main>
-
-            {/* Industry Selector — Choose Your Domain */}
-            <div className="relative z-20">
-              <SovereignPathways />
+              ))}
             </div>
+          </motion.div>
 
-            {/* Member Access Gate */}
-            <div className="relative z-20 px-6 pb-24">
+          {/* OR — Full Tour CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9, duration: 0.8 }}
+            className="text-center mb-20"
+          >
+            <span className="block text-[10px] uppercase tracking-[0.5em] text-grey-500 mb-5">
+              Or
+            </span>
+            <Link to="/commons">
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-                className="max-w-4xl mx-auto text-center pt-16 border-t border-grey-800/30"
+                whileHover={{ scale: 1.03, y: -3 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center gap-4 px-10 py-5 rounded-lg border border-primary/30 bg-primary/5 hover:bg-primary/10 transition-all duration-500 group"
+                style={{ boxShadow: '0 0 60px hsl(42 95% 55% / 0.08)' }}
               >
-                <h3 className="text-xs uppercase tracking-[0.5em] text-grey-300 mb-4">
-                  Member Access Only
-                </h3>
-                <p className="text-sm text-grey-400 mb-8 max-w-sm mx-auto leading-relaxed">
-                  You need to be a registered member to access the APEX Sovereign Grid
-                </p>
-                <div className="flex items-center justify-center gap-4 mb-8">
-                  <Link
-                    to="/auth"
-                    className="px-8 py-3 bg-primary/10 border border-primary/40 rounded-md text-primary text-xs uppercase tracking-[0.3em] hover:bg-primary/20 hover:border-primary/60 transition-all duration-500"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    to="/auth"
-                    className="px-8 py-3 bg-primary/20 border border-primary/50 rounded-md text-primary text-xs uppercase tracking-[0.3em] hover:bg-primary/30 transition-all duration-500 font-medium"
-                    style={{ boxShadow: '0 0 30px hsl(42 95% 55% / 0.1)' }}
-                  >
-                    Sign Up
-                  </Link>
-                </div>
-                <div className="flex flex-col items-center gap-3">
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-grey-500">
-                    Trusted by 200+ Organizations worldwide
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <motion.span
-                      className="w-1.5 h-1.5 rounded-full bg-green-400/60"
-                      animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.8, 0.4] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                    <span className="text-[10px] text-grey-500">
-                      15 companies joined this week
-                    </span>
-                  </div>
-                </div>
-
-                {/* Contact */}
-                <a
-                  href="mailto:apexinfrastructure369@gmail.com"
-                  className="text-grey-300 hover:text-primary text-xs tracking-[0.2em] transition-colors duration-500 mt-8 inline-block"
-                >
-                  apexinfrastructure369@gmail.com
-                </a>
-
-                <p className="text-[10px] text-grey-600 mt-8 tracking-[0.15em]">
-                  © 2026 APEX INTELLIGENCE EMPIRE
-                </p>
+                <Globe className="w-5 h-5 text-primary" />
+                <span className="text-sm uppercase tracking-[0.4em] text-primary font-medium">
+                  Explore Full Infrastructure
+                </span>
+                <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
               </motion.div>
-            </div>
+            </Link>
+          </motion.div>
 
-            {/* Bottom sigil */}
-            <motion.div
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 pb-8 z-20"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 3, duration: 2 }}
-            >
-              <div
-                className="w-24 h-px"
-                style={{
-                  background: 'linear-gradient(90deg, transparent, hsl(42 95% 55% / 0.3), transparent)',
-                }}
-              />
-              <motion.span
-                className="text-gold/30 text-base"
-                animate={{ opacity: [0.2, 0.5, 0.2] }}
-                transition={{ duration: 6, repeat: Infinity }}
+          {/* Member Access */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 1 }}
+            className="text-center pt-12 border-t border-grey-800/30"
+          >
+            <h3 className="text-xs uppercase tracking-[0.5em] text-grey-300 mb-4">
+              Member Access
+            </h3>
+            <p className="text-sm text-grey-400 mb-6 max-w-sm mx-auto">
+              Registered members access the Sovereign Grid, partner dashboard, and sealed verdicts.
+            </p>
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <Link
+                to="/auth"
+                className="px-8 py-3 bg-primary/10 border border-primary/40 rounded-md text-primary text-xs uppercase tracking-[0.3em] hover:bg-primary/20 hover:border-primary/60 transition-all duration-500"
               >
-                ◆
-              </motion.span>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+                Login
+              </Link>
+              <Link
+                to="/auth"
+                className="px-8 py-3 bg-primary/20 border border-primary/50 rounded-md text-primary text-xs uppercase tracking-[0.3em] hover:bg-primary/30 transition-all duration-500 font-medium"
+                style={{ boxShadow: '0 0 30px hsl(42 95% 55% / 0.1)' }}
+              >
+                Sign Up
+              </Link>
+            </div>
+            <a
+              href="mailto:apexinfrastructure369@gmail.com"
+              className="text-grey-300 hover:text-primary text-xs tracking-[0.2em] transition-colors duration-500 inline-block"
+            >
+              apexinfrastructure369@gmail.com
+            </a>
+          </motion.div>
+
+        </div>
+      </main>
+
+      <ApexFooter />
     </div>
   );
 };
