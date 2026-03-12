@@ -97,11 +97,11 @@ const Index = () => {
               className="h-16 md:h-20 w-auto mx-auto mb-6 drop-shadow-[0_0_30px_rgba(212,160,32,0.3)]"
             />
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-semibold text-foreground tracking-wide mb-4">
-              Proof of Sovereign <span className="text-gradient-gold">Integrity</span>
+              The Open Standard for Verifiable <span className="text-gradient-gold">Sovereign Integrity</span>
             </h1>
             <p className="text-grey-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-              Global compliance infrastructure for irreversible decisions.
-              Choose your domain or explore the full system.
+              Mathematical proof of compliance for High-Stakes Industries:
+              AI (EU Act), Mining (Critical Minerals), and NDIS (Integrity Reform).
             </p>
           </motion.div>
 
