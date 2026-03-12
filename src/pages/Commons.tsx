@@ -1,7 +1,8 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback, Suspense, lazy } from "react";
 import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
+import EntryRitual from "@/components/ritual/EntryRitual";
 import WhatIsApex from "@/components/sections/WhatIsApex";
 import SocialProof from "@/components/sections/SocialProof";
 import WhyApexGrid from "@/components/sections/WhyApexGrid";
@@ -28,6 +29,8 @@ import apexLogo from "@/assets/apex-logo.png";
 import { advancedAudioPresence } from "@/lib/audioPresenceAdvanced";
 
 const Commons = () => {
+  const [ritualComplete, setRitualComplete] = useState(false);
+  const [contentVisible, setContentVisible] = useState(false);
   const presence = usePresence();
   const { isAudioEnabled, status, playThresholdTone, visitorId } = useApexSystem();
   const isMobile = useIsMobile();
@@ -36,6 +39,11 @@ const Commons = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const heroActive = scrollDepth < 0.18;
   const { toast } = useToast();
+
+  const handleRitualComplete = useCallback(() => {
+    setRitualComplete(true);
+    setTimeout(() => setContentVisible(true), 300);
+  }, []);
 
   // AI-powered visitor classification
   const handleLevelChange = useCallback((newLevel: string, previousLevel: string) => {
@@ -87,6 +95,16 @@ const Commons = () => {
 
   return (
     <div className="relative min-h-screen bg-black">
+      {/* Entry Ritual — Full Tour begins with the ritual */}
+      <AnimatePresence>
+        {!ritualComplete && (
+          <EntryRitual onComplete={handleRitualComplete} />
+        )}
+      </AnimatePresence>
+
+      {/* Only render content after ritual completes */}
+      {contentVisible && (
+        <>
       {/* Progressive degradation: 2D void for mobile, WebGL for desktop */}
       {isMobile ? (
         <MobileVoid />
@@ -337,6 +355,8 @@ const Commons = () => {
       
       {/* Footer */}
       <ApexFooter />
+        </>
+      )}
     </div>
   );
 };
