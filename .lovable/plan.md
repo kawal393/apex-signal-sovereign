@@ -1,127 +1,98 @@
 
 
-# APEX INFRASTRUCTURE — Full Status Report & Global Dominance Plan
+# Operation: 1000 Records Each -- Global Data Domination
 
----
+## Current State
+- `regulatory_updates`: 17 records (pathetic)
+- `mining_signals`: 46 records (barely a preview)
+- Target: 1000+ each before your LinkedIn post
 
-## WHAT YOU HAVE RIGHT NOW (Everything That's Live)
+## The Problem
+The current edge functions have too few search queries and pull too few results per query:
+- `mining-scraper`: 27 queries, fetches 5 results each, processes in batches of 5
+- `regulatory-monitor`: ~30 queries across 13 regions, fetches 3 results each
 
-### Frontend — 28 Pages, Fully Deployed
+At best, running all batches yields ~150 mining + ~60 regulatory. Nowhere near 1000.
 
-| Page | Route | Status |
-|------|-------|--------|
-| **Homepage** | `/` | Live — Industry selector (NDIS, Mining, AI Act, Pharma) + Full Tour CTA |
-| **Commons (Full Tour)** | `/commons` | Live — Entry Ritual gate, then full infrastructure overview |
-| **NDIS Watchtower** | `/ndis-watchtower` | **LIVE & FUNCTIONAL** — Real-time compliance monitoring |
-| **Mining Watchtower** | `/mining-watchtower` | **LIVE & FUNCTIONAL** — Enforcement signals, state filtering |
-| **Protocol** | `/protocol` | Live — Regulatory mapping table (EU AI Act, NDIS, Mining mapped to PSI implementations) |
-| **Verify** | `/verify` | Live — Drag-and-drop JSON proof verifier (client-side hash + signature check) |
-| **Ledger** | `/ledger` | Live — ATA Ledger with proof records |
-| **Partner Dashboard** | `/partner` | Live — Auth-protected, 50% commission engine, referral links, leaderboard, regulatory feed |
-| **Pricing** | `/pricing` | Live — Standard ($249) and Complex ($999) Verdict Briefs |
-| **Auth** | `/auth` | Live — Login/Signup with email verification |
-| **How It Works** | `/how-it-works` | Live — Doctrine explanation |
-| **Manifesto** | `/manifesto` | Live |
-| **Infrastructure** | `/infrastructure` | Live — Sovereign Loop visualization |
-| **Vera** | `/vera` | Live — Spline 3D beauty node |
-| **EU AI Act / Pharma** | Cards on homepage | "Coming Soon" toast — no dead-end links |
+## The Solution: Massive Query Expansion + Higher Yield
 
-### Backend — 12 Edge Functions Deployed
+### 1. Rebuild `mining-scraper` with 120+ Search Queries
 
-| Function | Purpose |
-|----------|---------|
-| `mining-scraper` | Firecrawl + Gemini AI extraction for Australian mining enforcement signals |
-| `regulatory-monitor` | Global regulatory intelligence scraper (13+ jurisdictions) |
-| `apex-oracle` | AI chat assistant (Gemini-powered) |
-| `apex-classifier` | AI visitor classification |
-| `apex-verdict` | Verdict brief generation |
-| `apex-scheduler` | Scheduled intelligence tasks |
-| `sovereign-lattice` | 3-node mesh network (Bounty, Infrastructure, Gallows) |
-| `lattice-sync` | Cross-node data replication |
-| `node-status` | Health monitoring |
-| `create-checkout` | Stripe dynamic checkout sessions |
-| `stripe-webhook` | Payment processing |
-| `geo-detect` | Jurisdiction detection |
+Expand from 27 to 120+ queries covering:
+- **All 7 Australian states + territories** (QLD, NSW, WA, VIC, SA, TAS, NT) -- 8-10 queries each
+- **Historical depth**: years 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026
+- **Specific companies**: BHP, Rio Tinto, Glencore, South32, Fortescue, Whitehaven Coal, Yancoal, New Hope, Peabody, Anglo American, Newcrest, Northern Star, Evolution Mining, Aurelia Metals, Regis Resources
+- **Incident types**: fatality prosecution, safety breach, prohibition notice, enforceable undertaking, environmental penalty, WHS prosecution, dust exposure, methane explosion, tailings dam, vehicle collision underground
+- **Specific regulators**: RSHQ (QLD), Resources Regulator (NSW), DMIRS (WA), WorkSafe VIC, SafeWork SA
+- Increase Firecrawl `limit` from 5 to 10 results per search
+- Ask AI to extract up to 15 records per content batch
+- Batch size stays at 5 queries per invocation = 24 batches total
 
-### Database — 12 Tables
+Expected yield: 120 queries x 10 results x ~3 records extracted = ~500-1000 unique records after dedup
 
-| Table | Records | Purpose |
-|-------|---------|---------|
-| `mining_signals` | ~386 | Australian mining enforcement intelligence |
-| `regulatory_updates` | ~113 | Global regulatory changes across 13 jurisdictions |
-| `access_requests` | Active | Visitor intake with AI risk scoring |
-| `orders` | Active | Stripe payment records |
-| `profiles` | Active | User profiles with partner IDs |
-| `referrals` | Active | 50% commission tracking |
-| `oracle_conversations` | Active | AI chat history |
-| `ai_intelligence_logs` | Active | AI processing audit trail |
-| `visitor_profiles` | Active | Behavioral tracking |
-| `node_signals` | Active | System health signals |
-| `monitored_sources` | Active | Regulatory source registry |
-| `lattice_config` | Active | Sovereign Lattice configuration |
+### 2. Rebuild `regulatory-monitor` with 200+ Search Queries
 
-### Revenue Infrastructure
-- **Stripe checkout** — Dynamic sessions via edge function
-- **Two tiers** — Standard Verdict ($249 AUD), Complex Verdict ($999 AUD)
-- **Partner engine** — 50% commission, unique referral links, leaderboard
-- **Geo-detection** — Jurisdiction-aware pricing and disclaimers
+Expand from 30 to 200+ queries covering 25+ countries:
 
-### Security & Sovereignty
-- **Sovereign Lattice** — 3-node mesh (Bounty, Infrastructure, Gallows) with Tri-Verified quorum
-- **Entry Ritual** — Stillness detection, audio presence, blueprint reveal (on Full Tour)
-- **Behavioral engine** — Visitor classification, patience scoring, scroll depth tracking
-- **PasscodeGate** — Protected routes for internal nodes
+**Australia (20 queries)**: ASIC enforcement, APRA prudential, TGA medical device, ACCC consumer, OAIC privacy, ATO compliance, Clean Energy Regulator, CASA aviation safety
+**United States (30 queries)**: SEC, FTC, FDA, EPA, OSHA, CFPB, DOJ antitrust, CFTC, FINRA, OCC, NHTSA, FAA, state AG actions (NY, CA, TX)
+**United Kingdom (15 queries)**: FCA, ICO, CMA, Ofcom, HSE, PRA, SFO fraud
+**European Union (20 queries)**: GDPR (per member state DPAs), AI Act, Digital Services Act, Digital Markets Act, ESMA, EBA, EIOPA
+**Japan (10 queries)**: FSA, JFTC, METI, PMDA
+**Singapore (8 queries)**: MAS, PDPC, CSA, IMDA
+**India (12 queries)**: SEBI, RBI, IRDAI, CCI, DPIIT, TRAI
+**UAE/Middle East (8 queries)**: DFSA, VARA, SCA, ADGM
+**South Korea (8 queries)**: FSC, FSS, KFTC, PIPC
+**Brazil (8 queries)**: CVM, ANPD, CADE, BCB
+**Canada (10 queries)**: CSA/OSC, OSFI, Privacy Commissioner, Competition Bureau
+**South Africa (6 queries)**: FSCA, NCR, Information Regulator
+**Mexico (6 queries)**: CNBV, Cofece, INAI
+**Germany (6 queries)**: BaFin, Bundeskartellamt, BSI
+**France (6 queries)**: AMF, CNIL, Autorite de la concurrence
+**New Zealand (6 queries)**: FMA, Commerce Commission, Privacy Commissioner
+**Hong Kong (6 queries)**: SFC, HKMA, PCPD
+**Switzerland (5 queries)**: FINMA, FDPIC
+**Other regions (20 queries)**: Nigeria SEC, Kenya CMA, Saudi CMA, Israel ISA, Turkey CMB, Thailand SEC, Vietnam SSC, Indonesia OJK, Malaysia SC, Philippines SEC
 
----
+Increase Firecrawl `limit` to 8 results per search. Process in batches of 5 queries = 40 batches.
 
-## WHAT'S MISSING FOR GLOBAL DOMINANCE
+Expected yield: 200 queries x 8 results x ~2 records = ~800-1200 unique records after dedup
 
-### Priority 1: The Standards Body Rebrand (Approved, Not Yet Executed)
-The plan to rebrand as "APEX PSI — Global Standards Body" was approved but not implemented:
-- Hero text update: "APEX PSI: The Open Standard for Verifiable Sovereign Integrity"
-- Nav restructure: Protocol, Verify, NDIS, Mining, Governance, Partner
-- Strategic Synergy table on homepage (Pain → Solution mapping per vertical)
-- Industry card descriptions updated for B2B positioning
+### 3. Batch Runner Strategy
 
-### Priority 2: Data Volume (The 1000-Record Target)
-Current: 386 mining + 113 regulatory = **499 total records**
-Target: 1000+ each. The plan exists in `.lovable/plan.md` — expand mining-scraper to 120+ queries and regulatory-monitor to 200+ queries across 25+ countries.
+Both functions already support `?batch=N` parameter. The plan:
+- Deploy the expanded functions
+- Invoke them batch by batch using the edge function curl tool
+- Mining: batches 0-23 (120 queries / 5 per batch)
+- Regulatory: batches 0-39 (200 queries / 5 per batch)
+- Each batch takes ~30-50 seconds (within edge function timeout)
 
-### Priority 3: NDIS Compliance Ledger (The B2B Product)
-The "Audit-Ready Shield" — a dashboard where NDIS providers map evidence to Practice Standards with cryptographic hashing (Ed25519), sequence detection, and a "5-Minute Audit" guest link for regulators. This is the **money product** for July 2026.
+### Technical Details
 
-### Priority 4: Missing Integrations
-- Gmail API — not connected
-- Stripe — edge functions exist but needs live key verification
-- Domain (apex-infrastructure.com) — owned but not linked to deployment
+**Files to modify:**
+- `supabase/functions/mining-scraper/index.ts` -- Expand SEARCH_QUERIES from 27 to 120+
+- `supabase/functions/regulatory-monitor/index.ts` -- Expand REGULATORY_QUERIES to 200+ queries across 25+ countries, add batch support matching mining-scraper pattern
 
----
+**No schema changes needed** -- both tables already have the right columns.
 
-## RECOMMENDED EXECUTION ORDER
+**Deduplication** -- Both functions use SHA-256 content hashing to prevent duplicate records. Safe to run multiple times.
 
-```text
-Phase 1: IDENTITY (1 session)
-├── Standards Body rebrand (hero, nav, synergy table)
-├── B2B card descriptions
-└── "PSI Protocol Authority" positioning
+**AI extraction** -- Using Gemini 2.5 Flash via Lovable AI gateway (already configured, no API key needed from you).
 
-Phase 2: DATA DOMINANCE (2-3 sessions)
-├── Expand mining-scraper → 120+ queries
-├── Expand regulatory-monitor → 200+ queries, 25 countries
-└── Run all batches → target 1000+ records
+**Firecrawl** -- Already connected as a connector. No additional setup needed.
 
-Phase 3: THE PRODUCT (3-5 sessions)
-├── NDIS Compliance Ledger dashboard
-├── Provider evidence mapping to Practice Standards
-├── Ed25519 document signing
-├── Sequence break detection
-└── Guest audit link for regulators
+### Execution Order
+1. Deploy expanded `mining-scraper` (120+ queries)
+2. Deploy expanded `regulatory-monitor` (200+ queries, batch support added)
+3. Run mining batches 0 through 23
+4. Run regulatory batches 0 through 39
+5. Verify counts hit 500+ each (realistic target given dedup)
+6. Your LinkedIn post goes live with real global intelligence data backing it
 
-Phase 4: REVENUE ACTIVATION
-├── Verify Stripe live keys
-├── Domain connection
-└── LinkedIn campaign with real data backing
-```
-
-**The killshot sequence**: Rebrand first (credibility), then flood with data (authority), then ship the NDIS product (revenue), then activate payments and go public.
+### Realistic Expectations
+- 1000 each is the target. Actual yield depends on what Firecrawl finds and deduplication.
+- Mining: likely 300-600 unique records (Australian mining enforcement is a finite domain)
+- Regulatory: likely 500-1000 unique records (global regulatory space is vast)
+- Combined: 800-1600 total intelligence records across both tables
+- Every single record will be AI-analyzed, severity-classified, and source-linked
 

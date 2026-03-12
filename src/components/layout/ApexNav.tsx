@@ -6,12 +6,11 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import apexLogo from "@/assets/apex-logo.png";
 
 const navItems = [
-  { label: "Portal", href: "/commons", micro: "Entry" },
   { label: "Protocol", href: "/protocol", micro: "PSI v1.0" },
-  { label: "Verify", href: "/verify", micro: "Gateway" },
+  { label: "Verify", href: "/verify", micro: "Regulator Gateway" },
   { label: "NDIS", href: "/ndis-watchtower", micro: "Live" },
   { label: "Mining", href: "/mining-watchtower", micro: "Live" },
-  { label: "Ledger", href: "/ledger", micro: "Proof" },
+  { label: "Governance", href: "/ledger", micro: "Proof Ledger" },
   { label: "Become a Partner", href: "/partner", micro: "Earn 50%", highlight: true },
 ];
 
@@ -74,7 +73,7 @@ const ApexNav = forwardRef<HTMLElement>((_, ref) => {
                 APEX INFRASTRUCTURE
               </span>
               <span className="text-[8px] uppercase tracking-[0.2em] text-muted-foreground/50 block">
-                Trusted by 200+ Organizations
+                Global Standards Body — PSI Protocol
               </span>
             </div>
           </Link>

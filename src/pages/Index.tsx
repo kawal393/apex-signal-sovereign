@@ -15,7 +15,7 @@ const industries = [
     label: "NDIS INTEGRITY",
     subtitle: "Sovereign Care Protocol",
     icon: HeartPulse,
-    description: "Participant-controlled compliance ledger mapped to NDIS Practice Standards.",
+    description: "Audit-Ready Ledger mapped to NDIS Practice Standards. Saves 30% admin for the July 2026 registration crackdown.",
     href: "/ndis-watchtower",
     deadline: "JUL 2026 REGISTRATION",
     color: "text-purple-light",
@@ -28,7 +28,7 @@ const industries = [
     label: "MINING INTEGRITY",
     subtitle: "Graticular Verification",
     icon: Pickaxe,
-    description: "Sovereign mineral gap verification for Victorian critical mineral compliance.",
+    description: "Graticular Gap Verification securing Exploration Licences under Victorian critical mineral expenditure rules.",
     href: "/mining-watchtower",
     deadline: "ACTIVE MONITORING",
     color: "text-gold-bright",
@@ -41,7 +41,7 @@ const industries = [
     label: "EU AI ACT",
     subtitle: "Digital Gallows Protocol",
     icon: Brain,
-    description: "ZK-SNARK compliance verification with multi-party sovereign attestation.",
+    description: "Protocol LDSL — compliance without IP loss. ZK-SNARK verification for August 2026 EU AI Act fines.",
     href: "/protocol",
     deadline: "COMING SOON",
     color: "text-sky-400",
@@ -54,7 +54,7 @@ const industries = [
     label: "PHARMA SNIPER",
     subtitle: "TGA Compliance Layer",
     icon: Shield,
-    description: "Regulatory signal monitoring for pharmaceutical compliance deadlines.",
+    description: "ZK-Compliance Docket for fast-track TGA generic entry. Regulatory signal monitoring for pharmaceutical deadlines.",
     href: "/protocol",
     deadline: "COMING SOON",
     color: "text-crimson-bright",
@@ -97,11 +97,11 @@ const Index = () => {
               className="h-16 md:h-20 w-auto mx-auto mb-6 drop-shadow-[0_0_30px_rgba(212,160,32,0.3)]"
             />
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-semibold text-foreground tracking-wide mb-4">
-              Proof of Sovereign <span className="text-gradient-gold">Integrity</span>
+              The Open Standard for Verifiable <span className="text-gradient-gold">Sovereign Integrity</span>
             </h1>
             <p className="text-grey-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-              Global compliance infrastructure for irreversible decisions.
-              Choose your domain or explore the full system.
+              Mathematical proof of compliance for High-Stakes Industries:
+              AI (EU Act), Mining (Critical Minerals), and NDIS (Integrity Reform).
             </p>
           </motion.div>
 
@@ -207,6 +207,37 @@ const Index = () => {
                 <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
               </motion.div>
             </Link>
+          </motion.div>
+
+          {/* Strategic Synergy Table */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.8 }}
+            className="mb-20"
+          >
+            <span className="block text-center text-[10px] uppercase tracking-[0.6em] text-grey-400 mb-8">
+              Why They Buy
+            </span>
+            <div className="border border-border/20 rounded-lg overflow-hidden bg-card/30 backdrop-blur-sm">
+              <div className="grid grid-cols-3 text-[9px] uppercase tracking-[0.3em] text-grey-500 border-b border-border/20 px-6 py-3">
+                <span>Vertical</span>
+                <span>The Pain</span>
+                <span>APEX Solution</span>
+              </div>
+              {[
+                { vertical: "NDIS", pain: "July 2026 Registration/Audit fear", solution: "Audit-Ready Ledger — saves 30% admin", color: "text-purple-light" },
+                { vertical: "Mining", pain: "Victorian Expenditure/Gap Rules", solution: "Graticular Gap Verification — secures ELs", color: "text-gold-bright" },
+                { vertical: "Pharma", pain: "TGA Generic Deadline pressure", solution: "ZK-Compliance Docket — fast-track entry", color: "text-crimson-bright" },
+                { vertical: "AI", pain: "August 2026 EU AI Act fines", solution: "Protocol LDSL — compliance without IP loss", color: "text-sky-400" },
+              ].map((row, i) => (
+                <div key={i} className="grid grid-cols-3 text-sm px-6 py-4 border-b border-border/10 last:border-0 hover:bg-card/50 transition-colors">
+                  <span className={`font-semibold ${row.color} tracking-wide`}>{row.vertical}</span>
+                  <span className="text-grey-400">{row.pain}</span>
+                  <span className="text-grey-300">{row.solution}</span>
+                </div>
+              ))}
+            </div>
           </motion.div>
 
           {/* Member Access */}
