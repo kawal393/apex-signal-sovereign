@@ -297,6 +297,9 @@ const Commons = () => {
         
         {/* What is Apex Infrastructure - Deep explanation + CTAs */}
         <WhatIsApex />
+
+        {/* SOVEREIGN PATHWAYS — Choose Your Domain */}
+        <SovereignPathways />
         
         {/* Social Proof - Authority Markers */}
         <SocialProof />
