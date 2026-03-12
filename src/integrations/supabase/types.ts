@@ -154,6 +154,104 @@ export type Database = {
           },
         ]
       }
+      audit_links: {
+        Row: {
+          access_count: number
+          created_at: string
+          expires_at: string
+          id: string
+          is_active: boolean
+          label: string
+          link_token: string
+          max_access: number | null
+          provider_user_id: string
+        }
+        Insert: {
+          access_count?: number
+          created_at?: string
+          expires_at?: string
+          id?: string
+          is_active?: boolean
+          label?: string
+          link_token?: string
+          max_access?: number | null
+          provider_user_id: string
+        }
+        Update: {
+          access_count?: number
+          created_at?: string
+          expires_at?: string
+          id?: string
+          is_active?: boolean
+          label?: string
+          link_token?: string
+          max_access?: number | null
+          provider_user_id?: string
+        }
+        Relationships: []
+      }
+      compliance_evidence: {
+        Row: {
+          content_hash: string
+          created_at: string
+          description: string | null
+          evidence_type: string
+          file_url: string | null
+          id: string
+          metadata: Json | null
+          previous_hash: string | null
+          provider_user_id: string
+          sequence_number: number
+          signature: string | null
+          standard_id: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content_hash: string
+          created_at?: string
+          description?: string | null
+          evidence_type?: string
+          file_url?: string | null
+          id?: string
+          metadata?: Json | null
+          previous_hash?: string | null
+          provider_user_id: string
+          sequence_number: number
+          signature?: string | null
+          standard_id?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content_hash?: string
+          created_at?: string
+          description?: string | null
+          evidence_type?: string
+          file_url?: string | null
+          id?: string
+          metadata?: Json | null
+          previous_hash?: string | null
+          provider_user_id?: string
+          sequence_number?: number
+          signature?: string | null
+          standard_id?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compliance_evidence_standard_id_fkey"
+            columns: ["standard_id"]
+            isOneToOne: false
+            referencedRelation: "ndis_practice_standards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lattice_config: {
         Row: {
           created_at: string
@@ -262,6 +360,33 @@ export type Database = {
           last_content_hash?: string | null
           source_name?: string
           source_url?: string
+        }
+        Relationships: []
+      }
+      ndis_practice_standards: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          standard_code: string
+          standard_name: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          standard_code: string
+          standard_name: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          standard_code?: string
+          standard_name?: string
         }
         Relationships: []
       }
@@ -534,6 +659,44 @@ export type Database = {
             columns: ["target_visitor_id"]
             isOneToOne: false
             referencedRelation: "visitor_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sequence_alerts: {
+        Row: {
+          alert_type: string
+          created_at: string
+          description: string
+          evidence_id: string | null
+          id: string
+          provider_user_id: string
+          resolved: boolean
+        }
+        Insert: {
+          alert_type?: string
+          created_at?: string
+          description: string
+          evidence_id?: string | null
+          id?: string
+          provider_user_id: string
+          resolved?: boolean
+        }
+        Update: {
+          alert_type?: string
+          created_at?: string
+          description?: string
+          evidence_id?: string | null
+          id?: string
+          provider_user_id?: string
+          resolved?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sequence_alerts_evidence_id_fkey"
+            columns: ["evidence_id"]
+            isOneToOne: false
+            referencedRelation: "compliance_evidence"
             referencedColumns: ["id"]
           },
         ]
