@@ -6,12 +6,11 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import apexLogo from "@/assets/apex-logo.png";
 
 const navItems = [
-  { label: "Portal", href: "/commons", micro: "Entry" },
   { label: "Protocol", href: "/protocol", micro: "PSI v1.0" },
-  { label: "Verify", href: "/verify", micro: "Gateway" },
+  { label: "Verify", href: "/verify", micro: "Regulator Gateway" },
   { label: "NDIS", href: "/ndis-watchtower", micro: "Live" },
   { label: "Mining", href: "/mining-watchtower", micro: "Live" },
-  { label: "Ledger", href: "/ledger", micro: "Proof" },
+  { label: "Governance", href: "/ledger", micro: "Proof Ledger" },
   { label: "Become a Partner", href: "/partner", micro: "Earn 50%", highlight: true },
 ];
 
