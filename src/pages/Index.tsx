@@ -6,6 +6,7 @@ import ApexFooter from "@/components/layout/ApexFooter";
 import MobileVoid from "@/components/effects/MobileVoid";
 import AmbientParticles from "@/components/effects/AmbientParticles";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { toast } from "@/hooks/use-toast";
 import apexLogo from "@/assets/apex-logo.png";
 
 const industries = [
@@ -20,6 +21,7 @@ const industries = [
     color: "text-purple-light",
     borderColor: "border-purple-mid/30",
     glowColor: "hsl(280 60% 72% / 0.12)",
+    comingSoon: false,
   },
   {
     id: "mining",
@@ -32,6 +34,7 @@ const industries = [
     color: "text-gold-bright",
     borderColor: "border-primary/30",
     glowColor: "hsl(42 95% 55% / 0.12)",
+    comingSoon: false,
   },
   {
     id: "ai-act",
@@ -40,10 +43,11 @@ const industries = [
     icon: Brain,
     description: "ZK-SNARK compliance verification with multi-party sovereign attestation.",
     href: "/protocol",
-    deadline: "AUG 2026 ENFORCEMENT",
+    deadline: "COMING SOON",
     color: "text-sky-400",
     borderColor: "border-sky-500/30",
     glowColor: "hsl(200 90% 55% / 0.12)",
+    comingSoon: true,
   },
   {
     id: "pharma",
@@ -52,10 +56,11 @@ const industries = [
     icon: Shield,
     description: "Regulatory signal monitoring for pharmaceutical compliance deadlines.",
     href: "/protocol",
-    deadline: "MAR 2026 DEADLINE",
+    deadline: "COMING SOON",
     color: "text-crimson-bright",
     borderColor: "border-crimson-deep/30",
     glowColor: "hsl(0 80% 60% / 0.12)",
+    comingSoon: true,
   },
 ];
 
