@@ -95,6 +95,16 @@ const Commons = () => {
 
   return (
     <div className="relative min-h-screen bg-black">
+      {/* Entry Ritual — Full Tour begins with the ritual */}
+      <AnimatePresence>
+        {!ritualComplete && (
+          <EntryRitual onComplete={handleRitualComplete} />
+        )}
+      </AnimatePresence>
+
+      {/* Only render content after ritual completes */}
+      {contentVisible && (
+        <>
       {/* Progressive degradation: 2D void for mobile, WebGL for desktop */}
       {isMobile ? (
         <MobileVoid />
