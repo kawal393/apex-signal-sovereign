@@ -115,6 +115,7 @@ const App = () => (
                   <Route path="/terms" element={<Terms />} />
                   <Route path="/privacy" element={<Privacy />} />
                   <Route path="/protocol" element={<Protocol />} />
+                  <Route path="/verify" element={<Verify />} />
                   <Route path="/ledger" element={<Ledger />} />
                   <Route path="/request-verdict" element={<RequestVerdict />} />
                   <Route path="/how-it-works" element={<HowItWorks />} />
