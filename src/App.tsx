@@ -127,6 +127,8 @@ const App = () => (
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/reset-password" element={<ResetPassword />} />
                   <Route path="/partner" element={<ProtectedRoute><PartnerDashboard /></ProtectedRoute>} />
+                  <Route path="/compliance-ledger" element={<ProtectedRoute><ComplianceLedger /></ProtectedRoute>} />
+                  <Route path="/audit/:token" element={<AuditView />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 <GlobalUI />
