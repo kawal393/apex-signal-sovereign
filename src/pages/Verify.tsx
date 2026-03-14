@@ -14,19 +14,47 @@ const Verify = () => {
   const [dragOver, setDragOver] = useState(false);
   const [proofData, setProofData] = useState<Record<string, unknown> | null>(null);
 
+  const computeSHA256 = async (data: string): Promise<string> => {
+    const encoder = new TextEncoder();
+    const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(data));
+    return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+  };
+
   const processProof = useCallback((file: File) => {
     setState("processing");
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
-        const json = JSON.parse(e.target?.result as string);
+        const rawText = e.target?.result as string;
+        const json = JSON.parse(rawText);
         setProofData(json);
-        // Simulate client-side hash verification
-        setTimeout(() => {
-          const hasHash = json?.proof_hash || json?.merkle_root || json?.hash;
-          const hasSignature = json?.signature || json?.ed25519_signature;
-          setState(hasHash && hasSignature ? "valid" : "invalid");
-        }, 2000);
+
+        // Real SHA-256 verification
+        const expectedHash = json?.proof_hash || json?.merkle_root || json?.hash;
+        const hasSignature = json?.signature || json?.ed25519_signature;
+
+        if (!expectedHash || !hasSignature) {
+          setState("invalid");
+          return;
+        }
+
+        // Compute hash of the payload (excluding the hash/signature fields themselves)
+        const payload = { ...json };
+        delete payload.proof_hash;
+        delete payload.merkle_root;
+        delete payload.hash;
+        delete payload.signature;
+        delete payload.ed25519_signature;
+
+        // RFC 8785 JSON Canonicalization (sorted keys)
+        const canonicalized = JSON.stringify(payload, Object.keys(payload).sort());
+        const computedHash = await computeSHA256(canonicalized);
+
+        // Store computed hash for display
+        setProofData(prev => ({ ...prev, _computed_hash: computedHash, _expected_hash: expectedHash }));
+
+        // Verify hash matches
+        setState(computedHash === expectedHash ? "valid" : "invalid");
       } catch {
         setState("invalid");
         setProofData(null);
