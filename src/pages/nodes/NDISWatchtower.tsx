@@ -10,6 +10,7 @@ import WatchtowerFilters from "@/components/watchtower/WatchtowerFilters";
 import WatchtowerStats from "@/components/watchtower/WatchtowerStats";
 import RiskBadge from "@/components/watchtower/RiskBadge";
 import { useNDISData, useFilteredNDIS } from "@/hooks/useWatchtowerData";
+import { anonymizeNDISEntity, sanitizeDescription } from "@/lib/anonymize";
 
 export default function NDISWatchtower() {
   const { data, count, updatedAt, loading, error } = useNDISData();
@@ -71,6 +72,9 @@ export default function NDISWatchtower() {
               Live enforcement actions from the NDIS Quality & Safeguards Commission.
               {count > 0 && ` Tracking ${count.toLocaleString()} compliance signals across Australia.`}
             </p>
+            <p className="text-muted-foreground/60 text-xs mt-2 italic">
+              All entity names are anonymized. No real provider or individual names are displayed.
+            </p>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2, duration: 0.8 }} className="flex-shrink-0 flex flex-col gap-3">
@@ -104,7 +108,7 @@ export default function NDISWatchtower() {
             <WatchtowerFilters
               search={search}
               onSearchChange={setSearch}
-              searchPlaceholder="Search provider name…"
+              searchPlaceholder="Search by action type or state…"
               filters={[
                 { label: "All States", value: stateFilter, options: uniqueStates, onChange: setStateFilter },
                 { label: "All Types", value: typeFilter, options: uniqueTypes, onChange: setTypeFilter },
@@ -122,7 +126,7 @@ export default function NDISWatchtower() {
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-border/30 text-[10px] uppercase tracking-[0.3em] text-muted-foreground bg-muted/20">
-                      <th className="p-5 font-medium">Provider</th>
+                      <th className="p-5 font-medium">Entity ID</th>
                       <th className="p-5 font-medium">Action Type</th>
                       <th className="p-5 font-medium">Risk</th>
                       <th className="p-5 font-medium">State</th>
@@ -132,7 +136,9 @@ export default function NDISWatchtower() {
                   <tbody className="text-sm">
                     {filtered.slice(0, 100).map((s, i) => (
                       <tr key={i} className="border-b border-border/10 hover:bg-muted/10 transition-colors">
-                        <td className="p-5 text-foreground font-medium max-w-[300px] truncate">{s.name}</td>
+                        <td className="p-5 text-foreground font-medium max-w-[300px] truncate font-mono text-xs">
+                          {anonymizeNDISEntity(s.name, s.state)}
+                        </td>
                         <td className="p-5 text-muted-foreground">{s.type}</td>
                         <td className="p-5"><RiskBadge risk={s.risk} /></td>
                         <td className="p-5 text-muted-foreground">{s.state}</td>

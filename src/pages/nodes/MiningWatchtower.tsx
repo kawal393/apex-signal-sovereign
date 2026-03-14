@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Database, Loader2, AlertTriangle, Lock, Eye, EyeOff, Shield } from "lucide-react";
+import { ArrowLeft, Database, Loader2, AlertTriangle, Lock, Eye, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
@@ -11,6 +11,7 @@ import WatchtowerStats from "@/components/watchtower/WatchtowerStats";
 import RiskBadge from "@/components/watchtower/RiskBadge";
 import { useMiningData, useFilteredMining } from "@/hooks/useWatchtowerData";
 import { useAuth } from "@/contexts/AuthContext";
+import { anonymizeMiningCompany, anonymizeMineSite } from "@/lib/anonymize";
 
 const PREVIEW_LIMIT = 4;
 
@@ -78,6 +79,9 @@ export default function MiningWatchtower() {
               Live enforcement and compliance data from Australian state mining regulators.
               Tracking safety breaches, prosecutions, and prohibition notices across all jurisdictions.
             </p>
+            <p className="text-muted-foreground/60 text-xs mt-2 italic">
+              All entity and site names are anonymized. No real company or individual names are displayed.
+            </p>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2, duration: 0.8 }} className="flex-shrink-0">
@@ -106,7 +110,7 @@ export default function MiningWatchtower() {
             <WatchtowerFilters
               search={search}
               onSearchChange={setSearch}
-              searchPlaceholder="Search company or mine…"
+              searchPlaceholder="Search by action type or state…"
               filters={[
                 { label: "All States", value: stateFilter, options: uniqueStates, onChange: setStateFilter },
                 { label: "All Risk", value: riskFilter, options: uniqueRisks, onChange: setRiskFilter },
@@ -124,8 +128,8 @@ export default function MiningWatchtower() {
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-border/30 text-[10px] uppercase tracking-[0.3em] text-muted-foreground bg-muted/20">
-                      <th className="p-5 font-medium">Company</th>
-                      <th className="p-5 font-medium">Mine</th>
+                      <th className="p-5 font-medium">Entity ID</th>
+                      <th className="p-5 font-medium">Site ID</th>
                       <th className="p-5 font-medium">Action</th>
                       <th className="p-5 font-medium">Risk</th>
                       <th className="p-5 font-medium">State</th>
@@ -136,8 +140,12 @@ export default function MiningWatchtower() {
                   <tbody className="text-sm">
                     {visibleData.map((s, i) => (
                       <tr key={s.id || i} className="border-b border-border/10 hover:bg-muted/10 transition-colors">
-                        <td className="p-5 text-foreground font-medium max-w-[200px] truncate">{s.company}</td>
-                        <td className="p-5 text-muted-foreground max-w-[180px] truncate">{s.mine}</td>
+                        <td className="p-5 text-foreground font-medium max-w-[200px] truncate font-mono text-xs">
+                          {anonymizeMiningCompany(s.company)}
+                        </td>
+                        <td className="p-5 text-muted-foreground max-w-[180px] truncate font-mono text-xs">
+                          {anonymizeMineSite(s.mine, s.state)}
+                        </td>
                         <td className="p-5 text-muted-foreground">{s.action}</td>
                         <td className="p-5"><RiskBadge risk={s.risk} /></td>
                         <td className="p-5 text-muted-foreground">{s.state}</td>
@@ -152,14 +160,13 @@ export default function MiningWatchtower() {
               {/* Membership Gate Overlay */}
               {!isUnlocked && hiddenCount > 0 && (
                 <div className="relative">
-                  {/* Blurred preview rows */}
                   <div className="overflow-hidden max-h-[160px] relative">
                     <table className="w-full text-left border-collapse blur-[6px] select-none pointer-events-none opacity-50">
                       <tbody className="text-sm">
                         {filtered.slice(PREVIEW_LIMIT, PREVIEW_LIMIT + 3).map((s, i) => (
                           <tr key={i} className="border-b border-border/10">
-                            <td className="p-5 text-foreground font-medium">{s.company}</td>
-                            <td className="p-5 text-muted-foreground">{s.mine}</td>
+                            <td className="p-5 text-foreground font-medium font-mono text-xs">{anonymizeMiningCompany(s.company)}</td>
+                            <td className="p-5 text-muted-foreground font-mono text-xs">{anonymizeMineSite(s.mine, s.state)}</td>
                             <td className="p-5 text-muted-foreground">{s.action}</td>
                             <td className="p-5"><RiskBadge risk={s.risk} /></td>
                             <td className="p-5 text-muted-foreground">{s.state}</td>
@@ -172,7 +179,6 @@ export default function MiningWatchtower() {
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background" />
                   </div>
 
-                  {/* CTA */}
                   <div className="flex flex-col items-center justify-center py-12 px-6 text-center">
                     <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mb-6">
                       <Shield className="w-7 h-7 text-primary" />
