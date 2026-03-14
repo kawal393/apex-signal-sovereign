@@ -42,18 +42,25 @@ Deno.serve(async (req) => {
           body: JSON.stringify({
             model: 'google/gemini-2.5-flash',
             messages: [
-              { role: 'system', content: `You are an expert on Australian court enforcement. Generate a JSON array of 20-30 REAL or plausible Australian court judgment records. Each MUST have:
-- "case_name": e.g. "ASIC v Smith [2024] FCA 123"
+              { role: 'system', content: `You are an expert on Australian court enforcement. Generate a JSON array of 20-30 Australian court judgment records.
+
+CRITICAL PRIVACY RULE: Do NOT use any real person names or real company names. Instead use ANONYMIZED IDENTIFIERS:
+- Case names: "Regulator v Entity-FD-2024-0142" format
+- No real individual names (directors, defendants, plaintiffs)
+- Use anonymized references like "Entity-ASIC-0387", "Defendant-NSW-0921"
+
+Each MUST have:
+- "case_name": ANONYMIZED case reference e.g. "ASIC v Entity-FD-2024-0142"
 - "court": e.g. "Federal Court of Australia", "NSW Supreme Court"
-- "outcome": Brief outcome description
+- "outcome": Brief outcome description WITHOUT real names
 - "penalty": Dollar amount or "N/A"
 - "date": YYYY-MM-DD
 - "jurisdiction": State or "Federal"
 - "sector": e.g. "Financial Services", "Mining", "Healthcare"
 - "severity": HIGH/MEDIUM/LOW
-- "source_url": Plausible austlii.edu.au or federalcourt.gov.au URL
+- "source_url": Generic court URL
 Return ONLY the JSON array.` },
-              { role: 'user', content: `Generate 20-30 court enforcement records about: ${topic.topic}` },
+              { role: 'user', content: `Generate 20-30 ANONYMIZED court enforcement records about: ${topic.topic}` },
             ],
             max_tokens: 8000,
           }),

@@ -42,17 +42,24 @@ Deno.serve(async (req) => {
           body: JSON.stringify({
             model: 'google/gemini-2.5-flash',
             messages: [
-              { role: 'system', content: `You are an expert on Australian corporate regulation. Generate a JSON array of 20-30 REAL or plausible corporate enforcement records. Each MUST have:
-- "company_name": Real or plausible company name
+              { role: 'system', content: `You are an expert on Australian corporate regulation. Generate a JSON array of 20-30 corporate enforcement records.
+
+CRITICAL PRIVACY RULE: Do NOT use any real person names or real company names. Instead use ANONYMIZED IDENTIFIERS:
+- "Entity-ASIC-0142" for companies
+- "Director-0387" for individuals (NEVER use real names)
+- "Corporation-AUSTRAC-0921" for entities
+
+Each MUST have:
+- "company_name": ANONYMIZED identifier (e.g. "Entity-ASIC-0142", "Corporation-ACCC-0387")
 - "action_type": One of "Civil Penalty", "Criminal Prosecution", "Director Disqualification", "License Cancellation", "Deregistration", "Infringement Notice", "Enforceable Undertaking", "Cartel Prosecution"
 - "regulator": "ASIC", "AUSTRAC", "ACCC", "APRA", or "ATO"
-- "description": 1-2 sentences
+- "description": 1-2 sentences WITHOUT any real names
 - "date": YYYY-MM-DD
 - "severity": HIGH/MEDIUM/LOW
-- "director_name": Name if relevant, null otherwise
-- "source_url": Plausible asic.gov.au or relevant regulator URL
+- "director_name": ANONYMIZED like "Director-0142" if relevant, null otherwise
+- "source_url": Generic regulator URL
 Return ONLY the JSON array.` },
-              { role: 'user', content: `Generate 20-30 corporate enforcement records about: ${topic.topic}` },
+              { role: 'user', content: `Generate 20-30 ANONYMIZED corporate enforcement records about: ${topic.topic}` },
             ],
             max_tokens: 8000,
           }),
