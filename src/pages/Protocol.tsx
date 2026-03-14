@@ -55,6 +55,18 @@ const regulatoryMap = [
     psiImpl: "Pharma Sniper — Deadline-Triggered Compliance Alerts",
     status: "BUILDING",
   },
+  {
+    law: "EU AI Act Art. 15",
+    requirement: "Accuracy, robustness and cybersecurity of high-risk AI",
+    psiImpl: "Zero-Knowledge Integrity Proofs (ZK-SNARKs) for Model Validation",
+    status: "PLANNED",
+  },
+  {
+    law: "NDIS Standard 2.4",
+    requirement: "Risk management and incident response procedures",
+    psiImpl: "Immutable Incident & Service Delivery Ledger with Non-Repudiation",
+    status: "BUILDING",
+  },
 ];
 
 const statusColors: Record<string, string> = {

@@ -130,6 +130,7 @@ const App = () => (
                   <Route path="/partner" element={<ProtectedRoute><PartnerDashboard /></ProtectedRoute>} />
                   <Route path="/compliance-ledger" element={<ProtectedRoute><ComplianceLedger /></ProtectedRoute>} />
                   <Route path="/audit/:token" element={<AuditView />} />
+                  <Route path="/intelligence" element={<IntelligenceCenter />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 <GlobalUI />

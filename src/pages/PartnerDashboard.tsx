@@ -371,6 +371,54 @@ const PartnerDashboard = () => {
           </motion.div>
         </div>
 
+        {/* Sovereign Covenant 50/5/4 */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
+          className="mb-10"
+        >
+          <div className="relative overflow-hidden rounded-lg border border-primary/40 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent p-10">
+            <div className="absolute -right-12 -top-12 w-48 h-48 rounded-full bg-primary/10 blur-3xl" />
+            <div className="absolute -left-12 -bottom-12 w-48 h-48 rounded-full bg-primary/5 blur-3xl" />
+            <div className="relative z-10">
+              <span className="text-[10px] uppercase tracking-[0.5em] text-primary/70 block mb-4">The Sovereign Covenant</span>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-wide mb-6" style={{ background: "linear-gradient(135deg, hsl(42 95% 55%), hsl(42 80% 70%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                50 / 5 / 4
+              </h2>
+              <p className="text-base text-foreground/80 italic mb-6 max-w-lg">
+                "When knowledge becomes cheap, relationships become valuable. We don't hire; we partner."
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="p-5 rounded-lg border border-primary/20 bg-black/40 text-center">
+                  <div className="text-3xl font-bold text-primary mb-1">50%</div>
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-grey-400">Revenue Share Per Deal</span>
+                </div>
+                <div className="p-5 rounded-lg border border-primary/20 bg-black/40 text-center">
+                  <div className="text-3xl font-bold text-primary mb-1">5%</div>
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-grey-400">Equity Allocation</span>
+                </div>
+                <div className="p-5 rounded-lg border border-primary/20 bg-black/40 text-center">
+                  <div className="text-3xl font-bold text-primary mb-1">4</div>
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-grey-400">Institutional Partners</span>
+                </div>
+              </div>
+              {/* Status Tracker */}
+              <div className="flex items-center gap-4">
+                <div className="flex-1 h-2 rounded-full bg-grey-800/50 overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: '25%' }}
+                    transition={{ delay: 1, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                    className="h-full rounded-full bg-gradient-to-r from-primary to-gold-ember"
+                  />
+                </div>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-primary whitespace-nowrap">1 Accepted · 3 Remaining</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Legal Footer */}
         <motion.div
           initial={{ opacity: 0 }}
