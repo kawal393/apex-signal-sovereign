@@ -44,16 +44,23 @@ Deno.serve(async (req) => {
           body: JSON.stringify({
             model: 'google/gemini-2.5-flash',
             messages: [
-              { role: 'system', content: `You are an expert on Australian NDIS enforcement. Generate a JSON array of 20-30 REAL or highly plausible NDIS Commission enforcement records. Each record MUST have:
-- "entity_name": Provider or worker name
+              { role: 'system', content: `You are an expert on Australian NDIS enforcement. Generate a JSON array of 20-30 NDIS Commission enforcement records.
+
+CRITICAL PRIVACY RULE: Do NOT use any real person names, real provider names, or real organisation names. Instead use ANONYMIZED IDENTIFIERS like:
+- "Provider-NSW-0142" or "SIL Provider-VIC-0387" for entity names
+- "Worker-QLD-0921" for individual workers
+- Never include names of real people, participants, or specific businesses
+
+Each record MUST have:
+- "entity_name": ANONYMIZED identifier (e.g. "Provider-NSW-0142", "SIL Provider-VIC-0387")
 - "action_type": One of "Banning Order", "Compliance Notice", "Registration Condition", "Deregistration", "Infringement Notice", "Civil Penalty", "Suspension", "Corrective Action"
-- "description": 1-2 factual sentences
+- "description": 1-2 factual sentences describing the type of violation WITHOUT naming any person or organisation
 - "date": YYYY-MM-DD format
 - "state": Australian state (NSW, VIC, QLD, WA, SA, TAS, NT, ACT)
 - "severity": "HIGH" for banning/deregistration, "MEDIUM" for conditions/notices, "LOW" for corrective actions
-- "source_url": Plausible URL from ndiscommission.gov.au
+- "source_url": Use generic format "https://www.ndiscommission.gov.au/enforcement"
 Return ONLY the JSON array.` },
-              { role: 'user', content: `Generate 20-30 NDIS enforcement records about: ${topic.topic}` },
+              { role: 'user', content: `Generate 20-30 ANONYMIZED NDIS enforcement records about: ${topic.topic}` },
             ],
             max_tokens: 8000,
           }),
@@ -75,14 +82,13 @@ Return ONLY the JSON array.` },
           const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/ndis_enforcement`, {
             method: 'POST',
             headers: { 'apikey': SUPABASE_SERVICE_ROLE_KEY, 'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-            body: JSON.stringify({ entity_name: record.entity_name, action_type: record.action_type || 'Enforcement Action', description: record.description || '', date: record.date, state: record.state || 'National', severity: ['HIGH', 'MEDIUM', 'LOW'].includes(record.severity) ? record.severity : 'MEDIUM', source: `AI Intelligence: ${topic.focus}`, source_url: record.source_url || '', content_hash: contentHash }),
+            body: JSON.stringify({ entity_name: record.entity_name, action_type: record.action_type || 'Enforcement Action', description: record.description || '', date: record.date, state: record.state || 'National', severity: ['HIGH', 'MEDIUM', 'LOW'].includes(record.severity) ? record.severity : 'MEDIUM', source: `AI Intelligence: ${topic.focus}`, source_url: record.source_url || 'https://www.ndiscommission.gov.au/enforcement', content_hash: contentHash }),
           });
           if (insertRes.ok || insertRes.status === 201) totalInserted++;
         }
       } catch (err) { errors.push(`${topic.focus}: ${err instanceof Error ? err.message : 'unknown'}`); }
     }
 
-    // Log scraper run
     await fetch(`${SUPABASE_URL}/rest/v1/scraper_runs`, {
       method: 'POST',
       headers: { 'apikey': SUPABASE_SERVICE_ROLE_KEY, 'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },

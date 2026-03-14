@@ -4,14 +4,14 @@ const corsHeaders = {
 };
 
 const GENERATION_TOPICS = [
-  { topic: 'TGA product recalls and safety alerts for pharmaceutical products in Australia 2020-2026, including prescription medicines, OTC drugs, complementary medicines', focus: 'TGA recalls' },
-  { topic: 'TGA ARTG (Australian Register of Therapeutic Goods) cancellations and suspensions 2021-2026, sponsor compliance failures, GMP non-compliance', focus: 'ARTG actions' },
-  { topic: 'TGA enforcement actions against pharmaceutical sponsors and manufacturers 2020-2026, advertising breaches, unlawful supply, counterfeit medicines', focus: 'enforcement' },
-  { topic: 'Australian pharmaceutical patent cliff events and generic medicine approvals 2024-2026, PBS listing changes, biosimilar entries, semaglutide generics', focus: 'patent cliffs' },
-  { topic: 'TGA medical device recalls and safety alerts 2021-2026, Class I recalls, hazard alerts, post-market reviews', focus: 'device recalls' },
-  { topic: 'TGA regulatory decisions on new medicine approvals and rejections 2023-2026, PBAC recommendations, major drug class reviews', focus: 'new approvals' },
-  { topic: 'Australian pharmaceutical manufacturing GMP inspection failures 2020-2026, TGA compliance notices, facility shutdowns, import alerts', focus: 'GMP failures' },
-  { topic: 'PBS (Pharmaceutical Benefits Scheme) delisting and price reductions 2022-2026, price disclosure rounds, special pricing arrangements', focus: 'PBS changes' },
+  { topic: 'TGA product recalls and safety alerts for pharmaceutical products in Australia 2020-2026', focus: 'TGA recalls' },
+  { topic: 'TGA ARTG cancellations and suspensions 2021-2026, sponsor compliance failures, GMP non-compliance', focus: 'ARTG actions' },
+  { topic: 'TGA enforcement actions against pharmaceutical sponsors and manufacturers 2020-2026, advertising breaches, unlawful supply', focus: 'enforcement' },
+  { topic: 'Australian pharmaceutical patent cliff events and generic medicine approvals 2024-2026, PBS listing changes, biosimilar entries', focus: 'patent cliffs' },
+  { topic: 'TGA medical device recalls and safety alerts 2021-2026, Class I recalls, hazard alerts', focus: 'device recalls' },
+  { topic: 'TGA regulatory decisions on new medicine approvals and rejections 2023-2026, PBAC recommendations', focus: 'new approvals' },
+  { topic: 'Australian pharmaceutical manufacturing GMP inspection failures 2020-2026, TGA compliance notices', focus: 'GMP failures' },
+  { topic: 'PBS delisting and price reductions 2022-2026, price disclosure rounds, special pricing arrangements', focus: 'PBS changes' },
 ];
 
 Deno.serve(async (req) => {
@@ -42,16 +42,23 @@ Deno.serve(async (req) => {
           body: JSON.stringify({
             model: 'google/gemini-2.5-flash',
             messages: [
-              { role: 'system', content: `You are an expert on Australian pharmaceutical regulation. Generate a JSON array of 20-30 REAL or plausible TGA enforcement/regulatory records. Each record MUST have:
-- "product_name": Drug/device name
+              { role: 'system', content: `You are an expert on Australian pharmaceutical regulation. Generate a JSON array of 20-30 TGA enforcement/regulatory records.
+
+CRITICAL PRIVACY RULE: Do NOT use any real company names, real brand names, or real person names. Instead use ANONYMIZED IDENTIFIERS:
+- Products: "Product-TGA-0142", "Medicine-ARTG-0387", "Device-TGA-0921"
+- Sponsors: "Sponsor-0142", "Manufacturer-0387"
+- Never include real brand names, company names, or individual names
+
+Each record MUST have:
+- "product_name": ANONYMIZED identifier (e.g. "Product-TGA-0142", "Medicine-ARTG-0387")
 - "signal_type": One of "Recall", "Safety Alert", "ARTG Cancellation", "Enforcement Action", "Patent Cliff", "Generic Approval", "GMP Failure", "PBS Change"
-- "description": 1-2 factual sentences
+- "description": 1-2 sentences describing the type of action WITHOUT any real names
 - "date": YYYY-MM-DD
 - "severity": HIGH/MEDIUM/LOW
 - "regulator": "TGA" or "PBAC" or "PBS"
-- "source_url": Plausible tga.gov.au URL
+- "source_url": Generic tga.gov.au URL
 Return ONLY the JSON array.` },
-              { role: 'user', content: `Generate 20-30 pharma regulatory records about: ${topic.topic}` },
+              { role: 'user', content: `Generate 20-30 ANONYMIZED pharma regulatory records about: ${topic.topic}` },
             ],
             max_tokens: 8000,
           }),
@@ -71,7 +78,7 @@ Return ONLY the JSON array.` },
           const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/pharma_signals`, {
             method: 'POST',
             headers: { 'apikey': SUPABASE_SERVICE_ROLE_KEY, 'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-            body: JSON.stringify({ product_name: record.product_name, signal_type: record.signal_type || 'Regulatory Action', description: record.description || '', date: record.date, severity: ['HIGH', 'MEDIUM', 'LOW'].includes(record.severity) ? record.severity : 'MEDIUM', regulator: record.regulator || 'TGA', source: `AI Intelligence: ${topic.focus}`, source_url: record.source_url || '', content_hash: contentHash }),
+            body: JSON.stringify({ product_name: record.product_name, signal_type: record.signal_type || 'Regulatory Action', description: record.description || '', date: record.date, severity: ['HIGH', 'MEDIUM', 'LOW'].includes(record.severity) ? record.severity : 'MEDIUM', regulator: record.regulator || 'TGA', source: `AI Intelligence: ${topic.focus}`, source_url: record.source_url || 'https://www.tga.gov.au', content_hash: contentHash }),
           });
           if (insertRes.ok || insertRes.status === 201) totalInserted++;
         }

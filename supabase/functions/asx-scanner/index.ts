@@ -4,14 +4,14 @@ const corsHeaders = {
 };
 
 const GENERATION_TOPICS = [
-  { topic: 'BHP, Rio Tinto, Fortescue Metals ASX announcements 2023-2026 including production reports, safety incidents, environmental compliance, capital expenditure updates', focus: 'major miners' },
-  { topic: 'South32, Whitehaven Coal, New Hope Group, Coronado Global ASX price-sensitive announcements 2023-2026, profit warnings, asset sales, regulatory issues', focus: 'mid-tier miners' },
-  { topic: 'Northern Star, Evolution Mining, Newcrest, Gold Road Resources ASX announcements 2023-2026, gold production, hedging, acquisitions', focus: 'gold companies' },
-  { topic: 'CSL Limited, Cochlear, ResMed, Sonic Healthcare ASX announcements 2023-2026, FDA approvals, clinical trials, regulatory submissions', focus: 'pharma/health' },
-  { topic: 'Mineral Resources, Pilbara Minerals, IGO Limited, Lynas Rare Earths ASX announcements 2023-2026, lithium, rare earths, critical minerals', focus: 'critical minerals' },
+  { topic: 'ASX-listed mining companies announcements 2023-2026 including production reports, safety incidents, environmental compliance', focus: 'major miners' },
+  { topic: 'ASX-listed mid-tier resource companies announcements 2023-2026, profit warnings, asset sales, regulatory issues', focus: 'mid-tier miners' },
+  { topic: 'ASX-listed gold and precious metals companies announcements 2023-2026, production, hedging, acquisitions', focus: 'gold companies' },
+  { topic: 'ASX-listed healthcare and pharmaceutical companies announcements 2023-2026, regulatory submissions, clinical trials', focus: 'pharma/health' },
+  { topic: 'ASX-listed critical minerals and rare earths companies announcements 2023-2026, lithium, rare earths', focus: 'critical minerals' },
   { topic: 'ASX compliance query letters, trading halt suspensions, continuous disclosure breaches 2022-2026', focus: 'ASX compliance' },
-  { topic: 'Woodside Energy, Santos, Beach Energy ASX announcements 2023-2026, emissions targets, project approvals, regulatory changes', focus: 'energy' },
-  { topic: 'ANZ, CBA, Westpac, NAB ASX announcements related to regulatory penalties, ASIC investigations, AUSTRAC compliance 2022-2026', focus: 'banking compliance' },
+  { topic: 'ASX-listed energy companies announcements 2023-2026, emissions targets, project approvals', focus: 'energy' },
+  { topic: 'ASX-listed financial companies announcements related to regulatory penalties, compliance 2022-2026', focus: 'banking compliance' },
 ];
 
 Deno.serve(async (req) => {
@@ -42,18 +42,25 @@ Deno.serve(async (req) => {
           body: JSON.stringify({
             model: 'google/gemini-2.5-flash',
             messages: [
-              { role: 'system', content: `You are an expert on ASX-listed companies. Generate a JSON array of 20-30 REAL or plausible ASX announcement records. Each MUST have:
-- "company_code": ASX ticker e.g. "BHP", "RIO", "FMG"
-- "company_name": Full name
+              { role: 'system', content: `You are an expert on ASX-listed companies. Generate a JSON array of 20-30 ASX announcement records.
+
+CRITICAL PRIVACY RULE: Do NOT use any real company names, real ticker codes, or real person names. Instead use ANONYMIZED IDENTIFIERS:
+- Company codes: "E101", "E202", "E303" (anonymized ticker)
+- Company names: "ASX Entity-0142", "Listed Corp-0387"
+- Never reference real companies or individuals
+
+Each MUST have:
+- "company_code": ANONYMIZED ticker (e.g. "E101", "E202")
+- "company_name": ANONYMIZED name (e.g. "ASX Entity-0142")
 - "announcement_type": One of "Production Report", "Safety Incident", "Regulatory Notice", "Profit Warning", "Acquisition", "Trading Halt", "Compliance Query", "Capital Raising", "Environmental Update"
-- "headline": Short headline
-- "description": 1-2 sentences
+- "headline": Short headline WITHOUT real names
+- "description": 1-2 sentences WITHOUT real names
 - "date": YYYY-MM-DD
 - "price_sensitive": true/false
 - "sector": e.g. "Mining", "Healthcare", "Energy", "Financial Services"
-- "source_url": Plausible asx.com.au URL
+- "source_url": Generic asx.com.au URL
 Return ONLY the JSON array.` },
-              { role: 'user', content: `Generate 20-30 ASX disclosure records about: ${topic.topic}` },
+              { role: 'user', content: `Generate 20-30 ANONYMIZED ASX disclosure records about: ${topic.topic}` },
             ],
             max_tokens: 8000,
           }),

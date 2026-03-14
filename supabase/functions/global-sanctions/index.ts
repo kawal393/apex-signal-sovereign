@@ -42,17 +42,24 @@ Deno.serve(async (req) => {
           body: JSON.stringify({
             model: 'google/gemini-2.5-flash',
             messages: [
-              { role: 'system', content: `You are an expert on global sanctions regimes. Generate a JSON array of 20-30 REAL or plausible sanctions list update records. Each MUST have:
-- "entity_name": Person or organization name
+              { role: 'system', content: `You are an expert on global sanctions regimes. Generate a JSON array of 20-30 sanctions list update records.
+
+CRITICAL PRIVACY RULE: Do NOT use any real person names or real organisation names. Instead use ANONYMIZED IDENTIFIERS:
+- "Designated Entity-OFAC-0142" for organisations
+- "Listed Individual-EU-0387" for persons
+- Never use real names of any individual or specific company
+
+Each MUST have:
+- "entity_name": ANONYMIZED identifier (e.g. "Designated Entity-OFAC-0142", "Listed Organisation-DFAT-0387")
 - "list_source": One of "OFAC SDN", "EU Consolidated", "DFAT Autonomous", "UK OFSI", "FATF", "UN Security Council", "Commerce Entity List"
 - "action_type": One of "Addition", "Removal", "Amendment", "Designation", "Delisting", "Penalty"
 - "country": Country associated
-- "description": 1-2 sentences
+- "description": 1-2 sentences WITHOUT any real names
 - "date": YYYY-MM-DD
 - "severity": HIGH for new designations, MEDIUM for amendments, LOW for delistings
-- "source_url": Plausible government URL
+- "source_url": Generic government URL
 Return ONLY the JSON array.` },
-              { role: 'user', content: `Generate 20-30 sanctions records about: ${topic.topic}` },
+              { role: 'user', content: `Generate 20-30 ANONYMIZED sanctions records about: ${topic.topic}` },
             ],
             max_tokens: 8000,
           }),
