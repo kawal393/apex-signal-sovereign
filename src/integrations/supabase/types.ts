@@ -154,6 +154,51 @@ export type Database = {
           },
         ]
       }
+      asx_disclosures: {
+        Row: {
+          announcement_type: string
+          company_code: string
+          company_name: string
+          content_hash: string | null
+          created_at: string
+          date: string | null
+          description: string | null
+          headline: string
+          id: string
+          price_sensitive: boolean | null
+          sector: string | null
+          source_url: string | null
+        }
+        Insert: {
+          announcement_type: string
+          company_code: string
+          company_name: string
+          content_hash?: string | null
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          headline: string
+          id?: string
+          price_sensitive?: boolean | null
+          sector?: string | null
+          source_url?: string | null
+        }
+        Update: {
+          announcement_type?: string
+          company_code?: string
+          company_name?: string
+          content_hash?: string | null
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          headline?: string
+          id?: string
+          price_sensitive?: boolean | null
+          sector?: string | null
+          source_url?: string | null
+        }
+        Relationships: []
+      }
       audit_links: {
         Row: {
           access_count: number
@@ -187,6 +232,48 @@ export type Database = {
           link_token?: string
           max_access?: number | null
           provider_user_id?: string
+        }
+        Relationships: []
+      }
+      company_actions: {
+        Row: {
+          action_type: string
+          company_name: string
+          content_hash: string | null
+          created_at: string
+          date: string | null
+          description: string | null
+          director_name: string | null
+          id: string
+          regulator: string
+          severity: string
+          source_url: string | null
+        }
+        Insert: {
+          action_type: string
+          company_name: string
+          content_hash?: string | null
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          director_name?: string | null
+          id?: string
+          regulator?: string
+          severity?: string
+          source_url?: string | null
+        }
+        Update: {
+          action_type?: string
+          company_name?: string
+          content_hash?: string | null
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          director_name?: string | null
+          id?: string
+          regulator?: string
+          severity?: string
+          source_url?: string | null
         }
         Relationships: []
       }
@@ -251,6 +338,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      court_judgments: {
+        Row: {
+          case_name: string
+          content_hash: string | null
+          court: string
+          created_at: string
+          date: string | null
+          id: string
+          jurisdiction: string
+          outcome: string | null
+          penalty: string | null
+          sector: string | null
+          severity: string
+          source: string
+          source_url: string | null
+        }
+        Insert: {
+          case_name: string
+          content_hash?: string | null
+          court: string
+          created_at?: string
+          date?: string | null
+          id?: string
+          jurisdiction?: string
+          outcome?: string | null
+          penalty?: string | null
+          sector?: string | null
+          severity?: string
+          source: string
+          source_url?: string | null
+        }
+        Update: {
+          case_name?: string
+          content_hash?: string | null
+          court?: string
+          created_at?: string
+          date?: string | null
+          id?: string
+          jurisdiction?: string
+          outcome?: string | null
+          penalty?: string | null
+          sector?: string | null
+          severity?: string
+          source?: string
+          source_url?: string | null
+        }
+        Relationships: []
       }
       lattice_config: {
         Row: {
@@ -360,6 +495,48 @@ export type Database = {
           last_content_hash?: string | null
           source_name?: string
           source_url?: string
+        }
+        Relationships: []
+      }
+      ndis_enforcement: {
+        Row: {
+          action_type: string
+          content_hash: string | null
+          created_at: string
+          date: string | null
+          description: string | null
+          entity_name: string
+          id: string
+          severity: string
+          source: string
+          source_url: string | null
+          state: string
+        }
+        Insert: {
+          action_type: string
+          content_hash?: string | null
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          entity_name: string
+          id?: string
+          severity?: string
+          source: string
+          source_url?: string | null
+          state?: string
+        }
+        Update: {
+          action_type?: string
+          content_hash?: string | null
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          entity_name?: string
+          id?: string
+          severity?: string
+          source?: string
+          source_url?: string | null
+          state?: string
         }
         Relationships: []
       }
@@ -517,6 +694,48 @@ export type Database = {
           },
         ]
       }
+      pharma_signals: {
+        Row: {
+          content_hash: string | null
+          created_at: string
+          date: string | null
+          description: string | null
+          id: string
+          product_name: string
+          regulator: string | null
+          severity: string
+          signal_type: string
+          source: string
+          source_url: string | null
+        }
+        Insert: {
+          content_hash?: string | null
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          id?: string
+          product_name: string
+          regulator?: string | null
+          severity?: string
+          signal_type: string
+          source: string
+          source_url?: string | null
+        }
+        Update: {
+          content_hash?: string | null
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          id?: string
+          product_name?: string
+          regulator?: string | null
+          severity?: string
+          signal_type?: string
+          source?: string
+          source_url?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -622,6 +841,48 @@ export type Database = {
         }
         Relationships: []
       }
+      sanctions_updates: {
+        Row: {
+          action_type: string
+          content_hash: string | null
+          country: string | null
+          created_at: string
+          date: string | null
+          description: string | null
+          entity_name: string
+          id: string
+          list_source: string
+          severity: string
+          source_url: string | null
+        }
+        Insert: {
+          action_type: string
+          content_hash?: string | null
+          country?: string | null
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          entity_name: string
+          id?: string
+          list_source: string
+          severity?: string
+          source_url?: string | null
+        }
+        Update: {
+          action_type?: string
+          content_hash?: string | null
+          country?: string | null
+          created_at?: string
+          date?: string | null
+          description?: string | null
+          entity_name?: string
+          id?: string
+          list_source?: string
+          severity?: string
+          source_url?: string | null
+        }
+        Relationships: []
+      }
       scheduled_insights: {
         Row: {
           content: string
@@ -662,6 +923,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      scraper_runs: {
+        Row: {
+          batch_number: number | null
+          created_at: string
+          duration_ms: number | null
+          errors: string[] | null
+          id: string
+          records_found: number | null
+          records_inserted: number | null
+          scraper_name: string
+          status: string
+        }
+        Insert: {
+          batch_number?: number | null
+          created_at?: string
+          duration_ms?: number | null
+          errors?: string[] | null
+          id?: string
+          records_found?: number | null
+          records_inserted?: number | null
+          scraper_name: string
+          status?: string
+        }
+        Update: {
+          batch_number?: number | null
+          created_at?: string
+          duration_ms?: number | null
+          errors?: string[] | null
+          id?: string
+          records_found?: number | null
+          records_inserted?: number | null
+          scraper_name?: string
+          status?: string
+        }
+        Relationships: []
       }
       sequence_alerts: {
         Row: {

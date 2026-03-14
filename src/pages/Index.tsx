@@ -84,6 +84,49 @@ const Index = () => {
       <main className="relative z-10 pt-28 md:pt-36 pb-16 px-6">
         <div className="max-w-5xl mx-auto">
 
+          {/* Live Intelligence Ticker */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 1 }}
+            className="mb-8 overflow-hidden rounded-md border border-border/10 bg-card/20 backdrop-blur-sm"
+          >
+            <motion.div
+              animate={{ x: [0, -1200] }}
+              transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+              className="flex items-center gap-8 py-2 px-4 whitespace-nowrap"
+            >
+              {[
+                "⛏️ Mining: BHP prosecution QLD — $450K penalty",
+                "🏥 NDIS: Provider banning order — SIL non-compliance",
+                "💊 Pharma: TGA safety alert — semaglutide generic entry",
+                "⚖️ Court: ASIC v Director — $2.1M civil penalty",
+                "🌍 Sanctions: OFAC SDN addition — Russian entity",
+                "🏢 ASIC: Director disqualification — 5 year ban",
+                "📊 ASX: BHP trading halt — production update",
+                "🔒 Regulatory: EU AI Act Art. 12 enforcement notice",
+              ].map((signal, i) => (
+                <span key={i} className="text-[10px] text-grey-400 tracking-wide flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary/60" />
+                  {signal}
+                </span>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Powered by badge */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="flex justify-center mb-6"
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-[9px] uppercase tracking-[0.3em] text-primary/70">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+              Powered by 8 Autonomous Intelligence Pipelines
+            </span>
+          </motion.div>
+
           {/* Logo + Title */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
