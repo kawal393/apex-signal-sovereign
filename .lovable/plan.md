@@ -1,98 +1,152 @@
 
 
-# Operation: 1000 Records Each -- Global Data Domination
+# Apex Infrastructure: 100x Elevation Plan
 
-## Current State
-- `regulatory_updates`: 17 records (pathetic)
-- `mining_signals`: 46 records (barely a preview)
-- Target: 1000+ each before your LinkedIn post
+## The Vision
+Transform Apex from a static intelligence display into a **live data collection machine** with real scrapers, scanners, and crawlers that harvest scattered enforcement, compliance, and regulatory data from across the internet in real-time.
 
-## The Problem
-The current edge functions have too few search queries and pull too few results per query:
-- `mining-scraper`: 27 queries, fetches 5 results each, processes in batches of 5
-- `regulatory-monitor`: ~30 queries across 13 regions, fetches 3 results each
+---
 
-At best, running all batches yields ~150 mining + ~60 regulatory. Nowhere near 1000.
+## What Changes
 
-## The Solution: Massive Query Expansion + Higher Yield
+### 1. Intelligence Command Center (New Page: `/intelligence`)
+A unified dashboard where all scraper/scanner tools are visible, controllable, and show live status. Think mission control for data collection.
 
-### 1. Rebuild `mining-scraper` with 120+ Search Queries
+- **Live Scraper Status Board**: Shows each scraper tool with last-run time, records collected, error count, health status
+- **One-Click Trigger**: Buttons to manually fire any scraper on demand
+- **Data Pipeline Visualization**: Animated flow showing data moving from sources → processing → database
+- **Total Intelligence Counter**: Real-time count across all tables (mining, regulatory, NDIS, pharma)
 
-Expand from 27 to 120+ queries covering:
-- **All 7 Australian states + territories** (QLD, NSW, WA, VIC, SA, TAS, NT) -- 8-10 queries each
-- **Historical depth**: years 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026
-- **Specific companies**: BHP, Rio Tinto, Glencore, South32, Fortescue, Whitehaven Coal, Yancoal, New Hope, Peabody, Anglo American, Newcrest, Northern Star, Evolution Mining, Aurelia Metals, Regis Resources
-- **Incident types**: fatality prosecution, safety breach, prohibition notice, enforceable undertaking, environmental penalty, WHS prosecution, dust exposure, methane explosion, tailings dam, vehicle collision underground
-- **Specific regulators**: RSHQ (QLD), Resources Regulator (NSW), DMIRS (WA), WorkSafe VIC, SafeWork SA
-- Increase Firecrawl `limit` from 5 to 10 results per search
-- Ask AI to extract up to 15 records per content batch
-- Batch size stays at 5 queries per invocation = 24 batches total
+### 2. Six New Edge Function Scrapers
 
-Expected yield: 120 queries x 10 results x ~3 records extracted = ~500-1000 unique records after dedup
+Each scraper uses **Firecrawl** (already connected) for real web scraping + **Gemini 2.5 Flash** for structured extraction:
 
-### 2. Rebuild `regulatory-monitor` with 200+ Search Queries
+| Scraper | What It Collects | Sources |
+|---------|-----------------|---------|
+| **ndis-scraper** | NDIS Commission banning orders, compliance notices, conditions | ndiscommission.gov.au |
+| **pharma-scanner** | TGA recalls, safety alerts, ARTG changes, patent cliff dates | tga.gov.au, ebs.tga.gov.au |
+| **court-crawler** | Federal/state court enforcement judgments, penalties | federalcourt.gov.au, austlii.edu.au |
+| **asx-scanner** | ASX announcements for mining/pharma companies, price-sensitive disclosures | asx.com.au/announcements |
+| **global-sanctions** | OFAC SDN list updates, EU sanctions, DFAT consolidated list | treasury.gov/ofac, dfat.gov.au |
+| **company-scanner** | ASIC company deregistrations, director bans, compliance orders | asic.gov.au |
 
-Expand from 30 to 200+ queries covering 25+ countries:
+Each scraper:
+- Uses Firecrawl Search to find real pages
+- Pipes content through Gemini for structured JSON extraction
+- Deduplicates via SHA-256 content hashing
+- Stores in dedicated database tables with RLS
+- Logs runs to a `scraper_runs` audit table
 
-**Australia (20 queries)**: ASIC enforcement, APRA prudential, TGA medical device, ACCC consumer, OAIC privacy, ATO compliance, Clean Energy Regulator, CASA aviation safety
-**United States (30 queries)**: SEC, FTC, FDA, EPA, OSHA, CFPB, DOJ antitrust, CFTC, FINRA, OCC, NHTSA, FAA, state AG actions (NY, CA, TX)
-**United Kingdom (15 queries)**: FCA, ICO, CMA, Ofcom, HSE, PRA, SFO fraud
-**European Union (20 queries)**: GDPR (per member state DPAs), AI Act, Digital Services Act, Digital Markets Act, ESMA, EBA, EIOPA
-**Japan (10 queries)**: FSA, JFTC, METI, PMDA
-**Singapore (8 queries)**: MAS, PDPC, CSA, IMDA
-**India (12 queries)**: SEBI, RBI, IRDAI, CCI, DPIIT, TRAI
-**UAE/Middle East (8 queries)**: DFSA, VARA, SCA, ADGM
-**South Korea (8 queries)**: FSC, FSS, KFTC, PIPC
-**Brazil (8 queries)**: CVM, ANPD, CADE, BCB
-**Canada (10 queries)**: CSA/OSC, OSFI, Privacy Commissioner, Competition Bureau
-**South Africa (6 queries)**: FSCA, NCR, Information Regulator
-**Mexico (6 queries)**: CNBV, Cofece, INAI
-**Germany (6 queries)**: BaFin, Bundeskartellamt, BSI
-**France (6 queries)**: AMF, CNIL, Autorite de la concurrence
-**New Zealand (6 queries)**: FMA, Commerce Commission, Privacy Commissioner
-**Hong Kong (6 queries)**: SFC, HKMA, PCPD
-**Switzerland (5 queries)**: FINMA, FDPIC
-**Other regions (20 queries)**: Nigeria SEC, Kenya CMA, Saudi CMA, Israel ISA, Turkey CMB, Thailand SEC, Vietnam SSC, Indonesia OJK, Malaysia SC, Philippines SEC
+### 3. New Database Tables
 
-Increase Firecrawl `limit` to 8 results per search. Process in batches of 5 queries = 40 batches.
+- **`ndis_enforcement`**: Banning orders, conditions, compliance notices from NDIS Commission
+- **`pharma_signals`**: TGA recalls, safety alerts, ARTG modifications
+- **`court_judgments`**: Federal and state court enforcement outcomes
+- **`asx_disclosures`**: Price-sensitive announcements for tracked companies
+- **`sanctions_updates`**: Global sanctions list changes (OFAC, EU, DFAT)
+- **`company_actions`**: ASIC enforcement actions, deregistrations, director bans
+- **`scraper_runs`**: Audit log of every scraper execution (tool, records_found, errors, duration)
 
-Expected yield: 200 queries x 8 results x ~2 records = ~800-1200 unique records after dedup
+All tables have RLS policies. Public read for basic data, authenticated for full access.
 
-### 3. Batch Runner Strategy
+### 4. Automated Scheduling
 
-Both functions already support `?batch=N` parameter. The plan:
-- Deploy the expanded functions
-- Invoke them batch by batch using the edge function curl tool
-- Mining: batches 0-23 (120 queries / 5 per batch)
-- Regulatory: batches 0-39 (200 queries / 5 per batch)
-- Each batch takes ~30-50 seconds (within edge function timeout)
+Add pg_cron jobs for each new scraper on staggered schedules:
+- ndis-scraper: Daily 8:00 AM UTC
+- pharma-scanner: Daily 9:00 AM UTC  
+- court-crawler: Daily 10:00 AM UTC
+- asx-scanner: Every 4 hours (market-sensitive)
+- global-sanctions: Daily 11:00 AM UTC
+- company-scanner: Daily 12:00 PM UTC
 
-### Technical Details
+### 5. Nav Update: "Standards" Dropdown + "Intelligence" Link
 
-**Files to modify:**
-- `supabase/functions/mining-scraper/index.ts` -- Expand SEARCH_QUERIES from 27 to 120+
-- `supabase/functions/regulatory-monitor/index.ts` -- Expand REGULATORY_QUERIES to 200+ queries across 25+ countries, add batch support matching mining-scraper pattern
+- Add **Standards** dropdown in nav with sub-items: NDIS Shield, Mining Choke, Pharma Sniper
+- Add **Intelligence** link to the new command center
+- Rename "Become a Partner" → "Sovereign Partners"
 
-**No schema changes needed** -- both tables already have the right columns.
+### 6. Homepage Elevation
 
-**Deduplication** -- Both functions use SHA-256 content hashing to prevent duplicate records. Safe to run multiple times.
+- Add a **Live Intelligence Ticker** at the top showing the latest signal from each scraper scrolling horizontally
+- Add total record count badge: "12,000+ enforcement records across 6 data pipelines"
+- Add "Powered by 8 Autonomous Scrapers" badge near the industry cards
 
-**AI extraction** -- Using Gemini 2.5 Flash via Lovable AI gateway (already configured, no API key needed from you).
+### 7. Sovereign Covenant (50/5/4) on Partner Page
 
-**Firecrawl** -- Already connected as a connector. No additional setup needed.
+- Add covenant section: "50% Revenue / 5% Equity / First 4 Partners"
+- "When knowledge becomes cheap, relationships become valuable."
+- Status tracker: "1 Partner Accepted. 3 Spots Remaining."
 
-### Execution Order
-1. Deploy expanded `mining-scraper` (120+ queries)
-2. Deploy expanded `regulatory-monitor` (200+ queries, batch support added)
-3. Run mining batches 0 through 23
-4. Run regulatory batches 0 through 39
-5. Verify counts hit 500+ each (realistic target given dedup)
-6. Your LinkedIn post goes live with real global intelligence data backing it
+### 8. Real Crypto Verification on /verify
 
-### Realistic Expectations
-- 1000 each is the target. Actual yield depends on what Firecrawl finds and deduplication.
-- Mining: likely 300-600 unique records (Australian mining enforcement is a finite domain)
-- Regulatory: likely 500-1000 unique records (global regulatory space is vast)
-- Combined: 800-1600 total intelligence records across both tables
-- Every single record will be AI-analyzed, severity-classified, and source-linked
+- Install `@noble/hashes` for actual SHA-256 computation
+- Replace simulated verification with real hash computation against uploaded JSON proof files
+- Show computed hash vs expected hash comparison
+
+### 9. Protocol Page: Missing Rows
+
+- Add EU AI Act Art. 15 (ZK-SNARKs) row
+- Add NDIS Standard 2.4 (Incident Ledger) row
+
+---
+
+## Technical Architecture
+
+```text
+Internet Sources
+    │
+    ▼
+┌─────────────────────────┐
+│  Firecrawl Search API   │  ← Real web scraping
+│  (Already Connected)    │
+└──────────┬──────────────┘
+           │
+           ▼
+┌─────────────────────────┐
+│  6 Edge Function        │
+│  Scrapers               │
+│  (Gemini extraction)    │
+└──────────┬──────────────┘
+           │
+           ▼
+┌─────────────────────────┐
+│  Supabase Tables        │  ← SHA-256 dedup
+│  (7 new + 2 existing)   │
+└──────────┬──────────────┘
+           │
+           ▼
+┌─────────────────────────┐
+│  Intelligence Center    │  ← Live dashboard
+│  /intelligence          │
+└─────────────────────────┘
+```
+
+## File Changes Summary
+
+**New Edge Functions (6):**
+- `supabase/functions/ndis-scraper/index.ts`
+- `supabase/functions/pharma-scanner/index.ts`
+- `supabase/functions/court-crawler/index.ts`
+- `supabase/functions/asx-scanner/index.ts`
+- `supabase/functions/global-sanctions/index.ts`
+- `supabase/functions/company-scanner/index.ts`
+
+**New Pages (1):**
+- `src/pages/IntelligenceCenter.tsx` — Command center dashboard
+
+**New Hooks (1):**
+- `src/hooks/useIntelligenceData.ts` — Aggregated data from all scraper tables
+
+**Modified Files:**
+- `src/App.tsx` — Add Intelligence route
+- `src/components/layout/ApexNav.tsx` — Standards dropdown, Intelligence link, rename Partner
+- `src/pages/Index.tsx` — Live ticker, record count badges
+- `src/pages/Protocol.tsx` — Add 2 missing regulatory rows
+- `src/pages/Verify.tsx` — Real crypto verification
+- `src/pages/PartnerDashboard.tsx` — 50/5/4 Sovereign Covenant section
+- `supabase/config.toml` — Register 6 new functions
+- **Database migration** — 7 new tables + scraper_runs audit log
+
+**New Package:**
+- `@noble/hashes` — Real SHA-256 for /verify
 
