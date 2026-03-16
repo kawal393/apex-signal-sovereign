@@ -43,6 +43,7 @@ import PartnerDashboard from "./pages/PartnerDashboard";
 import ComplianceLedger from "./pages/ComplianceLedger";
 import AuditView from "./pages/AuditView";
 import IntelligenceCenter from "./pages/IntelligenceCenter";
+import OutreachDashboard from "./pages/OutreachDashboard";
 import JurisdictionBanner from "./components/layout/JurisdictionBanner";
 import GeoConsentBanner from "./components/layout/GeoConsentBanner";
 
@@ -131,6 +132,7 @@ const App = () => (
                   <Route path="/compliance-ledger" element={<ProtectedRoute><ComplianceLedger /></ProtectedRoute>} />
                   <Route path="/audit/:token" element={<AuditView />} />
                   <Route path="/intelligence" element={<IntelligenceCenter />} />
+                  <Route path="/outreach" element={<ProtectedRoute><OutreachDashboard /></ProtectedRoute>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 <GlobalUI />
