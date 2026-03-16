@@ -43,6 +43,7 @@ import PartnerDashboard from "./pages/PartnerDashboard";
 import ComplianceLedger from "./pages/ComplianceLedger";
 import AuditView from "./pages/AuditView";
 import IntelligenceCenter from "./pages/IntelligenceCenter";
+import OutreachDashboard from "./pages/OutreachDashboard";
 import JurisdictionBanner from "./components/layout/JurisdictionBanner";
 import GeoConsentBanner from "./components/layout/GeoConsentBanner";
 
