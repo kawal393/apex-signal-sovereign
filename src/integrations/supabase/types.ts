@@ -694,6 +694,146 @@ export type Database = {
           },
         ]
       }
+      outreach_campaigns: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          emails_opened: number | null
+          emails_sent: number | null
+          id: string
+          name: string
+          sector: string
+          started_at: string | null
+          status: string
+          total_leads: number | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          emails_opened?: number | null
+          emails_sent?: number | null
+          id?: string
+          name: string
+          sector?: string
+          started_at?: string | null
+          status?: string
+          total_leads?: number | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          emails_opened?: number | null
+          emails_sent?: number | null
+          id?: string
+          name?: string
+          sector?: string
+          started_at?: string | null
+          status?: string
+          total_leads?: number | null
+        }
+        Relationships: []
+      }
+      outreach_emails: {
+        Row: {
+          body_preview: string | null
+          created_at: string
+          error_message: string | null
+          id: string
+          lead_id: string | null
+          opened_at: string | null
+          sent_at: string | null
+          status: string
+          subject: string
+          template_used: string | null
+        }
+        Insert: {
+          body_preview?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          lead_id?: string | null
+          opened_at?: string | null
+          sent_at?: string | null
+          status?: string
+          subject: string
+          template_used?: string | null
+        }
+        Update: {
+          body_preview?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          lead_id?: string | null
+          opened_at?: string | null
+          sent_at?: string | null
+          status?: string
+          subject?: string
+          template_used?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "outreach_emails_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "outreach_leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      outreach_leads: {
+        Row: {
+          company_name: string
+          company_size: string | null
+          compliance_risk: string | null
+          contact_name: string | null
+          created_at: string
+          email: string
+          id: string
+          last_contacted_at: string | null
+          metadata: Json | null
+          notes: string | null
+          sector: string
+          source: string
+          state: string | null
+          status: string
+          website: string | null
+        }
+        Insert: {
+          company_name: string
+          company_size?: string | null
+          compliance_risk?: string | null
+          contact_name?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          last_contacted_at?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          sector?: string
+          source?: string
+          state?: string | null
+          status?: string
+          website?: string | null
+        }
+        Update: {
+          company_name?: string
+          company_size?: string | null
+          compliance_risk?: string | null
+          contact_name?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          last_contacted_at?: string | null
+          metadata?: Json | null
+          notes?: string | null
+          sector?: string
+          source?: string
+          state?: string | null
+          status?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       pharma_signals: {
         Row: {
           content_hash: string | null
