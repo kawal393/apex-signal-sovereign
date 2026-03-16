@@ -102,12 +102,13 @@ Search results:
 ${results.map((r: any) => `URL: ${r.url}\nTitle: ${r.title}\nContent: ${(r.markdown || "").slice(0, 2000)}`).join("\n\n---\n\n")}`;
 
     // Call Gemini via Lovable AI
+    const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
     const geminiResponse = await fetch(
-      `${Deno.env.get("SUPABASE_URL")}/functions/v1/proxy-ai`,
+      "https://api.lovable.dev/v1/chat/completions",
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+          Authorization: `Bearer ${lovableApiKey}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
