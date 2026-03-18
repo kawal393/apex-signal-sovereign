@@ -52,9 +52,9 @@ const industries = [
   {
     id: "pharma",
     label: "PHARMA SNIPER",
-    subtitle: "TGA Compliance Layer",
+    subtitle: "TGA Signal Monitoring",
     icon: Shield,
-    description: "ZK-Compliance Docket for fast-track TGA generic entry. Regulatory signal monitoring for pharmaceutical deadlines.",
+    description: "Monitoring TGA recalls, safety alerts, and pharmaceutical regulatory signals. In development — contact us for early access.",
     href: "/protocol",
     deadline: "COMING SOON",
     color: "text-crimson-bright",
