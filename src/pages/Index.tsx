@@ -269,10 +269,10 @@ const Index = () => {
                 <span>APEX Solution</span>
               </div>
               {[
-                { vertical: "NDIS", pain: "July 2026 Registration/Audit fear", solution: "Audit-Ready Ledger — saves 30% admin", color: "text-purple-light" },
-                { vertical: "Mining", pain: "Victorian Expenditure/Gap Rules", solution: "Graticular Gap Verification — secures ELs", color: "text-gold-bright" },
-                { vertical: "Pharma", pain: "TGA Generic Deadline pressure", solution: "ZK-Compliance Docket — fast-track entry", color: "text-crimson-bright" },
-                { vertical: "AI", pain: "August 2026 EU AI Act fines", solution: "Protocol LDSL — compliance without IP loss", color: "text-sky-400" },
+                { vertical: "NDIS", pain: "Enforcement actions & registration uncertainty", solution: "Real-time enforcement signal monitoring", color: "text-purple-light" },
+                { vertical: "Mining", pain: "Safety prosecutions & compliance obligations", solution: "Automated safety incident intelligence", color: "text-gold-bright" },
+                { vertical: "Pharma", pain: "TGA regulatory changes & recall tracking", solution: "Pharmaceutical signal monitoring (in dev)", color: "text-crimson-bright" },
+                { vertical: "AI", pain: "Evolving EU AI Act requirements", solution: "Regulatory change detection (in dev)", color: "text-sky-400" },
               ].map((row, i) => (
                 <div key={i} className="grid grid-cols-3 text-sm px-6 py-4 border-b border-border/10 last:border-0 hover:bg-card/50 transition-colors">
                   <span className={`font-semibold ${row.color} tracking-wide`}>{row.vertical}</span>

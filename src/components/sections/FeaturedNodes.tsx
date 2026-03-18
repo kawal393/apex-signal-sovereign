@@ -198,15 +198,7 @@ export default function FeaturedNodes() {
                       <p className="text-base text-grey-300 leading-relaxed mb-6">
                         {node.longDescription}
                       </p>
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <span className="text-[10px] uppercase tracking-widest text-grey-600 block mb-1">
-                            Signals Processed
-                          </span>
-                          <span className="text-2xl font-light text-primary">
-                            {node.signalCount.toLocaleString()}
-                          </span>
-                        </div>
+                      <div className="flex items-center justify-end">
                         <motion.button
                           className="px-4 py-2 rounded-md border border-primary/30 text-primary text-base hover:bg-primary/10 transition-colors"
                           whileHover={{ scale: 1.05 }}

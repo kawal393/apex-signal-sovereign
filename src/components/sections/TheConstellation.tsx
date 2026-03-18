@@ -16,9 +16,9 @@ interface PhaseIndicatorProps {
 
 const PhaseIndicator = ({ currentPhase }: PhaseIndicatorProps) => {
   const phases = [
-    { id: 1, label: "Authority Online", status: "current" },
-    { id: 2, label: "Sealed Expansion", status: "upcoming" },
-    { id: 3, label: "Global Dominion", status: "future" },
+    { id: 1, label: "Foundation", status: "current" },
+    { id: 2, label: "Expansion", status: "upcoming" },
+    { id: 3, label: "Scale", status: "future" },
   ];
 
   return (

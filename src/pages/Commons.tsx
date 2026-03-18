@@ -346,8 +346,8 @@ const Commons = () => {
         {/* Conditional Verdicts - Institutional ladder */}
         <ConditionalVerdicts />
         
-        {/* Live Activity Feed */}
-        <ActivityFeed />
+
+
         
         {/* Access Request */}
         <AccessRequest />
