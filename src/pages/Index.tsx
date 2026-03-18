@@ -143,8 +143,8 @@ const Index = () => {
               The Open Standard for Verifiable <span className="text-gradient-gold">Sovereign Integrity</span>
             </h1>
             <p className="text-grey-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-              Mathematical proof of compliance for High-Stakes Industries:
-              AI (EU Act), Mining (Critical Minerals), and NDIS (Integrity Reform).
+              Automated regulatory intelligence for high-stakes industries:
+              NDIS (Integrity Reform), Mining (Critical Minerals), and more.
             </p>
           </motion.div>
 
