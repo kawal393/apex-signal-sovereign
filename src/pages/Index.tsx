@@ -97,14 +97,14 @@ const Index = () => {
               className="flex items-center gap-8 py-2 px-4 whitespace-nowrap"
             >
               {[
-                "⛏️ Mining: BHP prosecution QLD — $450K penalty",
-                "🏥 NDIS: Provider banning order — SIL non-compliance",
-                "💊 Pharma: TGA safety alert — semaglutide generic entry",
-                "⚖️ Court: ASIC v Director — $2.1M civil penalty",
-                "🌍 Sanctions: OFAC SDN addition — Russian entity",
-                "🏢 ASIC: Director disqualification — 5 year ban",
-                "📊 ASX: BHP trading halt — production update",
-                "🔒 Regulatory: EU AI Act Art. 12 enforcement notice",
+                "⛏️ Mining Safety & Compliance Signals",
+                "🏥 NDIS Provider Enforcement Monitoring",
+                "💊 TGA Regulatory Alerts",
+                "⚖️ Court Judgment Tracking",
+                "🌍 Global Sanctions Screening",
+                "🏢 Corporate Director Actions",
+                "📊 ASX Disclosure Monitoring",
+                "🔒 Regulatory Change Detection",
               ].map((signal, i) => (
                 <span key={i} className="text-[10px] text-grey-400 tracking-wide flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary/60" />
