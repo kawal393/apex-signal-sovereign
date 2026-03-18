@@ -123,7 +123,7 @@ const Index = () => {
           >
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-[9px] uppercase tracking-[0.3em] text-primary/70">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-              Powered by 8 Autonomous Intelligence Pipelines
+              Regulatory Intelligence Infrastructure
             </span>
           </motion.div>
 
