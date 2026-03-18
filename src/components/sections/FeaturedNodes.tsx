@@ -22,7 +22,6 @@ const featuredNodes: FeaturedNode[] = [
     sigil: "◈",
     category: "Signals",
     status: "active",
-    signalCount: 1247,
   },
   {
     id: "translator",
