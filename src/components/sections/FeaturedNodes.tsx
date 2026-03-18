@@ -9,7 +9,7 @@ interface FeaturedNode {
   sigil: string;
   category: string;
   status: "active" | "processing" | "dormant";
-  signalCount: number;
+  
 }
 
 // APEX-prefixed names (MANDATORY)
