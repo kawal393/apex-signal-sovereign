@@ -39,9 +39,9 @@ const industries = [
   {
     id: "ai-act",
     label: "EU AI ACT",
-    subtitle: "Digital Gallows Protocol",
+    subtitle: "Compliance Monitoring",
     icon: Brain,
-    description: "Protocol LDSL — compliance without IP loss. ZK-SNARK verification for August 2026 EU AI Act fines.",
+    description: "Regulatory intelligence for EU AI Act compliance requirements. In development — contact us for early access.",
     href: "/protocol",
     deadline: "COMING SOON",
     color: "text-sky-400",
