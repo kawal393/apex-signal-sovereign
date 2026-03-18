@@ -15,7 +15,7 @@ import SovereignPathways from "@/components/sections/SovereignPathways";
 import AccessRequest from "@/components/sections/AccessRequest";
 import AccessTiers from "@/components/sections/AccessTiers";
 import ConditionalVerdicts from "@/components/sections/ConditionalVerdicts";
-import ActivityFeed from "@/components/sections/ActivityFeed";
+
 import SovereignVoid from "@/components/3d/SovereignVoid";
 import MobileVoid from "@/components/effects/MobileVoid";
 import { usePresence } from "@/hooks/usePresence";
