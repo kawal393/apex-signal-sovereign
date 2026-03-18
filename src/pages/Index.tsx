@@ -15,7 +15,7 @@ const industries = [
     label: "NDIS INTEGRITY",
     subtitle: "Sovereign Care Protocol",
     icon: HeartPulse,
-    description: "Audit-Ready Ledger mapped to NDIS Practice Standards. Saves 30% admin for the July 2026 registration crackdown.",
+    description: "Real-time monitoring of NDIS Commission enforcement actions, provider banning orders, and compliance signals across all states.",
     href: "/ndis-watchtower",
     deadline: "JUL 2026 REGISTRATION",
     color: "text-purple-light",
