@@ -31,7 +31,6 @@ const featuredNodes: FeaturedNode[] = [
     sigil: "◇",
     category: "Operations",
     status: "processing",
-    signalCount: 892,
   },
   {
     id: "ledger",
