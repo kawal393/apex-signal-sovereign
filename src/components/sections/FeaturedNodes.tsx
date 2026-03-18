@@ -40,7 +40,6 @@ const featuredNodes: FeaturedNode[] = [
     sigil: "◆",
     category: "Trust",
     status: "active",
-    signalCount: 3421,
   },
 ];
 
