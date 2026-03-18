@@ -4,7 +4,7 @@ import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import EntryRitual from "@/components/ritual/EntryRitual";
 import WhatIsApex from "@/components/sections/WhatIsApex";
-import SocialProof from "@/components/sections/SocialProof";
+
 import WhyApexGrid from "@/components/sections/WhyApexGrid";
 import CanonLayer from "@/components/sections/CanonLayer";
 import TheConstellation from "@/components/sections/TheConstellation";
