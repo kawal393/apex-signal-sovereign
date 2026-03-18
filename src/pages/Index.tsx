@@ -26,9 +26,9 @@ const industries = [
   {
     id: "mining",
     label: "MINING INTEGRITY",
-    subtitle: "Graticular Verification",
+    subtitle: "Safety & Compliance Intelligence",
     icon: Pickaxe,
-    description: "Graticular Gap Verification securing Exploration Licences under Victorian critical mineral expenditure rules.",
+    description: "Automated scraping of mining safety prosecutions, prohibition notices, and enforceable undertakings across Australian states.",
     href: "/mining-watchtower",
     deadline: "ACTIVE MONITORING",
     color: "text-gold-bright",
