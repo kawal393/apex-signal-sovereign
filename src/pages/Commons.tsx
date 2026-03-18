@@ -4,7 +4,7 @@ import ApexNav from "@/components/layout/ApexNav";
 import ApexFooter from "@/components/layout/ApexFooter";
 import EntryRitual from "@/components/ritual/EntryRitual";
 import WhatIsApex from "@/components/sections/WhatIsApex";
-import SocialProof from "@/components/sections/SocialProof";
+
 import WhyApexGrid from "@/components/sections/WhyApexGrid";
 import CanonLayer from "@/components/sections/CanonLayer";
 import TheConstellation from "@/components/sections/TheConstellation";
@@ -15,7 +15,7 @@ import SovereignPathways from "@/components/sections/SovereignPathways";
 import AccessRequest from "@/components/sections/AccessRequest";
 import AccessTiers from "@/components/sections/AccessTiers";
 import ConditionalVerdicts from "@/components/sections/ConditionalVerdicts";
-import ActivityFeed from "@/components/sections/ActivityFeed";
+
 import SovereignVoid from "@/components/3d/SovereignVoid";
 import MobileVoid from "@/components/effects/MobileVoid";
 import { usePresence } from "@/hooks/usePresence";
@@ -319,8 +319,8 @@ const Commons = () => {
         {/* SOVEREIGN PATHWAYS — Choose Your Domain */}
         <SovereignPathways />
         
-        {/* Social Proof - Authority Markers */}
-        <SocialProof />
+
+
         
         {/* Why Apex — not Google, not AI, not consultants */}
         <WhyApexGrid />
@@ -346,8 +346,8 @@ const Commons = () => {
         {/* Conditional Verdicts - Institutional ladder */}
         <ConditionalVerdicts />
         
-        {/* Live Activity Feed */}
-        <ActivityFeed />
+
+
         
         {/* Access Request */}
         <AccessRequest />

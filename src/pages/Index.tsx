@@ -15,7 +15,7 @@ const industries = [
     label: "NDIS INTEGRITY",
     subtitle: "Sovereign Care Protocol",
     icon: HeartPulse,
-    description: "Audit-Ready Ledger mapped to NDIS Practice Standards. Saves 30% admin for the July 2026 registration crackdown.",
+    description: "Real-time monitoring of NDIS Commission enforcement actions, provider banning orders, and compliance signals across all states.",
     href: "/ndis-watchtower",
     deadline: "JUL 2026 REGISTRATION",
     color: "text-purple-light",
@@ -26,9 +26,9 @@ const industries = [
   {
     id: "mining",
     label: "MINING INTEGRITY",
-    subtitle: "Graticular Verification",
+    subtitle: "Safety & Compliance Intelligence",
     icon: Pickaxe,
-    description: "Graticular Gap Verification securing Exploration Licences under Victorian critical mineral expenditure rules.",
+    description: "Automated scraping of mining safety prosecutions, prohibition notices, and enforceable undertakings across Australian states.",
     href: "/mining-watchtower",
     deadline: "ACTIVE MONITORING",
     color: "text-gold-bright",
@@ -39,9 +39,9 @@ const industries = [
   {
     id: "ai-act",
     label: "EU AI ACT",
-    subtitle: "Digital Gallows Protocol",
+    subtitle: "Compliance Monitoring",
     icon: Brain,
-    description: "Protocol LDSL — compliance without IP loss. ZK-SNARK verification for August 2026 EU AI Act fines.",
+    description: "Regulatory intelligence for EU AI Act compliance requirements. In development — contact us for early access.",
     href: "/protocol",
     deadline: "COMING SOON",
     color: "text-sky-400",
@@ -52,9 +52,9 @@ const industries = [
   {
     id: "pharma",
     label: "PHARMA SNIPER",
-    subtitle: "TGA Compliance Layer",
+    subtitle: "TGA Signal Monitoring",
     icon: Shield,
-    description: "ZK-Compliance Docket for fast-track TGA generic entry. Regulatory signal monitoring for pharmaceutical deadlines.",
+    description: "Monitoring TGA recalls, safety alerts, and pharmaceutical regulatory signals. In development — contact us for early access.",
     href: "/protocol",
     deadline: "COMING SOON",
     color: "text-crimson-bright",
@@ -97,14 +97,14 @@ const Index = () => {
               className="flex items-center gap-8 py-2 px-4 whitespace-nowrap"
             >
               {[
-                "⛏️ Mining: BHP prosecution QLD — $450K penalty",
-                "🏥 NDIS: Provider banning order — SIL non-compliance",
-                "💊 Pharma: TGA safety alert — semaglutide generic entry",
-                "⚖️ Court: ASIC v Director — $2.1M civil penalty",
-                "🌍 Sanctions: OFAC SDN addition — Russian entity",
-                "🏢 ASIC: Director disqualification — 5 year ban",
-                "📊 ASX: BHP trading halt — production update",
-                "🔒 Regulatory: EU AI Act Art. 12 enforcement notice",
+                "⛏️ Mining Safety & Compliance Signals",
+                "🏥 NDIS Provider Enforcement Monitoring",
+                "💊 TGA Regulatory Alerts",
+                "⚖️ Court Judgment Tracking",
+                "🌍 Global Sanctions Screening",
+                "🏢 Corporate Director Actions",
+                "📊 ASX Disclosure Monitoring",
+                "🔒 Regulatory Change Detection",
               ].map((signal, i) => (
                 <span key={i} className="text-[10px] text-grey-400 tracking-wide flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary/60" />
@@ -123,7 +123,7 @@ const Index = () => {
           >
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-[9px] uppercase tracking-[0.3em] text-primary/70">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-              Powered by 8 Autonomous Intelligence Pipelines
+              Regulatory Intelligence Infrastructure
             </span>
           </motion.div>
 
@@ -143,8 +143,8 @@ const Index = () => {
               The Open Standard for Verifiable <span className="text-gradient-gold">Sovereign Integrity</span>
             </h1>
             <p className="text-grey-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-              Mathematical proof of compliance for High-Stakes Industries:
-              AI (EU Act), Mining (Critical Minerals), and NDIS (Integrity Reform).
+              Automated regulatory intelligence for high-stakes industries:
+              NDIS (Integrity Reform), Mining (Critical Minerals), and more.
             </p>
           </motion.div>
 
@@ -269,10 +269,10 @@ const Index = () => {
                 <span>APEX Solution</span>
               </div>
               {[
-                { vertical: "NDIS", pain: "July 2026 Registration/Audit fear", solution: "Audit-Ready Ledger — saves 30% admin", color: "text-purple-light" },
-                { vertical: "Mining", pain: "Victorian Expenditure/Gap Rules", solution: "Graticular Gap Verification — secures ELs", color: "text-gold-bright" },
-                { vertical: "Pharma", pain: "TGA Generic Deadline pressure", solution: "ZK-Compliance Docket — fast-track entry", color: "text-crimson-bright" },
-                { vertical: "AI", pain: "August 2026 EU AI Act fines", solution: "Protocol LDSL — compliance without IP loss", color: "text-sky-400" },
+                { vertical: "NDIS", pain: "Enforcement actions & registration uncertainty", solution: "Real-time enforcement signal monitoring", color: "text-purple-light" },
+                { vertical: "Mining", pain: "Safety prosecutions & compliance obligations", solution: "Automated safety incident intelligence", color: "text-gold-bright" },
+                { vertical: "Pharma", pain: "TGA regulatory changes & recall tracking", solution: "Pharmaceutical signal monitoring (in dev)", color: "text-crimson-bright" },
+                { vertical: "AI", pain: "Evolving EU AI Act requirements", solution: "Regulatory change detection (in dev)", color: "text-sky-400" },
               ].map((row, i) => (
                 <div key={i} className="grid grid-cols-3 text-sm px-6 py-4 border-b border-border/10 last:border-0 hover:bg-card/50 transition-colors">
                   <span className={`font-semibold ${row.color} tracking-wide`}>{row.vertical}</span>
