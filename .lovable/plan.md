@@ -1,98 +1,104 @@
 
 
-# Operation: 1000 Records Each -- Global Data Domination
+## Audit: Fake and Misleading Content on APEX Website
 
-## Current State
-- `regulatory_updates`: 17 records (pathetic)
-- `mining_signals`: 46 records (barely a preview)
-- Target: 1000+ each before your LinkedIn post
+After reviewing the entire codebase, here is everything that is fabricated, misleading, or unverifiable — and the plan to fix each item.
 
-## The Problem
-The current edge functions have too few search queries and pull too few results per query:
-- `mining-scraper`: 27 queries, fetches 5 results each, processes in batches of 5
-- `regulatory-monitor`: ~30 queries across 13 regions, fetches 3 results each
+---
 
-At best, running all batches yields ~150 mining + ~60 regulatory. Nowhere near 1000.
+### Problems Found
 
-## The Solution: Massive Query Expansion + Higher Yield
+**1. SocialProof.tsx — Entirely Fabricated**
+- "547 Verdicts Issued" — no verdicts have been issued
+- "200+ Partner Organizations" — no partners exist yet
+- "98.7% Compliance Rate" — completely invented
+- "<14 Avg Response (Days)" — no track record
+- "38-53 organizations joined this week" — randomly generated fake number
+- 12+ fake testimonials with fabricated initials, roles, and quotes (J.S., M.R., K.T., etc.)
+- "Trusted by 200+ Organizations Worldwide" headline
+- Blurred abstract logo strip implying corporate clients
+- "All statistics verified as of February 2026" — nothing was verified
 
-### 1. Rebuild `mining-scraper` with 120+ Search Queries
+**2. ActivityFeed.tsx — Simulated Fake Activity**
+- Generates random fake "live signals" every 4-7 seconds
+- Messages like "Compliance threshold exceeded in sector 7" are pure fiction
+- Creates false impression of a live operating system processing data
 
-Expand from 27 to 120+ queries covering:
-- **All 7 Australian states + territories** (QLD, NSW, WA, VIC, SA, TAS, NT) -- 8-10 queries each
-- **Historical depth**: years 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026
-- **Specific companies**: BHP, Rio Tinto, Glencore, South32, Fortescue, Whitehaven Coal, Yancoal, New Hope, Peabody, Anglo American, Newcrest, Northern Star, Evolution Mining, Aurelia Metals, Regis Resources
-- **Incident types**: fatality prosecution, safety breach, prohibition notice, enforceable undertaking, environmental penalty, WHS prosecution, dust exposure, methane explosion, tailings dam, vehicle collision underground
-- **Specific regulators**: RSHQ (QLD), Resources Regulator (NSW), DMIRS (WA), WorkSafe VIC, SafeWork SA
-- Increase Firecrawl `limit` from 5 to 10 results per search
-- Ask AI to extract up to 15 records per content batch
-- Batch size stays at 5 queries per invocation = 24 batches total
+**3. FeaturedNodes.tsx — Fabricated Signal Counts**
+- "1,247 signals processed" (NDIS Watchtower)
+- "892 signals processed" (Corporate Translator)
+- "3,421 signals processed" (ATA Ledger)
+- These numbers are hardcoded fiction
 
-Expected yield: 120 queries x 10 results x ~3 records extracted = ~500-1000 unique records after dedup
+**4. Index.tsx — Misleading Ticker**
+- Scrolling ticker with specific fake events: "BHP prosecution QLD — $450K penalty", "ASIC v Director — $2.1M civil penalty"
+- These reference real company names (BHP, ASIC) in fabricated events
+- "Powered by 8 Autonomous Intelligence Pipelines" — overstates capability
+- "Mathematical proof of compliance" — no mathematical proof exists
+- "Saves 30% admin" — unverifiable claim
+- "ZK-SNARK verification" — not implemented
 
-### 2. Rebuild `regulatory-monitor` with 200+ Search Queries
+**5. TheConstellation.tsx — Grandiose Phasing**
+- "Phase 1: Authority Online", "Phase 2: Sealed Expansion", "Phase 3: Global Dominion"
+- Implies an empire-scale roadmap that doesn't match reality
 
-Expand from 30 to 200+ queries covering 25+ countries:
+**6. Industry Card Claims (Index.tsx)**
+- "Audit-Ready Ledger mapped to NDIS Practice Standards" — not built
+- "Graticular Gap Verification securing Exploration Licences" — not built
+- "Protocol LDSL — compliance without IP loss" — not built
+- "ZK-Compliance Docket for fast-track TGA generic entry" — not built
 
-**Australia (20 queries)**: ASIC enforcement, APRA prudential, TGA medical device, ACCC consumer, OAIC privacy, ATO compliance, Clean Energy Regulator, CASA aviation safety
-**United States (30 queries)**: SEC, FTC, FDA, EPA, OSHA, CFPB, DOJ antitrust, CFTC, FINRA, OCC, NHTSA, FAA, state AG actions (NY, CA, TX)
-**United Kingdom (15 queries)**: FCA, ICO, CMA, Ofcom, HSE, PRA, SFO fraud
-**European Union (20 queries)**: GDPR (per member state DPAs), AI Act, Digital Services Act, Digital Markets Act, ESMA, EBA, EIOPA
-**Japan (10 queries)**: FSA, JFTC, METI, PMDA
-**Singapore (8 queries)**: MAS, PDPC, CSA, IMDA
-**India (12 queries)**: SEBI, RBI, IRDAI, CCI, DPIIT, TRAI
-**UAE/Middle East (8 queries)**: DFSA, VARA, SCA, ADGM
-**South Korea (8 queries)**: FSC, FSS, KFTC, PIPC
-**Brazil (8 queries)**: CVM, ANPD, CADE, BCB
-**Canada (10 queries)**: CSA/OSC, OSFI, Privacy Commissioner, Competition Bureau
-**South Africa (6 queries)**: FSCA, NCR, Information Regulator
-**Mexico (6 queries)**: CNBV, Cofece, INAI
-**Germany (6 queries)**: BaFin, Bundeskartellamt, BSI
-**France (6 queries)**: AMF, CNIL, Autorite de la concurrence
-**New Zealand (6 queries)**: FMA, Commerce Commission, Privacy Commissioner
-**Hong Kong (6 queries)**: SFC, HKMA, PCPD
-**Switzerland (5 queries)**: FINMA, FDPIC
-**Other regions (20 queries)**: Nigeria SEC, Kenya CMA, Saudi CMA, Israel ISA, Turkey CMB, Thailand SEC, Vietnam SSC, Indonesia OJK, Malaysia SC, Philippines SEC
+---
 
-Increase Firecrawl `limit` to 8 results per search. Process in batches of 5 queries = 40 batches.
+### The Plan
 
-Expected yield: 200 queries x 8 results x ~2 records = ~800-1200 unique records after dedup
+**Step 1: Remove SocialProof section entirely**
+- Delete the component and its import from Commons.tsx
+- This is the single biggest source of fabrication (fake stats, fake testimonials, fake join count)
 
-### 3. Batch Runner Strategy
+**Step 2: Remove ActivityFeed section**
+- Delete the fake signal generator component and its import from Commons.tsx
+- Replace with nothing — the real watchtower pages already show actual scraped data
 
-Both functions already support `?batch=N` parameter. The plan:
-- Deploy the expanded functions
-- Invoke them batch by batch using the edge function curl tool
-- Mining: batches 0-23 (120 queries / 5 per batch)
-- Regulatory: batches 0-39 (200 queries / 5 per batch)
-- Each batch takes ~30-50 seconds (within edge function timeout)
+**Step 3: Fix FeaturedNodes — remove fake signal counts**
+- Remove hardcoded `signalCount` numbers
+- Keep the node descriptions (these describe real features) but strip invented metrics
+
+**Step 4: Fix Index.tsx ticker — remove fake events**
+- Replace specific fake events (BHP prosecution, ASIC penalty) with generic category labels or remove the ticker entirely
+- Remove "Mathematical proof" claim
+- Remove "Saves 30% admin" and "ZK-SNARK" claims that describe unbuilt features
+- Change "Powered by 8 Autonomous Intelligence Pipelines" to something honest like "Regulatory Intelligence Infrastructure"
+
+**Step 5: Fix industry card descriptions**
+- Replace unbuilt feature claims with honest descriptions of what each vertical actually does (scrapes public data, monitors regulatory signals)
+- Mark EU AI Act and Pharma as "In Development" honestly
+
+**Step 6: Fix TheConstellation phases**
+- Rename from "Global Dominion" to something grounded (e.g., "Phase 3: Expansion")
+
+**Step 7: Keep what is real**
+- The Decision Stack doctrine (WhyApexGrid) — this is positioning, not a false claim
+- The Verdict structure and pricing — these describe the actual product
+- The Confidence Lock guarantee — this is a real policy
+- The Watchtower pages — these show real scraped data
+- Legal pages (Terms, Privacy, Disclaimer) — these are honest
+
+---
 
 ### Technical Details
 
-**Files to modify:**
-- `supabase/functions/mining-scraper/index.ts` -- Expand SEARCH_QUERIES from 27 to 120+
-- `supabase/functions/regulatory-monitor/index.ts` -- Expand REGULATORY_QUERIES to 200+ queries across 25+ countries, add batch support matching mining-scraper pattern
+Files to modify:
+- `src/pages/Commons.tsx` — remove SocialProof and ActivityFeed imports/usage
+- `src/components/sections/SocialProof.tsx` — delete file
+- `src/components/sections/ActivityFeed.tsx` — delete file
+- `src/components/sections/FeaturedNodes.tsx` — remove fake signal counts
+- `src/pages/Index.tsx` — fix ticker, fix industry descriptions, fix claims
+- `src/components/sections/TheConstellation.tsx` — tone down phase names
 
-**No schema changes needed** -- both tables already have the right columns.
-
-**Deduplication** -- Both functions use SHA-256 content hashing to prevent duplicate records. Safe to run multiple times.
-
-**AI extraction** -- Using Gemini 2.5 Flash via Lovable AI gateway (already configured, no API key needed from you).
-
-**Firecrawl** -- Already connected as a connector. No additional setup needed.
-
-### Execution Order
-1. Deploy expanded `mining-scraper` (120+ queries)
-2. Deploy expanded `regulatory-monitor` (200+ queries, batch support added)
-3. Run mining batches 0 through 23
-4. Run regulatory batches 0 through 39
-5. Verify counts hit 500+ each (realistic target given dedup)
-6. Your LinkedIn post goes live with real global intelligence data backing it
-
-### Realistic Expectations
-- 1000 each is the target. Actual yield depends on what Firecrawl finds and deduplication.
-- Mining: likely 300-600 unique records (Australian mining enforcement is a finite domain)
-- Regulatory: likely 500-1000 unique records (global regulatory space is vast)
-- Combined: 800-1600 total intelligence records across both tables
-- Every single record will be AI-analyzed, severity-classified, and source-linked
+Files to keep unchanged:
+- `src/components/sections/WhyApexGrid.tsx` — honest doctrine
+- `src/components/sections/ConditionalVerdicts.tsx` — honest process description
+- `src/pages/Pricing.tsx` — honest product offering
+- All legal pages
 
