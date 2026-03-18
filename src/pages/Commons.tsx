@@ -319,8 +319,8 @@ const Commons = () => {
         {/* SOVEREIGN PATHWAYS — Choose Your Domain */}
         <SovereignPathways />
         
-        {/* Social Proof - Authority Markers */}
-        <SocialProof />
+
+
         
         {/* Why Apex — not Google, not AI, not consultants */}
         <WhyApexGrid />
